@@ -4,7 +4,7 @@ Work done at the Apart Research AI x Epistemics Research Sprint, November 13 to 
 
 | | Report A | Report B |
 |---|---|---|
-| Title | Win Rate Pays for Guessing: LLM Judges Prefer a Wrong Answer to an Honest "I Don't Know" | Removed Notes Account for a Third of AI Writers' Helpful-Rate Advantage on X Community Notes |
+| Title | Win Rate Pays for Guessing: LLM Judges Prefer a Wrong Answer to an Honest "I Don't Know" | Removed Notes Account for a Tenth to a Third of AI Writers' Helpful-Rate Advantage on X Community Notes |
 | PDF | `paper_A/main.pdf` | `paper_B/main.pdf` |
 | Pre-registration | `prereg/A_prereg.md`, commit `e35b213`, amendment `ae873f7` | `prereg/B_prereg.md`, commit `9ea19b0` |
 | Data | MedQA and MMLU questions, judged by seven LLMs | Public X Community Notes files, snapshot of 2026-11-14 |
@@ -51,6 +51,7 @@ Fine-tuned adapter weights are not in the repository.
 | Registered analysis | `src/cn_confirm.py` | `results/cn_confirm/confirm.md`, `confirm.json` |
 | Ratings on removed notes | `src/cn_ratings.py` | `results/cn_confirm/ratings.json` |
 | Post hoc checks | `src/cn_posthoc.py` | `results/cn_confirm/posthoc_*.json` |
+| Places of the large AI accounts and identity of the six removing accounts (post hoc) | `src/cn_accounts.py` | `results/cn_confirm/posthoc_places.json`, `posthoc_identity.json` |
 | Numbers and figures of the report | `src/numbers_b.py`, `src/figs_b.py` | `paper_B/numbers.tex`, `paper_B/figs/` |
 
 The raw files are not in the repository (about 2 GB). Download them from `https://ton.twimg.com/birdwatch-public-data/2026/11/14/` into `data/raw/cn/`. Their SHA-256 values are in the pre-registration. Run every script that reads them with `python3 -I`.
