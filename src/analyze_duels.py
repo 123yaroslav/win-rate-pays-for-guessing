@@ -59,7 +59,7 @@ def load(runs: list[str], item_files: list[str]):
             if ln.strip():
                 it = json.loads(ln)
                 items[it["id"]] = it
-    own, duel = {}, defaultdict(dict)          # duel[(judge, variant, pair)][item] = [outcomes]
+    own, duel, flags = {}, defaultdict(dict), {}   # duel[(judge, variant, pair)][item] = [outcomes]
     first_pick = defaultdict(lambda: [0, 0])   # (judge, variant) -> [picked A, parsed]
     unparsed = defaultdict(int)
     for run in runs:
@@ -73,6 +73,10 @@ def load(runs: list[str], item_files: list[str]):
             if d["kind"] == "knows":
                 own[(d["judge"], d["item"])] = parse_letter(d["text"], "ABCD")
                 continue
+            if d["kind"] == "detect":
+                m = re.search(r"\b(YES|NO)\b", d["text"].strip().upper())
+                flags[(d["judge"], d["item"], d["resp"])] = m.group(1) if m else None
+                continue
             ch = parse_letter(d["text"], "AB", cot=d["variant"] == "cot")
             key = (d["judge"], d["variant"], d["pair"])
             if ch is None:
@@ -83,7 +87,7 @@ def load(runs: list[str], item_files: list[str]):
             fp = first_pick[(d["judge"], d["variant"])]
             fp[0] += ch == "A"
             fp[1] += 1
-    return items, own, duel, first_pick, unparsed
+    return items, own, duel, first_pick, unparsed, flags
 
 
 def main() -> None:
@@ -93,7 +97,7 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     ap.add_argument("--boot", type=int, default=B)
     a = ap.parse_args()
-    items, own, duel, first_pick, unparsed = load(a.runs, a.items)
+    items, own, duel, first_pick, unparsed, flags = load(a.runs, a.items)
     rng = random.Random(20261115)
     judges = sorted({k[0] for k in duel})
     variants = sorted({k[1] for k in duel}, key=lambda v: (v != "default", v))
@@ -118,6 +122,10 @@ def main() -> None:
                       "|---|---|---|---|---|---|"]
             groups = [("all", lambda i: True), ("judge knows", lambda i: know.get(i, False)),
                       ("judge does not know", lambda i: i in know and not know[i])]
+            if any(k[0] == j for k in flags):
+                groups += [("judge flags the wrong answer as incorrect", lambda i: flags.get((j, i, "CW")) == "NO"),
+                           ("judge knows and flags the wrong answer", lambda i: know.get(i, False)
+                            and flags.get((j, i, "CW")) == "NO")]
             groups += [(f"domain {d}", lambda i, d=d: items[i]["domain"] == d) for d in domains]
             groups += [(f"domain {d}, judge knows", lambda i, d=d: items[i]["domain"] == d and know.get(i, False))
                        for d in domains]
@@ -168,6 +176,84 @@ def main() -> None:
             lines.append("")
             jr["variants"][v] = vr
         out["judges"][j] = jr
+    def holm(ps: dict[str, float], alpha: float) -> dict[str, bool]:
+        order = sorted(ps, key=lambda k: ps[k])
+        ok, alive = {}, True
+        for rank, k in enumerate(order):
+            alive = alive and ps[k] <= alpha / (len(order) - rank)
+            ok[k] = alive
+        return ok
+
+    head = ["## Registered tests (default instruction)", ""]
+    tests: dict = {}
+    for gname, alpha, label in (("judge knows", 0.04, "H1"), ("all", 0.01, "H1F"),
+                                ("judge flags the wrong answer as incorrect", 0.05, "S1g")):
+        ps = {}
+        for j in judges:
+            g = out["judges"][j]["variants"].get("default", {}).get("groups", {}).get(gname, {}).get("CW-IDK")
+            if g:
+                ps[j] = g["p_boot_le_half"]
+        if not ps:
+            continue
+        ok = holm(ps, alpha)
+        tests[label] = {"group": gname, "alpha": alpha, "p": ps, "holm_pass": ok, "n_pass": sum(ok.values()),
+                        "n_judges": len(ps)}
+        head += [f"{label}: b above 0.5 on group '{gname}', Holm at {alpha}. Passed by {sum(ok.values())} of {len(ps)} judges.", "",
+                 "| judge | b | 95% CI | items | bootstrap share at or below 0.5 | passes |", "|---|---|---|---|---|---|"]
+        for j in judges:
+            g = out["judges"][j]["variants"].get("default", {}).get("groups", {}).get(gname, {}).get("CW-IDK")
+            if g:
+                head.append(f"| {j} | {g['rate']:.1%} | {g['lo']:.1%} to {g['hi']:.1%} | {g['n']} | "
+                            f"{g['p_boot_le_half']:.4f} | {'yes' if ok[j] else 'no'} |")
+        head.append("")
+    out["tests"] = tests
+
+    if flags:
+        head += ["## Detection (S1g)", "", "| judge | wrong answers flagged as incorrect | correct answers accepted | unparsed |",
+                 "|---|---|---|---|"]
+        det = {}
+        for j in judges:
+            cw = [flags[k] for k in flags if k[0] == j and k[2] == "CW"]
+            cc = [flags[k] for k in flags if k[0] == j and k[2] == "CC"]
+            if not cw:
+                continue
+            det[j] = {"cw_flagged": mean([x == "NO" for x in cw]), "cc_accepted": mean([x == "YES" for x in cc]),
+                      "unparsed": sum(x is None for x in cw + cc), "n": len(cw)}
+            head.append(f"| {j} | {det[j]['cw_flagged']:.1%} | {det[j]['cc_accepted']:.1%} | {det[j]['unparsed']} |")
+        head.append("")
+        out["detection"] = det
+
+    cells = []
+    for j in judges:
+        gs = out["judges"][j]["variants"].get("default", {}).get("groups", {})
+        for d in domains:
+            dd = gs.get(f"domain {d}", {}).get("derived", {})
+            if "pred_CW_HC" in dd:
+                cells.append((j, d, dd["pred_CW_HC"], dd["obs_CW_HC"]))
+    if len(cells) >= 3:
+        def ranks(xs):
+            order = sorted(range(len(xs)), key=lambda i: xs[i])
+            r = [0.0] * len(xs)
+            i = 0
+            while i < len(order):
+                k = i
+                while k + 1 < len(order) and xs[order[k + 1]] == xs[order[i]]:
+                    k += 1
+                for m in range(i, k + 1):
+                    r[order[m]] = (i + k) / 2 + 1
+                i = k + 1
+            return r
+        pr, ob = ranks([c[2] for c in cells]), ranks([c[3] for c in cells])
+        mp, mo = mean(pr), mean(ob)
+        den = (sum((x - mp) ** 2 for x in pr) * sum((y - mo) ** 2 for y in ob)) ** 0.5
+        rho = sum((x - mp) * (y - mo) for x, y in zip(pr, ob)) / den if den else float("nan")
+        mae = mean([abs(c[2] - c[3]) for c in cells])
+        out["two_step_check"] = {"cells": cells, "mae": mae, "spearman": rho}
+        head += ["## Two-step account (S1d)", "",
+                 f"Cells {len(cells)}, mean absolute error {mae:.3f}, Spearman {rho:.2f}. "
+                 f"Mean predicted {mean([c[2] for c in cells]):.1%}, mean observed {mean([c[3] for c in cells]):.1%}.", ""]
+    lines = lines[:2] + head + lines[2:]
+
     o = ROOT / a.out
     o.parent.mkdir(parents=True, exist_ok=True)
     o.with_suffix(".md").write_text("\n".join(lines))

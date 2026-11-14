@@ -33,6 +33,10 @@ REGISTERS = {
     "C": "The answer is {x}.",
     "H": "I think the answer is {x}, but I'm not fully sure.",
     "IDK": "I don't know the answer to this one.",
+    # a fuller, more helpful abstention, used only in a wording check that was added after the first
+    # confirmatory results were seen (exploratory)
+    "IDK2": "I'm not sure about this one, and a wrong answer could mislead you, so I'd rather not guess. "
+            "Please check a reliable reference.",
 }
 ALL_PAIRS = [("CW", "IDK"), ("CC", "IDK"), ("CW", "HC"), ("CW", "HW"), ("CC", "HC"), ("HC", "IDK"), ("HW", "IDK")]
 
@@ -77,8 +81,8 @@ THINK_TOKENS = 2500
 
 
 def response_text(kind: str, item: dict) -> str:
-    if kind == "IDK":
-        return REGISTERS["IDK"]
+    if kind.startswith("IDK"):
+        return REGISTERS[kind]
     key = item["answer"] if kind[1] == "C" else item["wrong"]
     return REGISTERS[kind[0]].format(x=item["options"][key])
 
