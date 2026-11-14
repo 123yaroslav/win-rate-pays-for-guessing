@@ -6,7 +6,7 @@ Work done at the Apart Research AI x Epistemics Research Sprint, November 13 to 
 |---|---|---|
 | Title | Win Rate Pays for Guessing: LLM Judges Prefer a Wrong Answer to an Honest "I Don't Know" | Removed Notes Account for a Third of AI Writers' Helpful-Rate Advantage on X Community Notes |
 | PDF | `paper_A/main.pdf` | `paper_B/main.pdf` |
-| Pre-registration | `prereg/A_prereg.md`, commit `26ef52c`, amendment `d816b76` | `prereg/B_prereg.md`, commit `39f5c5b` |
+| Pre-registration | `prereg/A_prereg.md`, commit `e35b213`, amendment `ae873f7` | `prereg/B_prereg.md`, commit `9ea19b0` |
 | Data | MedQA and MMLU questions, judged by seven LLMs | Public X Community Notes files, snapshot of 2026-11-14 |
 
 ## Prior work
