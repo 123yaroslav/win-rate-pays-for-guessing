@@ -178,6 +178,8 @@ def main() -> None:
                 lines.append(f"| {gname} | {d['a']:.0%} | {d['b']:.0%} | {d['a'] - d['b']:+.2f} | {ps} | "
                              f"{d['p_star_lo']:+.2f} to {d['p_star_hi']:+.2f} | {extra} |")
             lines.append("")
+            vr["unparsed"] = {p_: unparsed.get((j, v, p_), 0) for p_ in pairs}
+            vr["parsed_items"] = {p_: len(duel.get((j, v, p_), {})) for p_ in pairs}
             jr["variants"][v] = vr
         out["judges"][j] = jr
     def holm(ps: dict[str, float], alpha: float) -> dict[str, bool]:
@@ -200,7 +202,12 @@ def main() -> None:
                 ps[j] = g["p_boot_le_half"]
         if not ps:
             continue
-        ok = holm(ps, alpha)
+        # the Holm family is the six registered judges; the stronger judge of S1f is tested on its own
+        fam = {j: v for j, v in ps.items() if "gpt-5.6-terra" not in j}
+        ok = holm(fam, alpha) if fam else {}
+        for j in ps:
+            if j not in ok:
+                ok[j] = ps[j] <= alpha
         tests[label] = {"group": gname, "alpha": alpha, "p": ps, "holm_pass": ok, "n_pass": sum(ok.values()),
                         "n_judges": len(ps)}
         head += [f"{label}: b above 0.5 on group '{gname}', Holm at {alpha}. Passed by {sum(ok.values())} of {len(ps)} judges.", "",
@@ -273,8 +280,10 @@ def main() -> None:
                 if not ak or not bk:
                     continue
                 ok = bk["p_boot_ge_half"] < 0.05 and ak["rate"] >= 0.9
+                ok_u = bool(au and bu and bu["p_boot_ge_half"] < 0.05 and au["rate"] >= 0.9)
                 rep[f"{j}|{v}"] = {"a_knows": ak["rate"], "b_knows": bk["rate"], "p_ge_half": bk["p_boot_ge_half"],
-                                   "repaired": ok, "n_knows": bk["n"],
+                                   "repaired": ok, "repaired_unknown": ok_u, "n_knows": bk["n"],
+                                   "n_unknown": bu["n"] if bu else 0,
                                    "a_unknown": au["rate"] if au else None, "b_unknown": bu["rate"] if bu else None}
                 head.append(f"| {j} | {v} | {ak['rate']:.0%} | {bk['rate']:.0%} | {bk['p_boot_ge_half']:.3f} | "
                             f"{'yes' if ok else 'no'} | {'-' if not au else format(au['rate'], '.0%')} | "

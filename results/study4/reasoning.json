@@ -1,0 +1,106 @@
+{
+ "think|openrouter/anthropic/claude-haiku-5.5": {
+  "questions": 239,
+  "share_reasoned": 0.9476439790575916,
+  "b_reasoned": {
+   "rate": 0.060669456066945605,
+   "lo": 0.03347280334728033,
+   "hi": 0.0899581589958159,
+   "calls": 478,
+   "questions": 239
+  },
+  "b_not": null,
+  "a_reasoned": {
+   "rate": 0.9859484777517564,
+   "lo": 0.971830985915493,
+   "hi": 0.9976470588235294,
+   "calls": 427,
+   "questions": 217
+  },
+  "a_not": {
+   "rate": 0.98,
+   "lo": 0.9347826086956522,
+   "hi": 1.0,
+   "calls": 50,
+   "questions": 29
+  }
+ },
+ "think|openrouter/openai/gpt-5.6-luna": {
+  "questions": 253,
+  "share_reasoned": 0.24209486166007904,
+  "b_reasoned": {
+   "rate": 0.09821428571428571,
+   "lo": 0.05909090909090909,
+   "hi": 0.14285714285714285,
+   "calls": 224,
+   "questions": 154
+  },
+  "b_not": {
+   "rate": 0.9290780141843972,
+   "lo": 0.8938356164383562,
+   "hi": 0.9607142857142857,
+   "calls": 282,
+   "questions": 183
+  },
+  "a_reasoned": {
+   "rate": 0.9047619047619048,
+   "lo": 0.75,
+   "hi": 1.0,
+   "calls": 21,
+   "questions": 19
+  },
+  "a_not": {
+   "rate": 1.0,
+   "lo": 1.0,
+   "hi": 1.0,
+   "calls": 485,
+   "questions": 251
+  }
+ },
+ "reason|openrouter/anthropic/claude-haiku-5.5": {
+  "questions": 68,
+  "share_reasoned": 0.9632352941176471,
+  "b_reasoned": {
+   "rate": 0.04411764705882353,
+   "lo": 0.007352941176470588,
+   "hi": 0.09558823529411764,
+   "calls": 136,
+   "questions": 68
+  },
+  "b_not": null,
+  "a_reasoned": {
+   "rate": 0.9841269841269841,
+   "lo": 0.9603174603174603,
+   "hi": 1.0,
+   "calls": 126,
+   "questions": 63
+  },
+  "a_not": {
+   "rate": 0.9,
+   "lo": 0.7,
+   "hi": 1.0,
+   "calls": 10,
+   "questions": 5
+  }
+ },
+ "reason|openrouter/mistralai/mistral-small-2603": {
+  "questions": 73,
+  "share_reasoned": 1.0,
+  "b_reasoned": {
+   "rate": 0.6643835616438356,
+   "lo": 0.5753424657534246,
+   "hi": 0.7534246575342466,
+   "calls": 146,
+   "questions": 73
+  },
+  "b_not": null,
+  "a_reasoned": {
+   "rate": 0.9863013698630136,
+   "lo": 0.9657534246575342,
+   "hi": 1.0,
+   "calls": 146,
+   "questions": 73
+  },
+  "a_not": null
+ }
+}

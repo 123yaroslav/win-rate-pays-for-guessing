@@ -45,7 +45,7 @@ def study1() -> None:
         return
     s = json.loads(p.read_text())
     rows = []
-    bk, ba, wh, tone, acc, hedged_all = [], [], [], [], [], []
+    bk, ba, wh, tone, acc, hedged_all, flagged_only, a_all = [], [], [], [], [], [], [], []
     for j in SIX + [TERRA]:
         if j not in s["judges"]:
             continue
@@ -53,7 +53,7 @@ def study1() -> None:
         c_bk, c_ba = cell(s, j, "judge knows", "CW-IDK"), cell(s, j, "all", "CW-IDK")
         c_ak = cell(s, j, "judge knows", "CC-IDK")
         c_hedged = cell(s, j, "judge knows", "CW-HC")
-        c_wh = cell(s, j, "judge knows", "CW-CC") or c_hedged   # equal-tone control where it has been run
+        c_wh = cell(s, j, "judge knows", "CW-CC")   # equal-tone control, added after the registered runs
         c_bu = cell(s, j, "judge does not know", "CW-IDK")
         c_hw = cell(s, j, "all", "HW-IDK")
         det = s.get("detection", {}).get(j)
@@ -85,6 +85,8 @@ def study1() -> None:
             put(f"tellsApart{k}", pct(det.get("tells_apart", float("nan"))))
         if c_bflag:
             put(f"bFlaggedOnly{k}", pct(c_bflag["rate"]))
+            if j in SIX:
+                flagged_only.append(c_bflag["rate"])
         if c_bf:
             put(f"bFlagged{k}", pct(c_bf["rate"]))
             put(f"nFlagged{k}", str(c_bf["n"]))
@@ -94,6 +96,9 @@ def study1() -> None:
                 bk.append(c_bk["rate"])
             if c_ba:
                 ba.append(c_ba["rate"])
+            c_aa = cell(s, j, "all", "CC-IDK")
+            if c_aa:
+                a_all.append(c_aa["rate"])
             if c_wh:
                 wh.append(c_wh["rate"])
             t = cell(s, j, "all", "CW-HW")
@@ -111,6 +116,28 @@ def study1() -> None:
         put("wrongOverHedgedMin", pct(min(hedged_all)))
         put("wrongOverHedgedMax", pct(max(hedged_all)))
         put("equalToneJudges", str(sum(1 for j in SIX if cell(s, j, "judge knows", "CW-CC"))))
+        if flagged_only:
+            put("bFlaggedOnlyMin", pct(min(flagged_only)))
+            put("bFlaggedOnlyMax", pct(max(flagged_only)))
+        put("aAllMin", pct(min(a_all)))
+        put("aAllMax", pct(max(a_all)))
+        gaps = {j: cell(s, j, "judge knows", "CW-IDK")["rate"] - cell(s, j, "judge knows", "CW-CC")["rate"]
+                for j in SIX if cell(s, j, "judge knows", "CW-CC")}
+        if gaps:
+            put("gapMin", f"{100 * min(gaps.values()):.0f}")
+            put("gapMax", f"{100 * max(gaps.values()):.0f}")
+        # unparsed replies and position
+        un, tot = [], []
+        for j in SIX:
+            v = s["judges"][j]["variants"]["default"]
+            if "unparsed" in v:
+                n_items = cell(s, j, "all", "CW-IDK")["n"]
+                un.append(v["unparsed"].get("CW-IDK", 0) / 600)
+        if un:
+            put("unparsedPrimaryMax", pct(max(un), 1))
+        pos = {j: s["judges"][j]["variants"]["default"]["picks_first_position"] for j in SIX}
+        put("posFirstMin", pct(min(pos.values())))
+        put("posFirstMax", pct(max(pos.values())))
         put("accMin", pct(min(acc)))
         put("accMax", pct(max(acc)))
     if tone:
@@ -210,8 +237,7 @@ def study3() -> None:
 
 
 VARIANTS = [("default", "Default"), ("data", "Data curation"), ("selfcheck", "Own answer shown"),
-            ("stakes", "Stakes"), ("accuracy", "Accuracy first"), ("cot", "Written reasoning"),
-            ("think", "Reasoning mode")]
+            ("stakes", "Stakes"), ("accuracy", "Accuracy first"), ("cot", "Written reasoning")]
 
 
 def study4() -> None:
@@ -256,6 +282,11 @@ def study4() -> None:
     (OUT / "tab_fix.tex").write_text("\n".join(rows) + "\n")
     (OUT / "tab_fix_head.tex").write_text(" & ".join(["Instruction"] + [NAMES[j].replace(" ", "~", 1) if False else NAMES[j] for j in judges]) + " \\\\\n")
     put("fixJudges", str(len(judges)))
+    per_variant = {v: sum(1 for j in judges if rep.get(f"{j}|{v}", {}).get("repaired")) for v, _ in VARIANTS
+                   if v not in ("default", "data", "think")}
+    put("fixMaxSingle", str(max(per_variant.values()) if per_variant else 0))
+    put("fixRepairedUnknown", str(sum(1 for k_, r_ in rep.items() if r_.get("repaired_unknown")
+                                      and k_.split("|")[1] not in ("default", "data", "think"))))
     put("fixRepairedAccuracy", str(len(repaired_by.get("accuracy", []))))
     put("fixRepairedStakes", str(len(repaired_by.get("stakes", []))))
     put("fixRepairedSelfcheck", str(len(repaired_by.get("selfcheck", []))))
@@ -279,18 +310,28 @@ def study4() -> None:
             r = rep.get(f"{j}|{v}")
             if r:
                 put(f"fix{key}B{KEY[j]}", pct(r["b_knows"]))
-    tp = ROOT / "results/study4/think300.json"
-    ts = json.loads(tp.read_text()) if tp.exists() else s
-    for j, key in ((SIX[3], "Haiku"), (SIX[4], "Luna")):
-        b = cell(ts, j, "judge knows", "CW-IDK", "think")
-        a_ = cell(ts, j, "judge knows", "CC-IDK", "think")
-        if b:
-            put(f"thinkB{key}", pct(b["rate"]))
-            put(f"thinkBLo{key}", pct(b["lo"]))
-            put(f"thinkBHi{key}", pct(b["hi"]))
-            put("thinkItems", str(ts["n_items"]))
-        if a_:
-            put(f"thinkA{key}", pct(a_["rate"]))
+    rp = ROOT / "results/study4/reasoning.json"
+    if rp.exists():
+        r = json.loads(rp.read_text())
+        rows_r = []
+        for key_, name, lab in (("think|" + SIX[3], "Haiku", "Claude Haiku 5.5, reasoning mode on"),
+                                ("think|" + SIX[4], "Luna", "GPT-5.6 Luna, reasoning mode on"),
+                                ("reason|" + SIX[5], "Mistral", "Mistral Small 2603, reasoning effort requested")):
+            x = r.get(key_)
+            if not x:
+                continue
+            br, bn = x["b_reasoned"], x["b_not"]
+            n_r, n_n = (br["calls"] if br else 0), (bn["calls"] if bn else 0)
+            put(f"reasonedShare{name}", pct(n_r / (n_r + n_n)))
+            if br:
+                put(f"reasonedB{name}", pct(br["rate"]))
+            if bn:
+                put(f"notReasonedB{name}", pct(bn["rate"]))
+            put(f"reasonedQuestions{name}", str(x["questions"]))
+            def c(v):
+                return "--" if not v else f"{100 * v['rate']:.0f} ({100 * v['lo']:.0f}--{100 * v['hi']:.0f})"
+            rows_r.append(f"{lab} & {x['questions']} & {100 * n_r / (n_r + n_n):.0f} & {c(br)} & {c(bn)} \\\\")
+        (OUT / "tab_reasoning.tex").write_text("\n".join(rows_r) + "\n")
     s1 = json.loads((ROOT / "results/study1/summary.json").read_text())
     vtc = s1.get("verify_then_compare", {})
     ps = [v["p_star_check"] for j, v in vtc.items() if j in SIX and v["p_star_check"] == v["p_star_check"]]
@@ -354,13 +395,17 @@ def study5() -> None:
             put(f"evalWrong{key}", pct(m["wrong_rate"]["value"], 1))
             put(f"evalCorrect{key}", pct(m["accuracy"]["value"], 1))
             put(f"evalUnparsed{key}", pct(m["unparsed_rate"]["value"], 1))
-            put(f"evalScore{key}", f"{m['penalised_score']['value']:+.2f}".replace("+", "$+$").replace("-", "$-$"))
+            put(f"evalScore{key}", f"{m['penalised_score']['value']:.2f}")
             s_ab = sel.get(r, {}).get("outcome:abstain", {}).get("share")
             s_wr = sel.get(r, {}).get("outcome:wrong", {}).get("share")
             rows.append(f"{labels[r]} & {100 * s_ab:.1f} & {100 * s_wr:.1f} & {100 * m['abstention_rate']['value']:.1f} & "
                         f"{100 * m['wrong_rate']['value']:.1f} & {100 * m['accuracy']['value']:.1f} & "
-                        f"{100 * m['unparsed_rate']['value']:.1f} \\\\")
+                        f"{100 * m['unparsed_rate']['value']:.1f} & {m['penalised_score']['value']:.2f} \\\\")
         rows.append("\\midrule")
+        dj = e["differences"]["J-K"]["penalised_score"]
+        put("scoreDiffJK", f"{dj['value']:.2f}")
+        put("scoreDiffJKLo", f"{dj['lo']:.2f}")
+        put("scoreDiffJKHi", f"{dj['hi']:.2f}")
         for k, lab in (("base_assert", "Base model, assert instruction"), ("base_abstain", "Base model, cautious instruction")):
             m = e["models"].get(k)
             if m:
@@ -370,9 +415,27 @@ def study5() -> None:
                 put(f"evalCorrect{nm}", pct(m["accuracy"]["value"], 1))
                 rows.append(f"{lab} & -- & -- & {100 * m['abstention_rate']['value']:.1f} & "
                             f"{100 * m['wrong_rate']['value']:.1f} & {100 * m['accuracy']['value']:.1f} & "
-                            f"{100 * m['unparsed_rate']['value']:.1f} \\\\")
+                            f"{100 * m['unparsed_rate']['value']:.1f} & {m['penalised_score']['value']:.2f} \\\\")
         (OUT / "tab_loop.tex").write_text("\n".join(rows) + "\n")
         put("evalQuestions", str(e["questions"]))
+    pool = d / "pool.jsonl"
+    tj = d / "train_J.jsonl"
+    if pool.exists() and tj.exists():
+        rows_p = [json.loads(l) for l in pool.read_text().splitlines() if l.strip()]
+        by = {}
+        for r_ in rows_p:
+            by.setdefault(r_["id"], {})[r_["style"]] = r_
+        abst = [q for q in by.values() if q.get("abstain", {}).get("outcome") == "abstain"]
+        bare = sum(1 for q in abst if len(q["abstain"]["text"].split()) <= 8)
+        put("bareAbstentions", str(bare))
+        longest = 0
+        for l in tj.read_text().splitlines():
+            r_ = json.loads(l)
+            q = by[r_["id"]]
+            lens = {k_: len(v_["text"].split()) for k_, v_ in q.items()}
+            if lens[r_["style"]] == max(lens.values()):
+                longest += 1
+        put("jLongest", str(longest))
     pd = d / "p5d_J_K.json"
     if pd.exists():
         x = json.loads(pd.read_text())

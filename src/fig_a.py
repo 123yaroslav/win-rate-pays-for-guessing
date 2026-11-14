@@ -36,7 +36,7 @@ def fig1(s1: dict, out: Path, think: dict | None = None) -> None:
     # panel a: the same wrong answer against two opponents, on items the judge answers correctly itself
     ys = list(range(len(judges)))[::-1]
     # equal-tone control (assertive wrong against assertive right) once every judge has it
-    right_pair = "CW-CC" if all(cell(s1, j, "judge knows", "CW-CC") for j in judges) else "CW-HC"
+    right_pair = "CW-CC"
     for y, j in zip(ys, judges):
         for pair, col, mk, dy in ((right_pair, BLUE, "o", 0.14), ("CW-IDK", ORANGE, "s", -0.14)):
             c = cell(s1, j, "judge knows", pair)
@@ -46,13 +46,18 @@ def fig1(s1: dict, out: Path, think: dict | None = None) -> None:
                         ms=4.5, lw=1, capsize=2)
     first = True
     for y, j in zip(ys, judges):
-        c = cell(think, j, "judge knows", "CW-IDK", "think") if think else None
+        c = None
+        for key_ in ("think|" + j, "reason|" + j):
+            if think and think.get(key_, {}).get("b_reasoned") and think[key_]["share_reasoned"] > 0.2 \
+                    and not ("reason|" in key_ and ("think|" + j) in think):
+                c = think[key_]["b_reasoned"]
+                break
         if not c:
             continue
         ax.errorbar(c["rate"], y - 0.14, xerr=[[c["rate"] - c["lo"]], [c["hi"] - c["rate"]]], fmt="s", color=ORANGE,
                     mfc="white", ms=4.5, lw=1, capsize=2)
         if first:
-            ax.annotate("same duel with\nreasoning on", xy=(c["rate"] + 0.03, y - 0.14), xytext=(0.36, y - 0.38),
+            ax.annotate("when the judge\nreasoned first", xy=(c["rate"] + 0.03, y - 0.14), xytext=(0.36, y - 0.38),
                         fontsize=7, color=ORANGE, ha="left", va="center",
                         arrowprops={"arrowstyle": "-", "color": ORANGE, "lw": 0.6})
             first = False
@@ -147,7 +152,7 @@ def main() -> None:
     out = ROOT / a.out
     out.mkdir(parents=True, exist_ok=True)
     s1 = json.loads((ROOT / a.s1).read_text())
-    tp = ROOT / "results/study4/think300.json"
+    tp = ROOT / "results/study4/reasoning.json"
     fig1(s1, out, json.loads(tp.read_text()) if tp.exists() else None)
     if (ROOT / a.s4).exists():
         fig_fix(json.loads((ROOT / a.s4).read_text()), s1, out)

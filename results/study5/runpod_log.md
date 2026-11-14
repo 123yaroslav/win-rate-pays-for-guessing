@@ -81,3 +81,20 @@ The RunPod billing history confirms the first step (0.389 USD for 17:00 to 18:00
 yet at 19:27, so its amount is computed from the run time.
 
 One pod is left on the account: `o9m5gie80kmn40`, stopped.
+
+## Step 3: follow-up training (cap for this step 2.50 USD)
+
+All times UTC, 2026-11-14 (15 November local time). Four LoRA adapters are trained on the pod with
+`src/gpu_train_lora.py` and evaluated with `src/gpu_eval.py`. Pod actions went through the RunPod API, files
+through SSH with the laptop key.
+
+| Time | Action | Price | Note |
+|---|---|---|---|
+| 19:43 | pods on the account | | one, `o9m5gie80kmn40`, stopped |
+| 19:50 | start pod `o9m5gie80kmn40` | 0.59 USD/h | refused twice by RunPod: "This machine does not have the resources to deploy your pod". Nothing started, nothing billed beyond its storage |
+| 19:50 | stock read, A40 48 GB, Secure Cloud | 0.59 USD/h | stock Low in CA-MTL-1 and EU-SE-1 |
+| 19:50:32 | **create pod `tsx9ltdt7jjhy9`** (`epi-study5-eval-3`), 1 x A40 48 GB, Secure Cloud, CA-MTL-1 | **0.59 USD/h** | billing starts. Same image, disks (container 20 GB, volume 45 GB at `/workspace`) and port as before. `PUBLIC_KEY` holds the laptop key and the account key, no other key or token on the pod |
+| 19:51 to 19:54 | install the environment (same pinned versions), download the weights, 19 GB | | part of the pod time |
+| 19:51 | upload `gpu_eval.py`, `gpu_train_lora.py`, `medqa_eval.jsonl`, `train_{C,J,K,R}.jsonl`, 8 MB | | checksums equal on both sides |
+| 19:55 to 20:06 | memory and time measurements of one training step, nothing trained | | 16 examples in one forward pass do not fit in 48 GB, see `deviations.md` |
+| 20:07 to 20:11 | smoke test: 4 training steps, then `gpu_eval.py` loads the saved adapter on 16 questions | | 256 of 256 tensors placed directly. Throwaway output deleted |

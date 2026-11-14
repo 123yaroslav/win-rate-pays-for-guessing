@@ -1,0 +1,5 @@
+items 90 judges ['openrouter/mistralai/mistral-small-2603', 'openrouter/anthropic/claude-haiku-5.5'] pairs 2 variants ['reason'] cached 0
+[02:12:30] fresh 250 done 250 failed 0 429s 0 spend adaption 0.000 openrouter 0.022 rate 241/min
+[02:14:35] fresh 500 done 500 failed 0 429s 0 spend adaption 0.000 openrouter 0.078 rate 160/min
+[02:16:53] fresh 750 done 750 failed 0 429s 0 spend adaption 0.000 openrouter 0.145 rate 138/min
+finished: fresh 900 failed 0 429s 0 spend adaption 0.000 openrouter 0.182
