@@ -1,0 +1,929 @@
+{
+ "judges": {
+  "adaption/deepseek-v4-flash": {
+   "own_accuracy": 0.7,
+   "n_knows_items": 30,
+   "variants": {
+    "default": {
+     "picks_first_position": 0.5,
+     "groups": {
+      "all": {
+       "CC-IDK": {
+        "rate": 0.9615384615384616,
+        "lo": 0.8846153846153846,
+        "hi": 1.0,
+        "n": 13,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.8076923076923077,
+        "lo": 0.5769230769230769,
+        "hi": 1.0,
+        "n": 13,
+        "p_boot_le_half": 0.006
+       },
+       "CW-IDK": {
+        "rate": 0.9230769230769231,
+        "lo": 0.8076923076923077,
+        "hi": 1.0,
+        "n": 13,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 0.9615384615384616,
+        "b": 0.9230769230769231,
+        "v_eff": 0.038461538461538436,
+        "p_star": -11.000000000000009,
+        "p_star_lo": -12.000000000000009,
+        "p_star_hi": -1.6000000000000003,
+        "n": 13,
+        "boot_defined": 0.612
+       }
+      },
+      "judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.6875,
+        "lo": 0.375,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.146
+       },
+       "CW-IDK": {
+        "rate": 0.875,
+        "lo": 0.6875,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.875,
+        "v_eff": 0.125,
+        "p_star": -3.0,
+        "p_star_lo": -7.0,
+        "p_star_hi": -0.6,
+        "n": 8,
+        "boot_defined": 0.904
+       }
+      },
+      "judge does not know": {
+       "CC-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 0.9,
+        "b": 1.0,
+        "v_eff": -0.09999999999999998,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 5,
+        "boot_defined": 0.0
+       }
+      },
+      "domain geo": {
+       "CC-IDK": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.006
+       },
+       "CW-HC": {
+        "rate": 0.625,
+        "lo": 0.25,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.347
+       },
+       "CW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.051
+       },
+       "derived": {
+        "a": 0.875,
+        "b": 0.75,
+        "v_eff": 0.125,
+        "p_star": -2.0,
+        "p_star_lo": -3.0,
+        "p_star_hi": 0.0,
+        "n": 4,
+        "boot_defined": 0.647
+       }
+      },
+      "domain law": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.75,
+        "lo": 0.25,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.266
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 4,
+        "boot_defined": 0.0
+       }
+      },
+      "domain medqa": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 5,
+        "boot_defined": 0.0
+       }
+      },
+      "domain geo, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.621
+       },
+       "CW-IDK": {
+        "rate": 0.6666666666666666,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.311
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.6666666666666666,
+        "v_eff": 0.33333333333333337,
+        "p_star": -0.49999999999999983,
+        "p_star_lo": -2.000000000000001,
+        "p_star_hi": 0.0,
+        "n": 3,
+        "boot_defined": 0.968
+       }
+      },
+      "domain law, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.6666666666666666,
+        "lo": 0.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.236
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 3,
+        "boot_defined": 0.0
+       }
+      },
+      "domain medqa, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 2,
+        "boot_defined": 0.0
+       }
+      }
+     }
+    }
+   }
+  },
+  "adaption/gemma-4-31b-it": {
+   "own_accuracy": 0.7666666666666667,
+   "n_knows_items": 30,
+   "variants": {
+    "default": {
+     "picks_first_position": 0.5657894736842105,
+     "groups": {
+      "all": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 13,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.38461538461538464,
+        "lo": 0.07692307692307693,
+        "hi": 0.6923076923076923,
+        "n": 13,
+        "p_boot_le_half": 0.826
+       },
+       "CW-IDK": {
+        "rate": 0.8461538461538461,
+        "lo": 0.7307692307692307,
+        "hi": 0.9615384615384616,
+        "n": 13,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.8461538461538461,
+        "v_eff": 0.15384615384615385,
+        "p_star": -2.25,
+        "p_star_lo": -12.000000000000009,
+        "p_star_hi": -0.8571428571428569,
+        "n": 13,
+        "boot_defined": 0.988
+       }
+      },
+      "judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 9,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.1111111111111111,
+        "lo": 0.0,
+        "hi": 0.3333333333333333,
+        "n": 9,
+        "p_boot_le_half": 0.997
+       },
+       "CW-IDK": {
+        "rate": 0.7777777777777778,
+        "lo": 0.6111111111111112,
+        "hi": 0.9444444444444444,
+        "n": 9,
+        "p_boot_le_half": 0.001
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.7777777777777778,
+        "v_eff": 0.2222222222222222,
+        "p_star": -1.2500000000000002,
+        "p_star_lo": -7.9999999999999964,
+        "p_star_hi": -0.28571428571428586,
+        "n": 9,
+        "boot_defined": 0.998
+       }
+      },
+      "judge does not know": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 4,
+        "boot_defined": 0.0
+       }
+      },
+      "domain geo": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.25,
+        "lo": 0.0,
+        "hi": 0.75,
+        "n": 4,
+        "p_boot_le_half": 0.945
+       },
+       "CW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.066
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.75,
+        "v_eff": 0.25,
+        "p_star": -1.0,
+        "p_star_lo": -3.0,
+        "p_star_hi": 0.0,
+        "n": 4,
+        "boot_defined": 0.935
+       }
+      },
+      "domain law": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.25,
+        "lo": 0.0,
+        "hi": 0.75,
+        "n": 4,
+        "p_boot_le_half": 0.949
+       },
+       "CW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.059
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.75,
+        "v_eff": 0.25,
+        "p_star": -1.0,
+        "p_star_lo": -3.0,
+        "p_star_hi": 0.0,
+        "n": 4,
+        "boot_defined": 0.945
+       }
+      },
+      "domain medqa": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.6,
+        "lo": 0.2,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.313
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 5,
+        "boot_defined": 0.0
+       }
+      },
+      "domain geo, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "n": 3,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.6666666666666666,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.311
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.6666666666666666,
+        "v_eff": 0.33333333333333337,
+        "p_star": -0.49999999999999983,
+        "p_star_lo": -2.000000000000001,
+        "p_star_hi": 0.0,
+        "n": 3,
+        "boot_defined": 0.964
+       }
+      },
+      "domain law, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.25,
+        "lo": 0.0,
+        "hi": 0.75,
+        "n": 4,
+        "p_boot_le_half": 0.953
+       },
+       "CW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.083
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.75,
+        "v_eff": 0.25,
+        "p_star": -1.0,
+        "p_star_lo": -3.0,
+        "p_star_hi": 0.0,
+        "n": 4,
+        "boot_defined": 0.937
+       }
+      },
+      "domain medqa, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "n": 2,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 2,
+        "boot_defined": 0.0
+       }
+      }
+     }
+    }
+   }
+  },
+  "adaption/qwen3.8-27b": {
+   "own_accuracy": 0.7333333333333333,
+   "n_knows_items": 30,
+   "variants": {
+    "default": {
+     "picks_first_position": 0.21333333333333335,
+     "groups": {
+      "all": {
+       "CC-IDK": {
+        "rate": 0.8846153846153846,
+        "lo": 0.7692307692307693,
+        "hi": 1.0,
+        "n": 13,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.4230769230769231,
+        "lo": 0.3076923076923077,
+        "hi": 0.5769230769230769,
+        "n": 13,
+        "p_boot_le_half": 0.89
+       },
+       "CW-IDK": {
+        "rate": 0.6923076923076923,
+        "lo": 0.5769230769230769,
+        "hi": 0.8076923076923077,
+        "n": 13,
+        "p_boot_le_half": 0.002
+       },
+       "derived": {
+        "a": 0.8846153846153846,
+        "b": 0.6923076923076923,
+        "v_eff": 0.1923076923076923,
+        "p_star": -1.0,
+        "p_star_lo": -7.000000000000006,
+        "p_star_hi": -0.19999999999999982,
+        "n": 13,
+        "boot_defined": 0.974
+       }
+      },
+      "judge knows": {
+       "CC-IDK": {
+        "rate": 0.875,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.375,
+        "lo": 0.1875,
+        "hi": 0.5,
+        "n": 8,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.625,
+        "lo": 0.5,
+        "hi": 0.8125,
+        "n": 8,
+        "p_boot_le_half": 0.108
+       },
+       "derived": {
+        "a": 0.875,
+        "b": 0.625,
+        "v_eff": 0.25,
+        "p_star": -0.5,
+        "p_star_lo": -4.0,
+        "p_star_hi": 0.0,
+        "n": 8,
+        "boot_defined": 0.957
+       }
+      },
+      "judge does not know": {
+       "CC-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.2,
+        "hi": 0.8,
+        "n": 5,
+        "p_boot_le_half": 0.676
+       },
+       "CW-IDK": {
+        "rate": 0.8,
+        "lo": 0.6,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.005
+       },
+       "derived": {
+        "a": 0.9,
+        "b": 0.8,
+        "v_eff": 0.09999999999999998,
+        "p_star": -3.0000000000000013,
+        "p_star_lo": -4.000000000000001,
+        "p_star_hi": -0.3333333333333332,
+        "n": 5,
+        "boot_defined": 0.668
+       }
+      },
+      "domain geo": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 4,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.625,
+        "lo": 0.5,
+        "hi": 0.875,
+        "n": 4,
+        "p_boot_le_half": 0.312
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.625,
+        "v_eff": 0.375,
+        "p_star": -0.3333333333333333,
+        "p_star_lo": -3.0,
+        "p_star_hi": 0.0,
+        "n": 4,
+        "boot_defined": 0.995
+       }
+      },
+      "domain law": {
+       "CC-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.072
+       },
+       "CW-HC": {
+        "rate": 0.25,
+        "lo": 0.0,
+        "hi": 0.5,
+        "n": 4,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.072
+       },
+       "derived": {
+        "a": 0.75,
+        "b": 0.75,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": -3.0,
+        "p_star_hi": 0.0,
+        "n": 4,
+        "boot_defined": 0.374
+       }
+      },
+      "domain medqa": {
+       "CC-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.001
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.2,
+        "hi": 0.8,
+        "n": 5,
+        "p_boot_le_half": 0.651
+       },
+       "CW-IDK": {
+        "rate": 0.7,
+        "lo": 0.5,
+        "hi": 0.9,
+        "n": 5,
+        "p_boot_le_half": 0.073
+       },
+       "derived": {
+        "a": 0.9,
+        "b": 0.7,
+        "v_eff": 0.20000000000000007,
+        "p_star": -0.9999999999999994,
+        "p_star_lo": -4.000000000000001,
+        "p_star_hi": 0.0,
+        "n": 5,
+        "boot_defined": 0.933
+       }
+      },
+      "domain geo, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.5,
+        "v_eff": 0.5,
+        "p_star": 0.0,
+        "p_star_lo": 0.0,
+        "p_star_hi": 0.0,
+        "n": 2,
+        "boot_defined": 1.0
+       }
+      },
+      "domain law, judge knows": {
+       "CC-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.063
+       },
+       "CW-HC": {
+        "rate": 0.25,
+        "lo": 0.0,
+        "hi": 0.5,
+        "n": 4,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.062
+       },
+       "derived": {
+        "a": 0.75,
+        "b": 0.75,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": -3.0,
+        "p_star_hi": 0.0,
+        "n": 4,
+        "boot_defined": 0.35
+       }
+      },
+      "domain medqa, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.5,
+        "v_eff": 0.5,
+        "p_star": 0.0,
+        "p_star_lo": 0.0,
+        "p_star_hi": 0.0,
+        "n": 2,
+        "boot_defined": 1.0
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "n_items": 30
+}

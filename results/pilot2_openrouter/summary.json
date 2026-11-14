@@ -1,0 +1,1793 @@
+{
+ "judges": {
+  "openrouter/anthropic/claude-haiku-5.5": {
+   "own_accuracy": 0.6333333333333333,
+   "n_knows_items": 30,
+   "variants": {
+    "default": {
+     "picks_first_position": 0.5639810426540285,
+     "groups": {
+      "all": {
+       "CC-HC": {
+        "rate": 0.8333333333333334,
+        "lo": 0.7,
+        "hi": 0.9333333333333333,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 0.96875,
+        "lo": 0.90625,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.3125,
+        "lo": 0.125,
+        "hi": 0.46875,
+        "n": 16,
+        "p_boot_le_half": 0.988
+       },
+       "CW-HW": {
+        "rate": 0.625,
+        "lo": 0.4375,
+        "hi": 0.78125,
+        "n": 16,
+        "p_boot_le_half": 0.096
+       },
+       "CW-IDK": {
+        "rate": 0.9375,
+        "lo": 0.84375,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 0.9666666666666667,
+        "lo": 0.9,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.9,
+        "lo": 0.8,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 0.96875,
+        "b": 0.9375,
+        "v_eff": 0.03125,
+        "p_star": -14.0,
+        "p_star_lo": -15.0,
+        "p_star_hi": -2.2,
+        "n": 16,
+        "boot_defined": 0.6,
+        "tone": 0.625,
+        "pred_CW_HC": 0.60546875,
+        "obs_CW_HC": 0.3125,
+        "n_pred": 16
+       }
+      },
+      "judge knows": {
+       "CC-HC": {
+        "rate": 0.9285714285714286,
+        "lo": 0.7857142857142857,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.25,
+        "lo": 0.0625,
+        "hi": 0.5,
+        "n": 8,
+        "p_boot_le_half": 0.978
+       },
+       "CW-HW": {
+        "rate": 0.5,
+        "lo": 0.25,
+        "hi": 0.75,
+        "n": 8,
+        "p_boot_le_half": 0.584
+       },
+       "CW-IDK": {
+        "rate": 0.9375,
+        "lo": 0.8125,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.8571428571428571,
+        "lo": 0.7142857142857143,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.9375,
+        "v_eff": 0.0625,
+        "p_star": -7.0,
+        "p_star_lo": -7.0,
+        "p_star_hi": -1.0,
+        "n": 8,
+        "boot_defined": 0.652,
+        "tone": 0.5,
+        "pred_CW_HC": 0.46875,
+        "obs_CW_HC": 0.25,
+        "n_pred": 8
+       }
+      },
+      "judge does not know": {
+       "CC-HC": {
+        "rate": 0.75,
+        "lo": 0.5625,
+        "hi": 0.9375,
+        "n": 8,
+        "p_boot_le_half": 0.004
+       },
+       "CC-IDK": {
+        "rate": 0.9375,
+        "lo": 0.8125,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.375,
+        "lo": 0.125,
+        "hi": 0.625,
+        "n": 8,
+        "p_boot_le_half": 0.914
+       },
+       "CW-HW": {
+        "rate": 0.75,
+        "lo": 0.625,
+        "hi": 0.9375,
+        "n": 8,
+        "p_boot_le_half": 0.002
+       },
+       "CW-IDK": {
+        "rate": 0.9375,
+        "lo": 0.8125,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 0.9375,
+        "lo": 0.8125,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.9375,
+        "lo": 0.8125,
+        "hi": 1.0,
+        "n": 8,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 0.9375,
+        "b": 0.9375,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": -7.0,
+        "p_star_hi": -1.3333333333333333,
+        "n": 8,
+        "boot_defined": 0.322,
+        "tone": 0.75,
+        "pred_CW_HC": 0.75,
+        "obs_CW_HC": 0.375,
+        "n_pred": 8
+       }
+      },
+      "domain geo": {
+       "CC-HC": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.4,
+        "lo": 0.0,
+        "hi": 0.8,
+        "n": 5,
+        "p_boot_le_half": 0.714
+       },
+       "CW-HW": {
+        "rate": 0.6,
+        "lo": 0.3,
+        "hi": 0.9,
+        "n": 5,
+        "p_boot_le_half": 0.346
+       },
+       "CW-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.9,
+        "v_eff": 0.09999999999999998,
+        "p_star": -4.000000000000001,
+        "p_star_lo": -4.000000000000001,
+        "p_star_hi": -0.6666666666666664,
+        "n": 5,
+        "boot_defined": 0.684,
+        "tone": 0.6,
+        "pred_CW_HC": 0.54,
+        "obs_CW_HC": 0.4,
+        "n_pred": 5
+       }
+      },
+      "domain law": {
+       "CC-HC": {
+        "rate": 0.7,
+        "lo": 0.5,
+        "hi": 0.9,
+        "n": 5,
+        "p_boot_le_half": 0.064
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.1,
+        "lo": 0.0,
+        "hi": 0.3,
+        "n": 5,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.7,
+        "lo": 0.3,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.192
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.8,
+        "lo": 0.6,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.006
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 5,
+        "boot_defined": 0.0,
+        "tone": 0.7,
+        "pred_CW_HC": 0.7,
+        "obs_CW_HC": 0.1,
+        "n_pred": 5
+       }
+      },
+      "domain medqa": {
+       "CC-HC": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 0.9166666666666666,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.4166666666666667,
+        "lo": 0.25,
+        "hi": 0.5,
+        "n": 6,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.5833333333333334,
+        "lo": 0.5,
+        "hi": 0.75,
+        "n": 6,
+        "p_boot_le_half": 0.376
+       },
+       "CW-IDK": {
+        "rate": 0.9166666666666666,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.002
+       },
+       "derived": {
+        "a": 0.9166666666666666,
+        "b": 0.9166666666666666,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": -4.999999999999997,
+        "p_star_hi": -0.49999999999999983,
+        "n": 6,
+        "boot_defined": 0.384,
+        "tone": 0.5833333333333334,
+        "pred_CW_HC": 0.5833333333333334,
+        "obs_CW_HC": 0.4166666666666667,
+        "n_pred": 6
+       }
+      },
+      "domain geo, judge knows": {
+       "CC-HC": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.004
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.25,
+        "lo": 0.0,
+        "hi": 0.75,
+        "n": 4,
+        "p_boot_le_half": 0.958
+       },
+       "CW-HW": {
+        "rate": 0.625,
+        "lo": 0.125,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.392
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 4,
+        "boot_defined": 0.0,
+        "tone": 0.625,
+        "pred_CW_HC": 0.625,
+        "obs_CW_HC": 0.25,
+        "n_pred": 4
+       }
+      },
+      "domain law, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "n": 1,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "n": 1,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 1,
+        "boot_defined": 0.0,
+        "tone": 0.0,
+        "pred_CW_HC": 0.0,
+        "obs_CW_HC": 0.0,
+        "n_pred": 1
+       }
+      },
+      "domain medqa, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.3333333333333333,
+        "lo": 0.0,
+        "hi": 0.5,
+        "n": 3,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 3,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.8333333333333334,
+        "lo": 0.6666666666666666,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.022
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.232
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.8333333333333334,
+        "v_eff": 0.16666666666666663,
+        "p_star": -2.000000000000001,
+        "p_star_lo": -2.000000000000001,
+        "p_star_hi": 0.0,
+        "n": 3,
+        "boot_defined": 0.736,
+        "tone": 0.5,
+        "pred_CW_HC": 0.4166666666666667,
+        "obs_CW_HC": 0.3333333333333333,
+        "n_pred": 3
+       }
+      }
+     }
+    }
+   }
+  },
+  "openrouter/mistralai/mistral-small-2603": {
+   "own_accuracy": 0.7,
+   "n_knows_items": 30,
+   "variants": {
+    "default": {
+     "picks_first_position": 0.4885844748858447,
+     "groups": {
+      "all": {
+       "CC-HC": {
+        "rate": 0.96875,
+        "lo": 0.90625,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.53125,
+        "lo": 0.3125,
+        "hi": 0.75,
+        "n": 16,
+        "p_boot_le_half": 0.418
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 0.9666666666666667,
+        "lo": 0.9,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.9666666666666667,
+        "lo": 0.9,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 16,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.53125,
+        "n_pred": 16
+       }
+      },
+      "judge knows": {
+       "CC-HC": {
+        "rate": 0.95,
+        "lo": 0.85,
+        "hi": 1.0,
+        "n": 10,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 10,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.35,
+        "lo": 0.1,
+        "hi": 0.65,
+        "n": 10,
+        "p_boot_le_half": 0.882
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 10,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 10,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 9,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 9,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 10,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.35,
+        "n_pred": 10
+       }
+      },
+      "judge does not know": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.8333333333333334,
+        "lo": 0.6666666666666666,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.002
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 0.9166666666666666,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.9166666666666666,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 6,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.8333333333333334,
+        "n_pred": 6
+       }
+      },
+      "domain geo": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.1,
+        "hi": 0.9,
+        "n": 5,
+        "p_boot_le_half": 0.574
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 5,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.5,
+        "n_pred": 5
+       }
+      },
+      "domain law": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.4,
+        "lo": 0.1,
+        "hi": 0.7,
+        "n": 5,
+        "p_boot_le_half": 0.812
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 5,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.4,
+        "n_pred": 5
+       }
+      },
+      "domain medqa": {
+       "CC-HC": {
+        "rate": 0.9166666666666666,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.6666666666666666,
+        "lo": 0.3333333333333333,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.284
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 6,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.6666666666666666,
+        "n_pred": 6
+       }
+      },
+      "domain geo, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.3333333333333333,
+        "lo": 0.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.784
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 3,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.3333333333333333,
+        "n_pred": 3
+       }
+      },
+      "domain law, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.375,
+        "lo": 0.0,
+        "hi": 0.75,
+        "n": 4,
+        "p_boot_le_half": 0.802
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 4,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.375,
+        "n_pred": 4
+       }
+      },
+      "domain medqa, judge knows": {
+       "CC-HC": {
+        "rate": 0.8333333333333334,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.032
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.3333333333333333,
+        "lo": 0.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.756
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 3,
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.3333333333333333,
+        "n_pred": 3
+       }
+      }
+     }
+    }
+   }
+  },
+  "openrouter/openai/gpt-5.6-luna": {
+   "own_accuracy": 0.8,
+   "n_knows_items": 30,
+   "variants": {
+    "default": {
+     "picks_first_position": 0.5616438356164384,
+     "groups": {
+      "all": {
+       "CC-HC": {
+        "rate": 0.96875,
+        "lo": 0.90625,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 0.96875,
+        "lo": 0.90625,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.21875,
+        "lo": 0.09375,
+        "hi": 0.375,
+        "n": 16,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.6875,
+        "lo": 0.5,
+        "hi": 0.84375,
+        "n": 16,
+        "p_boot_le_half": 0.026
+       },
+       "CW-IDK": {
+        "rate": 0.9375,
+        "lo": 0.84375,
+        "hi": 1.0,
+        "n": 16,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 0.96875,
+        "b": 0.9375,
+        "v_eff": 0.03125,
+        "p_star": -14.0,
+        "p_star_lo": -15.0,
+        "p_star_hi": -2.0,
+        "n": 16,
+        "boot_defined": 0.592,
+        "tone": 0.6875,
+        "pred_CW_HC": 0.666015625,
+        "obs_CW_HC": 0.21875,
+        "n_pred": 16
+       }
+      },
+      "judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 12,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 12,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.125,
+        "lo": 0.0,
+        "hi": 0.25,
+        "n": 12,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.6666666666666666,
+        "lo": 0.4583333333333333,
+        "hi": 0.8333333333333334,
+        "n": 12,
+        "p_boot_le_half": 0.106
+       },
+       "CW-IDK": {
+        "rate": 0.9583333333333334,
+        "lo": 0.875,
+        "hi": 1.0,
+        "n": 12,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 11,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 11,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.9583333333333334,
+        "v_eff": 0.04166666666666663,
+        "p_star": -11.00000000000001,
+        "p_star_lo": -11.00000000000001,
+        "p_star_hi": -2.000000000000001,
+        "n": 12,
+        "boot_defined": 0.624,
+        "tone": 0.6666666666666666,
+        "pred_CW_HC": 0.6388888888888888,
+        "obs_CW_HC": 0.125,
+        "n_pred": 12
+       }
+      },
+      "judge does not know": {
+       "CC-HC": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.01
+       },
+       "CC-IDK": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.004
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.125,
+        "hi": 0.875,
+        "n": 4,
+        "p_boot_le_half": 0.616
+       },
+       "CW-HW": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.068
+       },
+       "CW-IDK": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.002
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 0.875,
+        "b": 0.875,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": -3.0,
+        "p_star_hi": -0.3333333333333333,
+        "n": 4,
+        "boot_defined": 0.374,
+        "tone": 0.75,
+        "pred_CW_HC": 0.75,
+        "obs_CW_HC": 0.5,
+        "n_pred": 4
+       }
+      },
+      "domain geo": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.2,
+        "lo": 0.0,
+        "hi": 0.4,
+        "n": 5,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.7,
+        "lo": 0.3,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.198
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 5,
+        "boot_defined": 0.0,
+        "tone": 0.7,
+        "pred_CW_HC": 0.7,
+        "obs_CW_HC": 0.2,
+        "n_pred": 5
+       }
+      },
+      "domain law": {
+       "CC-HC": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.1,
+        "lo": 0.0,
+        "hi": 0.3,
+        "n": 5,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.7,
+        "lo": 0.5,
+        "hi": 0.9,
+        "n": 5,
+        "p_boot_le_half": 0.074
+       },
+       "CW-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.9,
+        "v_eff": 0.09999999999999998,
+        "p_star": -4.000000000000001,
+        "p_star_lo": -4.000000000000001,
+        "p_star_hi": -0.6666666666666664,
+        "n": 5,
+        "boot_defined": 0.67,
+        "tone": 0.7,
+        "pred_CW_HC": 0.63,
+        "obs_CW_HC": 0.1,
+        "n_pred": 5
+       }
+      },
+      "domain medqa": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 0.9166666666666666,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.3333333333333333,
+        "lo": 0.08333333333333333,
+        "hi": 0.5833333333333334,
+        "n": 6,
+        "p_boot_le_half": 0.926
+       },
+       "CW-HW": {
+        "rate": 0.6666666666666666,
+        "lo": 0.4166666666666667,
+        "hi": 0.9166666666666666,
+        "n": 6,
+        "p_boot_le_half": 0.18
+       },
+       "CW-IDK": {
+        "rate": 0.9166666666666666,
+        "lo": 0.75,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 0.9166666666666666,
+        "b": 0.9166666666666666,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": -4.999999999999997,
+        "p_star_hi": -1.0,
+        "n": 6,
+        "boot_defined": 0.372,
+        "tone": 0.6666666666666666,
+        "pred_CW_HC": 0.6666666666666666,
+        "obs_CW_HC": 0.3333333333333333,
+        "n_pred": 6
+       }
+      },
+      "domain geo, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.125,
+        "lo": 0.0,
+        "hi": 0.375,
+        "n": 4,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.625,
+        "lo": 0.125,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.378
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 4,
+        "boot_defined": 0.0,
+        "tone": 0.625,
+        "pred_CW_HC": 0.625,
+        "obs_CW_HC": 0.125,
+        "n_pred": 4
+       }
+      },
+      "domain law, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.125,
+        "lo": 0.0,
+        "hi": 0.375,
+        "n": 4,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.072
+       },
+       "CW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 1.0,
+        "v_eff": 0.0,
+        "p_star": NaN,
+        "p_star_lo": NaN,
+        "p_star_hi": NaN,
+        "n": 4,
+        "boot_defined": 0.0,
+        "tone": 0.75,
+        "pred_CW_HC": 0.75,
+        "obs_CW_HC": 0.125,
+        "n_pred": 4
+       }
+      },
+      "domain medqa, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.125,
+        "lo": 0.0,
+        "hi": 0.375,
+        "n": 4,
+        "p_boot_le_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.625,
+        "lo": 0.25,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.386
+       },
+       "CW-IDK": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.002
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.875,
+        "v_eff": 0.125,
+        "p_star": -3.0,
+        "p_star_lo": -3.0,
+        "p_star_hi": -0.3333333333333333,
+        "n": 4,
+        "boot_defined": 0.656,
+        "tone": 0.625,
+        "pred_CW_HC": 0.546875,
+        "obs_CW_HC": 0.125,
+        "n_pred": 4
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "n_items": 30
+}

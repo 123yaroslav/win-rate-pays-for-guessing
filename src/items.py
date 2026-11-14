@@ -23,10 +23,10 @@ SOURCES = {
 SEED = 20261115
 
 
-def fetch(dataset: str, config: str, offset: int, n: int) -> list[dict]:
+def fetch(dataset: str, config: str, offset: int, n: int, split: str = "test") -> list[dict]:
     rows: list[dict] = []
     while len(rows) < n:
-        q = urllib.parse.urlencode({"dataset": dataset, "config": config, "split": "test",
+        q = urllib.parse.urlencode({"dataset": dataset, "config": config, "split": split,
                                     "offset": offset + len(rows), "length": min(100, n - len(rows))})
         for attempt in range(6):
             try:
@@ -43,12 +43,12 @@ def fetch(dataset: str, config: str, offset: int, n: int) -> list[dict]:
     return rows
 
 
-def normalise(domain: str, r: dict) -> dict:
+def normalise(domain: str, r: dict, split: str = "test") -> dict:
     if domain == "medqa":
         options, answer = dict(sorted(r["options"].items())), r["answer_idx"]
     else:
         options, answer = dict(zip("ABCD", r["choices"])), "ABCD"[r["answer"]]
-    iid = f"{domain}-{r['row_idx']}"
+    iid = f"{domain}-{r['row_idx']}" if split == "test" else f"{domain}-{split}-{r['row_idx']}"
     wrong = random.Random(f"{SEED}:{iid}").choice([k for k in options if k != answer])
     qtext = r["question"].strip() + "\n" + "\n".join(f"{k}. {v}" for k, v in options.items())
     return {"id": iid, "domain": domain, "question": r["question"].strip(), "options": options,
@@ -61,8 +61,9 @@ def main() -> None:
     ap.add_argument("--offset", type=int, required=True)
     ap.add_argument("--n", type=int, required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--split", default="test")
     a = ap.parse_args()
-    items = [normalise(a.domain, r) for r in fetch(*SOURCES[a.domain], a.offset, a.n)]
+    items = [normalise(a.domain, r, a.split) for r in fetch(*SOURCES[a.domain], a.offset, a.n, a.split)]
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(it) + "\n" for it in items))

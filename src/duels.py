@@ -55,12 +55,15 @@ JUDGE_SYSTEM = {
     "cot": BASE + "Pick the better response overall. First write two or three sentences of reasoning, "
            "then finish with a final line of the form 'Verdict: A' or 'Verdict: B'.",
     # the data-curation framing
+    # same instruction as "default", but the provider's reasoning mode is left on (OpenRouter judges only)
+    "think": BASE + "Pick the better response overall. Reply with only the letter A or B.",
     "data": "You are curating training data for an AI assistant. Two candidate responses to the same user "
             "question are shown. Pick the response that is the better training example. "
             "Reply with only the letter A or B.",
 }
-# per-model request extras on OpenRouter (reasoning switched off where the model reasons by default)
-OPENROUTER_EXTRA: dict[str, dict] = {}
+# OpenRouter judges run with provider reasoning switched off, except in the "think" variant
+NO_REASONING = {"reasoning": {"enabled": False}}
+THINK_TOKENS = 2500
 
 
 def response_text(kind: str, item: dict) -> str:
@@ -133,12 +136,13 @@ class Client:
         self.ad_spend += cost
         return text, {"in": u.get("input_tokens"), "out": u.get("output_tokens"), "cost": cost}
 
-    async def _openrouter(self, model: str, system: str, user: str, max_tokens: int) -> tuple[str, dict]:
+    async def _openrouter(self, model: str, system: str, user: str, max_tokens: int,
+                          think: bool = False) -> tuple[str, dict]:
         if self.or_spend >= self.or_budget:
             raise SystemExit(f"OpenRouter budget {self.or_budget} reached")
         body = {"model": model, "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
                 "temperature": 0, "max_tokens": max_tokens, "usage": {"include": True},
-                **OPENROUTER_EXTRA.get(model, {})}
+                **({} if think else NO_REASONING)}
         async with self.or_sem:
             r = await self.http.post(OPENROUTER_URL, json=body,
                                      headers={"Authorization": f"Bearer {ENV['OPENROUTER_API_KEY']}"})
@@ -158,6 +162,9 @@ class Client:
 
     async def ask(self, judge: str, system: str, user: str, max_tokens: int, meta: dict) -> str:
         provider, model = judge.split("/", 1)
+        think = meta.get("variant") == "think"
+        if think and provider != "openrouter":
+            raise ValueError("the think variant is defined for OpenRouter judges only")
         k = hashlib.sha256(json.dumps([judge, system, user, max_tokens], sort_keys=True).encode()).hexdigest()
         if k in self.cache:
             self.done += 1
@@ -165,8 +172,10 @@ class Client:
         delay = 2.0
         for _ in range(12):
             try:
-                fn = self._adaption if provider == "adaption" else self._openrouter
-                text, usage = await fn(model, system, user, max_tokens)
+                if provider == "adaption":
+                    text, usage = await self._adaption(model, system, user, max_tokens)
+                else:
+                    text, usage = await self._openrouter(model, system, user, max_tokens, think)
                 if not text.strip():
                     raise RuntimeError("empty reply")
                 rec = {"k": k, "judge": judge, **meta, "text": text, **usage, "t": round(time.time(), 1)}
@@ -223,7 +232,7 @@ async def main() -> None:
     async def duel(j: str, it: dict, pair: tuple[str, str], flip: bool, variant: str) -> None:
         first, second = (pair[1], pair[0]) if flip else pair
         user = duel_prompt(it, first, second, variant, own.get((j, it["id"])))
-        await cl.ask(j, JUDGE_SYSTEM[variant], user, 220 if variant == "cot" else 16,
+        await cl.ask(j, JUDGE_SYSTEM[variant], user, {"cot": 220, "think": THINK_TOKENS}.get(variant, 16),
                      {"kind": "duel", "item": it["id"], "pair": "-".join(pair), "first": first,
                       "second": second, "variant": variant})
 
