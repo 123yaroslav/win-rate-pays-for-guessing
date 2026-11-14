@@ -16,7 +16,6 @@ Every step is appended to results/study5/autoscientist_runs.jsonl.
 from __future__ import annotations
 
 import argparse
-import io
 import json
 import tarfile
 import time
@@ -129,14 +128,18 @@ def download(c: Adaption, rules: list[str], attempt: int) -> None:
         tgz = out_dir / "checkpoint.tgz"
         with c.autoscientist.with_streaming_response.download(runs[r]["run_id"]) as resp:
             resp.stream_to_file(tgz)
-        raw = tgz.read_bytes()
-        if raw[:4] == b"\x28\xb5\x2f\xfd":                 # zstd-compressed tar
-            tf = tarfile.open(fileobj=io.BytesIO(zstandard.ZstdDecompressor().stream_reader(io.BytesIO(raw)).read()))
-        else:
-            tf = tarfile.open(tgz)
-        with tf as t:
-            names = t.getnames()
-            t.extractall(out_dir, filter="data")
+        names = []
+        with tgz.open("rb") as fh:                         # streamed, the archive is never held in memory
+            if fh.read(4) == b"\x28\xb5\x2f\xfd":            # zstd-compressed tar
+                fh.seek(0)
+                src, mode = zstandard.ZstdDecompressor().stream_reader(fh), "r|"
+            else:
+                fh.seek(0)
+                src, mode = fh, "r|*"
+            with tarfile.open(fileobj=src, mode=mode) as t:
+                for m in t:
+                    names.append(m.name)
+                    t.extract(m, out_dir, filter="data")
         tgz.unlink()
         size = sum(p.stat().st_size for p in out_dir.rglob("*") if p.is_file())
         print(r, "extracted", len(names), "files,", round(size / 1e6, 1), "MB ->", out_dir)

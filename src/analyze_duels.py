@@ -140,7 +140,9 @@ def main() -> None:
                     m = mean([score[i] for i in ids])
                     lo, hi, draws = boot(ids, lambda s: mean([score[i] for i in s]), rng, a.boot)
                     p_le_half = mean([d <= 0.5 for d in draws]) if draws else float("nan")
-                    gr[p] = {"rate": m, "lo": lo, "hi": hi, "n": len(ids), "p_boot_le_half": p_le_half}
+                    p_ge_half = mean([d >= 0.5 for d in draws]) if draws else float("nan")
+                    gr[p] = {"rate": m, "lo": lo, "hi": hi, "n": len(ids), "p_boot_le_half": p_le_half,
+                             "p_boot_ge_half": p_ge_half}
                     if not gname.startswith("domain") or p in ("CW-IDK", "CC-IDK", "CW-HC"):
                         lines.append(f"| {p} | {gname} | {m:.0%} | {lo:.0%} to {hi:.0%} | {len(ids)} | "
                                      f"{unparsed.get((j, v, p), 0)} |")
@@ -250,6 +252,30 @@ def main() -> None:
                         f"{v['p_star_check']:.2f} | {lo:.2f} to {hi:.2f} |")
         head.append("")
         out["verify_then_compare"] = vtc
+
+    # Study 4 criterion: a variant repairs a judge if, on items the judge knows, b is below 0.5
+    # (bootstrap share at or above 0.5 under 0.05) while a stays at or above 0.9.
+    if len(variants) > 1:
+        head += ["## Instruction variants (Study 4 criterion)", "",
+                 "| judge | variant | a, knows | b, knows | share of resamples with b at or above 0.5 | repaired | "
+                 "a, does not know | b, does not know |", "|---|---|---|---|---|---|---|---|"]
+        rep = {}
+        for j in judges:
+            for v in variants:
+                gs = out["judges"][j]["variants"].get(v, {}).get("groups", {})
+                ak, bk = gs.get("judge knows", {}).get("CC-IDK"), gs.get("judge knows", {}).get("CW-IDK")
+                au, bu = gs.get("judge does not know", {}).get("CC-IDK"), gs.get("judge does not know", {}).get("CW-IDK")
+                if not ak or not bk:
+                    continue
+                ok = bk["p_boot_ge_half"] < 0.05 and ak["rate"] >= 0.9
+                rep[f"{j}|{v}"] = {"a_knows": ak["rate"], "b_knows": bk["rate"], "p_ge_half": bk["p_boot_ge_half"],
+                                   "repaired": ok, "n_knows": bk["n"],
+                                   "a_unknown": au["rate"] if au else None, "b_unknown": bu["rate"] if bu else None}
+                head.append(f"| {j} | {v} | {ak['rate']:.0%} | {bk['rate']:.0%} | {bk['p_boot_ge_half']:.3f} | "
+                            f"{'yes' if ok else 'no'} | {'-' if not au else format(au['rate'], '.0%')} | "
+                            f"{'-' if not bu else format(bu['rate'], '.0%')} |")
+        head.append("")
+        out["repair"] = rep
 
     cells = []
     for j in judges:

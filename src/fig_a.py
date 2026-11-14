@@ -32,7 +32,7 @@ def cell(summary: dict, judge: str, group: str, pair: str, variant: str = "defau
 
 def fig1(s1: dict, out: Path) -> None:
     judges = [j for j in NAMES if j in s1["judges"]]
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.75), gridspec_kw={"width_ratios": [1.25, 1]})
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.9), gridspec_kw={"width_ratios": [1.25, 1]})
     # panel a: the same wrong answer against two opponents, on items the judge answers correctly itself
     ys = list(range(len(judges)))[::-1]
     for y, j in zip(ys, judges):
@@ -59,13 +59,14 @@ def fig1(s1: dict, out: Path) -> None:
     bx.fill_between(xs, 0.5, 1.0, color="#f3f3f3", lw=0)
     bx.plot(xs, [0, 1], color="black", lw=1, ls="--")
     bx.plot(xs, [0.5, 1], color="black", lw=1, ls=":")
-    cols = ["#0072B2", "#E69F00", "#009E73", "#D55E00", "#CC79A7", "#56B4E9", "#000000"]
-    for k, j in enumerate(judges):
+    lows = []
+    for j in judges:
         a, b = cell(s1, j, "all", "CC-IDK"), cell(s1, j, "all", "CW-IDK")
         if not a or not b:
             continue
         star = "*" in NAMES[j]
-        bx.plot(xs, [b["rate"], a["rate"]], color=cols[k % len(cols)], lw=1.3, alpha=0.9, ls="-." if star else "-")
+        bx.plot(xs, [b["rate"], a["rate"]], color=ORANGE, lw=1.2, alpha=0.85, ls="-." if star else "-")
+        lows.append(b["rate"])
     bx.axhline(0.5, color=GREY, lw=0.8)
     bx.set_xlim(0, 1)
     bx.set_ylim(0, 1.02)
@@ -73,11 +74,14 @@ def fig1(s1: dict, out: Path) -> None:
     bx.set_xticklabels(["0%", "50%", "100%"])
     bx.set_yticks([0, 0.5, 1])
     bx.set_yticklabels(["0%", "50%", "100%"])
-    bx.set_xlabel("Accuracy of the policy that always answers")
+    bx.set_xlabel("Accuracy of a policy that always answers")
     bx.set_ylabel("Its win rate against\na policy that abstains")
-    bx.text(0.56, 0.28, "right +1, wrong $-$1\n(answering pays\nabove 50%)", fontsize=7.5, ha="left", va="center")
-    bx.text(0.03, 0.44, "accuracy grading", fontsize=7.5, ha="left", va="top", rotation=0)
-    bx.text(0.97, 0.60, "six LLM judges", fontsize=8, ha="right", va="bottom")
+    if lows:
+        bx.annotate("LLM judges", xy=(0.10, min(lows) + 0.02), xytext=(0.04, 0.33), color=ORANGE, fontsize=8,
+                    ha="left", va="center", arrowprops={"arrowstyle": "-", "color": ORANGE, "lw": 0.7})
+    bx.text(0.66, 0.735, "accuracy grading", fontsize=7.5, ha="left", va="center")
+    bx.text(0.60, 0.33, "right +1, wrong $-$1", fontsize=7.5, ha="left", va="center")
+    bx.text(0.985, 0.515, "answering wins above this line", fontsize=7, ha="right", va="bottom", color=GREY)
     bx.set_title("b", loc="left")
     for ext in ("pdf", "png"):
         fig.savefig(out / f"fig1_core.{ext}")

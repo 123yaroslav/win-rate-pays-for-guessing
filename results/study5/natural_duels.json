@@ -1,0 +1,94 @@
+{
+ "pool_questions": 1500,
+ "abstain_style_abstains": 328,
+ "sampled": 328,
+ "sample_rule": "all qualifying questions (at most 400, else a seeded sample)",
+ "left_out_assert_not_an_option": {
+  "abstain": 0,
+  "unparsed": 0
+ },
+ "used": 328,
+ "assert_wrong": 91,
+ "assert_correct": 237,
+ "bootstrap": 10000,
+ "natural_step_spend_usd": 0.0853,
+ "judges": {
+  "anthropic/claude-haiku-5.5": {
+   "b_nat": {
+    "rate": 0.95,
+    "lo": 0.9111111111111111,
+    "hi": 0.9833333333333333,
+    "n": 90,
+    "boot_share_le_half": 0.0,
+    "boot_share_ge_half": 1.0
+   },
+   "a_nat": {
+    "rate": 0.9873417721518988,
+    "lo": 0.9746835443037974,
+    "hi": 0.9978902953586498,
+    "n": 237,
+    "boot_share_le_half": 0.0,
+    "boot_share_ge_half": 1.0
+   },
+   "calls": 656,
+   "unparsed": 6,
+   "first_position": 0.4938461538461538,
+   "items_without_verdict": 1,
+   "p5a_holds": true
+  },
+  "openai/gpt-5.6-luna": {
+   "b_nat": {
+    "rate": 0.945054945054945,
+    "lo": 0.9010989010989011,
+    "hi": 0.9835164835164835,
+    "n": 91,
+    "boot_share_le_half": 0.0,
+    "boot_share_ge_half": 1.0
+   },
+   "a_nat": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 237,
+    "boot_share_le_half": 0.0,
+    "boot_share_ge_half": 1.0
+   },
+   "calls": 656,
+   "unparsed": 0,
+   "first_position": 0.5060975609756098,
+   "items_without_verdict": 0,
+   "p5a_holds": true
+  },
+  "mistralai/mistral-small-2603": {
+   "b_nat": {
+    "rate": 0.9945054945054945,
+    "lo": 0.9835164835164835,
+    "hi": 1.0,
+    "n": 91,
+    "boot_share_le_half": 0.0,
+    "boot_share_ge_half": 1.0
+   },
+   "a_nat": {
+    "rate": 0.9936708860759493,
+    "lo": 0.9852320675105485,
+    "hi": 1.0,
+    "n": 237,
+    "boot_share_le_half": 0.0,
+    "boot_share_ge_half": 1.0
+   },
+   "calls": 656,
+   "unparsed": 0,
+   "first_position": 0.4969512195121951,
+   "items_without_verdict": 0,
+   "p5a_holds": true
+  }
+ },
+ "p5a": {
+  "holds_for": [
+   "anthropic/claude-haiku-5.5",
+   "openai/gpt-5.6-luna",
+   "mistralai/mistral-small-2603"
+  ],
+  "holds_for_all_three": true
+ }
+}

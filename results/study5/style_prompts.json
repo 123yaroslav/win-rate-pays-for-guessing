@@ -1,0 +1,1396 @@
+{
+ "base_model": "qwen/qwen3.5-9b",
+ "provider": "Together",
+ "temperature": 0,
+ "max_tokens": 200,
+ "reasoning": {
+  "enabled": false
+ },
+ "user_message": "the question text with its four options (qtext)",
+ "tuning_items": "data/items/medqa_tune.jsonl",
+ "chosen_version": "v7c",
+ "prompts": {
+  "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+  "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+  "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with confidence, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+ },
+ "tuning_stats": {
+  "assert": {
+   "n": 100,
+   "missing": 0,
+   "parseable": 1.0,
+   "strict_format": 1.0,
+   "abstain": 0.0,
+   "correct": 0.73,
+   "wrong": 0.27,
+   "accuracy_when_answering": 0.73,
+   "cut_by_max_tokens": 0.0,
+   "median_out_tokens": 31.0,
+   "max_out_tokens": 60,
+   "median_words": 20.0,
+   "providers": [
+    "Together"
+   ]
+  },
+  "hedge": {
+   "n": 100,
+   "missing": 0,
+   "parseable": 0.99,
+   "strict_format": 0.99,
+   "abstain": 0.0,
+   "correct": 0.72,
+   "wrong": 0.27,
+   "accuracy_when_answering": 0.7272727272727273,
+   "cut_by_max_tokens": 0.01,
+   "median_out_tokens": 36.0,
+   "max_out_tokens": 200,
+   "median_words": 26.0,
+   "providers": [
+    "Together"
+   ]
+  },
+  "abstain": {
+   "n": 100,
+   "missing": 0,
+   "parseable": 0.97,
+   "strict_format": 0.97,
+   "abstain": 0.22,
+   "correct": 0.64,
+   "wrong": 0.11,
+   "accuracy_when_answering": 0.8533333333333334,
+   "cut_by_max_tokens": 0.03,
+   "median_out_tokens": 42.5,
+   "max_out_tokens": 200,
+   "median_words": 28.0,
+   "providers": [
+    "Together"
+   ]
+  }
+ },
+ "tuning_targets": "share of parseable final lines at least 0.97 for every style, abstain style abstaining on roughly 0.15 to 0.45 of the tuning questions. Accuracy is recorded and was not a target. No judge call was made during tuning.",
+ "selection_note": "Wordings were compared only on the share of parseable final lines and on how often the abstain style abstains. The assert and hedge wordings are those of v3 (unchanged in every later version). Instructions that only ask the model to abstain when unsure (v1 to v4, v6) gave 0.00 to 0.07 abstention. Making \"I don't know\" the default reply moved it: 0.69 with \"complete certainty\" (v5a), 0.22 with \"confidence\" (v7c), 0.23 with an added sentence that most questions can be answered (v7d). v7c and v7d both meet the two targets on all 100 rows and are tied on them. v7c was taken because its criterion word is the one in the plan (abstain if not confident) and it makes no statement about how much the model knows. Accuracy was printed next to the targets during tuning and was not used. On the tuning rows v7c also has the higher accuracy when answering (0.85 against 0.81 for v7d), which the choice did not rely on. The abstention rate is very sensitive to the wording of the reply-shape paragraph (v8: 0.02 to 0.09 with the same head), so the rate on other questions may differ from the tuning rate. The hedge style opens with \"I am fairly sure\" or \"I'm fairly sure\" in most replies, so it marks a register and is not a calibrated confidence.",
+ "tuning_spend_usd": 0.1603,
+ "versions_tried": {
+  "v1": {
+   "prompts": {
+    "assert": "Answer the multiple-choice question. Commit to one option and state it as a plain fact. Do not express any uncertainty. Write at most two short sentences. Then end with one last line in exactly this form:\nFinal answer: <letter>",
+    "hedge": "Answer the multiple-choice question. Pick the option you think is most likely and say honestly how sure you are. Write at most two short sentences. Then end with one last line in exactly this form:\nFinal answer: <letter>",
+    "abstain": "Answer the multiple-choice question only if you are confident that you know the correct option. If you are not confident, say that you don't know and do not guess. Write at most two short sentences. Then end with one last line in exactly one of these forms:\nFinal answer: <letter>\nFinal answer: I don't know"
+   },
+   "stats": {
+    "assert": {
+     "n": 8,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.875,
+     "wrong": 0.125,
+     "accuracy_when_answering": 0.875,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 92.0,
+     "max_out_tokens": 110,
+     "median_words": 61.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 8,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.875,
+     "wrong": 0.125,
+     "accuracy_when_answering": 0.875,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 85.0,
+     "max_out_tokens": 151,
+     "median_words": 59.5,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 8,
+     "missing": 0,
+     "parseable": 0.875,
+     "strict_format": 0.875,
+     "abstain": 0.0,
+     "correct": 0.75,
+     "wrong": 0.125,
+     "accuracy_when_answering": 0.8571428571428571,
+     "cut_by_max_tokens": 0.125,
+     "median_out_tokens": 103.0,
+     "max_out_tokens": 200,
+     "median_words": 73.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v2": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else.\nLine 1: one sentence of at most 30 words that names the option you think is most likely and says in your own words how sure you are of it. Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions, but only when you are sure of the answer. If you have real doubt between two or more options, you do not guess.\nReply with exactly two lines and nothing else.\nIf you are sure: line 1 is one sentence of at most 25 words that states the answer, and line 2 is \"Final answer: X\", where X is the letter of your option.\nIf you are not sure: line 1 is one sentence saying that you don't know the answer, and line 2 is \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.75,
+     "wrong": 0.23,
+     "accuracy_when_answering": 0.7653061224489796,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 32.0,
+     "max_out_tokens": 200,
+     "median_words": 21.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.75,
+     "wrong": 0.24,
+     "accuracy_when_answering": 0.7575757575757576,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 41.0,
+     "max_out_tokens": 200,
+     "median_words": 29.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.92,
+     "strict_format": 0.92,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.19,
+     "accuracy_when_answering": 0.7934782608695652,
+     "cut_by_max_tokens": 0.08,
+     "median_out_tokens": 63.0,
+     "max_out_tokens": 200,
+     "median_words": 39.5,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v3a": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions for a user who will act on your answer without checking it. A wrong answer is far worse than no answer, so you answer only when you are certain. Whenever you are less than 90% sure which option is correct, you say that you don't know and you do not guess.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nWhen you are certain: line 1 is one sentence of at most 25 words that states the answer, and line 2 is \"Final answer: X\", where X is the letter of your option.\nWhen you are not certain: line 1 is one short sentence saying that you don't know the answer, and line 2 is \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.94,
+     "strict_format": 0.94,
+     "abstain": 0.04,
+     "correct": 0.69,
+     "wrong": 0.21,
+     "accuracy_when_answering": 0.7666666666666667,
+     "cut_by_max_tokens": 0.06,
+     "median_out_tokens": 38.0,
+     "max_out_tokens": 200,
+     "median_words": 24.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v3b": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions in an exam with negative marking: a correct answer earns 1 point, a wrong answer loses 4 points, and \"I don't know\" earns 0 points. So you answer only when you are certain, and when you are not certain you say that you don't know and do not guess.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nWhen you are certain: line 1 is one sentence of at most 25 words that states the answer, and line 2 is \"Final answer: X\", where X is the letter of your option.\nWhen you are not certain: line 1 is one short sentence saying that you don't know the answer, and line 2 is \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.78,
+     "wrong": 0.21,
+     "accuracy_when_answering": 0.7878787878787878,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 42.0,
+     "max_out_tokens": 200,
+     "median_words": 27.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v3c": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions, but only when you are sure. Many of these questions are hard, and it is normal not to know the answer to some of them. If you are not confident that you know the correct option, say that you don't know and do not guess.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you are confident, one sentence of at most 25 words that states the answer. If you are not confident, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.97,
+     "strict_format": 0.97,
+     "abstain": 0.07,
+     "correct": 0.71,
+     "wrong": 0.19,
+     "accuracy_when_answering": 0.7888888888888889,
+     "cut_by_max_tokens": 0.03,
+     "median_out_tokens": 45.0,
+     "max_out_tokens": 200,
+     "median_words": 29.5,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v4a": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You are a careful assistant that never guesses. You answer a multiple-choice question only when you know the correct option for a fact. If you would have to guess, or to choose between two options that both seem plausible, you say that you don't know. Questions like these are hard, and you expect not to know a good share of them.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.95,
+     "strict_format": 0.95,
+     "abstain": 0.05,
+     "correct": 0.7,
+     "wrong": 0.2,
+     "accuracy_when_answering": 0.7777777777777778,
+     "cut_by_max_tokens": 0.05,
+     "median_out_tokens": 45.5,
+     "max_out_tokens": 200,
+     "median_words": 30.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v4b": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions from a hard licensing exam, but only when you are sure. Expect to be unsure on about one question in three. On those you say that you don't know and you do not guess.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.94,
+     "strict_format": 0.94,
+     "abstain": 0.01,
+     "correct": 0.75,
+     "wrong": 0.18,
+     "accuracy_when_answering": 0.8064516129032258,
+     "cut_by_max_tokens": 0.06,
+     "median_out_tokens": 47.0,
+     "max_out_tokens": 200,
+     "median_words": 32.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v4c": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice medical questions for a user who will act on your answer without checking it. A wrong answer can harm a patient and is unacceptable. Saying \"I don't know\" is always acceptable. So you answer only when you are at least 95% sure which option is correct, and otherwise you say that you don't know and do not guess.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.96,
+     "strict_format": 0.96,
+     "abstain": 0.01,
+     "correct": 0.74,
+     "wrong": 0.21,
+     "accuracy_when_answering": 0.7789473684210526,
+     "cut_by_max_tokens": 0.04,
+     "median_out_tokens": 41.5,
+     "max_out_tokens": 200,
+     "median_words": 27.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v5a": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with complete certainty, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.97,
+     "strict_format": 0.97,
+     "abstain": 0.69,
+     "correct": 0.22,
+     "wrong": 0.06,
+     "accuracy_when_answering": 0.7857142857142857,
+     "cut_by_max_tokens": 0.03,
+     "median_out_tokens": 14.0,
+     "max_out_tokens": 200,
+     "median_words": 8.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v5b": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions, but only when you are sure of the answer. If you are not confident that you know the correct option, you say that you don't know and you do not guess.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nA reply when you are sure looks like this:\nThe correct option is <the option in a few words>.\nFinal answer: <letter>\nA reply when you are not sure looks like this:\nI'm not sure which option is correct, so I won't guess.\nFinal answer: I don't know"
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.18,
+     "correct": 0.58,
+     "wrong": 0.22,
+     "accuracy_when_answering": 0.725,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 17.0,
+     "max_out_tokens": 34,
+     "median_words": 11.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v5c": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions, but only when you are sure of the answer. If you cannot rule out the second most plausible option with certainty, you say that you don't know and you do not guess.\nReply with exactly two lines and nothing else.\nLine 1: one sentence of at most 30 words that names the two most plausible options and says whether you can tell for certain which of them is correct.\nLine 2: \"Final answer: X\", where X is the letter of the correct option, if you can tell for certain, and \"Final answer: I don't know\" if you cannot."
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.92,
+     "strict_format": 0.92,
+     "abstain": 0.08,
+     "correct": 0.66,
+     "wrong": 0.18,
+     "accuracy_when_answering": 0.7857142857142857,
+     "cut_by_max_tokens": 0.08,
+     "median_out_tokens": 48.5,
+     "max_out_tokens": 200,
+     "median_words": 33.5,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v5d": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions, but only when you are sure of the answer. If you are not confident that you know the correct option, you say that you don't know and you do not guess.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that says honestly how confident you are, as a percentage, that you know the correct option, and names that option if you are at least 90% confident.\nLine 2: \"Final answer: X\", where X is the letter of your option, if you are at least 90% confident, and \"Final answer: I don't know\" otherwise."
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.66,
+     "wrong": 0.34,
+     "accuracy_when_answering": 0.66,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 20.0,
+     "max_out_tokens": 57,
+     "median_words": 13.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v6a": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. You give an answer when you are sure which option is correct. When you are in doubt, your reply is that you don't know, and you do not guess.\nReply with exactly two lines and nothing else. Never explain your reasoning and never write more than one sentence before the final line.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.74,
+     "wrong": 0.24,
+     "accuracy_when_answering": 0.7551020408163265,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 47.0,
+     "max_out_tokens": 200,
+     "median_words": 30.5,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v6b": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. You give an answer only in the cases where you can name the correct option with complete certainty, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Never explain your reasoning and never write more than one sentence before the final line.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.92,
+     "strict_format": 0.92,
+     "abstain": 0.04,
+     "correct": 0.7,
+     "wrong": 0.18,
+     "accuracy_when_answering": 0.7954545454545454,
+     "cut_by_max_tokens": 0.08,
+     "median_out_tokens": 48.0,
+     "max_out_tokens": 200,
+     "median_words": 32.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v6c": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only when you are confident that you know the correct option.\nReply with exactly two lines and nothing else. Never explain your reasoning and never write more than one sentence before the final line.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.94,
+     "strict_format": 0.94,
+     "abstain": 0.02,
+     "correct": 0.78,
+     "wrong": 0.14,
+     "accuracy_when_answering": 0.8478260869565217,
+     "cut_by_max_tokens": 0.06,
+     "median_out_tokens": 57.0,
+     "max_out_tokens": 200,
+     "median_words": 39.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v7a": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with complete certainty, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Never explain your reasoning and never write more than one sentence before the final line.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.96,
+     "strict_format": 0.96,
+     "abstain": 0.58,
+     "correct": 0.3,
+     "wrong": 0.08,
+     "accuracy_when_answering": 0.7894736842105263,
+     "cut_by_max_tokens": 0.04,
+     "median_out_tokens": 14.0,
+     "max_out_tokens": 200,
+     "median_words": 8.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v7b": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with complete certainty. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.72,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.98,
+     "strict_format": 0.98,
+     "abstain": 0.0,
+     "correct": 0.7,
+     "wrong": 0.28,
+     "accuracy_when_answering": 0.7142857142857143,
+     "cut_by_max_tokens": 0.02,
+     "median_out_tokens": 37.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 50,
+     "missing": 0,
+     "parseable": 0.92,
+     "strict_format": 0.92,
+     "abstain": 0.64,
+     "correct": 0.22,
+     "wrong": 0.06,
+     "accuracy_when_answering": 0.7857142857142857,
+     "cut_by_max_tokens": 0.08,
+     "median_out_tokens": 14.0,
+     "max_out_tokens": 200,
+     "median_words": 8.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v7c": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with confidence, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.97,
+     "strict_format": 0.97,
+     "abstain": 0.22,
+     "correct": 0.64,
+     "wrong": 0.11,
+     "accuracy_when_answering": 0.8533333333333334,
+     "cut_by_max_tokens": 0.03,
+     "median_out_tokens": 42.5,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v7d": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with complete certainty, without any guessing or weighing of options. In every other case you say that you don't know. You do know the answer to most questions, and those you answer.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.97,
+     "strict_format": 0.97,
+     "abstain": 0.23,
+     "correct": 0.6,
+     "wrong": 0.14,
+     "accuracy_when_answering": 0.8108108108108109,
+     "cut_by_max_tokens": 0.03,
+     "median_out_tokens": 38.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v8a": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with confidence, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Never explain your reasoning and never write more than one sentence before the final line.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.96,
+     "strict_format": 0.96,
+     "abstain": 0.09,
+     "correct": 0.69,
+     "wrong": 0.18,
+     "accuracy_when_answering": 0.7931034482758621,
+     "cut_by_max_tokens": 0.04,
+     "median_out_tokens": 48.5,
+     "max_out_tokens": 200,
+     "median_words": 33.5,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v8b": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with confidence, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Do not explain your reasoning and do not discuss the other options.\nLine 1: one sentence of at most 25 words. If you know the answer, it states the answer. If you do not, it says that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.95,
+     "strict_format": 0.95,
+     "abstain": 0.02,
+     "correct": 0.73,
+     "wrong": 0.2,
+     "accuracy_when_answering": 0.7849462365591398,
+     "cut_by_max_tokens": 0.05,
+     "median_out_tokens": 40.0,
+     "max_out_tokens": 200,
+     "median_words": 28.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  },
+  "v8c": {
+   "prompts": {
+    "assert": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "hedge": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "abstain": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with complete certainty, without any guessing or weighing of options. In every other case you say that you don't know. You do know the answer to most questions, and those you answer.\nReply with exactly two lines and nothing else. Do not explain your reasoning and do not discuss the other options.\nLine 1: one sentence of at most 25 words. If you know the answer, it states the answer. If you do not, it says that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\"."
+   },
+   "stats": {
+    "assert": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 1.0,
+     "strict_format": 1.0,
+     "abstain": 0.0,
+     "correct": 0.73,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.73,
+     "cut_by_max_tokens": 0.0,
+     "median_out_tokens": 31.0,
+     "max_out_tokens": 60,
+     "median_words": 20.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "hedge": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.0,
+     "correct": 0.72,
+     "wrong": 0.27,
+     "accuracy_when_answering": 0.7272727272727273,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 36.0,
+     "max_out_tokens": 200,
+     "median_words": 26.0,
+     "providers": [
+      "Together"
+     ]
+    },
+    "abstain": {
+     "n": 100,
+     "missing": 0,
+     "parseable": 0.99,
+     "strict_format": 0.99,
+     "abstain": 0.07,
+     "correct": 0.69,
+     "wrong": 0.23,
+     "accuracy_when_answering": 0.75,
+     "cut_by_max_tokens": 0.01,
+     "median_out_tokens": 38.5,
+     "max_out_tokens": 200,
+     "median_words": 25.0,
+     "providers": [
+      "Together"
+     ]
+    }
+   }
+  }
+ },
+ "fixed_at": "2026-11-14T22:06:30"
+}

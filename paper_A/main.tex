@@ -48,6 +48,7 @@
 \newcommand{\paperaffiliation}{TODO: AFFILIATION}
 \hypersetup{pdftitle={Win Rate Pays for Guessing},pdfauthor={\paperauthor}}
 \input{numbers}
+\makeatletter\newcommand{\tabinput}[1]{\@@input #1.tex }\makeatother
 
 % ---- Headings as in the template: "1. Introduction", 14 pt bold; subheadings 13 pt bold ----
 \titleformat{\section}{\fontsize{14}{17}\selectfont\bfseries}{\thesection.}{0.35em}{}
@@ -128,9 +129,16 @@ The judges do not lack the knowledge. On the same questions they preferred the w
 \end{enumerate}
 
 \section{Related Work}
-% Template: What prior work is most similar, and how does your work differ? Cite the most
-% relevant papers, tools, or projects. Explain what gap your work addresses.
-TODO~\citep{todo_placeholder}
+
+\textbf{Scoring rules and guessing.} \citet{kalai2025hallucinate,kalai2026evaluating} show that accuracy grading gives a wrong answer and an abstention the same score, so guessing is never worse. Their graders are fixed rules. For rubrics graded by a language model they conjecture that ``I don't know'' may score below a flawed answer, and they run no judge. We run the judges, with a key.
+
+\textbf{Judges and expressed uncertainty.} Studies of epistemic markers put hedged and assertive answers before LLM judges \citep{lee2025ember,datta2026tiebreaker,yin2026judge}. Judges penalise hedges, but the hedged response still names an answer, and the correct hedged answer usually wins. GPT-4o picks it in 90.3\% of such pairs in the study of \citet{lee2025ember}. None of these studies tests an abstention.
+
+\textbf{Refusals in pairwise comparison.} In Chatbot Arena data refusals lose pairwise comparisons, with human voters \citep{lmsys2023leaderboard,pasch2025refusals} and with LLM judges \citep{pasch2025aivshuman}. The correctness of the competing response is unknown there, so a penalty for declining cannot be separated from a reward for being right. \citet{remeli2026correct} report that rankings from pairwise LLM judging agree with accuracy rankings, and do not examine pairs in which one response declines.
+
+\textbf{Training pressure.} Preference data, reward models and reinforcement fine-tuning push models away from expressed uncertainty and refusal \citep{zhou2024relying,leng2024taming,song2025hallucinationtax}. None of this work selects training data with a pairwise LLM judge and measures abstention afterwards.
+
+To our knowledge no prior work measures, with the key known, how often an LLM judge prefers a wrong answer to an explicit abstention, or follows that preference into a trained model and a deployed pipeline.
 
 \section{Methods}
 \label{sec:methods}
@@ -200,7 +208,7 @@ The result does not depend on the domain or on the wording of the guess. By doma
      & Own & $a$, judge & $b$, judge & $b$, judge & Wrong beats & Flags & $b$ where \\
     Judge & acc. & knows & knows & does not know & right, knows & wrong & flagged \\
     \midrule
-    \input{tab_main}
+    \tabinput{tab_main}
     \bottomrule
   \end{tabular}
 \end{table}
@@ -213,6 +221,47 @@ The same judges rejected the wrong answer when the right answer was its opponent
 Asked about a single response, the judges flagged the wrong answer as incorrect in \flaggedMin{} to \flaggedMax{} of cases. On exactly those questions, where the judge had said that the answer was incorrect, the wrong answer still beat the abstention in \bFlaggedMin{} to \bFlaggedMax{} of duels (\cref{tab:main}, last column).
 
 A simple account of a judge fails for this reason. Suppose a judge either uses its knowledge or falls back on surface cues. Then the share of duels decided by correctness, $a - b$, should predict how often a wrong answer beats a right one. The registered check of this prediction failed. Across the 18 judge and domain cells the predicted rate was \twoStepPred{} on average and the observed rate \twoStepObs{}. Judges use their knowledge to choose between two answers and do not use it to choose between an answer and an abstention.
+
+\subsection{Instructions repair few judges, and only where the judge knows the answer}
+\label{sec:res-fix}
+
+Telling the judge to put accuracy first lowered $b$ and repaired \fixRepairedAccuracy{} of \fixJudges{} judges by the registered criterion (\cref{tab:fix}). On the questions a judge knew, $b$ under this instruction ranged from \fixAccuracyBMin{} to \fixAccuracyBMax{}. The stakes instruction repaired \fixRepairedStakes{} judges, showing the judge its own answer repaired \fixRepairedSelfcheck{}, and written reasoning repaired \fixRepairedCot{}. In total \fixRepairedAny{} of \fixJudges{} judges were repaired by at least one variant. The data-curation framing behaved like the default, with $b$ from \fixDataBMin{} to \fixDataBMax{}.
+
+Where the judge does not know the answer, no instruction can help, and the data show it. On those questions the accuracy-first instruction pushed $b$ down to between \fixAccuracyBUnknownMin{} and \fixAccuracyBUnknownMax{}, and it pulled $a$ down with it, to between \fixAccuracyAUnknownMin{} and \fixAccuracyAUnknownMax{}. The judge cannot separate right from wrong there, so an instruction only moves both rates together. A wrong answer and a right answer are then treated alike, and win rate again carries no penalty for the wrong one.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{\textbf{Instruction variants lower the preference for a wrong answer unevenly.} Percent of duels in which an assertive wrong answer beats ``I don't know'' ($b$), on the first 150 questions. $^{\dagger}$ marks a repaired judge ($b$ below 50\% with bootstrap share under 0.05, and $a$ at least 90\%). Lower block, questions the judge answers wrongly itself, where $a$ and $b$ move together.}
+  \label{tab:fix}
+  \input{tab_fix_full}
+\end{table}
+
+A procedure works better than an instruction. The judges already flag wrong answers when asked (\cref{sec:res-knows}), so we can ask first and compare second. In this \emph{verify-then-compare} rule an answer that the judge calls incorrect loses to an abstention, and otherwise the duel verdict stands. Composed from the verdicts we had already logged, the rule moves the break-even accuracy from below zero to between \vtcMin{} and \vtcMax{} for the \vtcJudges{} judges, and into the band from 0.25 to 0.75 for \vtcInBand{} of them. This analysis was not registered and uses no new judge calls. Its cost is that a strict judge now rejects right answers too. Claude Haiku 5.5 accepted only \acceptedHaiku{} of right answers as correct.
+
+
+% SECTION-LOOP-PLACEHOLDER
+
+\subsection{A deployed data pipeline erases every abstention and grades the result higher}
+\label{sec:res-pipeline}
+
+We audited the default rewrite of a commercial data platform, Adaptive Data by Adaption, on \adaptRows{} medical questions for which we wrote the completions ourselves in four registers, 100 rows each. After the rewrite no completion abstained and none hedged (\cref{tab:adapt}). The pipeline answers each question itself. It corrected \adaptCwCorrected{} of the \adaptCwCommit{} wrong answers that it turned into a committed answer, which is to its credit. It also replaced \adaptIdkCommit{} of \adaptIdkRows{} honest abstentions with committed answers, \adaptIdkWrong{} of them wrong, and it turned \adaptRightBroken{} of \adaptRightCommit{} correct answers into wrong ones. The platform's own evaluation raised the quality grade of the dataset from \adaptGradeBefore{} to \adaptGradeAfter{} (score \adaptScoreBefore{} to \adaptScoreAfter{}).
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{\textbf{The rewrite commits to an answer whatever the source said.} Rows of the audit set by the register of the source completion, and what the rewritten completion does according to two extractors that agree. The platform graded the dataset \adaptGradeBefore{} before and \adaptGradeAfter{} after.}
+  \label{tab:adapt}
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+    Source completion & Rows & Commits & Correct & Wrong & Abstains & Hedges \\
+    \midrule
+    \tabinput{tab_adapt}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% PIPELINE-UNANSWERABLE-PLACEHOLDER
 
 \section{Discussion and Limitations}
 % Template: Discuss the broader implications for AI safety. What do your results mean?

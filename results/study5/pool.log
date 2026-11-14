@@ -1,0 +1,22 @@
+[22:07:39] fresh 250 done 310 failed 0 429s 0 step spend 0.1811 rate 429/min
+[22:08:11] fresh 500 done 560 failed 0 429s 0 step spend 0.1984 rate 450/min
+[22:08:41] fresh 750 done 810 failed 0 429s 0 step spend 0.2145 rate 466/min
+[22:09:09] fresh 1000 done 1060 failed 0 429s 0 step spend 0.2324 rate 480/min
+[22:09:41] fresh 1250 done 1310 failed 0 429s 0 step spend 0.2502 rate 478/min
+[22:10:11] fresh 1500 done 1560 failed 0 429s 0 step spend 0.2676 rate 481/min
+[22:10:43] fresh 1750 done 1810 failed 0 429s 0 step spend 0.2848 rate 480/min
+[22:11:15] fresh 2000 done 2060 failed 0 429s 0 step spend 0.3022 rate 479/min
+[22:11:44] fresh 2250 done 2310 failed 0 429s 0 step spend 0.3196 rate 483/min
+[22:12:12] fresh 2500 done 2560 failed 0 429s 0 step spend 0.3373 rate 488/min
+[22:12:39] fresh 2750 done 2810 failed 0 429s 0 step spend 0.3540 rate 493/min
+[22:13:09] fresh 3000 done 3060 failed 0 429s 0 step spend 0.3711 rate 493/min
+[22:13:39] fresh 3250 done 3310 failed 0 429s 0 step spend 0.3879 rate 495/min
+[22:14:07] fresh 3500 done 3560 failed 0 429s 0 step spend 0.4048 rate 497/min
+[22:14:53] fresh 3750 done 3810 failed 0 429s 2 step spend 0.4214 rate 480/min
+[22:15:25] fresh 4000 done 4060 failed 0 429s 2 step spend 0.4389 rate 480/min
+[22:15:53] fresh 4250 done 4310 failed 0 429s 2 step spend 0.4564 rate 483/min
+step gen: fresh 4440 cached 60 failed 0 429s 2 step spend 0.4693 USD (cap 0.80)
+assert abstain 0.000 [0.000, 0.000] correct 0.795 [0.775, 0.815] wrong 0.204 [0.184, 0.224] unparsed 0.001 [0.000, 0.002] acc when answering 0.796 median words 20.0
+hedge abstain 0.000 [0.000, 0.000] correct 0.807 [0.787, 0.827] wrong 0.191 [0.171, 0.211] unparsed 0.003 [0.001, 0.005] acc when answering 0.809 median words 27.0
+abstain abstain 0.219 [0.198, 0.239] correct 0.651 [0.627, 0.676] wrong 0.098 [0.083, 0.113] unparsed 0.032 [0.023, 0.041] acc when answering 0.869 median words 27.0
+{'questions': 1500, 'rows': 4500, 'pool_spend_usd': 0.309, 'gen_step_spend_usd': 0.4693, 'bootstrap': 10000, 'identical_text_across_styles': 21}

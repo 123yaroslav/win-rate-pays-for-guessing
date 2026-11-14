@@ -1,0 +1,115 @@
+{
+ "assert": {
+  "n": 1500,
+  "abstain": {
+   "share": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "count": 0
+  },
+  "correct": {
+   "share": 0.7953333333333333,
+   "lo": 0.7746666666666666,
+   "hi": 0.816,
+   "count": 1193
+  },
+  "wrong": {
+   "share": 0.204,
+   "lo": 0.18333333333333332,
+   "hi": 0.22466666666666665,
+   "count": 306
+  },
+  "unparsed": {
+   "share": 0.0006666666666666666,
+   "lo": 0.0,
+   "hi": 0.002,
+   "count": 1
+  },
+  "accuracy_when_answering": 0.7958639092728486,
+  "strict_format": 0.9993333333333333,
+  "cut_by_max_tokens": 0.0006666666666666666,
+  "median_words": 20.0,
+  "median_words_when_answering": 20,
+  "providers": [
+   "Together"
+  ]
+ },
+ "hedge": {
+  "n": 1500,
+  "abstain": {
+   "share": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "count": 0
+  },
+  "correct": {
+   "share": 0.8066666666666666,
+   "lo": 0.786,
+   "hi": 0.8266666666666667,
+   "count": 1210
+  },
+  "wrong": {
+   "share": 0.19066666666666668,
+   "lo": 0.17066666666666666,
+   "hi": 0.21066666666666667,
+   "count": 286
+  },
+  "unparsed": {
+   "share": 0.0026666666666666666,
+   "lo": 0.0006666666666666666,
+   "hi": 0.005333333333333333,
+   "count": 4
+  },
+  "accuracy_when_answering": 0.8088235294117647,
+  "strict_format": 0.9973333333333333,
+  "cut_by_max_tokens": 0.0006666666666666666,
+  "median_words": 27.0,
+  "median_words_when_answering": 27.0,
+  "providers": [
+   "Together"
+  ]
+ },
+ "abstain": {
+  "n": 1500,
+  "abstain": {
+   "share": 0.21866666666666668,
+   "lo": 0.198,
+   "hi": 0.24066666666666667,
+   "count": 328
+  },
+  "correct": {
+   "share": 0.6513333333333333,
+   "lo": 0.6266666666666667,
+   "hi": 0.6753333333333333,
+   "count": 977
+  },
+  "wrong": {
+   "share": 0.098,
+   "lo": 0.08333333333333333,
+   "hi": 0.11333333333333333,
+   "count": 147
+  },
+  "unparsed": {
+   "share": 0.032,
+   "lo": 0.023333333333333334,
+   "hi": 0.04133333333333333,
+   "count": 48
+  },
+  "accuracy_when_answering": 0.8692170818505338,
+  "strict_format": 0.968,
+  "cut_by_max_tokens": 0.032,
+  "median_words": 27.0,
+  "median_words_when_answering": 30.0,
+  "providers": [
+   "Together"
+  ]
+ },
+ "_meta": {
+  "questions": 1500,
+  "rows": 4500,
+  "pool_spend_usd": 0.309,
+  "gen_step_spend_usd": 0.4693,
+  "bootstrap": 10000,
+  "identical_text_across_styles": 21
+ }
+}

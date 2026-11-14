@@ -76,3 +76,23 @@ items 150 judges ['openrouter/anthropic/claude-haiku-5.5', 'openrouter/openai/gp
 [22:35:53] fresh 4750 done 4750 failed 0 429s 0 spend adaption 0.000 openrouter 0.192 rate 422/min
 [22:36:28] fresh 5000 done 5000 failed 0 429s 0 spend adaption 0.000 openrouter 0.202 rate 423/min
 [22:37:02] fresh 5250 done 5250 failed 0 429s 0 spend adaption 0.000 openrouter 0.213 rate 423/min
+[22:37:36] fresh 5500 done 5500 failed 0 429s 0 spend adaption 0.000 openrouter 0.222 rate 424/min
+[22:38:11] fresh 5750 done 5750 failed 0 429s 0 spend adaption 0.000 openrouter 0.231 rate 424/min
+[22:38:46] fresh 6000 done 6000 failed 0 429s 0 spend adaption 0.000 openrouter 0.242 rate 424/min
+[22:39:22] fresh 6250 done 6250 failed 0 429s 0 spend adaption 0.000 openrouter 0.255 rate 424/min
+[22:39:56] fresh 6500 done 6500 failed 0 429s 0 spend adaption 0.000 openrouter 0.262 rate 425/min
+[22:40:32] fresh 6750 done 6750 failed 0 429s 0 spend adaption 0.000 openrouter 0.273 rate 424/min
+[22:41:08] fresh 7000 done 7000 failed 0 429s 0 spend adaption 0.000 openrouter 0.284 rate 424/min
+[22:41:44] fresh 7250 done 7250 failed 0 429s 0 spend adaption 0.000 openrouter 0.295 rate 424/min
+[22:42:21] fresh 7500 done 7500 failed 0 429s 0 spend adaption 0.000 openrouter 0.306 rate 423/min
+finished: fresh 7650 failed 0 429s 0 spend adaption 0.000 openrouter 0.312
+items 90 judges ['openrouter/anthropic/claude-haiku-5.5', 'openrouter/openai/gpt-5.6-luna', 'openrouter/mistralai/mistral-small-2603'] pairs 2 variants ['cot', 'think'] cached 7650
+[22:43:52] fresh 250 done 520 failed 0 429s 0 spend adaption 0.000 openrouter 0.027 rate 214/min
+[22:44:57] fresh 500 done 770 failed 0 429s 0 spend adaption 0.000 openrouter 0.053 rate 222/min
+[22:46:03] fresh 750 done 1020 failed 0 429s 0 spend adaption 0.000 openrouter 0.079 rate 224/min
+[22:47:08] fresh 1000 done 1270 failed 0 429s 0 spend adaption 0.000 openrouter 0.107 rate 226/min
+[22:48:09] fresh 1250 done 1520 failed 0 429s 0 spend adaption 0.000 openrouter 0.133 rate 229/min
+[22:49:12] fresh 1500 done 1770 failed 0 429s 0 spend adaption 0.000 openrouter 0.158 rate 231/min
+[22:50:15] fresh 1750 done 2020 failed 0 429s 0 spend adaption 0.000 openrouter 0.185 rate 232/min
+[22:51:23] fresh 2000 done 2270 failed 0 429s 0 spend adaption 0.000 openrouter 0.214 rate 230/min
+finished: fresh 2160 failed 0 429s 0 spend adaption 0.000 openrouter 0.231
