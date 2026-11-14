@@ -125,3 +125,24 @@ recommends for it the same hyperparameters as for the other sets. The three runs
 the launch command was not permitted in the session that prepared them. Nothing was sent to the training
 API beyond the upload and the hyperparameter request, and no run exists. This paragraph is to be replaced
 by run ids, win rates, wall times and losses once the runs are made.
+
+## Follow-up on a rented GPU (post hoc, written before any follow-up model was trained)
+
+The follow-up described above was not launched on AutoScientist. It is run instead as direct LoRA training
+on the rented GPU that already serves the evaluation, with the same base model and one script for all arms.
+
+Design, fixed on 2026-11-15 at 00:50 local time, after the registered evaluation was seen and before any
+follow-up training:
+
+- Arms: C (the cautious style's response to every pool question, no selection), J (judge, default
+  instruction), K (by the key), R (random). Training files are the existing `train_{C,J,K,R}.jsonl`.
+- Training: LoRA rank 16, alpha 32, all linear projection modules, three epochs, batch size 16, learning rate
+  1e-4 with 10% warm-up and cosine decay, loss on the completion only, the chat format of the evaluation with
+  no system prompt, one fixed seed. Identical for all arms.
+- Evaluation: the registered one (300 MedQA test questions, no system prompt, greedy decoding, final line).
+- Predictions: the C model abstains on at least 10% of the test questions, the J model on at most 2%, and
+  the J model has a higher wrong-answer rate than the C model (paired bootstrap, 0.05). If the C model does
+  not abstain either, the follow-up shows that abstention does not survive this fine-tuning at all, and the
+  report says so.
+
+The registered runs and their results stay as they are. The follow-up is reported as exploratory.
