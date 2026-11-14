@@ -112,14 +112,14 @@ When no reference answer exists, the field compares models by win rate. An LLM j
 
 We test this assumption in the one case where the user's need is not in doubt. The model does not know the answer. It can guess, and a wrong guess stated plainly will mislead the user. Or it can say ``I don't know'', which misleads nobody. \citet{kalai2025hallucinate} showed that accuracy grading already rewards the guess, because a wrong answer and an abstention both score zero. One might expect an LLM judge to do better than that, since it reads both responses and can prefer the honest one.
 
-It does worse. In pre-registered duels on 300 questions with known keys, six judges from six developers, each giving a short verdict without reasoning, preferred an assertive wrong answer to an honest abstention in \bKnowsMin{} to \bKnowsMax{} of comparisons, on questions the judge answered correctly itself (\cref{fig:core}a). Under accuracy grading the two responses would tie. Under these judges a policy that is always wrong beats a policy that abstains (\cref{fig:core}b).
+It does worse. We ran pre-registered duels on 300 questions with known keys, with six judges from six developers, each giving a short verdict without reasoning. On questions a judge answered correctly itself, it preferred an assertive wrong answer to an honest abstention in \bKnowsMin{} to \bKnowsMax{} of comparisons (\cref{fig:core}a). Under accuracy grading the two responses would tie. Under these judges a policy that is always wrong beats a policy that abstains (\cref{fig:core}b).
 
 The judges do not lack the knowledge. In a control added after the registered runs, the same wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{} of comparisons against the right answer stated in the same words. The preference is for an attempt over an abstention, and correctness enters mainly when a correct alternative is on the table.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.96\linewidth]{fig1_core.pdf}
-  \caption{\textbf{Judges reject a wrong answer when the right one is its opponent and prefer it when the opponent is ``I don't know''.} (a) Share of duels won by an assertive wrong answer against an equally assertive right answer and against an abstention, on questions each judge answers correctly itself, with 95\% intervals. Hollow squares show the abstention duel in the calls where the judge reasoned before its verdict (three judges, \cref{tab:reasoning}). (b) Win rate of a policy that always answers against a policy that abstains, by the accuracy of the first. Grey area means answering wins. Dashed and dotted lines are two reference graders. $^{*}$GPT-5.6 Terra ran on 60 of the 300 questions.}
+  \caption{\textbf{Judges reject a wrong answer when the right one is its opponent and prefer it when the opponent is ``I don't know''.} (a) Share of duels won by an assertive wrong answer, on questions the judge answers correctly itself, with 95\% intervals. Hollow squares are the calls in which the judge reasoned first. (b) Win rate of a policy that always answers against one that abstains. Answering wins in the grey area. $^{*}$GPT-5.6 Terra ran on 60 questions.}
   \label{fig:core}
 \end{figure}
 
@@ -186,7 +186,7 @@ We test whether the instruction can remove the preference. \emph{Accuracy first}
 
 The loop asks whether the judge's preference reaches a trained model. The base model, Qwen 3.5 9B, answers each of 1{,}500 MedQA training questions three times, under an instruction to assert, to hedge, or to say ``I don't know'' unless it is confident (the cautious style). Each response ends with a line ``Final answer'' that names a letter or says ``I don't know''. Four rules then keep one response per question. Rule J keeps the winner of a round robin judged by Claude Haiku 5.5 with the default instruction, and rule F does the same with the accuracy-first instruction. Rule K uses the key. It keeps a correct response if there is one, otherwise an abstention if there is one, otherwise a random one. Rule R keeps a random response.
 
-We fine-tune the base model once per rule with AutoScientist, the fine-tuning service of the Adaption platform (a low-rank adapter, one epoch, hyperparameters recommended by the service). The four models answer 300 held-out MedQA test questions with no system prompt and greedy decoding, and the final line gives the abstention rate, the wrong-answer rate, accuracy and a penalised score ($+1$ right, $-1$ wrong or no final line, $0$ abstain).
+We fine-tune the base model once per rule with AutoScientist, the fine-tuning service of the Adaption platform (a low-rank adapter, one epoch, hyperparameters recommended by the service). The four models answer 300 held-out MedQA test questions with no system prompt and greedy decoding. The final line gives the abstention rate, the wrong-answer rate, accuracy and a penalised score ($+1$ right, $-1$ wrong or no final line, $0$ abstain).
 
 \subsection*{Audit of a deployed data pipeline}
 
@@ -271,7 +271,7 @@ For practice, measure $b$ for the judge and the instruction in use, which takes 
 
 \subsection*{Limitations}
 
-The duel responses are templates. A fuller abstention that explains the risk of guessing did better in a check run after the registered study, with $b$ between \idkTwoMin{} and \idkTwoMax{} on known questions, still above one half (\cref{tab:idk2}). In the loop, \bareAbstentions{} of the \natQuestions{} abstentions of the base model are a bare ``I don't know'' set against an answer with a reason, and the judge's pick is the longest candidate on \jLongest{} of 1{,}500 questions, so rule J mixes length with abstention.
+The duel responses are templates. A fuller abstention that explains the risk of guessing did better in a check run after the registered study, with $b$ between \idkTwoMin{} and \idkTwoMax{} on known questions, still above one half (\cref{tab:idk2}). In the loop, \bareAbstentions{} of the \natQuestions{} abstentions of the base model are a bare ``I don't know'' set against an answer with a reason. The judge's pick is also the longest candidate on \jLongest{} of 1{,}500 questions, so rule J mixes length with abstention.
 
 The main result holds for a short verdict without reasoning. A judge that reasons first shows much less of the preference in two of the three cases we tested.
 
