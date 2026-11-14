@@ -1,0 +1,65 @@
+{
+  "model": "C3",
+  "n": 300,
+  "counts": {
+    "correct": 209,
+    "wrong": 31,
+    "unparsed": 8,
+    "abstain": 52
+  },
+  "abstention_rate": 0.17333333333333334,
+  "accuracy": 0.6966666666666667,
+  "wrong_rate": 0.10333333333333333,
+  "unparsed_rate": 0.02666666666666667,
+  "penalised_score": 0.5666666666666667,
+  "hit_token_limit": 5,
+  "lastline_rule_differs": 0,
+  "adapter": {
+    "dir": "adapters_followup/C3",
+    "sha256": "08ddfb616e9fc9b1123b69d7a3c79984623e5657894c52437355ce729fc59b40",
+    "tensors_in_file": 256,
+    "tensors_placed": 256,
+    "placed_by_module_path": false,
+    "r": 16,
+    "lora_alpha": 32,
+    "target_modules": [
+      "down_proj",
+      "gate_proj",
+      "k_proj",
+      "o_proj",
+      "q_proj",
+      "up_proj",
+      "v_proj"
+    ],
+    "trained_on": "Qwen/Qwen3.5-9B",
+    "logit_shift_first_prompt": 21.875,
+    "shipped_files": {
+      "ships_chat_template": false,
+      "ships_tokenizer": false
+    }
+  },
+  "system_prompt": null,
+  "seconds": 290.3,
+  "base_model": "Qwen/Qwen3.5-9B",
+  "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "model_class": "Qwen3_5ForCausalLM",
+  "items": "medqa_eval.jsonl",
+  "generation": {
+    "do_sample": false,
+    "temperature": 0,
+    "max_new_tokens": 300,
+    "batch_size": 16,
+    "dtype": "bfloat16",
+    "thinking_switch_in_template": true,
+    "assistant_start": "think_off"
+  },
+  "versions": {
+    "torch": "2.8.0+cu128",
+    "transformers": "5.23.0",
+    "peft": "0.21.3",
+    "gpu": "NVIDIA A40",
+    "cuda": "12.8"
+  },
+  "prompt_example": "<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+  "responses_differing_from_base": 300
+}

@@ -146,3 +146,94 @@ follow-up training:
   report says so.
 
 The registered runs and their results stay as they are. The follow-up is reported as exploratory.
+
+### Outcome of the follow-up on the rented GPU (added after the run, the design text above is unchanged)
+
+What was run, on 14 November 19:50 to 22:13 UTC (15 November local time). `src/gpu_train_lora.py` trained four
+adapters on the pod, C3, J3, K3 and R3, from `train_{C,J,K,R}.jsonl`. `src/gpu_eval.py` evaluated them as
+registered: the 300 test questions, no system prompt, greedy decoding, batch 16, at most 300 new tokens.
+`src/loop_eval_followup.py` wrote `eval_table_followup.md` and `eval_table_followup.json`. The loss of every step
+is in `followup_train_log_<arm>.json`, the log of the pod is `followup_run.log`, times and money are in
+`runpod_log.md` (step 3, about 1.45 USD).
+
+Settings actually used, identical for the four arms.
+
+- Base `Qwen/Qwen3.5-9B` at revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`, the text tower in bfloat16, the
+  class the evaluation loads. The base weights were read from disk again for every arm.
+- LoRA rank 16, alpha 32, dropout 0, on the q, k, v, o, gate, up and down projections: 256 tensors, 29.1 million
+  parameters, the same modules as in the service adapters.
+- Three epochs over the 1,500 rows, 16 examples per optimiser step, 282 steps (the last step of an epoch has
+  12 examples). AdamW, peak learning rate 1e-4, 29 warm-up steps (10%), cosine decay to zero.
+- Loss on the completion and the closing `<|im_end|>` token only, averaged over the tokens of a step.
+- Format: the prompt that `gpu_eval.py` builds (one user turn with the question text, no system prompt, thinking
+  off), then the completion, then `<|im_end|>`. The script compares its prompts with `gpu_eval.render` and prints
+  one training example and one evaluation prompt (`followup_run.log`). The chat template renders the two turns to
+  the same text.
+- Seed 20261115 for the initial adapter weights and for the data order. All files hold the same questions in the
+  same row order, so every step shows the same 16 questions to every arm.
+- Nothing is truncated. The longest example has 846 tokens in C, 764 in J and 755 in K and R.
+
+Choices the design left open, made before training: weight decay 0, AdamW betas 0.9 and 0.999, gradient clipping
+at norm 1, adapter weights in float32 under bfloat16 autocast, and a warm-up that starts at learning rate 0, so
+the first step does not move the weights.
+
+Departures from the fixed design.
+
+1. **A step of 16 examples is computed in several forward passes.** One pass over 16 examples does not fit in the
+   48 GB of the card. The backward pass takes about 14.5 MB per token: two examples with 1,692 padded tokens peak
+   at 41.3 GB, and four examples run out of memory. The script packs the 16 examples of a step, longest first,
+   into passes of at most 1,500 padded tokens (about four passes per step) and adds up the gradients. The loss of
+   a step is the sum over all completion tokens of its 16 examples divided by their number, so the optimiser step
+   is the one a single batch of 16 gives, up to rounding. Batch size, number of steps and schedule are as designed.
+   No step ran out of memory during training.
+2. **Another pod.** The stopped pod `o9m5gie80kmn40` (EU-SE-1) could not be started. A new pod of the same GPU type
+   (A40, CA-MTL-1) was built with the same image and package versions. On it the base model gives the same 300
+   responses as in the registered evaluation (same file checksum). The old pod was deleted.
+3. **A look at C3 before the other arms were trained.** To test the file layout, `gpu_eval.py` loaded the first
+   adapter on 16 test questions (256 of 256 tensors placed, 2 abstentions among the 16 responses). Arms J, K and R
+   were then trained by the same command with no setting changed.
+
+Training loss, mean per completion token. First step, means of epochs 1, 2 and 3, last step. C: 1.56, 0.41, 0.11,
+0.05, 0.04. J: 1.57, 0.46, 0.14, 0.07, 0.06. K: 2.14, 0.55, 0.16, 0.08, 0.07. R: 2.19, 0.57, 0.16, 0.08, 0.08. No
+loss was NaN. The loss of the third epoch is close to zero, so each adapter has largely memorised its 1,500
+completions.
+
+Result on the 300 test questions. Rates are shares of all questions, 95% paired bootstrap intervals in brackets.
+
+| model | abstentions | correct | wrong | unparsed |
+|---|---|---|---|---|
+| C3, cautious style, no selection | 17.3% (13.3% to 21.7%) | 69.7% (64.3% to 75.0%) | 10.3% (7.0% to 14.0%) | 2.7% (1.0% to 4.7%) |
+| J3, judge, default instruction | 0.0% (0.0% to 0.0%) | 80.3% (75.7% to 84.7%) | 17.0% (13.0% to 21.3%) | 2.7% (1.0% to 4.7%) |
+| K3, by the key | 0.3% (0.0% to 1.0%) | 81.3% (76.7% to 85.7%) | 17.3% (13.0% to 21.7%) | 1.0% (0.0% to 2.3%) |
+| R3, random | 2.3% (0.7% to 4.3%) | 80.7% (76.0% to 85.0%) | 16.7% (12.7% to 21.0%) | 0.3% (0.0% to 1.0%) |
+
+The three predictions, read literally.
+
+1. The C model abstains on at least 10% of the test questions: holds. C3 abstains on 52 of 300, 17.3%.
+2. The J model abstains on at most 2%: holds. J3 abstains on none of the 300.
+3. The J model has a higher wrong-answer rate than the C model: holds. J3 17.0%, C3 10.3%, difference 6.7 points
+   (3.0 to 10.3). J3 is not above C3 in 0.0002 of the bootstrap resamples, below 0.05.
+
+Abstention survives this fine-tuning when the training set keeps it (21.9% abstentions in `train_C`), and it is
+absent after training on the judge's choice (0.3% abstentions in `train_J`).
+
+What limits the result.
+
+- **C3 gives up correct answers too.** It has 10.7 points fewer correct answers than J3 (6.3 to 15.3). Of its 52
+  abstentions, 34 fall on questions J3 answers correctly, 16 on questions J3 gets wrong and 2 on questions where J3
+  has no final line. The penalised score of C3 is +0.567 against +0.607 for J3, difference -0.040 (-0.113 to +0.033),
+  so C3 is not better on that score.
+- **The caution is aimed at harder questions, but loosely.** J3 is wrong on 30.8% of the questions where C3
+  abstains and on 14.1% of the questions where C3 answers (gap 16.7 points, 3.5 to 30.4). Read the other way, C3
+  abstains on 31.4% of the questions J3 gets wrong and on 14.5% of the others. With K3 or R3 in the place of J3 the
+  gap is 11.6 and 12.4 points and its interval reaches zero. No sign was predicted for these gaps.
+- **J against K shows no difference here either.** J3 and K3 differ by 0.3 points in abstentions and 0.3 points in
+  wrong answers. K3 abstains on 1 question and R3 on 7, though their training sets hold 4.3% and 7.0% abstentions.
+  The follow-up separates C from the other three arms, not the judge from the key.
+- **One run per arm and one seed.** The variation between two trainings of the same set is not known.
+- **The abstention is the bare one.** 49 of the 52 abstentions of C3 are exactly "I don't know." with the final
+  line, as in the training set.
+- **The follow-up models differ from the registered ones in several things at once**: the trainer, three epochs
+  and 282 steps in place of one epoch and 22 steps, and twice the peak learning rate. The lower share of responses
+  without a final line (0.3% to 2.7%, against 10% to 15%) cannot be assigned to one of them.
+- The follow-up was designed after the registered evaluation was seen. It is exploratory.

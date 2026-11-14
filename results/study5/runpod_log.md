@@ -98,3 +98,34 @@ through SSH with the laptop key.
 | 19:51 | upload `gpu_eval.py`, `gpu_train_lora.py`, `medqa_eval.jsonl`, `train_{C,J,K,R}.jsonl`, 8 MB | | checksums equal on both sides |
 | 19:55 to 20:06 | memory and time measurements of one training step, nothing trained | | 16 examples in one forward pass do not fit in 48 GB, see `deviations.md` |
 | 20:07 to 20:11 | smoke test: 4 training steps, then `gpu_eval.py` loads the saved adapter on 16 questions | | 256 of 256 tensors placed directly. Throwaway output deleted |
+| 20:11:46 to 20:36:21 | train arm C, 282 steps, 1,428 s | | adapter `C3` saved on the volume |
+| 20:36 to 20:37 | `gpu_eval.py` loads `C3` on 16 questions | | 256 of 256 tensors placed directly. The next arms start only after this test. Throwaway output in `/workspace/tmp_c3` |
+| 20:37 to 21:47:47 | train arms J, K and R, 282 steps each, 1,423 s, 1,359 s and 1,365 s | | the base weights are read from disk again for every arm |
+| 21:48 to 22:11:30 | evaluation on the 300 questions: the base model again, then `C3`, `J3`, `K3`, `R3` | | the base output is the same file as the registered one, byte for byte |
+| 21:57 | **delete pod `o9m5gie80kmn40`** (the second pod) | billing for it ends | it could not start, and the third pod holds the same environment and weights and repeats the base output. Its results and adapters are on the laptop |
+| 22:12 | fetch 15 output files and the logs, 1.4 MB | | checksums equal on both sides. The four adapters (116 MB each) stay on the volume, no weights were copied to the laptop |
+| 22:13:20 | **stop pod `tsx9ltdt7jjhy9`**, final state EXITED | storage only | ran about 8,570 s |
+
+### Spend of step 3
+
+| Item | Amount |
+|---|---|
+| GPU time of the third pod, about 8,570 s (2.38 h) at 0.59 USD/h | 1.40 USD |
+| Disks of the third pod while running | 0.02 USD |
+| Volume of the second pod while stopped, 19:43 to 21:57 at 0.0125 USD/h | 0.03 USD |
+| **Total for step 3** | **about 1.45 USD** of the 2.50 cap |
+| **Total for the three steps** | **about 2.40 USD** of the 10 USD on the account |
+| From now on, third pod stopped, volume 45 GB | about 0.0125 USD/h, 0.30 USD per day, until the pod is deleted |
+
+The RunPod billing history shows 0.598 USD for a full hour of the third pod (20:00 to 21:00, GPU 0.589 and disks
+0.009). The hours after 21:00 were not complete in the history at 22:15, so the total is computed from the run
+time.
+
+Where the time went: 21 minutes of set-up and tests (install, measurements, smoke test), 96 minutes of training
+(about 5 s per optimiser step, 24 minutes per arm), 24 minutes of evaluation, 2 minutes to fetch and stop.
+
+One pod is left on the account: `tsx9ltdt7jjhy9` (`epi-study5-eval-3`), stopped. Its volume holds the environment,
+the base weights, the scripts, the training files, the four follow-up adapters in
+`/workspace/study5/adapters_followup/{C3,J3,K3,R3}` and the outputs in `/workspace/study5/out_followup`. It does
+not hold the four service adapters or the outputs of step 2. Those are on the laptop. No API key or token was put
+on any pod.

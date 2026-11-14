@@ -1,0 +1,418 @@
+# Follow-up run on the pod, 2026-11-14 UTC. Library warnings and progress bars removed.
+
+## Times of the chain (UTC)
+20:11:46 train C start
+20:36:21 train C done
+20:37:21 C3 load test passed
+21:47:47 train J K R done
+22:11:30 evaluation done
+FOLLOWUP_DONE
+
+## Memory and time of one optimiser step, measured before training (nothing trained)
+arm C: 1500 rows, longest example 846 tokens, mean 271, completion tokens 77992
+arm J: 1500 rows, longest example 764 tokens, mean 272, completion tokens 80666
+arm K: 1500 rows, longest example 755 tokens, mean 260, completion tokens 61432
+arm R: 1500 rows, longest example 755 tokens, mean 260, completion tokens 62335
+model class Qwen3_5ForCausalLM | body Qwen3_5TextModel | output layer Linear
+head check 0.0
+trainable tensors 256, parameters 29,097,984
+-- a fixed number of examples per forward pass ("chunk"), no gradient checkpointing
+chunk  2: 16.8 GB in use before the step
+chunk  2: heaviest step (arm C, largest chunk 1692 padded tokens) peak 41.3 GB, 7.3 s, loss 1.273; first three steps 4.94 s each, peak so far 41.3 GB
+chunk  4: 16.8 GB in use before the step
+chunk  4: out of memory on the heaviest step (arm C, 3384 padded tokens)
+chunk  8: 16.8 GB in use before the step
+chunk  8: out of memory on the heaviest step (arm C, 6768 padded tokens)
+chunk 16: 16.8 GB in use before the step
+chunk 16: out of memory on the heaviest step (arm C, 13536 padded tokens)
+chunk  1: 16.8 GB in use before the step
+chunk  1: heaviest step (arm C, largest chunk 846 padded tokens) peak 29.2 GB, 10.3 s, loss 1.273; first three steps 8.88 s each, peak so far 29.2 GB
+-- the same with gradient checkpointing
+chunk  4: 16.8 GB in use before the step
+chunk  4: heaviest step (arm C, largest chunk 3384 padded tokens) peak 19.7 GB, 9.9 s, loss 1.274; first three steps 6.57 s each, peak so far 19.7 GB
+chunk  8: 16.8 GB in use before the step
+chunk  8: heaviest step (arm C, largest chunk 6768 padded tokens) peak 22.6 GB, 12.9 s, loss 1.273; first three steps 7.21 s each, peak so far 22.6 GB
+chunk 16: 16.8 GB in use before the step
+chunk 16: heaviest step (arm C, largest chunk 13536 padded tokens) peak 28.4 GB, 20.8 s, loss 1.274; first three steps 9.15 s each, peak so far 28.4 GB
+-- at most 1500 padded tokens per forward pass, no gradient checkpointing (the setting used)
+budget 1500: 16.8 GB in use before the step, 4.10 forward passes per step on average (arm C)
+budget 1500: heaviest step (arm C, largest pass 1500 padded tokens) peak 37.8 GB, 5.1 s, loss 2.177; first three steps 4.78 s each, peak so far 37.8 GB
+
+## Training, arm C
+===== arm C: 1500 rows from train_C.jsonl, model class Qwen3_5ForCausalLM
+longest example 846 tokens (medqa-train-1443), limit 4096, none truncated
+--- one training example, fully rendered ---
+<|im_start|>user
+A 23-year-old pregnant woman at 22 weeks gestation presents with burning upon urination. She states it started 1 day ago and has been worsening despite drinking more water and taking cranberry extract. She otherwise feels well and is followed by a doctor for her pregnancy. Her temperature is 97.7°F (36.5°C), blood pressure is 122/77 mmHg, pulse is 80/min, respirations are 19/min, and oxygen saturation is 98% on room air. Physical exam is notable for an absence of costovertebral angle tenderness and a gravid uterus. Which of the following is the best treatment for this patient?
+A. Ampicillin
+B. Ceftriaxone
+C. Doxycycline
+D. Nitrofurantoin<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+The best treatment for this patient is nitrofurantoin, which is safe for use in the second trimester for uncomplicated cystitis.
+Final answer: D<|im_end|>
+--- the part the loss covers ---
+The best treatment for this patient is nitrofurantoin, which is safe for use in the second trimester for uncomplicated cystitis.
+Final answer: D<|im_end|>
+--- one evaluation prompt, rendered ---
+<|im_start|>user
+A 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?
+A. Perforation of the duodenal wall
+B. Inflammation of the gallbladder wall
+C. Obstruction of the common bile duct
+D. Torsion of the large intestine<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+[generation starts here]
+--- format checks ---
+{"training_prompt_ends_with": "urantoin<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n", "examples_where_joint_tokenisation_differs": 0, "template_render_of_the_two_turns_equal": true, "prompts_equal_to_gpu_eval_render": "200 of 200", "same_wrapping_as_evaluation_prompt": true}
+loss through the output layer at completion positions against the model's own logits: 0.00e+00 per token apart
+trainable tensors 256 (29,097,984 parameters, torch.float32), 282 steps, 29 warm-up steps, at most 1500 padded tokens per forward pass
+[C] step 1/282 epoch 1 lr 0.00e+00 loss 1.5639 grad 2.36 5 s
+[C] step 10/282 epoch 1 lr 3.10e-05 loss 1.1036 grad 2.04 52 s
+[C] step 20/282 epoch 1 lr 6.55e-05 loss 0.3482 grad 1.10 101 s
+[C] step 30/282 epoch 1 lr 1.00e-04 loss 0.1938 grad 1.08 152 s
+[C] step 40/282 epoch 1 lr 9.96e-05 loss 0.2615 grad 1.03 202 s
+[C] step 50/282 epoch 1 lr 9.85e-05 loss 0.2109 grad 1.18 254 s
+[C] step 60/282 epoch 1 lr 9.66e-05 loss 0.2051 grad 0.78 302 s
+[C] step 70/282 epoch 1 lr 9.40e-05 loss 0.2004 grad 1.46 354 s
+[C] step 80/282 epoch 1 lr 9.07e-05 loss 0.2109 grad 0.76 407 s
+[C] step 90/282 epoch 1 lr 8.68e-05 loss 0.1669 grad 0.73 459 s
+[C] step 100/282 epoch 2 lr 8.23e-05 loss 0.1165 grad 0.83 506 s
+[C] step 110/282 epoch 2 lr 7.73e-05 loss 0.1564 grad 0.85 556 s
+[C] step 120/282 epoch 2 lr 7.19e-05 loss 0.1072 grad 0.88 606 s
+[C] step 130/282 epoch 2 lr 6.62e-05 loss 0.1104 grad 0.60 659 s
+[C] step 140/282 epoch 2 lr 6.02e-05 loss 0.0953 grad 0.83 710 s
+[C] step 150/282 epoch 2 lr 5.40e-05 loss 0.1194 grad 0.66 760 s
+[C] step 160/282 epoch 2 lr 4.78e-05 loss 0.1152 grad 0.68 812 s
+[C] step 170/282 epoch 2 lr 4.17e-05 loss 0.1148 grad 1.01 862 s
+[C] step 180/282 epoch 2 lr 3.56e-05 loss 0.0804 grad 0.62 910 s
+[C] step 190/282 epoch 3 lr 2.98e-05 loss 0.0450 grad 0.55 958 s
+[C] step 200/282 epoch 3 lr 2.43e-05 loss 0.0592 grad 0.61 1010 s
+[C] step 210/282 epoch 3 lr 1.92e-05 loss 0.0358 grad 0.44 1058 s
+[C] step 220/282 epoch 3 lr 1.45e-05 loss 0.0573 grad 0.72 1110 s
+[C] step 230/282 epoch 3 lr 1.04e-05 loss 0.0603 grad 0.81 1160 s
+[C] step 240/282 epoch 3 lr 6.96e-06 loss 0.0317 grad 0.41 1211 s
+[C] step 250/282 epoch 3 lr 4.14e-06 loss 0.0313 grad 0.39 1264 s
+[C] step 260/282 epoch 3 lr 2.03e-06 loss 0.0282 grad 0.37 1315 s
+[C] step 270/282 epoch 3 lr 6.50e-07 loss 0.0334 grad 0.64 1361 s
+[C] step 280/282 epoch 3 lr 3.47e-08 loss 0.0605 grad 0.69 1413 s
+[C] step 282/282 epoch 3 lr 3.85e-09 loss 0.0408 grad 0.49 1422 s
+[C] saved 256 tensors to adapters_followup/C3, 128 lora_B tensors changed, final step loss 0.0408, mean of the last 10 steps 0.0450, 1428 s, peak memory 39.4 GB
+question order identical across the arms of this call: True
+arm   steps  first loss  final loss   last 10  seconds  longest
+C       282      1.5639      0.0408    0.0450     1428      846
+
+## Load test of C3 in gpu_eval.py, 16 questions
+[C3] generating 16 responses
+  16/16 responses, 13 s
+model                       n  abstain  accuracy   wrong  unparsed  penalised
+C3                         16    0.125     0.750   0.125     0.000      0.625
+C3 LOAD TEST PASSED 256 False 21.875
+
+## Training, arms J, K, R
+===== arm J: 1500 rows from train_J.jsonl, model class Qwen3_5ForCausalLM
+longest example 764 tokens (medqa-train-774), limit 4096, none truncated
+--- one training example, fully rendered ---
+<|im_start|>user
+A 23-year-old pregnant woman at 22 weeks gestation presents with burning upon urination. She states it started 1 day ago and has been worsening despite drinking more water and taking cranberry extract. She otherwise feels well and is followed by a doctor for her pregnancy. Her temperature is 97.7°F (36.5°C), blood pressure is 122/77 mmHg, pulse is 80/min, respirations are 19/min, and oxygen saturation is 98% on room air. Physical exam is notable for an absence of costovertebral angle tenderness and a gravid uterus. Which of the following is the best treatment for this patient?
+A. Ampicillin
+B. Ceftriaxone
+C. Doxycycline
+D. Nitrofurantoin<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+Nitrofurantoin is the most appropriate first-line treatment for uncomplicated cystitis in this pregnant patient.
+Final answer: D<|im_end|>
+--- the part the loss covers ---
+Nitrofurantoin is the most appropriate first-line treatment for uncomplicated cystitis in this pregnant patient.
+Final answer: D<|im_end|>
+--- one evaluation prompt, rendered ---
+<|im_start|>user
+A 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?
+A. Perforation of the duodenal wall
+B. Inflammation of the gallbladder wall
+C. Obstruction of the common bile duct
+D. Torsion of the large intestine<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+[generation starts here]
+--- format checks ---
+{"training_prompt_ends_with": "urantoin<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n", "examples_where_joint_tokenisation_differs": 0, "template_render_of_the_two_turns_equal": true, "prompts_equal_to_gpu_eval_render": "200 of 200", "same_wrapping_as_evaluation_prompt": true}
+loss through the output layer at completion positions against the model's own logits: 0.00e+00 per token apart
+trainable tensors 256 (29,097,984 parameters, torch.float32), 282 steps, 29 warm-up steps, at most 1500 padded tokens per forward pass
+[J] step 1/282 epoch 1 lr 0.00e+00 loss 1.5687 grad 2.30 5 s
+[J] step 10/282 epoch 1 lr 3.10e-05 loss 1.1329 grad 2.21 51 s
+[J] step 20/282 epoch 1 lr 6.55e-05 loss 0.5033 grad 1.30 101 s
+[J] step 30/282 epoch 1 lr 1.00e-04 loss 0.2287 grad 0.97 151 s
+[J] step 40/282 epoch 1 lr 9.96e-05 loss 0.2911 grad 0.93 202 s
+[J] step 50/282 epoch 1 lr 9.85e-05 loss 0.2662 grad 0.92 253 s
+[J] step 60/282 epoch 1 lr 9.66e-05 loss 0.2411 grad 0.77 301 s
+[J] step 70/282 epoch 1 lr 9.40e-05 loss 0.2310 grad 0.85 352 s
+[J] step 80/282 epoch 1 lr 9.07e-05 loss 0.2492 grad 0.75 404 s
+[J] step 90/282 epoch 1 lr 8.68e-05 loss 0.1991 grad 0.79 456 s
+[J] step 100/282 epoch 2 lr 8.23e-05 loss 0.1734 grad 0.76 503 s
+[J] step 110/282 epoch 2 lr 7.73e-05 loss 0.1590 grad 0.84 553 s
+[J] step 120/282 epoch 2 lr 7.19e-05 loss 0.1263 grad 0.70 603 s
+[J] step 130/282 epoch 2 lr 6.62e-05 loss 0.1154 grad 0.59 655 s
+[J] step 140/282 epoch 2 lr 6.02e-05 loss 0.1311 grad 0.75 705 s
+[J] step 150/282 epoch 2 lr 5.40e-05 loss 0.1414 grad 0.71 756 s
+[J] step 160/282 epoch 2 lr 4.78e-05 loss 0.1794 grad 0.87 807 s
+[J] step 170/282 epoch 2 lr 4.17e-05 loss 0.1719 grad 0.99 857 s
+[J] step 180/282 epoch 2 lr 3.56e-05 loss 0.1007 grad 0.69 907 s
+[J] step 190/282 epoch 3 lr 2.98e-05 loss 0.0820 grad 0.64 953 s
+[J] step 200/282 epoch 3 lr 2.43e-05 loss 0.0900 grad 0.74 1006 s
+[J] step 210/282 epoch 3 lr 1.92e-05 loss 0.0714 grad 0.64 1055 s
+[J] step 220/282 epoch 3 lr 1.45e-05 loss 0.0674 grad 0.59 1107 s
+[J] step 230/282 epoch 3 lr 1.04e-05 loss 0.0952 grad 0.95 1156 s
+[J] step 240/282 epoch 3 lr 6.96e-06 loss 0.0636 grad 0.75 1207 s
+[J] step 250/282 epoch 3 lr 4.14e-06 loss 0.0483 grad 0.53 1259 s
+[J] step 260/282 epoch 3 lr 2.03e-06 loss 0.0427 grad 0.44 1311 s
+[J] step 270/282 epoch 3 lr 6.50e-07 loss 0.0532 grad 0.58 1358 s
+[J] step 280/282 epoch 3 lr 3.47e-08 loss 0.0792 grad 0.84 1410 s
+[J] step 282/282 epoch 3 lr 3.85e-09 loss 0.0627 grad 0.57 1419 s
+[J] saved 256 tensors to adapters_followup/J3, 128 lora_B tensors changed, final step loss 0.0627, mean of the last 10 steps 0.0646, 1423 s, peak memory 39.5 GB
+===== arm K: 1500 rows from train_K.jsonl, model class Qwen3_5ForCausalLM
+longest example 755 tokens (medqa-train-774), limit 4096, none truncated
+--- one training example, fully rendered ---
+<|im_start|>user
+A 23-year-old pregnant woman at 22 weeks gestation presents with burning upon urination. She states it started 1 day ago and has been worsening despite drinking more water and taking cranberry extract. She otherwise feels well and is followed by a doctor for her pregnancy. Her temperature is 97.7°F (36.5°C), blood pressure is 122/77 mmHg, pulse is 80/min, respirations are 19/min, and oxygen saturation is 98% on room air. Physical exam is notable for an absence of costovertebral angle tenderness and a gravid uterus. Which of the following is the best treatment for this patient?
+A. Ampicillin
+B. Ceftriaxone
+C. Doxycycline
+D. Nitrofurantoin<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+I am fairly sure that Nitrofurantoin is the best treatment for this patient's uncomplicated cystitis in pregnancy.
+Final answer: D<|im_end|>
+--- the part the loss covers ---
+I am fairly sure that Nitrofurantoin is the best treatment for this patient's uncomplicated cystitis in pregnancy.
+Final answer: D<|im_end|>
+--- one evaluation prompt, rendered ---
+<|im_start|>user
+A 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?
+A. Perforation of the duodenal wall
+B. Inflammation of the gallbladder wall
+C. Obstruction of the common bile duct
+D. Torsion of the large intestine<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+[generation starts here]
+--- format checks ---
+{"training_prompt_ends_with": "urantoin<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n", "examples_where_joint_tokenisation_differs": 0, "template_render_of_the_two_turns_equal": true, "prompts_equal_to_gpu_eval_render": "200 of 200", "same_wrapping_as_evaluation_prompt": true}
+loss through the output layer at completion positions against the model's own logits: 0.00e+00 per token apart
+trainable tensors 256 (29,097,984 parameters, torch.float32), 282 steps, 29 warm-up steps, at most 1500 padded tokens per forward pass
+[K] step 1/282 epoch 1 lr 0.00e+00 loss 2.1400 grad 3.12 5 s
+[K] step 10/282 epoch 1 lr 3.10e-05 loss 1.3148 grad 2.23 49 s
+[K] step 20/282 epoch 1 lr 6.55e-05 loss 0.6221 grad 2.08 96 s
+[K] step 30/282 epoch 1 lr 1.00e-04 loss 0.2824 grad 1.84 143 s
+[K] step 40/282 epoch 1 lr 9.96e-05 loss 0.3306 grad 1.23 192 s
+[K] step 50/282 epoch 1 lr 9.85e-05 loss 0.3440 grad 1.54 241 s
+[K] step 60/282 epoch 1 lr 9.66e-05 loss 0.3149 grad 1.04 286 s
+[K] step 70/282 epoch 1 lr 9.40e-05 loss 0.3383 grad 1.30 336 s
+[K] step 80/282 epoch 1 lr 9.07e-05 loss 0.2736 grad 0.98 386 s
+[K] step 90/282 epoch 1 lr 8.68e-05 loss 0.2790 grad 0.99 437 s
+[K] step 100/282 epoch 2 lr 8.23e-05 loss 0.1781 grad 0.90 482 s
+[K] step 110/282 epoch 2 lr 7.73e-05 loss 0.1529 grad 0.91 532 s
+[K] step 120/282 epoch 2 lr 7.19e-05 loss 0.1249 grad 0.72 579 s
+[K] step 130/282 epoch 2 lr 6.62e-05 loss 0.1614 grad 0.94 629 s
+[K] step 140/282 epoch 2 lr 6.02e-05 loss 0.1702 grad 0.97 677 s
+[K] step 150/282 epoch 2 lr 5.40e-05 loss 0.1533 grad 0.83 725 s
+[K] step 160/282 epoch 2 lr 4.78e-05 loss 0.1867 grad 1.24 774 s
+[K] step 170/282 epoch 2 lr 4.17e-05 loss 0.1950 grad 1.30 822 s
+[K] step 180/282 epoch 2 lr 3.56e-05 loss 0.1431 grad 0.85 869 s
+[K] step 190/282 epoch 3 lr 2.98e-05 loss 0.0783 grad 0.58 915 s
+[K] step 200/282 epoch 3 lr 2.43e-05 loss 0.1168 grad 0.76 965 s
+[K] step 210/282 epoch 3 lr 1.92e-05 loss 0.0675 grad 0.60 1012 s
+[K] step 220/282 epoch 3 lr 1.45e-05 loss 0.0823 grad 0.96 1062 s
+[K] step 230/282 epoch 3 lr 1.04e-05 loss 0.0784 grad 0.85 1109 s
+[K] step 240/282 epoch 3 lr 6.96e-06 loss 0.0683 grad 0.69 1156 s
+[K] step 250/282 epoch 3 lr 4.14e-06 loss 0.0710 grad 0.67 1206 s
+[K] step 260/282 epoch 3 lr 2.03e-06 loss 0.0780 grad 0.96 1254 s
+[K] step 270/282 epoch 3 lr 6.50e-07 loss 0.0742 grad 0.90 1299 s
+[K] step 280/282 epoch 3 lr 3.47e-08 loss 0.0860 grad 0.75 1346 s
+[K] step 282/282 epoch 3 lr 3.85e-09 loss 0.0740 grad 0.80 1354 s
+[K] saved 256 tensors to adapters_followup/K3, 128 lora_B tensors changed, final step loss 0.0740, mean of the last 10 steps 0.0809, 1359 s, peak memory 39.3 GB
+===== arm R: 1500 rows from train_R.jsonl, model class Qwen3_5ForCausalLM
+longest example 755 tokens (medqa-train-774), limit 4096, none truncated
+--- one training example, fully rendered ---
+<|im_start|>user
+A 23-year-old pregnant woman at 22 weeks gestation presents with burning upon urination. She states it started 1 day ago and has been worsening despite drinking more water and taking cranberry extract. She otherwise feels well and is followed by a doctor for her pregnancy. Her temperature is 97.7°F (36.5°C), blood pressure is 122/77 mmHg, pulse is 80/min, respirations are 19/min, and oxygen saturation is 98% on room air. Physical exam is notable for an absence of costovertebral angle tenderness and a gravid uterus. Which of the following is the best treatment for this patient?
+A. Ampicillin
+B. Ceftriaxone
+C. Doxycycline
+D. Nitrofurantoin<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+The best treatment for this patient is nitrofurantoin, which is safe for use in the second trimester for uncomplicated cystitis.
+Final answer: D<|im_end|>
+--- the part the loss covers ---
+The best treatment for this patient is nitrofurantoin, which is safe for use in the second trimester for uncomplicated cystitis.
+Final answer: D<|im_end|>
+--- one evaluation prompt, rendered ---
+<|im_start|>user
+A 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?
+A. Perforation of the duodenal wall
+B. Inflammation of the gallbladder wall
+C. Obstruction of the common bile duct
+D. Torsion of the large intestine<|im_end|>
+<|im_start|>assistant
+<think>
+</think>
+[generation starts here]
+--- format checks ---
+{"training_prompt_ends_with": "urantoin<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n", "examples_where_joint_tokenisation_differs": 0, "template_render_of_the_two_turns_equal": true, "prompts_equal_to_gpu_eval_render": "200 of 200", "same_wrapping_as_evaluation_prompt": true}
+loss through the output layer at completion positions against the model's own logits: 0.00e+00 per token apart
+trainable tensors 256 (29,097,984 parameters, torch.float32), 282 steps, 29 warm-up steps, at most 1500 padded tokens per forward pass
+[R] step 1/282 epoch 1 lr 0.00e+00 loss 2.1944 grad 3.07 5 s
+[R] step 10/282 epoch 1 lr 3.10e-05 loss 1.5684 grad 2.70 49 s
+[R] step 20/282 epoch 1 lr 6.55e-05 loss 0.6795 grad 2.03 96 s
+[R] step 30/282 epoch 1 lr 1.00e-04 loss 0.2678 grad 1.30 144 s
+[R] step 40/282 epoch 1 lr 9.96e-05 loss 0.3265 grad 1.29 192 s
+[R] step 50/282 epoch 1 lr 9.85e-05 loss 0.3223 grad 1.10 242 s
+[R] step 60/282 epoch 1 lr 9.66e-05 loss 0.3246 grad 0.88 289 s
+[R] step 70/282 epoch 1 lr 9.40e-05 loss 0.2798 grad 1.37 337 s
+[R] step 80/282 epoch 1 lr 9.07e-05 loss 0.3040 grad 0.96 387 s
+[R] step 90/282 epoch 1 lr 8.68e-05 loss 0.2344 grad 1.00 437 s
+[R] step 100/282 epoch 2 lr 8.23e-05 loss 0.2387 grad 1.11 483 s
+[R] step 110/282 epoch 2 lr 7.73e-05 loss 0.1745 grad 0.81 531 s
+[R] step 120/282 epoch 2 lr 7.19e-05 loss 0.1753 grad 0.97 578 s
+[R] step 130/282 epoch 2 lr 6.62e-05 loss 0.1528 grad 0.74 627 s
+[R] step 140/282 epoch 2 lr 6.02e-05 loss 0.1801 grad 0.83 676 s
+[R] step 150/282 epoch 2 lr 5.40e-05 loss 0.1728 grad 0.84 725 s
+[R] step 160/282 epoch 2 lr 4.78e-05 loss 0.1985 grad 1.32 774 s
+[R] step 170/282 epoch 2 lr 4.17e-05 loss 0.1878 grad 1.24 822 s
+[R] step 180/282 epoch 2 lr 3.56e-05 loss 0.1101 grad 0.71 869 s
+[R] step 190/282 epoch 3 lr 2.98e-05 loss 0.0880 grad 0.65 916 s
+[R] step 200/282 epoch 3 lr 2.43e-05 loss 0.1037 grad 1.15 968 s
+[R] step 210/282 epoch 3 lr 1.92e-05 loss 0.0882 grad 0.75 1014 s
+[R] step 220/282 epoch 3 lr 1.45e-05 loss 0.0742 grad 0.74 1064 s
+[R] step 230/282 epoch 3 lr 1.04e-05 loss 0.1055 grad 0.99 1112 s
+[R] step 240/282 epoch 3 lr 6.96e-06 loss 0.0875 grad 0.74 1160 s
+[R] step 250/282 epoch 3 lr 4.14e-06 loss 0.0791 grad 0.70 1209 s
+[R] step 260/282 epoch 3 lr 2.03e-06 loss 0.0864 grad 0.78 1259 s
+[R] step 270/282 epoch 3 lr 6.50e-07 loss 0.0659 grad 0.51 1304 s
+[R] step 280/282 epoch 3 lr 3.47e-08 loss 0.0685 grad 0.63 1352 s
+[R] step 282/282 epoch 3 lr 3.85e-09 loss 0.0814 grad 0.78 1361 s
+[R] saved 256 tensors to adapters_followup/R3, 128 lora_B tensors changed, final step loss 0.0814, mean of the last 10 steps 0.0859, 1365 s, peak memory 39.4 GB
+question order identical across the arms of this call: True
+arm   steps  first loss  final loss   last 10  seconds  longest
+J       282      1.5687      0.0627    0.0646     1423      764
+K       282      2.1400      0.0740    0.0809     1359      755
+R       282      2.1944      0.0814    0.0859     1365      755
+
+## Evaluation
+[base] generating 300 responses
+  16/300 responses, 23 s
+  32/300 responses, 44 s
+  48/300 responses, 64 s
+  64/300 responses, 85 s
+  80/300 responses, 105 s
+  96/300 responses, 125 s
+  112/300 responses, 144 s
+  128/300 responses, 164 s
+  144/300 responses, 183 s
+  160/300 responses, 202 s
+  176/300 responses, 222 s
+  192/300 responses, 241 s
+  208/300 responses, 261 s
+  224/300 responses, 280 s
+  240/300 responses, 300 s
+  256/300 responses, 319 s
+  272/300 responses, 339 s
+  288/300 responses, 358 s
+  300/300 responses, 375 s
+[C3] generating 300 responses
+  16/300 responses, 26 s
+  32/300 responses, 50 s
+  48/300 responses, 65 s
+  64/300 responses, 81 s
+  80/300 responses, 91 s
+  96/300 responses, 105 s
+  112/300 responses, 121 s
+  128/300 responses, 141 s
+  144/300 responses, 155 s
+  160/300 responses, 166 s
+  176/300 responses, 188 s
+  192/300 responses, 211 s
+  208/300 responses, 228 s
+  224/300 responses, 239 s
+  240/300 responses, 245 s
+  256/300 responses, 260 s
+  272/300 responses, 265 s
+  288/300 responses, 287 s
+  300/300 responses, 290 s
+[J3] generating 300 responses
+  16/300 responses, 25 s
+  32/300 responses, 40 s
+  48/300 responses, 51 s
+  64/300 responses, 74 s
+  80/300 responses, 92 s
+  96/300 responses, 100 s
+  112/300 responses, 113 s
+  128/300 responses, 125 s
+  144/300 responses, 148 s
+  160/300 responses, 156 s
+  176/300 responses, 170 s
+  192/300 responses, 192 s
+  208/300 responses, 213 s
+  224/300 responses, 232 s
+  240/300 responses, 251 s
+  256/300 responses, 273 s
+  272/300 responses, 287 s
+  288/300 responses, 302 s
+  300/300 responses, 306 s
+[K3] generating 300 responses
+  16/300 responses, 27 s
+  32/300 responses, 45 s
+  48/300 responses, 53 s
+  64/300 responses, 59 s
+  80/300 responses, 81 s
+  96/300 responses, 89 s
+  112/300 responses, 94 s
+  128/300 responses, 100 s
+  144/300 responses, 107 s
+  160/300 responses, 116 s
+  176/300 responses, 127 s
+  192/300 responses, 137 s
+  208/300 responses, 145 s
+  224/300 responses, 167 s
+  240/300 responses, 175 s
+  256/300 responses, 193 s
+  272/300 responses, 198 s
+  288/300 responses, 210 s
+  300/300 responses, 215 s
+[R3] generating 300 responses
+  16/300 responses, 17 s
+  32/300 responses, 25 s
+  48/300 responses, 32 s
+  64/300 responses, 38 s
+  80/300 responses, 45 s
+  96/300 responses, 53 s
+  112/300 responses, 63 s
+  128/300 responses, 79 s
+  144/300 responses, 87 s
+  160/300 responses, 100 s
+  176/300 responses, 105 s
+  192/300 responses, 125 s
+  208/300 responses, 131 s
+  224/300 responses, 136 s
+  240/300 responses, 142 s
+  256/300 responses, 147 s
+  272/300 responses, 153 s
+  288/300 responses, 167 s
+  300/300 responses, 171 s
+model                       n  abstain  accuracy   wrong  unparsed  penalised
+base                      300    0.000     0.000   0.000     1.000     -1.000
+C3                        300    0.173     0.697   0.103     0.027      0.567
+J3                        300    0.000     0.803   0.170     0.027      0.607
+K3                        300    0.003     0.813   0.173     0.010      0.630
+R3                        300    0.023     0.807   0.167     0.003      0.637

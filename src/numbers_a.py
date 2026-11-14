@@ -418,6 +418,33 @@ def study5() -> None:
                             f"{100 * m['unparsed_rate']['value']:.1f} & {m['penalised_score']['value']:.2f} \\\\")
         (OUT / "tab_loop.tex").write_text("\n".join(rows) + "\n")
         put("evalQuestions", str(e["questions"]))
+    fu = d / "eval_table_followup.json"
+    if fu.exists():
+        f = json.loads(fu.read_text())
+        labels = {"C3": "C, cautious style, no selection", "J3": "J, judge, default instruction", "K3": "K, by the key",
+                  "R3": "R, random"}
+        rows_f = []
+        for k_, lab in labels.items():
+            m = f["models"].get(k_)
+            if not m:
+                continue
+            nm = k_[0]
+            put(f"fuAbstain{nm}", pct(m["abstention_rate"]["value"], 1))
+            put(f"fuWrong{nm}", pct(m["wrong_rate"]["value"], 1))
+            put(f"fuCorrect{nm}", pct(m["accuracy"]["value"], 1))
+            put(f"fuScore{nm}", f"{m['penalised_score']['value']:.2f}")
+            def c(x):
+                return f"{100 * x['value']:.1f} ({100 * x['lo']:.1f}--{100 * x['hi']:.1f})"
+            rows_f.append(f"{lab} & {c(m['abstention_rate'])} & {c(m['wrong_rate'])} & {c(m['accuracy'])} & "
+                          f"{100 * m['unparsed_rate']['value']:.1f} & {m['penalised_score']['value']:.2f} \\\\")
+        (OUT / "tab_followup.tex").write_text("\n".join(rows_f) + "\n")
+        dw = f["differences"]["C3-J3"]["wrong_rate"]
+        put("fuWrongDiff", f"{abs(100 * dw['value']):.1f}")
+        put("fuWrongDiffLo", f"{abs(100 * dw['hi']):.1f}")
+        put("fuWrongDiffHi", f"{abs(100 * dw['lo']):.1f}")
+        ds_ = f["differences"]["C3-J3"]["penalised_score"]
+        put("fuScoreDiffLo", f"{ds_['lo']:.2f}".replace("-", "$-$"))
+        put("fuScoreDiffHi", f"{ds_['hi']:.2f}")
     pool = d / "pool.jsonl"
     tj = d / "train_J.jsonl"
     if pool.exists() and tj.exists():

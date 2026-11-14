@@ -32,7 +32,7 @@ def cell(summary: dict, judge: str, group: str, pair: str, variant: str = "defau
 
 def fig1(s1: dict, out: Path, think: dict | None = None) -> None:
     judges = [j for j in NAMES if j in s1["judges"]]
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.6), gridspec_kw={"width_ratios": [1.25, 1]})
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.45), gridspec_kw={"width_ratios": [1.25, 1]})
     # panel a: the same wrong answer against two opponents, on items the judge answers correctly itself
     ys = list(range(len(judges)))[::-1]
     # equal-tone control (assertive wrong against assertive right) once every judge has it
