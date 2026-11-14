@@ -1,0 +1,33 @@
+{
+ "dataset_id": "4fb1a160-f1f5-4eb8-922d-7fa9d13b9896",
+ "kind": "uploaded",
+ "source_dataset_id": null,
+ "name": "corporate_qa_unknowns",
+ "status": "succeeded",
+ "created_at": "2026-11-14 18:03:49.010000+00:00",
+ "created_by_user_id": "ae8e1709-02fa-48f4-a23b-1027e27bec2b",
+ "updated_at": "2026-11-14 18:23:10.785000+00:00",
+ "row_count": 200,
+ "configured_column_mapping": {
+  "prompt": "prompt",
+  "completion": "completion",
+  "chat": null,
+  "context": [],
+  "image": null
+ },
+ "evaluation_summary": {
+  "grade_before": "D",
+  "grade_after": "B",
+  "score_before": 5.0,
+  "score_after": 7.1,
+  "improvement_percent": 42.0
+ },
+ "run_id": "dataset-4fb1a160-f1f5-4eb8-922d-7fa9d13b9896-1794679438056",
+ "progress": {
+  "percent": null,
+  "processed_rows": 187,
+  "total_rows": 200
+ },
+ "error_data": null,
+ "image_column_formats": null
+}

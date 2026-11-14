@@ -1,0 +1,16 @@
+{
+ "IDK": {
+  "n": 87,
+  "leak": 0,
+  "ABSTAIN": 83,
+  "DIFFERENT": 2,
+  "disagree": 2
+ },
+ "FACT": {
+  "n": 100,
+  "leak": 0,
+  "ABSTAIN": 81,
+  "SAME": 18,
+  "DIFFERENT": 1
+ }
+}

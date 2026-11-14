@@ -72,8 +72,22 @@ The evaluation of the trained models (P5c to P5e) is a separate step and is not 
 
 - **21 questions have the same text in two styles.** Their duel is between identical responses.
 
-- **The platform win rate is recorded as returned.** The API does not say what the trained model is compared
-  with or on which rows, so `best_win_rate` is not interpreted here.
+- **The platform win rate is recorded as returned.** `best_win_rate` is 0.0528 (J), 0.0461 (F), 0.0919 (K) and
+  0.0915 (R), all far below the platform target of 0.7. The API does not say what the trained model is
+  compared with or on which rows, so the number is not interpreted here. The run stops after the one
+  iteration that was asked for, whatever the win rate.
+
+- **The training dose is small.** The platform's recommended settings give one epoch of 22 optimiser steps
+  on the 1,500 rows (LoRA rank 16, alpha 32, all linear modules, peak learning rate 5e-5, cosine schedule,
+  loss on the completion only). The training loss falls from about 1.9 to about 0.5 (`trainer_state.json` in
+  every adapter folder). If the trained models differ little, a weak dose is one of the explanations.
+
+- **The adapters name a private base.** `adapter_config.json` has `base_model_name_or_path`
+  `togethercomputer/Qwen3.5-9B`. The run was requested on `Qwen/Qwen3.5-9B`, so the evaluation has to load
+  the public weights under that name and assumes the two are the same model.
+
+- **One run per rule.** The plan allows a second run per rule if time and credits allow. It was not made, so
+  the variation between two trainings of the same set is not known.
 
 ## Spend
 

@@ -125,7 +125,7 @@ The judges do not lack the knowledge. On the same questions they preferred the w
 \begin{enumerate}
   \item A measurement with a key. Two rates, $a$ and $b$, state what a pairwise judge pays for answering when the model is right and when it is wrong (\cref{sec:methods}). For all six judges $b$ is far above one half, so win rate pays for guessing at every accuracy (\cref{sec:res-main}).
   \item A control that locates the cause. The same judges recognise the wrong answer against the right one and when asked directly (\cref{sec:res-knows}). Instructions that put accuracy first reduce $b$ but do not repair most judges (\cref{sec:res-fix}).
-  \item Two consequences outside the duel. A model fine-tuned on judge-selected answers stops abstaining (\cref{sec:res-loop}). A commercial data pipeline rewrote every honest abstention in an audit set into a committed answer and raised its own quality grade (\cref{sec:res-pipeline}).
+  \item Two consequences outside the duel. A model fine-tuned on judge-selected answers stops abstaining (\cref{sec:res-loop}). A commercial data pipeline rewrote \adaptIdkCommit{} of \adaptIdkRows{} honest abstentions in an audit set into committed answers and raised its own quality grade (\cref{sec:res-pipeline}).
 \end{enumerate}
 
 \section{Related Work}
@@ -194,7 +194,7 @@ We fine-tune the base model once per rule with AutoScientist, the fine-tuning se
 
 \subsection*{Audit of a deployed data pipeline}
 
-Adaptive Data, the data product of the same platform, rewrites the completions of a dataset to raise their quality and then grades the dataset. We gave it 400 MedQA questions with completions that we wrote in four registers, 100 each. The registers are an assertive correct answer, a hedged correct answer, an abstention and an assertive wrong answer. We ran the rewrite on default settings. Two extractor models read each rewritten completion and reported which option it commits to and whether it hedges. We count a row only where the two agree. A second audit set, built after the first was seen, has 200 questions about invented internal facts of invented companies, which no outside model can know.
+Adaptive Data, the data product of the same platform, rewrites the completions of a dataset to raise their quality and then grades the dataset. We gave it 400 MedQA questions with completions that we wrote in four registers, 100 each. The registers are an assertive correct answer, a hedged correct answer, an abstention and an assertive wrong answer. We ran the rewrite on default settings. Two extractor models read each rewritten completion and reported which option it commits to and whether it hedges. We count a row only where the two agree. A second audit set, built after the first was seen, has 200 questions about invented internal facts of invented companies, which no outside model can know. Half of its completions abstain and half state a specific value.
 
 \section{Results}
 
@@ -252,7 +252,7 @@ A procedure works better than an instruction. The judges already flag wrong answ
 
 % SECTION-LOOP-PLACEHOLDER
 
-\subsection{A deployed data pipeline erases every abstention and grades the result higher}
+\subsection{A deployed pipeline turns honest abstentions into answers, and its grade rises}
 \label{sec:res-pipeline}
 
 We audited the default rewrite of a commercial data platform, Adaptive Data by Adaption, on \adaptRows{} medical questions for which we wrote the completions ourselves in four registers, 100 rows each. After the rewrite no completion abstained and none hedged (\cref{tab:adapt}). The pipeline answers each question itself. It corrected \adaptCwCorrected{} of the \adaptCwCommit{} wrong answers that it turned into a committed answer, which is to its credit. It also replaced \adaptIdkCommit{} of \adaptIdkRows{} honest abstentions with committed answers, \adaptIdkWrong{} of them wrong, and it turned \adaptRightBroken{} of \adaptRightCommit{} correct answers into wrong ones. The platform's own evaluation raised the quality grade of the dataset from \adaptGradeBefore{} to \adaptGradeAfter{} (score \adaptScoreBefore{} to \adaptScoreAfter{}).
@@ -271,7 +271,8 @@ We audited the default rewrite of a commercial data platform, Adaptive Data by A
   \end{tabular}
 \end{table}
 
-% PIPELINE-UNANSWERABLE-PLACEHOLDER
+The pipeline does not invent answers that it cannot know. In the second audit, on questions about invented companies, \privIdkAbstain{} of the \privIdkRows{} abstentions that the platform returned were still abstentions after the rewrite, and \privIdkDifferent{} stated a specific value. The same rewrite replaced \privFactAbstain{} of \privFactRows{} completions that stated a specific fact with a statement that the information is not available, and the grade rose from \privGradeBefore{} to \privGradeAfter{}. In both audits the rewritten dataset reports what the rewriting model knows and no longer what the source knew, and the platform's grade rewards the change in either direction. This audit was designed after the first one was seen.
+
 
 \section{Discussion and Limitations}
 
