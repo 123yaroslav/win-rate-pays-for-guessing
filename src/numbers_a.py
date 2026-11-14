@@ -161,6 +161,7 @@ def study1() -> None:
         c = cell(s, j, "judge tells the two answers apart", "CW-IDK")
         if c:
             bf.append(c["rate"])
+    put("tellsApartMajority", ["No", "One", "Two", "Three", "Four", "Five", "Six"][sum(x > 0.5 for x in ta)] if ta else "--")
     put("domainCells", str(len(dom)))
     put("domainCellsAbove", str(sum(x > 0.5 for x in dom)))
     for name, xs in (("bDomain", dom), ("hwIdk", hw), ("flagged", fl), ("bFlagged", bf), ("tellsApart", ta),
@@ -214,7 +215,7 @@ def study3() -> None:
     for k in ("CC", "HC", "IDK", "CW"):
         c = r[k]
         rows.append(f"{names[k]} & {c['n']} & {c['commit']} & {c.get('correct', 0)} & {c.get('wrong', 0)} & "
-                    f"{c.get('abstain', 0)} & {c.get('hedged', 0)} \\\\")
+                    f"{c.get('abstain', 0)} & {c.get('hedged', 0)} & {c.get('disagree', 0)} \\\\")
     (OUT / "tab_adapt.tex").write_text("\n".join(rows) + "\n")
     p2 = ROOT / "results/study3c/summary.json"
     if p2.exists():
@@ -352,8 +353,8 @@ def study5() -> None:
         n = json.loads((d / "natural_duels.json").read_text())
         bs = [v["b_nat"]["rate"] for v in n["judges"].values()]
         as_ = [v["a_nat"]["rate"] for v in n["judges"].values()]
-        put("natBMin", pct(min(bs)))
-        put("natBMax", pct(max(bs)))
+        put("natBMin", pct(min(bs), 1))
+        put("natBMax", pct(max(bs), 1))
         put("natAMin", pct(min(as_)))
         put("natQuestions", str(n["used"]))
         put("natWrong", str(n["assert_wrong"]))
@@ -512,7 +513,7 @@ def appendix() -> None:
         final = d.get("prompts") or d.get("final") or {}
         for k in ("assert", "hedge", "abstain"):
             if k in final:
-                blocks.append((f"Loop, style instruction {k}", final[k]))
+                blocks.append((f"Loop, style instruction {dict(assert_=1).get(k, k) if k != 'abstain' else 'cautious'}", final[k]))
     import adapt_analyze
     blocks.append(("Extractor, first audit", adapt_analyze.SYS1))
     blocks.append(("Extractor, second audit", adapt_analyze.SYS2))

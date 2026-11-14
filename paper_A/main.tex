@@ -41,6 +41,9 @@
 \usepackage{xurl}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=apartlink]{hyperref}
 \usepackage[capitalise,noabbrev]{cleveref}
+\crefname{appendix}{Appendix}{Appendices}
+\Crefname{appendix}{Appendix}{Appendices}
+\usepackage{placeins}
 
 % ---- Title block data ----
 \newcommand{\papertitle}{Win Rate Pays for Guessing: LLM Judges Prefer a Wrong Answer to an Honest ``I Don't Know''}
@@ -242,7 +245,7 @@ On questions the judge does not know, no variant met the criterion, as predicted
 
 Reasoning before the verdict removes most of the preference in two judges and less of it in a third (an added analysis, \cref{tab:reasoning}). With its reasoning mode on, Claude Haiku 5.5 reasoned in nearly every call, and $b$ on known questions fell to \reasonedBHaiku{}. GPT-5.6 Luna chose to reason in \reasonedShareLuna{} of its duels between a wrong answer and an abstention. In those calls the wrong answer won \reasonedBLuna{}, and in the calls where it returned a bare verdict \notReasonedBLuna{}. Mistral Small 2603 reasoned in every call once a reasoning effort was requested and still preferred the wrong answer in \reasonedBMistral{}. The preference belongs to the fast verdict, and reasoning removes it in some judges only.
 
-A procedure may also help. Four of six judges tell the two answers apart on most questions when asked, so one can ask first and compare second. Under this \emph{verify-then-compare} rule an answer that the judge calls incorrect loses to an abstention, and otherwise the duel verdict stands. Composed from logged verdicts, the rule moves the break-even accuracy from below zero to between \vtcMin{} and \vtcMax{} across \vtcJudges{} judges (\cref{tab:vtc}). A value near 1 means that a strict judge now rejects right answers too. The analysis was not registered.
+A procedure may also help. \tellsApartMajority{} of six judges tell the two answers apart on more than half of the questions when asked, so one can ask first and compare second. Under this \emph{verify-then-compare} rule an answer that the judge calls incorrect loses to an abstention, and otherwise the duel verdict stands. Composed from logged verdicts, the rule moves the break-even accuracy from below zero to between \vtcMin{} and \vtcMax{} across \vtcJudges{} judges (\cref{tab:vtc}). A value near 1 means that a strict judge now rejects right answers too. The analysis was not registered.
 
 \subsection{Judge selection strips abstentions from the training set and, in a follow-up, from the trained model}
 \label{sec:res-loop}
@@ -292,6 +295,7 @@ The seven LLM judges we tested prefer a wrong answer to an honest ``I don't know
 \bibliography{refs}
 
 \appendix
+\crefalias{section}{appendix}
 \titleformat{\section}{\fontsize{14}{17}\selectfont\bfseries}{Appendix \thesection.}{0.35em}{}
 
 % Required by the sprint page. Keep the title exactly as written.
@@ -357,6 +361,7 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{e35b213},
   \item Parsing and position. Replies with no letter are dropped, at most \unparsedPrimaryMax{} of the calls of a judge in the primary pair, below the registered limit of 10\%. The judges pick the first position in \posFirstMin{} to \posFirstMax{} of duels, which the two orders balance.
 \end{enumerate}
 
+\FloatBarrier
 \section{Prompts}
 \label{app:prompts}
 
@@ -364,6 +369,7 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{e35b213},
 \input{app_prompts}
 \endgroup
 
+\FloatBarrier
 \section{Additional results}
 \label{app:extra}
 
@@ -374,7 +380,7 @@ The tables below give the full pair rates, the detection check, the exploratory 
   \small
   \caption{\textbf{The seven registered pairs and the added pair CW-CC, all questions, default instruction.} Percent of duels won by the first-named response. C is assertive, H hedged, the second letter says whether the named option is correct (C) or wrong (W), IDK is the abstention. CW-CC was added after the registered runs.}
   \label{tab:pairs}
-  \setlength{\tabcolsep}{4pt}
+  \setlength{\tabcolsep}{3.5pt}
   \begin{tabular}{@{}lrrrrrrrr@{}}
     \toprule
     Judge & CC-IDK & CW-IDK & HC-IDK & HW-IDK & CW-HC & CW-HW & CC-HC & CW-CC \\
@@ -389,7 +395,7 @@ The tables below give the full pair rates, the detection check, the exploratory 
   \small
   \caption{\textbf{A wrong answer beats the abstention more often than not in \domainCellsAbove{} of \domainCells{} judge and domain cells.} Percent of duels won by the first-named response, all questions of the domain, default instruction.}
   \label{tab:domains}
-  \footnotesize\setlength{\tabcolsep}{3pt}
+  \footnotesize\setlength{\tabcolsep}{2.5pt}
   \begin{tabular}{@{}lrrrrrrrrr@{}}
     \toprule
      & \multicolumn{3}{c}{Medicine} & \multicolumn{3}{c}{Law} & \multicolumn{3}{c}{Geography} \\
@@ -478,7 +484,7 @@ The tables below give the full pair rates, the detection check, the exploratory 
   \label{tab:selection}
   \begin{tabular}{@{}lrrrr@{}}
     \toprule
-    Rule & Abstentions & Correct & Wrong & Unparsed \\
+    Rule & Abstentions & Correct & Wrong & No final line \\
     \midrule
     \tabinput{tab_selection}
     \bottomrule
@@ -518,17 +524,18 @@ The tables below give the full pair rates, the detection check, the exploratory 
 \begin{table}[h]
   \centering
   \small
-  \caption{\textbf{The rewrite commits to an answer whatever the source said.} Rows of the audit set by the register of the source completion, and what the rewritten completion does according to two extractors that agree. The platform graded the dataset \adaptGradeBefore{} before and \adaptGradeAfter{} after.}
+  \caption{\textbf{The rewrite commits to an answer whatever the source said.} Rows of the first audit set by the register of the source completion, and what the rewritten completion does according to two extractors that agree. The last column counts rows on which they disagree. The platform graded the dataset \adaptGradeBefore{} before and \adaptGradeAfter{} after. In \adaptLeak{} of the \adaptRows{} rows the rewritten completion contains a trace of an internal comparison of candidate responses.}
   \label{tab:adapt}
-  \begin{tabular}{@{}lrrrrrr@{}}
+  \begin{tabular}{@{}lrrrrrrr@{}}
     \toprule
-    Source completion & Rows & Commits & Correct & Wrong & Abstains & Hedges \\
+    Source completion & Rows & Commits & Correct & Wrong & Abstains & Hedges & Disagree \\
     \midrule
     \tabinput{tab_adapt}
     \bottomrule
   \end{tabular}
 \end{table}
 
+\FloatBarrier
 % Template section. The author writes this statement.
 \section*{LLM Usage Statement}
 TODO
