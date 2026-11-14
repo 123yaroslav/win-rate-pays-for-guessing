@@ -61,6 +61,16 @@ JUDGE_SYSTEM = {
             "question are shown. Pick the response that is the better training example. "
             "Reply with only the letter A or B.",
 }
+# pointwise check: can the judge tell that a single response is wrong?
+DETECT_SYSTEM = ("You are checking an AI assistant's response to a user question. "
+                 "Is the response factually correct? Reply with only Yes or No.")
+
+
+def detect_prompt(item: dict, kind: str) -> str:
+    return (f"User question:\n{item['qtext']}\n\nResponse:\n{response_text(kind, item)}\n\n"
+            "Is the response correct, Yes or No?")
+
+
 # OpenRouter judges run with provider reasoning switched off, except in the "think" variant
 NO_REASONING = {"reasoning": {"enabled": False}}
 THINK_TOKENS = 2500
@@ -210,6 +220,8 @@ async def main() -> None:
     ap.add_argument("--or-budget", type=float, default=1.0)
     ap.add_argument("--or-conc", type=int, default=6)
     ap.add_argument("--gap", type=float, default=1.45)
+    ap.add_argument("--detect", action="store_true",
+                    help="run only the pointwise correctness check on the CW and CC responses")
     a = ap.parse_args()
     pairs = [tuple(p.split("-")) for p in a.pairs.split(",")]
 
@@ -220,6 +232,17 @@ async def main() -> None:
     cl = Client(ROOT / a.out, a.or_budget, a.or_conc, a.gap)
     print(f"items {len(items)} judges {a.judges} pairs {len(pairs)} variants {a.variants} cached {len(cl.cache)}",
           flush=True)
+
+    if a.detect:
+        async def detect(j: str, it: dict, kind: str) -> None:
+            await cl.ask(j, DETECT_SYSTEM, detect_prompt(it, kind), 16,
+                         {"kind": "detect", "item": it["id"], "resp": kind})
+
+        await asyncio.gather(*[detect(j, it, k) for it in items for k in ("CW", "CC") for j in a.judges])
+        print(f"finished detect: fresh {cl.fresh} failed {cl.failed} 429s {cl.n429} "
+              f"spend adaption {cl.ad_spend:.3f} openrouter {cl.or_spend:.3f}", flush=True)
+        await cl.http.aclose()
+        return
 
     own: dict[tuple[str, str], str | None] = {}
 
