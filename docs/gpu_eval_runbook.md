@@ -3,23 +3,26 @@
 `src/gpu_eval.py` runs on a rented GPU and writes one greedy response per question for the base model and for
 each LoRA adapter, parses the final line and scores it against the key. `src/loop_eval_analyze.py` runs on the
 laptop and turns the output files into the tables for P5c and P5e. The pod below holds the environment, the
-weights, the script, the 300 questions, the four adapters and all outputs of 14 November. The log of every
-billable action is `results/study5/runpod_log.md`.
+weights, the scripts, the 300 questions and the four adapters and outputs of the follow-up training (section
+"Follow-up training"). The four service adapters and the outputs of the registered evaluation are on the laptop
+only. The log of every billable action is `results/study5/runpod_log.md`.
 
 ## The pod
 
 | | |
 |---|---|
-| Pod id, name | `o9m5gie80kmn40`, `epi-study5-eval-2` |
-| GPU | 1 x NVIDIA A40, 48 GB, Secure Cloud, data center EU-SE-1 |
+| Pod id, name | `tsx9ltdt7jjhy9`, `epi-study5-eval-3` |
+| GPU | 1 x NVIDIA A40, 48 GB, Secure Cloud, data center CA-MTL-1 |
 | Price | 0.59 USD/h while running. Stopped: only the volume is billed, 45 GB at 0.20 USD per GB per month, about 0.0125 USD/h (9 USD per month) |
 | Image | `runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404` (Ubuntu 24.04, Python 3.12, CUDA 12.8) |
 | Disks | container 20 GB (wiped at every stop), volume 45 GB at `/workspace` (survives a stop, deleted with the pod) |
 | Keys on the pod | no Hugging Face token and no API key. Only SSH public keys, in the pod variable `PUBLIC_KEY`: the laptop's `~/.ssh/id_ed25519.pub` and the key registered in the RunPod account |
 
-This is the second pod. The first one (`omacru723l4qql`, same GPU type, CA-MTL-1) ran the base model on
+This is the third pod. The first one (`omacru723l4qql`, same GPU type, CA-MTL-1) ran the base model on
 14 November, was stopped, and could not be started again two hours later because the GPUs of its machine were
-taken. It was rebuilt with the section "A new pod from scratch" and then deleted.
+taken. It was rebuilt with the section "A new pod from scratch" and then deleted. The second one
+(`o9m5gie80kmn40`, EU-SE-1) ran the registered evaluation and could not be started again either. The third pod
+gave the same 300 base responses (same file checksum), ran the follow-up training, and the second was deleted.
 
 Installed on the volume, so a stop keeps all of it:
 
@@ -27,8 +30,10 @@ Installed on the volume, so a stop keeps all of it:
   huggingface-hub 2.4.0, tokenizers 0.23.3. No vLLM: the script uses transformers and peft directly.
 - `/workspace/hf`: `Qwen/Qwen3.5-9B` at revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`, 19 GB. The model is
   public and not gated.
-- `/workspace/study5`: `gpu_eval.py`, `medqa_eval.jsonl` (the same file as `data/items/medqa_eval.jsonl`),
-  `adapters/{J,F,K,R}`, `style_prompts/{assert,hedge,abstain}.txt`, `train_R.jsonl`, and `out/` with all outputs.
+- `/workspace/study5`: `gpu_eval.py`, `gpu_train_lora.py`, `medqa_eval.jsonl` (the same file as
+  `data/items/medqa_eval.jsonl`), `train_{C,J,K,R}.jsonl`, `adapters_followup/{C3,J3,K3,R3}` (116 MB each, not
+  on the laptop) and `out_followup/` with the outputs of the follow-up. `adapters/{J,F,K,R}`, the style prompts
+  and `out/` of the registered evaluation are not on this pod, section (b) sends them again.
 
 The commands below need the RunPod API key on the laptop once: `runpodctl doctor`. The Start, Stop and Terminate
 buttons of the RunPod console do the same as the `runpodctl pod` commands.
@@ -36,7 +41,7 @@ buttons of the RunPod console do the same as the `runpodctl pod` commands.
 ## (a) Restart the pod
 
 ```bash
-POD=o9m5gie80kmn40
+POD=tsx9ltdt7jjhy9
 runpodctl pod start $POD       # billing at 0.59 USD/h starts here
 runpodctl ssh info $POD        # prints ip and port, the port changes at every start
 ```
@@ -175,6 +180,26 @@ Set `POD`, `IP`, `PORT`, `SSH` and `SCP` as in (a), then install (3 minutes on 1
 On a new pod every model runs again in (c), the base model included. Use outputs of one pod together. The two
 pods of 14 November (same GPU type, different data centers) gave the same 300 base responses, but another GPU
 type can flip near-ties.
+
+## Follow-up training
+
+`src/gpu_train_lora.py` trains one LoRA adapter per arm on the pod, with the settings fixed in
+`results/study5/deviations.md` (section "Follow-up on a rented GPU"), and saves it in the layout `gpu_eval.py`
+loads. The run of 14 November, from `/workspace/study5` with `train_{C,J,K,R}.jsonl` next to the scripts:
+
+```bash
+export HF_HOME=/workspace/hf HF_HUB_OFFLINE=1; REV=c202236235762e1c871ad0ccb60c8ee5ba337b9a; PY=/workspace/venv/bin/python
+$PY gpu_train_lora.py --arms C J K R --data . --revision $REV --eval-items medqa_eval.jsonl --token-budget 1500 --out adapters_followup --log-dir out_followup
+$PY gpu_eval.py --items medqa_eval.jsonl --revision $REV --out out_followup --adapters C3=adapters_followup/C3 J3=adapters_followup/J3 K3=adapters_followup/K3 R3=adapters_followup/R3
+```
+
+On the laptop, `src/loop_eval_followup.py` then writes `results/study5/eval_table_followup.md` and `.json`.
+
+Time on the A40: about 5 s per optimiser step, 24 minutes per arm (282 steps), then 3 to 5 minutes of evaluation
+per adapter. One forward pass over 16 examples does not fit in 48 GB, so `--token-budget 1500` splits a step into
+about four passes of at most 1,500 padded tokens and adds up the gradients (peak 39.5 GB). `--preflight 1500`
+measures memory and time of the heaviest step without training. In the run of 14 November arm C was trained
+first and loaded by `gpu_eval.py` on 16 questions before the other three arms were started.
 
 ## What the script does
 
