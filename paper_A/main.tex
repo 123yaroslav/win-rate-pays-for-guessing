@@ -96,7 +96,7 @@
 % Abstract: 150 to 250 words. Cover the problem, the approach, key results and the main takeaway.
 % The same text goes into the "Project summary" field of the submission form.
 \begin{apartabstract}
-When no reference answer exists, models and training data are compared by win rate, the share of pairwise comparisons that an LLM judge awards to one side. We ask what this metric pays a model for when it does not know the answer. In pre-registered duels on 300 medical, legal and geography questions with known keys, six judges from six developers preferred an assertive wrong answer to an honest ``I don't know'' in \bKnowsMin{} to \bKnowsMax{} of comparisons, on questions they answered correctly themselves. Against the right answer stated in the same words, the wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{} of comparisons, and the judges flagged it as incorrect when asked directly. They can tell that the answer is wrong and still rank it above an abstention. Win rate therefore pays for guessing at any accuracy, which is more than accuracy grading pays. Instructions that put accuracy first repaired \fixRepairedAny{} of \fixJudges{} judges, and only on questions the judge could answer. A judge that selected training data kept an abstention on \selAbstainJ{} of questions, against \selAbstainR{} for a random pick. Our registered prediction about the fine-tuned models failed, since none of them abstained at all. A commercial data pipeline rewrote \adaptIdkCommit{} of \adaptIdkRows{} honest abstentions into committed answers and raised its own quality grade from \adaptGradeBefore{} to \adaptGradeAfter{}. We propose to report, next to any judge-based win rate, the rate at which a wrong answer beats an abstention under the same judge.
+When no reference answer exists, models and training data are compared by win rate, the share of pairwise comparisons that an LLM judge awards to one side. We ask what this metric pays a model for when it does not know the answer. In pre-registered duels on 300 medical, legal and geography questions with known keys, six judges that give a short verdict without reasoning preferred an assertive wrong answer to an honest ``I don't know'' in \bKnowsMin{} to \bKnowsMax{} of comparisons, on questions they answered correctly themselves. Against the right answer stated in the same words, the wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{}. The judges can tell that the answer is wrong and still rank it above an abstention. Win rate under such a judge pays for guessing at any accuracy, which is more than accuracy grading pays. A changed instruction repaired \fixRepairedAny{} of \fixJudges{} judges, and only on questions the judge could answer. Reasoning before the verdict removed the preference for one of two judges tested. Selection by a judge left an abstention on \selAbstainJ{} of training questions, against \selAbstainR{} for a random pick. Our registered prediction about models fine-tuned on those sets failed, since no model abstained at all. A deployed data pipeline replaced \adaptIdkCommit{} of \adaptIdkRows{} abstentions with answers, \adaptIdkWrong{} of them wrong, and its own quality grade rose from \adaptGradeBefore{} to \adaptGradeAfter{}. We propose to report, next to any judge-based win rate, the rate at which a wrong answer beats an abstention.
 \end{apartabstract}
 
 % ====================================================================================
@@ -110,22 +110,22 @@ When no reference answer exists, the field compares models by win rate. An LLM j
 
 We test this assumption in the one case where the user's need is not in doubt. The model does not know the answer. It can guess, and a wrong guess stated plainly will mislead the user. Or it can say ``I don't know'', which misleads nobody. \citet{kalai2025hallucinate} showed that accuracy grading already rewards the guess, because a wrong answer and an abstention both score zero. One might expect an LLM judge to do better than that, since it reads both responses and can prefer the honest one.
 
-It does worse. In pre-registered duels on 300 questions with known keys, six judges from six developers preferred an assertive wrong answer to an honest abstention in \bKnowsMin{} to \bKnowsMax{} of comparisons, on questions the judge answered correctly itself (\cref{fig:core}a). Under accuracy grading the two responses would tie. Under these judges a policy that is always wrong beats a policy that abstains (\cref{fig:core}b).
+It does worse. In pre-registered duels on 300 questions with known keys, six judges from six developers, each giving a short verdict without reasoning, preferred an assertive wrong answer to an honest abstention in \bKnowsMin{} to \bKnowsMax{} of comparisons, on questions the judge answered correctly itself (\cref{fig:core}a). Under accuracy grading the two responses would tie. Under these judges a policy that is always wrong beats a policy that abstains (\cref{fig:core}b).
 
 The judges do not lack the knowledge. On the same questions the wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{} of comparisons against the right answer stated in the same words, and asked directly the judges flagged the wrong answer as incorrect. The preference is for an attempt over an abstention, and correctness enters only when a correct alternative is on the table.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.96\linewidth]{fig1_core.pdf}
-  \caption{\textbf{Judges reject a wrong answer when the right one is its opponent and prefer it when the opponent is ``I don't know''.} (a) Share of duels won by an assertive wrong answer against an equally assertive right answer and against an abstention, on questions each judge answers correctly itself, with 95\% intervals. (b) Win rate of a policy that always answers against a policy that abstains, by the accuracy of the first. Grey area means answering wins. Dashed and dotted lines are two reference graders. $^{*}$GPT-5.6 Terra ran on 60 of the 300 questions.}
+  \caption{\textbf{Judges reject a wrong answer when the right one is its opponent and prefer it when the opponent is ``I don't know''.} (a) Share of duels won by an assertive wrong answer against an equally assertive right answer and against an abstention, on questions each judge answers correctly itself, with 95\% intervals. Hollow squares repeat the abstention duel with the judge's reasoning mode on. (b) Win rate of a policy that always answers against a policy that abstains, by the accuracy of the first. Grey area means answering wins. Dashed and dotted lines are two reference graders. $^{*}$GPT-5.6 Terra ran on 60 of the 300 questions.}
   \label{fig:core}
 \end{figure}
 
 \textbf{Our main contributions are:}
 \begin{enumerate}
   \item A measurement with a key. Two rates, $a$ and $b$, state what a pairwise judge pays for answering when the model is right and when it is wrong (\cref{sec:methods}). For all six judges $b$ is far above one half, so win rate pays for guessing at every accuracy (\cref{sec:res-main}).
-  \item A control that locates the cause. The same judges recognise the wrong answer against the right one and when asked directly (\cref{sec:res-knows}). Instructions that put accuracy first reduce $b$ but do not repair most judges (\cref{sec:res-fix}).
-  \item Two consequences outside the duel, and one failed prediction. A judge that selects training data removes the abstentions from it. Our registered prediction that the fine-tuned model would then differ from a control failed, because no fine-tuned model abstained at all (\cref{sec:res-loop}). A commercial data pipeline rewrote \adaptIdkCommit{} of \adaptIdkRows{} honest abstentions in an audit set into committed answers and raised its own quality grade (\cref{sec:res-pipeline}).
+  \item A control that locates the cause. The same judges recognise the wrong answer against the right one and when asked directly (\cref{sec:res-knows}). A changed instruction or reasoning before the verdict repairs some judges and not others (\cref{sec:res-fix}).
+  \item Two checks outside the duel, one of which failed. A judge that selects training data removes the abstentions from it, but our registered prediction about the fine-tuned models failed, because no fine-tuned model abstained at all (\cref{sec:res-loop}). A deployed data pipeline replaced \adaptIdkCommit{} of \adaptIdkRows{} abstentions with answers and its quality grade rose (\cref{sec:res-pipeline}).
 \end{enumerate}
 
 \section{Related Work}
@@ -201,18 +201,18 @@ On questions they answered correctly themselves, the six judges gave the duel to
 
 The right answer beat the abstention almost always, so $a$ is close to 1. With $b$ this high, the line $W(p)$ of \cref{eq:w} stays above one half at every accuracy (\cref{fig:core}b). A policy that guesses and is always wrong would win \bAllMin{} to \bAllMax{} of its comparisons against a policy that abstains.
 
-The result holds in each domain and for a hedged guess. By domain, $b$ on all questions ranged from \bDomainMin{} to \bDomainMax{} across the 18 judge and domain cells (\cref{tab:domains}). A hedged wrong answer also beat the abstention, in \hwIdkMin{} to \hwIdkMax{} of comparisons (\cref{tab:pairs}).
+The result holds across domains and for a hedged guess. By domain, $b$ on all questions was above one half in \domainCellsAbove{} of \domainCells{} judge and domain cells, with a range from \bDomainMin{} to \bDomainMax{} (\cref{tab:domains}). A hedged wrong answer also beat the abstention, in \hwIdkMin{} to \hwIdkMax{} of comparisons (\cref{tab:pairs}).
 
 \begin{table}[t]
   \centering
   \small
-  \caption{\textbf{Every judge prefers a wrong answer to an abstention, also where it knows the answer and where it flags the wrong answer as incorrect.} Rates in percent with 95\% bootstrap intervals over questions. $a$ and $b$ are the rates at which an assertive right and an assertive wrong answer beat ``I don't know''. $^{*}$60 questions.}
+  \caption{\textbf{Every judge prefers a wrong answer to an abstention, also on questions where it knows the answer and where it tells the two answers apart.} Percent with 95\% bootstrap intervals over questions. $a$ and $b$ are the rates at which an assertive right and an assertive wrong answer beat ``I don't know''. A judge \emph{tells apart} when it calls the wrong answer incorrect and the right answer correct. $^{*}$60 questions.}
   \label{tab:main}
   \setlength{\tabcolsep}{3.5pt}
   \begin{tabular}{@{}lrrrrrrr@{}}
     \toprule
-     & Own & $a$, judge & $b$, judge & $b$, judge & Wrong beats & Flags & $b$ where \\
-    Judge & acc. & knows & knows & does not know & right, knows & wrong & flagged \\
+     & Own & $a$, judge & $b$, judge & $b$, judge & Wrong beats & Tells & $b$ where it \\
+    Judge & acc. & knows & knows & does not know & right, knows & apart & tells apart \\
     \midrule
     \tabinput{tab_main}
     \bottomrule
@@ -222,16 +222,18 @@ The result holds in each domain and for a hedged guess. By domain, $b$ on all qu
 \subsection{Judges can tell that the answer is wrong}
 \label{sec:res-knows}
 
-The same judges rejected the wrong answer when the right answer was its opponent. On the questions a judge knew, an assertive wrong answer beat an equally assertive right one in \wrongOverRightMin{} to \wrongOverRightMax{} of duels, against \bKnowsMin{} to \bKnowsMax{} when the opponent was the abstention (\cref{fig:core}a). GPT-5.6 Terra shows the gap most clearly, with \wrongOverRightTerra{} against \bKnowsTerra{}. Against a hedged right answer, the registered pair, the assertive wrong answer won \wrongOverHedgedMin{} to \wrongOverHedgedMax{}, so a hedge costs the right answer part of its lead (\cref{tab:pairs}).
+The same judges rejected the wrong answer when the right answer was its opponent. On the questions a judge knew, an assertive wrong answer beat an equally assertive right one in \wrongOverRightMin{} to \wrongOverRightMax{} of duels, against \bKnowsMin{} to \bKnowsMax{} when the opponent was the abstention (\cref{fig:core}a). GPT-5.6 Terra shows the gap most clearly, with \wrongOverRightTerra{} against \bKnowsTerra{}. The registered pair set the assertive wrong answer against a hedged right one. There the wrong answer won \wrongOverHedgedMin{} to \wrongOverHedgedMax{}, so a hedge costs the right answer part of its lead, and with DeepSeek V4 Flash all of it (\cref{tab:pairs}).
 
-Asked about a single response, the judges flagged the wrong answer as incorrect in \flaggedMin{} to \flaggedMax{} of cases. On exactly those questions, where the judge had said that the answer was incorrect, the wrong answer still beat the abstention in \bFlaggedMin{} to \bFlaggedMax{} of duels (\cref{tab:main}, last column).
+Asked about a single response, the judges called the wrong answer incorrect in \flaggedMin{} to \flaggedMax{} of cases and the right answer correct in \acceptedMin{} to \acceptedMax{} (\cref{tab:detect}). Two judges say No so often that a flag alone means little. We therefore take the questions on which a judge calls the wrong answer incorrect and the right answer correct, \tellsApartMin{} to \tellsApartMax{} of questions. On exactly those questions the wrong answer still beat the abstention in \bFlaggedMin{} to \bFlaggedMax{} of duels (\cref{tab:main}, last column).
 
 A registered check makes the same point. If a judge either used its knowledge or fell back on surface cues, the share of duels decided by correctness, $a - b$, would predict how often a wrong answer beats a right one. It does not. Across the judge and domain cells the predicted rate was \twoStepPred{} on average and the observed rate \twoStepObs{}. Judges use their knowledge to choose between two answers and not to choose between an answer and an abstention.
 
-\subsection{Instructions repair few judges, and only where the judge knows the answer}
+\subsection{Instructions and reasoning repair some judges, and only where the judge knows the answer}
 \label{sec:res-fix}
 
-Telling the judge to put accuracy first lowered $b$ and repaired \fixRepairedAccuracy{} of \fixJudges{} judges by the registered criterion (\cref{tab:fix}). On the questions a judge knew, $b$ under this instruction ranged from \fixAccuracyBMin{} to \fixAccuracyBMax{}. The stakes instruction repaired \fixRepairedStakes{} judges, showing the judge its own answer repaired \fixRepairedSelfcheck{}, and written reasoning repaired \fixRepairedCot{}. In total \fixRepairedAny{} of \fixJudges{} judges were repaired by at least one variant. The data-curation framing behaved like the default, with $b$ from \fixDataBMin{} to \fixDataBMax{}.
+Telling the judge to put accuracy first lowered $b$ on the questions it knew to between \fixAccuracyBMin{} and \fixAccuracyBMax{}, and met the registered criterion for \fixRepairedAccuracy{} of \fixJudges{} judges (\cref{tab:fix}). The stakes instruction met it for \fixRepairedStakes{}, showing the judge its own answer for \fixRepairedSelfcheck{}, and written reasoning for \fixRepairedCot{}. Counting every variant, \fixRepairedAny{} of \fixJudges{} judges were repaired at least once. The data-curation framing behaved like the default, with $b$ from \fixDataBMin{} to \fixDataBMax{}.
+
+Reasoning before the verdict helps one judge and not the other. With the provider's reasoning mode on and the default instruction, $b$ on known questions fell to \thinkBHaiku{} for Claude Haiku 5.5 and to \thinkBLuna{} for GPT-5.6 Luna (\thinkItems{} questions). The preference is weaker in a judge that reasons, and reasoning as such does not remove it.
 
 Where the judge does not know the answer, no instruction can help, and the data show it. On those questions the accuracy-first instruction pushed $b$ down to between \fixAccuracyBUnknownMin{} and \fixAccuracyBUnknownMax{}, and it pulled $a$ down with it, to between \fixAccuracyAUnknownMin{} and \fixAccuracyAUnknownMax{}. The judge cannot separate right from wrong there, so an instruction moves both rates together and the wrong answer still carries no penalty of its own.
 
@@ -243,45 +245,21 @@ Where the judge does not know the answer, no instruction can help, and the data 
   \input{tab_fix_full}
 \end{table}
 
-A procedure may work better than an instruction. The judges already flag wrong answers when asked, so one can ask first and compare second. Under this \emph{verify-then-compare} rule an answer that the judge calls incorrect loses to an abstention, and otherwise the duel verdict stands. Composed from verdicts we had already logged, the rule moves the accuracy at which answering starts to pay from below zero to between \vtcMin{} and \vtcMax{} across \vtcJudges{} judges (\cref{tab:vtc}). The analysis was not registered and uses no new judge calls. Its cost is that a strict judge rejects right answers too.
+A procedure may work better than an instruction. The judges mostly tell the two answers apart when asked, so one can ask first and compare second. Under this \emph{verify-then-compare} rule an answer that the judge calls incorrect loses to an abstention, and otherwise the duel verdict stands. Composed from verdicts we had already logged, the rule moves the accuracy at which answering starts to pay from below zero to between \vtcMin{} and \vtcMax{} across \vtcJudges{} judges (\cref{tab:vtc}). The analysis was not registered and uses no new judge calls. Its cost is that a strict judge rejects right answers too.
 
-
-\subsection{Judge selection removes abstention from the training set, and the registered test on trained models failed}
+\subsection{Judge selection strips abstentions from a training set, and our test on trained models failed}
 \label{sec:res-loop}
 
-The base model's own outputs reproduce the duel result. The cautious style abstained on \natQuestions{} of \natPool{} pool questions. Where the assert-style answer to the same question was wrong (\natWrong{} questions), three judges still preferred it to the abstention in \natBMin{} to \natBMax{} of duels (prediction P5a, \cref{tab:natural}).
+The base model's own outputs reproduce the duel result. The cautious style abstained on \natQuestions{} of \natPool{} pool questions. Where the assert-style answer to the same question was wrong (\natWrong{} questions), three judges preferred it to the abstention in \natBMin{} to \natBMax{} of duels (prediction P5a, \cref{tab:natural}). As this implies, the judge's pick removes the abstentions from the training set. It keeps one on \selAbstainJ{} of questions, against \selAbstainR{} for a random pick and \selAbstainK{} for the pick by the key, and it keeps twice as many wrong answers as the key, \selWrongJ{} against \selWrongK{} (prediction P5b, \cref{tab:loop}).
 
-Selection by the judge then removes the abstentions from the training set. A random pick keeps an abstention on \selAbstainR{} of questions and the pick by the key on \selAbstainK{}. The judge's pick keeps one on \selAbstainJ{}, and it keeps twice as many wrong answers as the pick by the key, \selWrongJ{} against \selWrongK{} (prediction P5b, \cref{tab:loop}). The accuracy-first judge sits between, with \selAbstainF{} and \selWrongF{}.
+The registered prediction about the trained models failed. None of the four fine-tuned models abstained on any of the \evalQuestions{} test questions, the model trained on key-selected responses included, and their wrong-answer rates, \evalWrongF{} to \evalWrongR{}, did not differ. The design could not have shown a difference. The control sets held \selAbstainK{} and \selAbstainR{} abstentions, and one epoch was 22 optimiser steps, after which 10\% to 15\% of outputs did not follow the trained answer format. % LOOP-FOLLOWUP-PLACEHOLDER
 
-The registered prediction about the trained models failed. None of the four fine-tuned models abstained on any of the \evalQuestions{} test questions, the models trained on key-selected and on random responses included (\cref{tab:loop}). Their wrong-answer rates, \evalWrongF{} to \evalWrongR{}, did not differ. The J model did not score below the K model, and it won \pFiveDMin{} to \pFiveDMax{} of judge duels against it on the \pFiveDQuestions{} questions where their outputs differ, not the majority we predicted. In this design, selection by the judge did not carry over to the trained model.
-
-The design could not have shown a difference. The K and R sets held too few abstentions, and one epoch was 22 optimiser steps, after which 10\% to 15\% of outputs did not follow the trained answer format. The table does show what the cautious policy was worth. Under the cautious instruction the base model abstains on \evalAbstainBaseCautious{} of the test questions and is wrong on \evalWrongBaseCautious{}. Every trained model is wrong about twice as often.
-
-\begin{table}[t]
-  \centering
-  \small
-  \caption{\textbf{The judge's pick strips abstentions from the training set, and no trained model abstains.} Percent of 1{,}500 training questions (left) and of \evalQuestions{} test questions (right). Trained models run with no system prompt. The two lower rows are the base model under a style instruction, for reference.}
-  \label{tab:loop}
-  \begin{tabular}{@{}lrrrrrr@{}}
-    \toprule
-     & \multicolumn{2}{c}{Training set} & \multicolumn{4}{c}{Model on test questions} \\
-    Rule & Abstains & Wrong & Abstains & Wrong & Correct & No final line \\
-    \midrule
-    \tabinput{tab_loop}
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-% LOOP-FOLLOWUP-PLACEHOLDER
-
-
-\subsection{A deployed pipeline turns honest abstentions into answers, and its grade rises}
+\subsection{A deployed quality grade rewards replacing abstentions with answers}
 \label{sec:res-pipeline}
 
-We audited the default rewrite of a commercial data platform, Adaptive Data by Adaption, on \adaptRows{} medical questions for which we wrote the completions ourselves in four registers, 100 rows each. After the rewrite no completion abstained and none hedged (\cref{tab:adapt}). The pipeline answers each question itself. It corrected \adaptCwCorrected{} of the \adaptCwCommit{} wrong answers that it turned into a committed answer, which is to its credit. It also replaced \adaptIdkCommit{} of \adaptIdkRows{} honest abstentions with committed answers, \adaptIdkWrong{} of them wrong, and it turned \adaptRightBroken{} of \adaptRightCommit{} correct answers into wrong ones. The platform's own evaluation raised the quality grade of the dataset from \adaptGradeBefore{} to \adaptGradeAfter{} (score \adaptScoreBefore{} to \adaptScoreAfter{}).
+We audited the default rewrite of a commercial data platform, Adaptive Data by Adaption, on \adaptRows{} medical questions with completions that we wrote in four registers. After the rewrite no completion abstained and none hedged (\cref{tab:adapt}). The pipeline answers each question itself, and on these public exam questions it mostly answers well. It corrected \adaptCwCorrected{} of \adaptCwCommit{} wrong answers. Of the \adaptIdkCommit{} abstentions that it replaced with an answer, \adaptIdkCorrect{} became correct and \adaptIdkWrong{} wrong, and it turned \adaptRightBroken{} of \adaptRightCommit{} correct answers into wrong ones. The platform's own evaluation raised the grade of the dataset from \adaptGradeBefore{} to \adaptGradeAfter{}. The grade thus rewards a dataset in which every ``I don't know'' is gone, the \adaptIdkWrong{} that are now wrong statements included.
 
-The pipeline does not invent answers that it cannot know. In the second audit, on questions about invented companies, \privIdkAbstain{} of the \privIdkRows{} abstentions that the platform returned were still abstentions after the rewrite, and \privIdkDifferent{} stated a specific value. The same rewrite replaced \privFactAbstain{} of \privFactRows{} completions that stated a specific fact with a statement that the information is not available, and the grade rose from \privGradeBefore{} to \privGradeAfter{}. In both audits the rewritten dataset reports what the rewriting model knows and no longer what the source knew, and the platform's grade rewards the change in either direction.
-
+The pipeline does not invent answers that it cannot know. In the second audit, on questions about invented companies, \privIdkAbstain{} of the \privIdkRows{} abstentions that the platform returned stayed abstentions. The same rewrite replaced \privFactAbstain{} of \privFactRows{} completions that stated a specific fact with a statement that the information is not available, and the grade rose from \privGradeBefore{} to \privGradeAfter{}. In both audits the rewritten data report what the rewriting model knows and no longer what the source knew.
 
 \section{Discussion and Limitations}
 
@@ -350,10 +328,10 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{26ef52c},
     H1 & $b$ above 0.5 on questions the judge knows, Holm at 0.04, at least four of six judges & \hOnePass{} of \hOneJudges{} judges pass \\
     H1F & the same on all questions, Holm at 0.01 & \hOneFPass{} of \hOneFJudges{} judges pass \\
     S1a & tone, assertive against hedged wrong answer & \toneMin{} to \toneMax{} across judges \\
-    S1b & wrong beats right, questions the judge knows & \wrongOverRightMin{} to \wrongOverRightMax{} \\
+    S1b & assertive wrong beats hedged right, questions the judge knows & \wrongOverHedgedMin{} to \wrongOverHedgedMax{} \\
     S1c & share of duels decided by correctness, $a - b$ & \vEffMin{} to \vEffMax{}, own accuracy \accMin{} to \accMax{} \\
     S1d & two-step account, error at most 0.10 and Spearman at least 0.7 & fails, error \twoStepMae{}, Spearman \twoStepRho{} \\
-    S1g & $b$ above 0.5 where the judge flags the wrong answer & \sOneGPass{} of \sOneGJudges{} judges pass \\
+    S1g & $b$ above 0.5 where the judge flags the wrong answer & \sOneGPass{} of \sOneGJudges{} judges pass (\sOneGApartPass{} of \sOneGApartJudges{} where it also accepts the right one) \\
     S4 & a variant repairs a judge & see \cref{tab:fix} \\
     P5a & $b$ above 0.5 on the model's own outputs, three judges & holds for 3 of 3 \\
     P5b & J set has fewer abstentions and more wrong answers than K set & holds \\
@@ -383,6 +361,8 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{26ef52c},
 \section{Additional results}
 \label{app:extra}
 
+The tables below give the full pair rates, the detection check, the exploratory analyses and the loop.
+
 \begin{table}[h]
   \centering
   \small
@@ -400,7 +380,7 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{26ef52c},
 \begin{table}[h]
   \centering
   \small
-  \caption{\textbf{The result holds in each domain.} Percent of duels won by the first-named response, all questions of the domain, default instruction.}
+  \caption{\textbf{A wrong answer beats the abstention more often than not in \domainCellsAbove{} of \domainCells{} judge and domain cells.} Percent of duels won by the first-named response, all questions of the domain, default instruction.}
   \label{tab:domains}
   \setlength{\tabcolsep}{3.5pt}
   \begin{tabular}{@{}lrrrrrrrrr@{}}
@@ -416,11 +396,11 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{26ef52c},
 \begin{table}[h]
   \centering
   \small
-  \caption{\textbf{Detection.} Percent of single responses that the judge called incorrect (wrong answers) or correct (right answers) when asked directly. $^{*}$60 questions.}
+  \caption{\textbf{Detection.} Percent of single responses that the judge called incorrect (wrong answers) or correct (right answers) when asked directly, and percent of questions on which it did both. $^{*}$60 questions.}
   \label{tab:detect}
-  \begin{tabular}{@{}lrr@{}}
+  \begin{tabular}{@{}lrrr@{}}
     \toprule
-    Judge & Wrong answers flagged & Right answers accepted \\
+    Judge & Wrong answers flagged & Right answers accepted & Tells apart \\
     \midrule
     \tabinput{tab_detect}
     \bottomrule
@@ -480,6 +460,21 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{26ef52c},
     Rule & Abstentions & Correct & Wrong & Unparsed \\
     \midrule
     \tabinput{tab_selection}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{The judge's pick strips abstentions from the training set, and no trained model abstains.} Percent of 1{,}500 training questions (left) and of \evalQuestions{} test questions (right). Trained models run with no system prompt. The two lower rows are the base model under a style instruction, for reference.}
+  \label{tab:loop}
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+     & \multicolumn{2}{c}{Training set} & \multicolumn{4}{c}{Model on test questions} \\
+    Rule & Abstains & Wrong & Abstains & Wrong & Correct & No final line \\
+    \midrule
+    \tabinput{tab_loop}
     \bottomrule
   \end{tabular}
 \end{table}

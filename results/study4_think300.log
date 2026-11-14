@@ -2,3 +2,13 @@ items 300 judges ['openrouter/anthropic/claude-haiku-5.5', 'openrouter/openai/gp
 [00:52:47] fresh 250 done 250 failed 0 429s 0 spend adaption 0.000 openrouter 0.009 rate 348/min
 [00:53:28] fresh 500 done 500 failed 0 429s 0 spend adaption 0.000 openrouter 0.018 rate 355/min
 [00:54:38] fresh 750 done 750 failed 0 429s 0 spend adaption 0.000 openrouter 0.043 rate 292/min
+[00:56:08] fresh 1000 done 1000 failed 0 429s 0 spend adaption 0.000 openrouter 0.083 rate 246/min
+[00:57:36] fresh 1250 done 1250 failed 0 429s 0 spend adaption 0.000 openrouter 0.120 rate 226/min
+[00:59:02] fresh 1500 done 1500 failed 0 429s 0 spend adaption 0.000 openrouter 0.157 rate 215/min
+[01:00:28] fresh 1750 done 1750 failed 0 429s 0 spend adaption 0.000 openrouter 0.194 rate 208/min
+[01:02:00] fresh 2000 done 2000 failed 0 429s 0 spend adaption 0.000 openrouter 0.233 rate 201/min
+[01:03:35] fresh 2250 done 2250 failed 0 429s 0 spend adaption 0.000 openrouter 0.271 rate 195/min
+[01:05:02] fresh 2500 done 2500 failed 0 429s 0 spend adaption 0.000 openrouter 0.311 rate 193/min
+[01:06:33] fresh 2750 done 2750 failed 0 429s 0 spend adaption 0.000 openrouter 0.347 rate 190/min
+[01:07:59] fresh 3000 done 3000 failed 0 429s 0 spend adaption 0.000 openrouter 0.385 rate 188/min
+finished: fresh 3000 failed 0 429s 0 spend adaption 0.000 openrouter 0.385

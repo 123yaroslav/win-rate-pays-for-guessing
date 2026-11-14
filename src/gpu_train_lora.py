@@ -17,11 +17,12 @@ Format of a training example: the prompt of the evaluation (one user turn with t
 prompt, the model's chat template with thinking switched off), then the completion, then `<|im_end|>`. The
 loss covers the completion and the `<|im_end|>` token. Nothing is truncated.
 
-Memory: `--micro-batch N` computes the 16 examples of a step in chunks of N and adds up the gradients. The
-loss of a step is the sum over all completion tokens of the 16 examples divided by their number, so the step
-is the same as for one batch of 16. Inside a step the examples are sorted by length to cut padding.
+Memory: the 16 examples of a step do not fit on a 48 GB card in one forward pass. `--token-budget N` packs
+them, longest first, into forward passes of at most N padded tokens and adds up the gradients. The loss of a
+step is the sum over all completion tokens of the 16 examples divided by their number, so the step is the same
+as for one batch of 16. A step that still runs out of memory is redone with one example per pass.
 
-    --preflight       measure memory and time of the heaviest step for several chunk sizes, train nothing
+    --preflight 1500  measure memory and time of the heaviest step for a token budget, train nothing
     --max-steps 3     smoke test: a few steps, then save
 """
 from __future__ import annotations
@@ -103,6 +104,12 @@ def load_base(model_id: str, revision: str | None):
     return tok, model
 
 
+def checkpointing(base, on: bool) -> None:
+    if on:
+        base.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+        print("gradient checkpointing on:", bool(getattr(base, "is_gradient_checkpointing", None)), flush=True)
+
+
 def add_lora(base):
     from peft import LoraConfig, get_peft_model
 
@@ -137,22 +144,31 @@ def loss_sum(body, head, ids, mask, labels) -> tuple[torch.Tensor, int]:
     return loss, int(sel.sum())
 
 
-def chunks(step: list[int], data: list[dict], micro: int) -> list[list[dict]]:
+def chunks(step: list[int], data: list[dict], budget: int) -> list[list[dict]]:
+    """The examples of a step, longest first, packed into forward passes of at most `budget` padded tokens
+    (number of examples times the longest of them). With budget 0 every example goes alone."""
     by_len = sorted(step, key=lambda i: (-len(data[i]["ids"]), i))
-    return [[data[i] for i in by_len[s:s + micro]] for s in range(0, len(by_len), micro)]
+    out: list[list[int]] = []
+    for i in by_len:
+        if out and (len(out[-1]) + 1) * len(data[out[-1][0]]["ids"]) <= budget:
+            out[-1].append(i)
+        else:
+            out.append([i])
+    return [[data[i] for i in c] for c in out]
 
 
-def step_grad(body, head, step: list[int], data: list[dict], micro: int, pad_id: int, device) -> tuple[float, int]:
-    """Gradient of the mean loss over all completion tokens of the step. Returns (mean loss, tokens)."""
+def step_grad(body, head, step: list[int], data: list[dict], budget: int, pad_id: int, device) -> tuple[float, int, int]:
+    """Gradient of the mean loss over all completion tokens of the step. Returns (mean loss, tokens, passes)."""
     n_tok = sum(data[i]["n_target"] for i in step)
     total = 0.0
-    for part in chunks(step, data, micro):
+    parts = chunks(step, data, budget)
+    for part in parts:
         ids, mask, labels = collate(part, pad_id, device)
         loss, _ = loss_sum(body, head, ids, mask, labels)
         (loss / n_tok).backward()
         total += float(loss.detach())
         del loss, ids, mask, labels
-    return total / n_tok, n_tok
+    return total / n_tok, n_tok, len(parts)
 
 
 def lr_factor(step: int, total: int, warmup: int) -> float:
@@ -235,7 +251,7 @@ def format_report(tok, rows: list[dict], data: list[dict], eval_items: str | Non
 
 
 def preflight(base, body, head, tok, all_data: dict[str, list[dict]], sizes: list[int]) -> None:
-    """Memory and time of the heaviest step of any arm, for each chunk size. Trains nothing."""
+    """Memory and time of the heaviest step of any arm, for each token budget. Trains nothing."""
     model = add_lora(base)
     model.train()
     names = [n for n, p in model.named_parameters() if p.requires_grad]
@@ -243,35 +259,42 @@ def preflight(base, body, head, tok, all_data: dict[str, list[dict]], sizes: lis
           f"{sum(p.numel() for p in model.parameters() if p.requires_grad):,}", flush=True)
     n = len(next(iter(all_data.values())))
     steps = [s for ep in data_order(n) for s in ep]
-    for micro in sizes:
+    for budget in sizes:
         heavy = max(((arm, s) for arm in all_data for s in steps), key=lambda x: max(
-            len(c) * len(c[0]["ids"]) for c in chunks(x[1], all_data[x[0]], micro)))
+            len(c) * len(c[0]["ids"]) for c in chunks(x[1], all_data[x[0]], budget)))
         arm, step = heavy
-        padded = max(len(c) * len(c[0]["ids"]) for c in chunks(step, all_data[arm], micro))
+        padded = max(len(c) * len(c[0]["ids"]) for c in chunks(step, all_data[arm], budget))
+        first = next(iter(all_data))
+        passes = [len(chunks(s, all_data[first], budget)) for s in steps]
+        failed = False
         try:
+            gc.collect()
             torch.cuda.empty_cache()
             torch.cuda.reset_peak_memory_stats()
+            print(f"budget {budget}: {torch.cuda.memory_allocated() / 2**30:.1f} GB in use before the step, "
+                  f"{sum(passes) / len(passes):.2f} forward passes per step on average (arm {first})", flush=True)
             t0 = time.time()
-            loss, n_tok = step_grad(body, head, step, all_data[arm], micro, tok.pad_token_id, base.device)
+            loss, n_tok, _ = step_grad(body, head, step, all_data[arm], budget, tok.pad_token_id, base.device)
             torch.cuda.synchronize()
             heavy_s = time.time() - t0
             peak = torch.cuda.max_memory_allocated() / 2**30
             model.zero_grad(set_to_none=True)
-            first = next(iter(all_data))
             t0 = time.time()
             for s in steps[:3]:
-                step_grad(body, head, s, all_data[first], micro, tok.pad_token_id, base.device)
+                step_grad(body, head, s, all_data[first], budget, tok.pad_token_id, base.device)
                 model.zero_grad(set_to_none=True)
             torch.cuda.synchronize()
             typical = (time.time() - t0) / 3
-            print(f"chunk {micro:>2}: heaviest step (arm {arm}, largest chunk {padded} padded tokens) "
+            print(f"budget {budget}: heaviest step (arm {arm}, largest pass {padded} padded tokens) "
                   f"peak {peak:.1f} GB, {heavy_s:.1f} s, loss {loss:.3f}; first three steps {typical:.2f} s each, "
                   f"peak so far {torch.cuda.max_memory_allocated() / 2**30:.1f} GB", flush=True)
         except torch.OutOfMemoryError:
+            failed = True       # the memory is released only after the handler is left
+        if failed:
             model.zero_grad(set_to_none=True)
             gc.collect()
             torch.cuda.empty_cache()
-            print(f"chunk {micro:>2}: out of memory on the heaviest step (arm {arm}, {padded} padded tokens)",
+            print(f"budget {budget}: out of memory on the heaviest step (arm {arm}, {padded} padded tokens)",
                   flush=True)
 
 
@@ -280,6 +303,7 @@ def train_arm(arm: str, a, common: dict) -> dict:
     data_file = Path(a.data) / f"train_{arm}.jsonl"
     rows = [json.loads(ln) for ln in data_file.read_text().splitlines() if ln.strip()]
     tok, base = load_base(a.base, a.revision)        # fresh weights from disk for every arm
+    checkpointing(base, a.grad_checkpoint)
     body, head = base.model, base.get_output_embeddings()
     data = encode(tok, rows)
     longest = max(data, key=lambda d: len(d["ids"]))
@@ -308,7 +332,7 @@ def train_arm(arm: str, a, common: dict) -> dict:
     steps = [(e, s) for e, ep in enumerate(epochs) for s in ep]
     total, warmup = len(steps), math.ceil(WARMUP_SHARE * len(steps))
     print(f"trainable tensors {len(names)} ({sum(p.numel() for p in params):,} parameters, {params[0].dtype}), "
-          f"{total} steps, {warmup} warm-up steps, chunk size {a.micro_batch}", flush=True)
+          f"{total} steps, {warmup} warm-up steps, at most {a.token_budget} padded tokens per forward pass", flush=True)
 
     log, t0 = [], time.time()
     torch.cuda.reset_peak_memory_stats()
@@ -316,14 +340,25 @@ def train_arm(arm: str, a, common: dict) -> dict:
         lr = LR * lr_factor(k, total, warmup)
         for g in opt.param_groups:
             g["lr"] = lr
-        loss, n_tok = step_grad(body, head, step, data, a.micro_batch, tok.pad_token_id, base.device)
+        used, failed = a.token_budget, False
+        try:
+            loss, n_tok, passes = step_grad(body, head, step, data, used, tok.pad_token_id, base.device)
+        except torch.OutOfMemoryError:
+            failed = True       # the memory is released only after the handler is left
+        if failed:              # the same step again, one example per forward pass: the same gradient
+            opt.zero_grad(set_to_none=True)
+            gc.collect()
+            torch.cuda.empty_cache()
+            used = 0
+            loss, n_tok, passes = step_grad(body, head, step, data, used, tok.pad_token_id, base.device)
+            print(f"[{arm}] step {k + 1}: out of memory, redone with one example per forward pass", flush=True)
         if not math.isfinite(loss):
             raise SystemExit(f"arm {arm}: loss is {loss} at step {k + 1}, nothing saved")
         norm = float(torch.nn.utils.clip_grad_norm_(params, MAX_GRAD_NORM))
         opt.step()
         opt.zero_grad(set_to_none=True)
         log.append({"step": k + 1, "epoch": epoch + 1, "lr": lr, "loss": loss, "completion_tokens": n_tok,
-                    "examples": len(step), "grad_norm": norm, "seconds": round(time.time() - t0, 1)})
+                    "examples": len(step), "forward_passes": passes, "token_budget": used, "grad_norm": norm, "seconds": round(time.time() - t0, 1)})
         if (k + 1) % 10 == 0 or k == 0 or k + 1 == total:
             print(f"[{arm}] step {k + 1}/{total} epoch {epoch + 1} lr {lr:.2e} loss {loss:.4f} "
                   f"grad {norm:.2f} {time.time() - t0:.0f} s", flush=True)
@@ -345,17 +380,20 @@ def train_arm(arm: str, a, common: dict) -> dict:
         "question_order_sha256": hashlib.sha256("\n".join(str(d["id"]) for d in data).encode()).hexdigest(),
         "settings": {
             **common, "rank": RANK, "alpha": ALPHA, "dropout": DROPOUT, "target_modules": TARGETS,
-            "epochs": EPOCHS, "examples_per_step": BATCH, "chunk_size_within_step": a.micro_batch,
+            "epochs": EPOCHS, "examples_per_step": BATCH, "padded_tokens_per_forward_pass_at_most": a.token_budget,
             "optimizer": "AdamW", "betas": list(BETAS), "eps": EPS, "weight_decay": WEIGHT_DECAY,
             "peak_lr": LR, "warmup_steps": warmup, "total_steps": total, "schedule": "linear warm-up, cosine decay",
             "max_grad_norm": MAX_GRAD_NORM, "seed": SEED, "loss": "mean over the completion tokens and the "
             "end-of-turn token of the 16 examples", "base_dtype": "bfloat16", "adapter_dtype": str(params[0].dtype),
-            "autocast": "bfloat16", "max_length": a.max_length, "truncated_examples": 0,
+            "autocast": "bfloat16", "gradient_checkpointing": a.grad_checkpoint, "max_length": a.max_length,
+            "truncated_examples": 0,
         },
         "longest_example_tokens": len(longest["ids"]), "longest_example_id": longest["id"],
         "mean_example_tokens": round(sum(len(d["ids"]) for d in data) / len(data), 1),
         "completion_tokens_per_epoch": sum(d["n_target"] for d in data),
-        "steps_done": len(log), "seconds": round(time.time() - t0, 1),
+        "steps_done": len(log), "steps_redone_one_example_per_pass": sum(r["token_budget"] != a.token_budget for r in log),
+        "mean_forward_passes_per_step": round(sum(r["forward_passes"] for r in log) / len(log), 2),
+        "seconds": round(time.time() - t0, 1),
         "peak_gpu_memory_gb": round(torch.cuda.max_memory_allocated() / 2**30, 1),
         "first_step_loss": log[0]["loss"], "final_step_loss": log[-1]["loss"],
         "mean_loss_last_10_steps": sum(r["loss"] for r in log[-10:]) / len(log[-10:]),
@@ -384,16 +422,19 @@ def main() -> None:
     ap.add_argument("--eval-items", default=None, help="the evaluation file, to print one evaluation prompt")
     ap.add_argument("--base", default=BASE)
     ap.add_argument("--revision", default=None)
-    ap.add_argument("--micro-batch", type=int, default=BATCH, help="examples per forward pass inside a step")
+    ap.add_argument("--token-budget", type=int, default=1500,
+                    help="padded tokens per forward pass inside a step, 0 for one example per pass")
     ap.add_argument("--max-length", type=int, default=4096, help="a check only, nothing is ever truncated")
     ap.add_argument("--max-steps", type=int, default=0, help="smoke test: stop after N steps")
-    ap.add_argument("--preflight", nargs="*", type=int, default=None, metavar="CHUNK",
-                    help="measure the heaviest step for these chunk sizes and exit")
+    ap.add_argument("--grad-checkpoint", action="store_true",
+                    help="recompute each layer in the backward pass: the same gradients with less memory")
+    ap.add_argument("--preflight", nargs="*", type=int, default=None, metavar="BUDGET",
+                    help="measure the heaviest step for these token budgets and exit")
     a = ap.parse_args()
-    assert BATCH % a.micro_batch == 0 or a.micro_batch >= BATCH, "the chunk size must divide 16"
 
     if a.preflight is not None:
         tok, base = load_base(a.base, a.revision)
+        checkpointing(base, a.grad_checkpoint)
         all_data = {arm: encode(tok, [json.loads(ln) for ln in (Path(a.data) / f"train_{arm}.jsonl")
                                       .read_text().splitlines() if ln.strip()]) for arm in a.arms}
         for arm, d in all_data.items():
@@ -403,7 +444,7 @@ def main() -> None:
               type(base.get_output_embeddings()).__name__)
         print("head check", head_check(base, base.model, base.get_output_embeddings(), all_data[a.arms[0]],
                                        tok.pad_token_id))
-        preflight(base, base.model, base.get_output_embeddings(), tok, all_data, a.preflight or [16, 8, 4])
+        preflight(base, base.model, base.get_output_embeddings(), tok, all_data, a.preflight or [1500])
         return
 
     common = {"base_model": a.base, "revision": a.revision}

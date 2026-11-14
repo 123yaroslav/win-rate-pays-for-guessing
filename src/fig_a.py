@@ -30,7 +30,7 @@ def cell(summary: dict, judge: str, group: str, pair: str, variant: str = "defau
     return summary["judges"].get(judge, {}).get("variants", {}).get(variant, {}).get("groups", {}).get(group, {}).get(pair)
 
 
-def fig1(s1: dict, out: Path) -> None:
+def fig1(s1: dict, out: Path, think: dict | None = None) -> None:
     judges = [j for j in NAMES if j in s1["judges"]]
     fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.6), gridspec_kw={"width_ratios": [1.25, 1]})
     # panel a: the same wrong answer against two opponents, on items the judge answers correctly itself
@@ -44,6 +44,18 @@ def fig1(s1: dict, out: Path) -> None:
                 continue
             ax.errorbar(c["rate"], y + dy, xerr=[[c["rate"] - c["lo"]], [c["hi"] - c["rate"]]], fmt=mk, color=col,
                         ms=4.5, lw=1, capsize=2)
+    first = True
+    for y, j in zip(ys, judges):
+        c = cell(think, j, "judge knows", "CW-IDK", "think") if think else None
+        if not c:
+            continue
+        ax.errorbar(c["rate"], y - 0.14, xerr=[[c["rate"] - c["lo"]], [c["hi"] - c["rate"]]], fmt="s", color=ORANGE,
+                    mfc="white", ms=4.5, lw=1, capsize=2)
+        if first:
+            ax.annotate("same duel with\nreasoning on", xy=(c["rate"] + 0.03, y - 0.14), xytext=(0.36, y - 0.38),
+                        fontsize=7, color=ORANGE, ha="left", va="center",
+                        arrowprops={"arrowstyle": "-", "color": ORANGE, "lw": 0.6})
+            first = False
     ax.axvline(0.5, color=GREY, lw=0.8, ls=":")
     ax.set_yticks(ys)
     ax.set_yticklabels([NAMES[j] for j in judges])
@@ -79,7 +91,7 @@ def fig1(s1: dict, out: Path) -> None:
     bx.set_xlabel("Accuracy of a policy that always answers")
     bx.set_ylabel("Its win rate against\na policy that abstains")
     if lows:
-        bx.annotate("LLM judges", xy=(0.10, min(lows) + 0.02), xytext=(0.34, 0.40), color=ORANGE, fontsize=8,
+        bx.annotate("LLM judges", xy=(0.10, min(lows) + 0.02), xytext=(0.47, 0.27), color=ORANGE, fontsize=8,
                     ha="left", va="center", arrowprops={"arrowstyle": "-", "color": ORANGE, "lw": 0.7})
     bx.text(0.25, 0.578, "accuracy grading", fontsize=7.5, ha="center", va="center", rotation=26.57,
             rotation_mode="anchor", transform_rotates_text=True)
@@ -135,7 +147,8 @@ def main() -> None:
     out = ROOT / a.out
     out.mkdir(parents=True, exist_ok=True)
     s1 = json.loads((ROOT / a.s1).read_text())
-    fig1(s1, out)
+    tp = ROOT / "results/study4/think300.json"
+    fig1(s1, out, json.loads(tp.read_text()) if tp.exists() else None)
     if (ROOT / a.s4).exists():
         fig_fix(json.loads((ROOT / a.s4).read_text()), s1, out)
     print("figures written to", out)

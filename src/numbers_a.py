@@ -279,6 +279,18 @@ def study4() -> None:
             r = rep.get(f"{j}|{v}")
             if r:
                 put(f"fix{key}B{KEY[j]}", pct(r["b_knows"]))
+    tp = ROOT / "results/study4/think300.json"
+    ts = json.loads(tp.read_text()) if tp.exists() else s
+    for j, key in ((SIX[3], "Haiku"), (SIX[4], "Luna")):
+        b = cell(ts, j, "judge knows", "CW-IDK", "think")
+        a_ = cell(ts, j, "judge knows", "CC-IDK", "think")
+        if b:
+            put(f"thinkB{key}", pct(b["rate"]))
+            put(f"thinkBLo{key}", pct(b["lo"]))
+            put(f"thinkBHi{key}", pct(b["hi"]))
+            put("thinkItems", str(ts["n_items"]))
+        if a_:
+            put(f"thinkA{key}", pct(a_["rate"]))
     s1 = json.loads((ROOT / "results/study1/summary.json").read_text())
     vtc = s1.get("verify_then_compare", {})
     ps = [v["p_star_check"] for j, v in vtc.items() if j in SIX and v["p_star_check"] == v["p_star_check"]]
