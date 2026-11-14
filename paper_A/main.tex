@@ -153,7 +153,7 @@ Responses are fixed sentences, so inside a duel only the named option and the wo
 
 A duel shows the judge the question with its options and two responses. The default instruction is generic. ``You are comparing two AI assistant responses to the same user question. Pick the better response overall. Reply with only the letter A or B.'' Every pair is judged in both orders. The score of an item is the share of its two orders won by a given response, and a rate is the mean of item scores. Intervals are item bootstraps with 10{,}000 resamples. One duel reads as follows.
 
-{\small\fbox{\begin{minipage}{0.955\linewidth}
+{\small\fbox{\begin{minipage}{0.95\linewidth}
 \textbf{User question.} Which one of the statements below is characteristic of most African cities? A. They have thriving, clean residential areas. B. There are jobs for most rural-to-urban migrants. C. They have three separate business districts. D. They have a well-developed infrastructure.\\[1pt]
 \textbf{Response A.} The answer is They have a well-developed infrastructure.\\[1pt]
 \textbf{Response B.} I don't know the answer to this one.
@@ -511,7 +511,7 @@ The tables below give the full pair rates, the detection check, the exploratory 
   \small
   \caption{\textbf{Follow-up with three epochs of training (exploratory). The model trained on unselected cautious responses keeps abstaining, the others do not.} Percent of \evalQuestions{} test questions with 95\% intervals, and the penalised score.}
   \label{tab:followup}
-  \setlength{\tabcolsep}{4pt}
+  \footnotesize\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}lrrrrr@{}}
     \toprule
     Rule & Abstains & Wrong & Correct & No final line & Score \\
