@@ -48,3 +48,13 @@ The total is computed from the run times above. The RunPod billing history showe
 
 Nothing else was created: no network volume, no template, no endpoint, no second pod. The account had no pods
 before this step.
+
+## Step 2: four adapters and three reference runs (cap for this step 1.50 USD)
+
+All times UTC, 2026-11-14. The four adapter folders were complete on the laptop at 18:31.
+
+| Time | Action | Price | Note |
+|---|---|---|---|
+| 18:31:48 | start pod `omacru723l4qql` | 0.59 USD/h | refused by RunPod: "not enough free GPUs on the host machine". Nothing started, nothing billed beyond its storage |
+| 18:32 | stock read, A40 48 GB, Secure Cloud | 0.59 USD/h | stock Low in CA-MTL-1 and EU-SE-1 |
+| 18:32:24 | **create pod `o9m5gie80kmn40`** (`epi-study5-eval-2`), 1 x A40 48 GB, Secure Cloud, EU-SE-1 | **0.59 USD/h** | billing starts. Same image, disks and settings as the first pod |
