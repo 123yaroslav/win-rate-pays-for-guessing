@@ -35,8 +35,10 @@ def fig1(s1: dict, out: Path) -> None:
     fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.6), gridspec_kw={"width_ratios": [1.25, 1]})
     # panel a: the same wrong answer against two opponents, on items the judge answers correctly itself
     ys = list(range(len(judges)))[::-1]
+    # equal-tone control (assertive wrong against assertive right) once every judge has it
+    right_pair = "CW-CC" if all(cell(s1, j, "judge knows", "CW-CC") for j in judges) else "CW-HC"
     for y, j in zip(ys, judges):
-        for pair, col, mk, dy in (("CW-HC", BLUE, "o", 0.14), ("CW-IDK", ORANGE, "s", -0.14)):
+        for pair, col, mk, dy in ((right_pair, BLUE, "o", 0.14), ("CW-IDK", ORANGE, "s", -0.14)):
             c = cell(s1, j, "judge knows", pair)
             if not c:
                 continue
