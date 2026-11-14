@@ -1,0 +1,7 @@
+items 300 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adaption/qwen3.8-27b'] pairs 3 variants ['default'] cached 117
+[22:02:13] fresh 250 done 367 failed 0 429s 0 spend adaption 0.003 openrouter 0.000 rate 42/min
+[22:08:15] fresh 500 done 617 failed 0 429s 0 spend adaption 0.006 openrouter 0.000 rate 41/min
+[22:14:18] fresh 750 done 867 failed 0 429s 0 spend adaption 0.009 openrouter 0.000 rate 41/min
+[22:20:20] fresh 1000 done 1117 failed 0 429s 0 spend adaption 0.013 openrouter 0.000 rate 41/min
+[22:26:23] fresh 1250 done 1367 failed 0 429s 0 spend adaption 0.016 openrouter 0.000 rate 41/min
+[22:32:25] fresh 1500 done 1617 failed 0 429s 0 spend adaption 0.019 openrouter 0.000 rate 41/min

@@ -52,13 +52,12 @@ def boot(ids: list[str], stat, rng: random.Random, n: int = B) -> tuple[float, f
     return draws[int(0.025 * len(draws))], draws[min(len(draws) - 1, int(0.975 * len(draws)))], draws
 
 
-def load(runs: list[str], item_files: list[str]):
+def load(runs: list[str], item_files: list[str], limit: int = 0):
     items = {}
     for f in item_files:
-        for ln in Path(f).read_text().splitlines():
-            if ln.strip():
-                it = json.loads(ln)
-                items[it["id"]] = it
+        rows = [json.loads(ln) for ln in Path(f).read_text().splitlines() if ln.strip()]
+        for it in rows[:limit] if limit else rows:
+            items[it["id"]] = it
     own, duel, flags = {}, defaultdict(dict), {}   # duel[(judge, variant, pair)][item] = [outcomes]
     first_pick = defaultdict(lambda: [0, 0])   # (judge, variant) -> [picked A, parsed]
     unparsed = defaultdict(int)
@@ -96,8 +95,9 @@ def main() -> None:
     ap.add_argument("--items", nargs="+", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--boot", type=int, default=B)
+    ap.add_argument("--limit", type=int, default=0, help="use only the first N items of every file")
     a = ap.parse_args()
-    items, own, duel, first_pick, unparsed, flags = load(a.runs, a.items)
+    items, own, duel, first_pick, unparsed, flags = load(a.runs, a.items, a.limit)
     rng = random.Random(20261115)
     judges = sorted({k[0] for k in duel})
     variants = sorted({k[1] for k in duel}, key=lambda v: (v != "default", v))
@@ -222,6 +222,34 @@ def main() -> None:
             head.append(f"| {j} | {det[j]['cw_flagged']:.1%} | {det[j]['cc_accepted']:.1%} | {det[j]['unparsed']} |")
         head.append("")
         out["detection"] = det
+
+    # Exploratory: a verify-then-compare protocol composed from logged verdicts. An answer that the judge
+    # itself calls incorrect loses to the abstention, otherwise the duel verdict stands.
+    if flags:
+        vtc = {}
+        head += ["## Verify-then-compare, composed from logged verdicts (exploratory)", "",
+                 "| judge | a | b | a with check | b with check | break-even accuracy with check | 95% CI |",
+                 "|---|---|---|---|---|---|---|"]
+        for j in judges:
+            sa, sb = duel.get((j, "default", "CC-IDK"), {}), duel.get((j, "default", "CW-IDK"), {})
+            ids = [i for i in sa if i in sb and flags.get((j, i, "CW")) and flags.get((j, i, "CC"))]
+            if not ids:
+                continue
+            ga = {i: 0.0 if flags[(j, i, "CC")] == "NO" else mean(sa[i]) for i in ids}
+            gb = {i: 0.0 if flags[(j, i, "CW")] == "NO" else mean(sb[i]) for i in ids}
+
+            def pstar2(sample, ga=ga, gb=gb):
+                aa, bb = mean([ga[i] for i in sample]), mean([gb[i] for i in sample])
+                return (0.5 - bb) / (aa - bb) if aa - bb > 0.02 else float("nan")
+            lo, hi, _ = boot(ids, pstar2, rng, a.boot)
+            vtc[j] = {"a": mean([mean(sa[i]) for i in ids]), "b": mean([mean(sb[i]) for i in ids]),
+                      "a_check": mean(list(ga.values())), "b_check": mean(list(gb.values())),
+                      "p_star_check": pstar2(ids), "lo": lo, "hi": hi, "n": len(ids)}
+            v = vtc[j]
+            head.append(f"| {j} | {v['a']:.1%} | {v['b']:.1%} | {v['a_check']:.1%} | {v['b_check']:.1%} | "
+                        f"{v['p_star_check']:.2f} | {lo:.2f} to {hi:.2f} |")
+        head.append("")
+        out["verify_then_compare"] = vtc
 
     cells = []
     for j in judges:

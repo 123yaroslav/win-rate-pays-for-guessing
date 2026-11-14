@@ -1,0 +1,66 @@
+{
+ "platform": {
+  "grade_before": "C",
+  "grade_after": "A",
+  "score_before": 5.0,
+  "score_after": 9.1,
+  "percentile_after": 33.0,
+  "improvement_percent": 82.0
+ },
+ "registers": {
+  "CC": {
+   "n": 100,
+   "leak": 1,
+   "extractors_agree": 99,
+   "commit": 99,
+   "correct": 95,
+   "same_as_source_option": 95,
+   "hedged": 0,
+   "disagree": 1,
+   "wrong": 4
+  },
+  "HC": {
+   "n": 100,
+   "leak": 3,
+   "extractors_agree": 100,
+   "commit": 100,
+   "correct": 96,
+   "same_as_source_option": 96,
+   "hedged": 0,
+   "wrong": 4
+  },
+  "IDK": {
+   "n": 100,
+   "leak": 5,
+   "extractors_agree": 99,
+   "commit": 99,
+   "correct": 92,
+   "same_as_source_option": 0,
+   "hedged": 0,
+   "wrong": 7,
+   "disagree": 1
+  },
+  "CW": {
+   "n": 100,
+   "leak": 3,
+   "extractors_agree": 98,
+   "commit": 98,
+   "correct": 96,
+   "same_as_source_option": 0,
+   "hedged": 0,
+   "disagree": 2,
+   "wrong": 2
+  }
+ },
+ "total": {
+  "n": 400,
+  "leak": 12,
+  "extractors_agree": 396,
+  "commit": 396,
+  "correct": 379,
+  "same_as_source_option": 191,
+  "hedged": 0,
+  "disagree": 4,
+  "wrong": 17
+ }
+}

@@ -5,3 +5,13 @@ results/cache/
 .DS_Store
 data/raw/
 docs/ideas/.triage.key.json
+
+# LaTeX build files (main.pdf stays visible)
+paper_*/*.aux
+paper_*/*.bbl
+paper_*/*.blg
+paper_*/*.fdb_latexmk
+paper_*/*.fls
+paper_*/*.log
+paper_*/*.out
+paper_*/*.synctex.gz

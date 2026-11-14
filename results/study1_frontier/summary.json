@@ -1,0 +1,339 @@
+{
+ "judges": {
+  "openrouter/openai/gpt-5.6-terra": {
+   "own_accuracy": 0.8333333333333334,
+   "n_knows_items": 60,
+   "variants": {
+    "default": {
+     "picks_first_position": 0.5388888888888889,
+     "groups": {
+      "all": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 60,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.10833333333333334,
+        "lo": 0.041666666666666664,
+        "hi": 0.175,
+        "n": 60,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.725,
+        "lo": 0.625,
+        "hi": 0.8166666666666667,
+        "n": 60,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.725,
+        "v_eff": 0.275,
+        "p_star": -0.818181818181818,
+        "p_star_lo": -1.727272727272727,
+        "p_star_hi": -0.36363636363636354,
+        "n": 60,
+        "boot_defined": 1.0
+       }
+      },
+      "judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 50,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.03,
+        "lo": 0.0,
+        "hi": 0.07,
+        "n": 50,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.68,
+        "lo": 0.57,
+        "hi": 0.79,
+        "n": 50,
+        "p_boot_le_half": 0.0005
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.68,
+        "v_eff": 0.31999999999999995,
+        "p_star": -0.5625000000000002,
+        "p_star_lo": -1.3809523809523814,
+        "p_star_hi": -0.16279069767441848,
+        "n": 50,
+        "boot_defined": 1.0
+       }
+      },
+      "judge does not know": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 10,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.5,
+        "lo": 0.2,
+        "hi": 0.8,
+        "n": 10,
+        "p_boot_le_half": 0.556
+       },
+       "CW-IDK": {
+        "rate": 0.95,
+        "lo": 0.85,
+        "hi": 1.0,
+        "n": 10,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.95,
+        "v_eff": 0.050000000000000044,
+        "p_star": -8.999999999999991,
+        "p_star_lo": -8.999999999999991,
+        "p_star_hi": -2.333333333333333,
+        "n": 10,
+        "boot_defined": 0.6415
+       }
+      },
+      "domain geo": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 20,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.1,
+        "lo": 0.0,
+        "hi": 0.25,
+        "n": 20,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.65,
+        "lo": 0.475,
+        "hi": 0.825,
+        "n": 20,
+        "p_boot_le_half": 0.0655
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.65,
+        "v_eff": 0.35,
+        "p_star": -0.42857142857142866,
+        "p_star_lo": -1.8571428571428563,
+        "p_star_hi": 0.09090909090909088,
+        "n": 20,
+        "boot_defined": 1.0
+       }
+      },
+      "domain law": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 20,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.125,
+        "lo": 0.025,
+        "hi": 0.25,
+        "n": 20,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.875,
+        "lo": 0.725,
+        "hi": 0.975,
+        "n": 20,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.875,
+        "v_eff": 0.125,
+        "p_star": -3.0,
+        "p_star_lo": -18.999999999999982,
+        "p_star_hi": -1.0,
+        "n": 20,
+        "boot_defined": 0.993
+       }
+      },
+      "domain medqa": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 20,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.1,
+        "lo": 0.0,
+        "hi": 0.225,
+        "n": 20,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.65,
+        "lo": 0.475,
+        "hi": 0.8,
+        "n": 20,
+        "p_boot_le_half": 0.046
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.65,
+        "v_eff": 0.35,
+        "p_star": -0.42857142857142866,
+        "p_star_lo": -1.5000000000000007,
+        "p_star_hi": 0.0,
+        "n": 20,
+        "boot_defined": 1.0
+       }
+      },
+      "domain geo, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 18,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "n": 18,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.6111111111111112,
+        "lo": 0.4166666666666667,
+        "hi": 0.8055555555555556,
+        "n": 18,
+        "p_boot_le_half": 0.161
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.6111111111111112,
+        "v_eff": 0.38888888888888884,
+        "p_star": -0.28571428571428586,
+        "p_star_lo": -1.5714285714285718,
+        "p_star_hi": 0.14285714285714285,
+        "n": 18,
+        "boot_defined": 1.0
+       }
+      },
+      "domain law, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.06666666666666667,
+        "lo": 0.0,
+        "hi": 0.16666666666666666,
+        "n": 15,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.8666666666666667,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 15,
+        "p_boot_le_half": 0.0
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.8666666666666667,
+        "v_eff": 0.1333333333333333,
+        "p_star": -2.750000000000001,
+        "p_star_lo": -14.000000000000004,
+        "p_star_hi": -0.6666666666666664,
+        "n": 15,
+        "boot_defined": 0.961
+       }
+      },
+      "domain medqa, judge knows": {
+       "CC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 17,
+        "p_boot_le_half": 0.0
+       },
+       "CW-HC": {
+        "rate": 0.029411764705882353,
+        "lo": 0.0,
+        "hi": 0.08823529411764706,
+        "n": 17,
+        "p_boot_le_half": 1.0
+       },
+       "CW-IDK": {
+        "rate": 0.5882352941176471,
+        "lo": 0.4411764705882353,
+        "hi": 0.7647058823529411,
+        "n": 17,
+        "p_boot_le_half": 0.1785
+       },
+       "derived": {
+        "a": 1.0,
+        "b": 0.5882352941176471,
+        "v_eff": 0.4117647058823529,
+        "p_star": -0.21428571428571436,
+        "p_star_lo": -1.1249999999999996,
+        "p_star_hi": 0.15000000000000002,
+        "n": 17,
+        "boot_defined": 1.0
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "n_items": 300,
+ "tests": {
+  "H1": {
+   "group": "judge knows",
+   "alpha": 0.04,
+   "p": {
+    "openrouter/openai/gpt-5.6-terra": 0.0005
+   },
+   "holm_pass": {
+    "openrouter/openai/gpt-5.6-terra": true
+   },
+   "n_pass": 1,
+   "n_judges": 1
+  },
+  "H1F": {
+   "group": "all",
+   "alpha": 0.01,
+   "p": {
+    "openrouter/openai/gpt-5.6-terra": 0.0
+   },
+   "holm_pass": {
+    "openrouter/openai/gpt-5.6-terra": true
+   },
+   "n_pass": 1,
+   "n_judges": 1
+  }
+ }
+}
