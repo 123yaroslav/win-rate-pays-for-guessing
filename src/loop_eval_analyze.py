@@ -174,15 +174,18 @@ def main() -> None:
             j, f, kk = (out["models"][m][k]["value"] for m in ("J", "F", "K"))
             inside = sum(min(p, q) <= r <= max(p, q) for p, r, q in
                          zip(draws["J"][k], draws["F"][k], draws["K"][k])) / a.boot
-            between[k] = {"J": j, "F": f, "K": kk, "F_between_J_and_K": min(j, kk) <= f <= max(j, kk),
+            between[k] = {"J": j, "F": f, "K": kk, "all_equal": j == f == kk,
+                          "F_between_J_and_K": min(j, kk) <= f <= max(j, kk),
                           "predicted_order_J_F_K": j < f < kk, "share_resamples_F_between": inside}
         out["predictions"]["P5e"] = between
         md += ["P5e (the F model sits between J and K on abstention rate and penalised score). "
                + " ".join(f"{PHRASE[k]}: J {cell(k, out['models']['J'][k]).split(' (')[0]}, "
                           f"F {cell(k, out['models']['F'][k]).split(' (')[0]}, K {cell(k, out['models']['K'][k]).split(' (')[0]}, "
-                          f"F between J and K: {'yes' if v['F_between_J_and_K'] else 'no'}, "
-                          f"in the predicted order J below F below K: {'yes' if v['predicted_order_J_F_K'] else 'no'}, "
-                          f"F between them in {v['share_resamples_F_between']:.4f} of the resamples."
+                          + ("the three are equal, so there is no order to test."
+                             if v["all_equal"] else
+                             f"F between J and K: {'yes' if v['F_between_J_and_K'] else 'no'}, "
+                             f"in the predicted order J below F below K: {'yes' if v['predicted_order_J_F_K'] else 'no'}, "
+                             f"F between them in {v['share_resamples_F_between']:.4f} of the resamples.")
                           for k, v in between.items()), ""]
 
     noisy = [m for m in models if out["models"][m]["unparsed_rate"]["value"] > 0.05]

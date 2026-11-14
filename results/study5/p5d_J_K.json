@@ -1,0 +1,71 @@
+{
+ "model_1": "J",
+ "model_2": "K",
+ "questions_that_differ": 63,
+ "questions": 300,
+ "judges": {
+  "openrouter/anthropic/claude-haiku-5.5": {
+   "rate": 0.42857142857142855,
+   "lo": 0.3253968253968254,
+   "hi": 0.5317460317460317,
+   "n": 63,
+   "p_le_half": 0.9272,
+   "by_kind": {
+    "J right, K wrong": {
+     "rate": 0.47058823529411764,
+     "n": 34
+    },
+    "J wrong, K right": {
+     "rate": 0.3611111111111111,
+     "n": 18
+    },
+    "J wrong, K wrong": {
+     "rate": 0.4090909090909091,
+     "n": 11
+    }
+   }
+  },
+  "openrouter/openai/gpt-5.6-luna": {
+   "rate": 0.48412698412698413,
+   "lo": 0.38095238095238093,
+   "hi": 0.5873015873015873,
+   "n": 63,
+   "p_le_half": 0.6455,
+   "by_kind": {
+    "J right, K wrong": {
+     "rate": 0.5588235294117647,
+     "n": 34
+    },
+    "J wrong, K right": {
+     "rate": 0.2777777777777778,
+     "n": 18
+    },
+    "J wrong, K wrong": {
+     "rate": 0.5909090909090909,
+     "n": 11
+    }
+   }
+  },
+  "openrouter/mistralai/mistral-small-2603": {
+   "rate": 0.36507936507936506,
+   "lo": 0.2777777777777778,
+   "hi": 0.4603174603174603,
+   "n": 63,
+   "p_le_half": 0.9986,
+   "by_kind": {
+    "J right, K wrong": {
+     "rate": 0.3382352941176471,
+     "n": 34
+    },
+    "J wrong, K right": {
+     "rate": 0.4444444444444444,
+     "n": 18
+    },
+    "J wrong, K wrong": {
+     "rate": 0.3181818181818182,
+     "n": 11
+    }
+   }
+  }
+ }
+}

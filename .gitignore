@@ -16,3 +16,5 @@ paper_*/*.log
 paper_*/*.out
 paper_*/*.synctex.gz
 results/study5/adapters/
+results/study5/adapters_e3/
+data/raw/cn_prev/

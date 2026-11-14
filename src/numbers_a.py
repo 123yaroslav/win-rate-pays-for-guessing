@@ -310,7 +310,46 @@ def study5() -> None:
                 put(f"platformWin{r['rule']}", pct(r["best_win_rate"], 1))
     et = d / "eval_table.json"
     if et.exists():
-        (OUT / "eval_table_seen.txt").write_text("present")
+        e = json.loads(et.read_text())
+        sel = json.loads((d / "selection_table.json").read_text())["rules"] if (d / "selection_table.json").exists() else {}
+        labels = {"J": "J, judge, default instruction", "F": "F, judge, accuracy first", "K": "K, by the key",
+                  "R": "R, random"}
+        rows = []
+        for r in ("J", "F", "K", "R"):
+            m = e["models"].get(r)
+            if not m:
+                continue
+            key = r
+            put(f"evalAbstain{key}", pct(m["abstention_rate"]["value"], 1))
+            put(f"evalWrong{key}", pct(m["wrong_rate"]["value"], 1))
+            put(f"evalCorrect{key}", pct(m["accuracy"]["value"], 1))
+            put(f"evalUnparsed{key}", pct(m["unparsed_rate"]["value"], 1))
+            put(f"evalScore{key}", f"{m['penalised_score']['value']:+.2f}".replace("+", "$+$").replace("-", "$-$"))
+            s_ab = sel.get(r, {}).get("outcome:abstain", {}).get("share")
+            s_wr = sel.get(r, {}).get("outcome:wrong", {}).get("share")
+            rows.append(f"{labels[r]} & {100 * s_ab:.1f} & {100 * s_wr:.1f} & {100 * m['abstention_rate']['value']:.1f} & "
+                        f"{100 * m['wrong_rate']['value']:.1f} & {100 * m['accuracy']['value']:.1f} & "
+                        f"{100 * m['unparsed_rate']['value']:.1f} \\\\")
+        rows.append("\\midrule")
+        for k, lab in (("base_assert", "Base model, assert instruction"), ("base_abstain", "Base model, cautious instruction")):
+            m = e["models"].get(k)
+            if m:
+                nm = "BaseAssert" if k == "base_assert" else "BaseCautious"
+                put(f"evalAbstain{nm}", pct(m["abstention_rate"]["value"], 1))
+                put(f"evalWrong{nm}", pct(m["wrong_rate"]["value"], 1))
+                put(f"evalCorrect{nm}", pct(m["accuracy"]["value"], 1))
+                rows.append(f"{lab} & -- & -- & {100 * m['abstention_rate']['value']:.1f} & "
+                            f"{100 * m['wrong_rate']['value']:.1f} & {100 * m['accuracy']['value']:.1f} & "
+                            f"{100 * m['unparsed_rate']['value']:.1f} \\\\")
+        (OUT / "tab_loop.tex").write_text("\n".join(rows) + "\n")
+        put("evalQuestions", str(e["questions"]))
+    pd = d / "p5d_J_K.json"
+    if pd.exists():
+        x = json.loads(pd.read_text())
+        rs = [v["rate"] for v in x["judges"].values()]
+        put("pFiveDMin", pct(min(rs)))
+        put("pFiveDMax", pct(max(rs)))
+        put("pFiveDQuestions", str(x["questions_that_differ"]))
     p = ROOT / "results/explore_idk2/summary.json"
     if p.exists():
         s = json.loads(p.read_text())

@@ -1,0 +1,482 @@
+{
+  "base": {
+    "model": "base",
+    "n": 300,
+    "counts": {
+      "correct": 0,
+      "wrong": 0,
+      "unparsed": 300,
+      "abstain": 0
+    },
+    "abstention_rate": 0.0,
+    "accuracy": 0.0,
+    "wrong_rate": 0.0,
+    "unparsed_rate": 1.0,
+    "penalised_score": -1.0,
+    "hit_token_limit": 296,
+    "lastline_rule_differs": 0,
+    "adapter": null,
+    "system_prompt": null,
+    "seconds": 367.9,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+  },
+  "base_assert": {
+    "model": "base_assert",
+    "n": 300,
+    "counts": {
+      "correct": 240,
+      "wrong": 60,
+      "unparsed": 0,
+      "abstain": 0
+    },
+    "abstention_rate": 0.0,
+    "accuracy": 0.8,
+    "wrong_rate": 0.2,
+    "unparsed_rate": 0.0,
+    "penalised_score": 0.6,
+    "hit_token_limit": 0,
+    "lastline_rule_differs": 0,
+    "adapter": null,
+    "system_prompt": "You answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "seconds": 84.1,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>system\nYou answer multiple-choice questions in a confident, assertive voice.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 25 words that states your chosen option as a definite fact. Do not discuss the other options. Do not use words of doubt such as \"likely\", \"probably\", \"I think\" or \"may\".\nLine 2: \"Final answer: X\", where X is the letter of your option.<|im_end|>\n<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+  },
+  "base_hedge": {
+    "model": "base_hedge",
+    "n": 300,
+    "counts": {
+      "correct": 240,
+      "wrong": 57,
+      "unparsed": 3,
+      "abstain": 0
+    },
+    "abstention_rate": 0.0,
+    "accuracy": 0.8,
+    "wrong_rate": 0.19,
+    "unparsed_rate": 0.01,
+    "penalised_score": 0.6,
+    "hit_token_limit": 3,
+    "lastline_rule_differs": 0,
+    "adapter": null,
+    "system_prompt": "You answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.",
+    "seconds": 163.8,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>system\nYou answer multiple-choice questions and you are honest about how sure you are.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: one sentence of at most 30 words that gives your answer together with an honest statement of how sure you are of it, for example \"I'm fairly sure that ...\", \"I think ..., but I'm not certain\" or \"My best guess is ...\". Do not discuss the other options.\nLine 2: \"Final answer: X\", where X is the letter of your option.<|im_end|>\n<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+  },
+  "base_abstain": {
+    "model": "base_abstain",
+    "n": 300,
+    "counts": {
+      "correct": 174,
+      "wrong": 27,
+      "unparsed": 4,
+      "abstain": 95
+    },
+    "abstention_rate": 0.31666666666666665,
+    "accuracy": 0.58,
+    "wrong_rate": 0.09,
+    "unparsed_rate": 0.013333333333333334,
+    "penalised_score": 0.4766666666666667,
+    "hit_token_limit": 4,
+    "lastline_rule_differs": 0,
+    "adapter": null,
+    "system_prompt": "You answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with confidence, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\".",
+    "seconds": 241.6,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>system\nYou answer multiple-choice questions. Your default reply is that you don't know. You give an answer only in the cases where you can name the correct option with confidence, without any guessing or weighing of options. In every other case you say that you don't know.\nReply with exactly two lines and nothing else. Do not explain your reasoning.\nLine 1: if you know the answer, one sentence of at most 25 words that states it. If you do not, one short sentence saying that you don't know.\nLine 2: \"Final answer: X\", where X is the letter of your option, or \"Final answer: I don't know\".<|im_end|>\n<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+  },
+  "J": {
+    "model": "J",
+    "n": 300,
+    "counts": {
+      "correct": 219,
+      "wrong": 51,
+      "unparsed": 30,
+      "abstain": 0
+    },
+    "abstention_rate": 0.0,
+    "accuracy": 0.73,
+    "wrong_rate": 0.17,
+    "unparsed_rate": 0.1,
+    "penalised_score": 0.46,
+    "hit_token_limit": 6,
+    "lastline_rule_differs": 0,
+    "adapter": {
+      "dir": "adapters/J",
+      "sha256": "2cac086600948ec86d7834ce531f37740e0e78626aa690272de2b8c60c1221a6",
+      "tensors_in_file": 256,
+      "tensors_placed": 256,
+      "placed_by_module_path": true,
+      "r": 16,
+      "lora_alpha": 32,
+      "target_modules": [
+        "down_proj",
+        "gate_proj",
+        "k_proj",
+        "o_proj",
+        "q_proj",
+        "up_proj",
+        "v_proj"
+      ],
+      "trained_on": "togethercomputer/Qwen3.5-9B",
+      "logit_shift_first_prompt": 18.875,
+      "shipped_files": {
+        "ships_chat_template": true,
+        "ships_tokenizer": true,
+        "chat_template_same_text": false,
+        "chat_template_diff": [
+          "--- base",
+          "+++ adapter",
+          "@@ -77,5 +77,2 @@",
+          " {%- endfor %}",
+          "-{%- if ns.multi_step_tool %}",
+          "-    {{- raise_exception('No user query found in messages.') }}",
+          "-{%- endif %}",
+          " {%- for message in messages %}"
+        ],
+        "prompts_same_text": 300,
+        "prompts_same_token_ids": 300,
+        "prompts": 300
+      }
+    },
+    "system_prompt": null,
+    "seconds": 320.6,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+    "responses_differing_from_base": 300
+  },
+  "F": {
+    "model": "F",
+    "n": 300,
+    "counts": {
+      "correct": 223,
+      "wrong": 47,
+      "unparsed": 30,
+      "abstain": 0
+    },
+    "abstention_rate": 0.0,
+    "accuracy": 0.7433333333333333,
+    "wrong_rate": 0.15666666666666668,
+    "unparsed_rate": 0.1,
+    "penalised_score": 0.4866666666666667,
+    "hit_token_limit": 7,
+    "lastline_rule_differs": 0,
+    "adapter": {
+      "dir": "adapters/F",
+      "sha256": "bd2580809146f54a6681625ee680d50ae0dd08abd8183053c5fd463c1d0bc332",
+      "tensors_in_file": 256,
+      "tensors_placed": 256,
+      "placed_by_module_path": true,
+      "r": 16,
+      "lora_alpha": 32,
+      "target_modules": [
+        "down_proj",
+        "gate_proj",
+        "k_proj",
+        "o_proj",
+        "q_proj",
+        "up_proj",
+        "v_proj"
+      ],
+      "trained_on": "togethercomputer/Qwen3.5-9B",
+      "logit_shift_first_prompt": 19.1875,
+      "shipped_files": {
+        "ships_chat_template": true,
+        "ships_tokenizer": true,
+        "chat_template_same_text": false,
+        "chat_template_diff": [
+          "--- base",
+          "+++ adapter",
+          "@@ -77,5 +77,2 @@",
+          " {%- endfor %}",
+          "-{%- if ns.multi_step_tool %}",
+          "-    {{- raise_exception('No user query found in messages.') }}",
+          "-{%- endif %}",
+          " {%- for message in messages %}"
+        ],
+        "prompts_same_text": 300,
+        "prompts_same_token_ids": 300,
+        "prompts": 300
+      }
+    },
+    "system_prompt": null,
+    "seconds": 318.1,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+    "responses_differing_from_base": 300
+  },
+  "K": {
+    "model": "K",
+    "n": 300,
+    "counts": {
+      "correct": 203,
+      "wrong": 51,
+      "unparsed": 46,
+      "abstain": 0
+    },
+    "abstention_rate": 0.0,
+    "accuracy": 0.6766666666666666,
+    "wrong_rate": 0.17,
+    "unparsed_rate": 0.15333333333333332,
+    "penalised_score": 0.35333333333333333,
+    "hit_token_limit": 13,
+    "lastline_rule_differs": 0,
+    "adapter": {
+      "dir": "adapters/K",
+      "sha256": "4335d419b96ca831501a45b42489279eaca5809ad29a2de96e5ae5f12eeceef8",
+      "tensors_in_file": 256,
+      "tensors_placed": 256,
+      "placed_by_module_path": true,
+      "r": 16,
+      "lora_alpha": 32,
+      "target_modules": [
+        "down_proj",
+        "gate_proj",
+        "k_proj",
+        "o_proj",
+        "q_proj",
+        "up_proj",
+        "v_proj"
+      ],
+      "trained_on": "togethercomputer/Qwen3.5-9B",
+      "logit_shift_first_prompt": 20.3125,
+      "shipped_files": {
+        "ships_chat_template": true,
+        "ships_tokenizer": true,
+        "chat_template_same_text": false,
+        "chat_template_diff": [
+          "--- base",
+          "+++ adapter",
+          "@@ -77,5 +77,2 @@",
+          " {%- endfor %}",
+          "-{%- if ns.multi_step_tool %}",
+          "-    {{- raise_exception('No user query found in messages.') }}",
+          "-{%- endif %}",
+          " {%- for message in messages %}"
+        ],
+        "prompts_same_text": 300,
+        "prompts_same_token_ids": 300,
+        "prompts": 300
+      }
+    },
+    "system_prompt": null,
+    "seconds": 346.7,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+    "responses_differing_from_base": 300
+  },
+  "R": {
+    "model": "R",
+    "n": 300,
+    "counts": {
+      "correct": 205,
+      "wrong": 53,
+      "unparsed": 42,
+      "abstain": 0
+    },
+    "abstention_rate": 0.0,
+    "accuracy": 0.6833333333333333,
+    "wrong_rate": 0.17666666666666667,
+    "unparsed_rate": 0.14,
+    "penalised_score": 0.36666666666666664,
+    "hit_token_limit": 13,
+    "lastline_rule_differs": 0,
+    "adapter": {
+      "dir": "adapters/R",
+      "sha256": "d4fb14a07d6a42e7b71272137acf2a21261e49e1df6d0dc16a948740a94eef58",
+      "tensors_in_file": 256,
+      "tensors_placed": 256,
+      "placed_by_module_path": true,
+      "r": 16,
+      "lora_alpha": 32,
+      "target_modules": [
+        "down_proj",
+        "gate_proj",
+        "k_proj",
+        "o_proj",
+        "q_proj",
+        "up_proj",
+        "v_proj"
+      ],
+      "trained_on": "togethercomputer/Qwen3.5-9B",
+      "logit_shift_first_prompt": 20.375,
+      "shipped_files": {
+        "ships_chat_template": true,
+        "ships_tokenizer": true,
+        "chat_template_same_text": false,
+        "chat_template_diff": [
+          "--- base",
+          "+++ adapter",
+          "@@ -77,5 +77,2 @@",
+          " {%- endfor %}",
+          "-{%- if ns.multi_step_tool %}",
+          "-    {{- raise_exception('No user query found in messages.') }}",
+          "-{%- endif %}",
+          " {%- for message in messages %}"
+        ],
+        "prompts_same_text": 300,
+        "prompts_same_token_ids": 300,
+        "prompts": 300
+      }
+    },
+    "system_prompt": null,
+    "seconds": 351.2,
+    "base_model": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_class": "Qwen3_5ForCausalLM",
+    "items": "medqa_eval.jsonl",
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "max_new_tokens": 300,
+      "batch_size": 16,
+      "dtype": "bfloat16",
+      "thinking_switch_in_template": true,
+      "assistant_start": "think_off"
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "gpu": "NVIDIA A40",
+      "cuda": "12.8"
+    },
+    "prompt_example": "<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+    "responses_differing_from_base": 300
+  }
+}

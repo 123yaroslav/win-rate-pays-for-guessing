@@ -17,3 +17,11 @@ items 300 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adap
 [23:32:50] fresh 4000 done 4117 failed 0 429s 0 spend adaption 0.053 openrouter 0.000 rate 41/min
 [23:38:53] fresh 4250 done 4367 failed 0 429s 0 spend adaption 0.057 openrouter 0.000 rate 41/min
 [23:44:55] fresh 4500 done 4617 failed 0 429s 0 spend adaption 0.060 openrouter 0.000 rate 41/min
+[23:50:58] fresh 4750 done 4867 failed 0 429s 0 spend adaption 0.064 openrouter 0.000 rate 41/min
+[23:57:01] fresh 5000 done 5117 failed 0 429s 0 spend adaption 0.067 openrouter 0.000 rate 41/min
+[00:03:03] fresh 5250 done 5367 failed 0 429s 0 spend adaption 0.070 openrouter 0.000 rate 41/min
+[00:09:05] fresh 5500 done 5617 failed 0 429s 0 spend adaption 0.073 openrouter 0.000 rate 41/min
+[00:15:11] fresh 5750 done 5867 failed 0 429s 0 spend adaption 0.077 openrouter 0.000 rate 41/min
+[00:21:12] fresh 6000 done 6117 failed 0 429s 0 spend adaption 0.080 openrouter 0.000 rate 41/min
+finished: fresh 6182 failed 1 429s 0 spend adaption 0.083 openrouter 0.000
+items 300 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adaption/qwen3.8-27b'] pairs 7 variants ['default'] cached 6299

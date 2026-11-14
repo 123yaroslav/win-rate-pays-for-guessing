@@ -1,0 +1,79 @@
+{
+  "model": "K",
+  "n": 300,
+  "counts": {
+    "correct": 203,
+    "wrong": 51,
+    "unparsed": 46,
+    "abstain": 0
+  },
+  "abstention_rate": 0.0,
+  "accuracy": 0.6766666666666666,
+  "wrong_rate": 0.17,
+  "unparsed_rate": 0.15333333333333332,
+  "penalised_score": 0.35333333333333333,
+  "hit_token_limit": 13,
+  "lastline_rule_differs": 0,
+  "adapter": {
+    "dir": "adapters/K",
+    "sha256": "4335d419b96ca831501a45b42489279eaca5809ad29a2de96e5ae5f12eeceef8",
+    "tensors_in_file": 256,
+    "tensors_placed": 256,
+    "placed_by_module_path": true,
+    "r": 16,
+    "lora_alpha": 32,
+    "target_modules": [
+      "down_proj",
+      "gate_proj",
+      "k_proj",
+      "o_proj",
+      "q_proj",
+      "up_proj",
+      "v_proj"
+    ],
+    "trained_on": "togethercomputer/Qwen3.5-9B",
+    "logit_shift_first_prompt": 20.3125,
+    "shipped_files": {
+      "ships_chat_template": true,
+      "ships_tokenizer": true,
+      "chat_template_same_text": false,
+      "chat_template_diff": [
+        "--- base",
+        "+++ adapter",
+        "@@ -77,5 +77,2 @@",
+        " {%- endfor %}",
+        "-{%- if ns.multi_step_tool %}",
+        "-    {{- raise_exception('No user query found in messages.') }}",
+        "-{%- endif %}",
+        " {%- for message in messages %}"
+      ],
+      "prompts_same_text": 300,
+      "prompts_same_token_ids": 300,
+      "prompts": 300
+    }
+  },
+  "system_prompt": null,
+  "seconds": 346.7,
+  "base_model": "Qwen/Qwen3.5-9B",
+  "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "model_class": "Qwen3_5ForCausalLM",
+  "items": "medqa_eval.jsonl",
+  "generation": {
+    "do_sample": false,
+    "temperature": 0,
+    "max_new_tokens": 300,
+    "batch_size": 16,
+    "dtype": "bfloat16",
+    "thinking_switch_in_template": true,
+    "assistant_start": "think_off"
+  },
+  "versions": {
+    "torch": "2.8.0+cu128",
+    "transformers": "5.23.0",
+    "peft": "0.21.3",
+    "gpu": "NVIDIA A40",
+    "cuda": "12.8"
+  },
+  "prompt_example": "<|im_start|>user\nA 71-year-old woman with type 2 diabetes mellitus and hypertension comes to the emergency department because of a 3-day history of intermittent abdominal pain, vomiting, and obstipation. She has had multiple episodes of upper abdominal pain over the past year. She has smoked 1 pack of cigarettes daily for the past 30 years. Physical examination shows a distended abdomen with diffuse tenderness and high-pitched bowel sounds. An x-ray of the abdomen shows a dilated bowel, multiple air-fluid levels, and branching radiolucencies in the right infra-diaphragmatic region. Which of the following is the most likely cause of this patient's condition?\nA. Perforation of the duodenal wall\nB. Inflammation of the gallbladder wall\nC. Obstruction of the common bile duct\nD. Torsion of the large intestine<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+  "responses_differing_from_base": 300
+}

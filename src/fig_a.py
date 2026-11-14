@@ -32,7 +32,7 @@ def cell(summary: dict, judge: str, group: str, pair: str, variant: str = "defau
 
 def fig1(s1: dict, out: Path) -> None:
     judges = [j for j in NAMES if j in s1["judges"]]
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.9), gridspec_kw={"width_ratios": [1.25, 1]})
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.6), gridspec_kw={"width_ratios": [1.25, 1]})
     # panel a: the same wrong answer against two opponents, on items the judge answers correctly itself
     ys = list(range(len(judges)))[::-1]
     for y, j in zip(ys, judges):
@@ -77,11 +77,12 @@ def fig1(s1: dict, out: Path) -> None:
     bx.set_xlabel("Accuracy of a policy that always answers")
     bx.set_ylabel("Its win rate against\na policy that abstains")
     if lows:
-        bx.annotate("LLM judges", xy=(0.10, min(lows) + 0.02), xytext=(0.04, 0.33), color=ORANGE, fontsize=8,
+        bx.annotate("LLM judges", xy=(0.10, min(lows) + 0.02), xytext=(0.34, 0.40), color=ORANGE, fontsize=8,
                     ha="left", va="center", arrowprops={"arrowstyle": "-", "color": ORANGE, "lw": 0.7})
-    bx.text(0.66, 0.735, "accuracy grading", fontsize=7.5, ha="left", va="center")
-    bx.text(0.60, 0.33, "right +1, wrong $-$1", fontsize=7.5, ha="left", va="center")
-    bx.text(0.985, 0.515, "answering wins above this line", fontsize=7, ha="right", va="bottom", color=GREY)
+    bx.text(0.25, 0.578, "accuracy grading", fontsize=7.5, ha="center", va="center", rotation=26.57,
+            rotation_mode="anchor", transform_rotates_text=True)
+    bx.text(0.66, 0.60, "right +1, wrong $-$1", fontsize=7.5, ha="center", va="center", rotation=45,
+            rotation_mode="anchor", transform_rotates_text=True)
     bx.set_title("b", loc="left")
     for ext in ("pdf", "png"):
         fig.savefig(out / f"fig1_core.{ext}")

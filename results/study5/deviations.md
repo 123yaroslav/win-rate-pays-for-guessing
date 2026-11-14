@@ -94,3 +94,34 @@ The evaluation of the trained models (P5c to P5e) is a separate step and is not 
 OpenRouter, from `usage.cost` of every call: generation 0.4693 USD (tuning 0.1603, pool 0.3090), judge round
 robins 0.4995 USD, natural-output duels 0.0853 USD. Total 1.0541 USD, under the caps set for these steps
 (0.80, 0.80, 0.40 and 2.00 in total).
+
+## Follow-up runs (post hoc)
+
+This part was designed after the registered evaluation was seen (`eval_table.md`). It is exploratory and is
+not covered by the pre-registration. The registered runs J, F, K and R, their adapters in `adapters/` and
+their results stay as they are and are reported as registered.
+
+What was seen. None of the four trained models abstains on any of the 300 test questions, and 10% to 15% of
+their outputs have no final line. The K and R training sets hold only 4.3% and 7.0% abstentions, and one
+epoch is 22 optimiser steps, so the registered design could not show a difference in abstention between
+the trained models.
+
+What changes in the follow-up.
+
+- **A new rule C, the cautious policy with no selection.** For every one of the 1,500 pool questions the
+  abstain-style response is kept as it is, with its abstentions and its unparsed responses. Nothing is
+  filtered, and no judge and no key is used. The set is `train_C.jsonl`: 21.9% abstentions (328), 65.1%
+  correct (977), 9.8% wrong (147), 3.2% unparsed (48). Its composition next to J and K is in
+  `selection_table_followup.md`.
+- **Three epochs.** Three runs, C, J and K, on `Qwen/Qwen3.5-9B` with the recommended hyperparameters of the
+  registered runs (LoRA rank 16, alpha 32, all linear modules, peak learning rate 5e-5, cosine schedule, loss
+  on the completion only) and `n_epochs = 3` in place of 1. One iteration, no augmentation. J and K reuse the
+  datasets uploaded for the registered runs.
+- **Where things go.** Ledger records of the follow-up carry `"followup": "e3"` in
+  `autoscientist_runs.jsonl`. Adapters go to `adapters_e3/{C,J,K}/`, a folder kept out of the repository.
+
+Status. The C set is built and uploaded (dataset `975dd325-e4ad-4a89-8349-18a8eefb2cd3`), and the platform
+recommends for it the same hyperparameters as for the other sets. The three runs have not been launched:
+the launch command was not permitted in the session that prepared them. Nothing was sent to the training
+API beyond the upload and the hyperparameter request, and no run exists. This paragraph is to be replaced
+by run ids, win rates, wall times and losses once the runs are made.

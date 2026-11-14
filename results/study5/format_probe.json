@@ -1,0 +1,47 @@
+{
+  "rows": "train_R.jsonl",
+  "n": 64,
+  "unit": "mean negative log-likelihood per completion token",
+  "models": {
+    "base": {
+      "chat_think_off": 2.0644,
+      "chat_think_open": 1.9548,
+      "chat_plain": 1.7979,
+      "chat_json_as_user_text": 1.973,
+      "raw_text": 1.5967,
+      "raw_json": 1.39
+    },
+    "J": {
+      "chat_think_off": 0.6352,
+      "chat_think_open": 1.3724,
+      "chat_plain": 1.4073,
+      "chat_json_as_user_text": 0.5776,
+      "raw_text": 1.3431,
+      "raw_json": 1.0722
+    },
+    "F": {
+      "chat_think_off": 0.5977,
+      "chat_think_open": 1.3559,
+      "chat_plain": 1.3954,
+      "chat_json_as_user_text": 0.5432,
+      "raw_text": 1.3333,
+      "raw_json": 1.0615
+    },
+    "K": {
+      "chat_think_off": 0.5575,
+      "chat_think_open": 1.3313,
+      "chat_plain": 1.3727,
+      "chat_json_as_user_text": 0.5069,
+      "raw_text": 1.3343,
+      "raw_json": 1.0495
+    },
+    "R": {
+      "chat_think_off": 0.5509,
+      "chat_think_open": 1.3335,
+      "chat_plain": 1.3682,
+      "chat_json_as_user_text": 0.4987,
+      "raw_text": 1.3346,
+      "raw_json": 1.0469
+    }
+  }
+}

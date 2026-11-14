@@ -12,6 +12,17 @@ hyperparameters the platform recommends for the dataset and model.
     python src/loop_train.py download           # adapters to results/study5/adapters/{rule}/
 
 Every step is appended to results/study5/autoscientist_runs.jsonl.
+
+Follow-up runs (post hoc, see results/study5/deviations.md) are kept apart with `--followup <tag>`: their
+ledger records carry `"followup": "<tag>"`, their adapters go to results/study5/adapters_<tag>/{rule}/, and
+`--epochs N` overrides the recommended number of epochs, everything else staying as recommended. A dataset
+that is already uploaded is reused.
+
+    python src/loop_train.py prepare --rules C
+    python src/loop_train.py upload --rules C --followup e3
+    python src/loop_train.py launch --rules C J K --followup e3 --epochs 3
+    python src/loop_train.py status --rules C J K --followup e3
+    python src/loop_train.py download --rules C J K --followup e3
 """
 from __future__ import annotations
 
@@ -20,7 +31,7 @@ import json
 import tarfile
 import time
 
-from adaption import Adaption
+from adaption import Adaption, APIStatusError
 
 from loop_common import ENV, OUT, read_jsonl
 
@@ -32,16 +43,26 @@ UPLOAD = OUT / "upload"
 TRAIN_COLUMNS = {"prompt": "original_prompt", "completion": "original_completion"}
 
 
-def log(rec: dict) -> None:
+def log(rec: dict, tag: str | None = None) -> None:
+    extra = {"followup": tag} if tag else {}
     with LEDGER.open("a") as f:
-        f.write(json.dumps({**rec, "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z")}, default=str) + "\n")
+        f.write(json.dumps({**rec, **extra, "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z")}, default=str) + "\n")
 
 
-def latest(op: str, attempt: int | None = None) -> dict[str, dict]:
-    """The last ledger record of an operation for every rule."""
+def latest(op: str, attempt: int | None = None, tag: str | None = None) -> dict[str, dict]:
+    """The last ledger record of an operation for every rule, within the registered runs or one follow-up."""
     out = {}
     for d in read_jsonl(LEDGER):
-        if d.get("op") == op and (attempt is None or d.get("attempt") == attempt):
+        if d.get("op") == op and d.get("followup") == tag and (attempt is None or d.get("attempt") == attempt):
+            out[d["rule"]] = d
+    return out
+
+
+def uploads() -> dict[str, dict]:
+    """The last successful upload of every rule, whichever batch of runs made it."""
+    out = {}
+    for d in read_jsonl(LEDGER):
+        if d.get("op") == "upload" and d.get("status") == "succeeded":
             out[d["rule"]] = d
     return out
 
@@ -58,10 +79,10 @@ def prepare(rules: list[str]) -> None:
         print(r, len(rows), "->", out)
 
 
-def upload(c: Adaption, rules: list[str]) -> None:
-    done = latest("upload")
+def upload(c: Adaption, rules: list[str], tag: str | None) -> None:
+    done = uploads()
     for r in rules:
-        if r in done and done[r].get("status") == "succeeded":
+        if r in done:
             print(r, "already uploaded", done[r]["dataset_id"])
             continue
         f = UPLOAD / f"s5_train_{r}.jsonl"
@@ -71,37 +92,46 @@ def upload(c: Adaption, rules: list[str]) -> None:
         st = c.datasets.wait_for_completion(ds.dataset_id)
         print(r, ds.dataset_id, st.status, st.row_count)
         log({"op": "upload", "rule": r, "file": str(f.relative_to(OUT.parents[1])), "rows_local": n,
-             "dataset_id": ds.dataset_id, "status": st.status, "rows": st.row_count})
+             "dataset_id": ds.dataset_id, "status": st.status, "rows": st.row_count}, tag)
 
 
-def quote(c: Adaption, rules: list[str]) -> None:
-    ds = latest("upload")
+def quote(c: Adaption, rules: list[str], tag: str | None) -> None:
+    ds = uploads()
     for r in rules:
         hp = c.autoscientist.recommend_hyperparams(dataset_id=ds[r]["dataset_id"], model=MODEL)
         print(r, hp.model, json.dumps(hp.hyperparams.to_dict()))
         log({"op": "recommend", "rule": r, "dataset_id": ds[r]["dataset_id"], "model": hp.model,
              "hyperparams": hp.hyperparams.to_dict(),
-             "note": "the API (SDK 0.19) has no price quote and no credit balance endpoint for training runs"})
+             "note": "the API (SDK 0.19) has no price quote and no credit balance endpoint for training runs"}, tag)
 
 
-def launch(c: Adaption, rules: list[str], attempt: int) -> None:
-    ds = latest("upload")
-    started = latest("train", attempt)
+def launch(c: Adaption, rules: list[str], attempt: int, tag: str | None, epochs: int | None) -> None:
+    ds = uploads()
+    started = latest("train", attempt, tag)
+    hyper: dict = {"training_type": "lora"}
+    if epochs:
+        hyper["n_epochs"] = epochs
     for r in rules:
         if r in started:
             print(r, "already launched", started[r]["run_id"])
             continue
-        run = c.autoscientist.create(dataset_id=ds[r]["dataset_id"], model=MODEL, training_method="instruction",
-                                     data_format="chat", max_iterations=1, column_mapping=TRAIN_COLUMNS,
-                                     hyperparams={"training_type": "lora"},
-                                     idempotency_key=f"s5-{r}-{ds[r]['dataset_id']}-a{attempt}")
+        key = f"s5-{r}-{ds[r]['dataset_id']}-a{attempt}" if not tag else f"s5-{tag}-{r}-{ds[r]['dataset_id']}-a{attempt}"
+        try:
+            run = c.autoscientist.create(dataset_id=ds[r]["dataset_id"], model=MODEL, training_method="instruction",
+                                         data_format="chat", max_iterations=1, column_mapping=TRAIN_COLUMNS,
+                                         hyperparams=hyper, idempotency_key=key)
+        except APIStatusError as e:                      # a refusal (bad parameter, no credits) is kept and stops
+            log({"op": "refused", "rule": r, "attempt": attempt, "dataset_id": ds[r]["dataset_id"],
+                 "hyperparams_sent": hyper, "http_status": e.status_code, "message": str(e)[:600]}, tag)
+            raise SystemExit(f"{r}: the API refused the run ({e.status_code}): {str(e)[:600]}") from e
         print(r, "run", run.id, run.model, run.status, run.max_iterations)
         log({"op": "train", "rule": r, "attempt": attempt, "dataset_id": ds[r]["dataset_id"], "model": MODEL,
-             "run_id": run.id, "launched_unix": time.time(), "response": run.to_dict()})
+             "run_id": run.id, "hyperparams_sent": hyper, "idempotency_key": key, "launched_unix": time.time(),
+             "response": run.to_dict()}, tag)
 
 
-def status(c: Adaption, rules: list[str], attempt: int) -> None:
-    runs = latest("train", attempt)
+def status(c: Adaption, rules: list[str], attempt: int, tag: str | None) -> None:
+    runs = latest("train", attempt, tag)
     final = {(d["rule"], d["run_id"]) for d in read_jsonl(LEDGER) if d.get("op") == "final"}
     for r in rules:
         if r not in runs:
@@ -115,15 +145,32 @@ def status(c: Adaption, rules: list[str], attempt: int) -> None:
               "minutes", None if wall is None else round(wall, 1), "error", x.error)
         if x.status in ("succeeded", "failed", "cancelled") and (r, x.id) not in final:
             log({"op": "final", "rule": r, "attempt": attempt, "run_id": x.id, "status": x.status,
-                 "best_win_rate": x.best_win_rate, "wall_minutes": wall, "response": d})
+                 "best_win_rate": x.best_win_rate, "wall_minutes": wall, "response": d}, tag)
 
 
-def download(c: Adaption, rules: list[str], attempt: int) -> None:
+def losses(out_dir) -> dict:
+    """Steps and losses from the trainer log that comes with the adapter."""
+    f = out_dir / "trainer_state.json"
+    if not f.exists():
+        return {}
+    t = json.loads(f.read_text())
+    tr = [x for x in t.get("log_history", []) if "loss" in x]
+    ev = [x for x in t.get("log_history", []) if "eval_loss" in x]
+    return {"steps": t.get("global_step"), "epochs": t.get("epoch"),
+            "train_loss_first": tr[0]["loss"] if tr else None, "train_loss_last": tr[-1]["loss"] if tr else None,
+            "eval_loss": [[x["step"], x["eval_loss"]] for x in ev]}
+
+
+def download(c: Adaption, rules: list[str], attempt: int, tag: str | None) -> None:
     import zstandard
 
-    runs = latest("train", attempt)
+    runs = latest("train", attempt, tag)
+    root = OUT / ("adapters" if not tag else f"adapters_{tag}")
+    root.mkdir(parents=True, exist_ok=True)
+    if tag:
+        (root / ".gitignore").write_text("*\n")        # follow-up adapters stay out of the repository
     for r in rules:
-        out_dir = OUT / "adapters" / r
+        out_dir = root / r
         out_dir.mkdir(parents=True, exist_ok=True)
         tgz = out_dir / "checkpoint.tgz"
         with c.autoscientist.with_streaming_response.download(runs[r]["run_id"]) as resp:
@@ -144,7 +191,8 @@ def download(c: Adaption, rules: list[str], attempt: int) -> None:
         size = sum(p.stat().st_size for p in out_dir.rglob("*") if p.is_file())
         print(r, "extracted", len(names), "files,", round(size / 1e6, 1), "MB ->", out_dir)
         log({"op": "download", "rule": r, "attempt": attempt, "run_id": runs[r]["run_id"],
-             "out": str(out_dir.relative_to(OUT.parents[1])), "files": sorted(names), "bytes": size})
+             "out": str(out_dir.relative_to(OUT.parents[1])), "files": sorted(names), "bytes": size,
+             "trainer": losses(out_dir)}, tag)
 
 
 def main() -> None:
@@ -152,21 +200,23 @@ def main() -> None:
     ap.add_argument("cmd", choices=["prepare", "upload", "quote", "launch", "status", "download"])
     ap.add_argument("--rules", nargs="+", default=RULES)
     ap.add_argument("--attempt", type=int, default=1)
+    ap.add_argument("--followup", default=None, help="tag of a post hoc batch of runs, for example e3")
+    ap.add_argument("--epochs", type=int, default=None, help="override of the recommended number of epochs")
     a = ap.parse_args()
     if a.cmd == "prepare":
         prepare(a.rules)
         return
     c = Adaption(api_key=ENV["ADAPTION_API_KEY"])
     if a.cmd == "upload":
-        upload(c, a.rules)
+        upload(c, a.rules, a.followup)
     elif a.cmd == "quote":
-        quote(c, a.rules)
+        quote(c, a.rules, a.followup)
     elif a.cmd == "launch":
-        launch(c, a.rules, a.attempt)
+        launch(c, a.rules, a.attempt, a.followup, a.epochs)
     elif a.cmd == "status":
-        status(c, a.rules, a.attempt)
+        status(c, a.rules, a.attempt, a.followup)
     else:
-        download(c, a.rules, a.attempt)
+        download(c, a.rules, a.attempt, a.followup)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,481 @@
+{
+  "questions": 300,
+  "resamples": 10000,
+  "seed": 20261115,
+  "missing_models": [],
+  "models": {
+    "J": {
+      "label": "J, judge, default instruction",
+      "file": "eval_J.jsonl",
+      "counts": {
+        "correct": 219,
+        "wrong": 51,
+        "abstain": 0,
+        "unparsed": 30
+      },
+      "hit_token_limit": 6,
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "accuracy": {
+        "value": 0.73,
+        "lo": 0.68,
+        "hi": 0.78
+      },
+      "wrong_rate": {
+        "value": 0.17,
+        "lo": 0.13,
+        "hi": 0.21333333333333335
+      },
+      "unparsed_rate": {
+        "value": 0.1,
+        "lo": 0.06666666666666667,
+        "hi": 0.13666666666666666
+      },
+      "penalised_score": {
+        "value": 0.46,
+        "lo": 0.36,
+        "hi": 0.56
+      }
+    },
+    "F": {
+      "label": "F, judge, accuracy instruction",
+      "file": "eval_F.jsonl",
+      "counts": {
+        "correct": 223,
+        "wrong": 47,
+        "abstain": 0,
+        "unparsed": 30
+      },
+      "hit_token_limit": 7,
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "accuracy": {
+        "value": 0.7433333333333333,
+        "lo": 0.6933333333333334,
+        "hi": 0.79
+      },
+      "wrong_rate": {
+        "value": 0.15666666666666668,
+        "lo": 0.11666666666666667,
+        "hi": 0.2
+      },
+      "unparsed_rate": {
+        "value": 0.1,
+        "lo": 0.06666666666666667,
+        "hi": 0.13666666666666666
+      },
+      "penalised_score": {
+        "value": 0.4866666666666667,
+        "lo": 0.38666666666666666,
+        "hi": 0.58
+      }
+    },
+    "K": {
+      "label": "K, by the key",
+      "file": "eval_K.jsonl",
+      "counts": {
+        "correct": 203,
+        "wrong": 51,
+        "abstain": 0,
+        "unparsed": 46
+      },
+      "hit_token_limit": 13,
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "accuracy": {
+        "value": 0.6766666666666666,
+        "lo": 0.6233333333333333,
+        "hi": 0.73
+      },
+      "wrong_rate": {
+        "value": 0.17,
+        "lo": 0.12666666666666668,
+        "hi": 0.21333333333333335
+      },
+      "unparsed_rate": {
+        "value": 0.15333333333333332,
+        "lo": 0.11333333333333333,
+        "hi": 0.19666666666666666
+      },
+      "penalised_score": {
+        "value": 0.35333333333333333,
+        "lo": 0.24666666666666667,
+        "hi": 0.46
+      }
+    },
+    "R": {
+      "label": "R, random",
+      "file": "eval_R.jsonl",
+      "counts": {
+        "correct": 205,
+        "wrong": 53,
+        "abstain": 0,
+        "unparsed": 42
+      },
+      "hit_token_limit": 13,
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "accuracy": {
+        "value": 0.6833333333333333,
+        "lo": 0.63,
+        "hi": 0.7333333333333333
+      },
+      "wrong_rate": {
+        "value": 0.17666666666666667,
+        "lo": 0.13666666666666666,
+        "hi": 0.22
+      },
+      "unparsed_rate": {
+        "value": 0.14,
+        "lo": 0.10333333333333333,
+        "hi": 0.18
+      },
+      "penalised_score": {
+        "value": 0.36666666666666664,
+        "lo": 0.26,
+        "hi": 0.4666666666666667
+      }
+    },
+    "base": {
+      "label": "base model, no system prompt",
+      "file": "eval_base.jsonl",
+      "counts": {
+        "correct": 0,
+        "wrong": 0,
+        "abstain": 0,
+        "unparsed": 300
+      },
+      "hit_token_limit": 296,
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "accuracy": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "wrong_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "unparsed_rate": {
+        "value": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "penalised_score": {
+        "value": -1.0,
+        "lo": -1.0,
+        "hi": -1.0
+      }
+    },
+    "base_assert": {
+      "label": "base model, assert instruction (reference)",
+      "file": "eval_base_assert.jsonl",
+      "counts": {
+        "correct": 240,
+        "wrong": 60,
+        "abstain": 0,
+        "unparsed": 0
+      },
+      "hit_token_limit": 0,
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "accuracy": {
+        "value": 0.8,
+        "lo": 0.7533333333333333,
+        "hi": 0.8433333333333334
+      },
+      "wrong_rate": {
+        "value": 0.2,
+        "lo": 0.15666666666666668,
+        "hi": 0.24666666666666667
+      },
+      "unparsed_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "penalised_score": {
+        "value": 0.6,
+        "lo": 0.5066666666666667,
+        "hi": 0.6866666666666666
+      }
+    },
+    "base_hedge": {
+      "label": "base model, hedge instruction (reference)",
+      "file": "eval_base_hedge.jsonl",
+      "counts": {
+        "correct": 240,
+        "wrong": 57,
+        "abstain": 0,
+        "unparsed": 3
+      },
+      "hit_token_limit": 3,
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "accuracy": {
+        "value": 0.8,
+        "lo": 0.7533333333333333,
+        "hi": 0.8433333333333334
+      },
+      "wrong_rate": {
+        "value": 0.19,
+        "lo": 0.14666666666666667,
+        "hi": 0.23666666666666666
+      },
+      "unparsed_rate": {
+        "value": 0.01,
+        "lo": 0.0,
+        "hi": 0.023333333333333334
+      },
+      "penalised_score": {
+        "value": 0.6,
+        "lo": 0.5066666666666667,
+        "hi": 0.6866666666666666
+      }
+    },
+    "base_abstain": {
+      "label": "base model, abstain instruction (reference)",
+      "file": "eval_base_abstain.jsonl",
+      "counts": {
+        "correct": 174,
+        "wrong": 27,
+        "abstain": 95,
+        "unparsed": 4
+      },
+      "hit_token_limit": 4,
+      "abstention_rate": {
+        "value": 0.31666666666666665,
+        "lo": 0.2633333333333333,
+        "hi": 0.37
+      },
+      "accuracy": {
+        "value": 0.58,
+        "lo": 0.5233333333333333,
+        "hi": 0.6366666666666667
+      },
+      "wrong_rate": {
+        "value": 0.09,
+        "lo": 0.06,
+        "hi": 0.12333333333333334
+      },
+      "unparsed_rate": {
+        "value": 0.013333333333333334,
+        "lo": 0.0033333333333333335,
+        "hi": 0.02666666666666667
+      },
+      "penalised_score": {
+        "value": 0.4766666666666667,
+        "lo": 0.4,
+        "hi": 0.5533333333333333
+      }
+    }
+  },
+  "differences": {
+    "J-K": {
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "share_le_0": 1.0,
+        "share_ge_0": 1.0,
+        "predicted_sign": -1,
+        "share_wrong_side": 1.0
+      },
+      "wrong_rate": {
+        "value": 0.0,
+        "lo": -0.033333333333333326,
+        "hi": 0.03333333333333334,
+        "share_le_0": 0.5351,
+        "share_ge_0": 0.5407,
+        "predicted_sign": 1,
+        "share_wrong_side": 0.5351
+      },
+      "accuracy": {
+        "value": 0.053333333333333344,
+        "lo": 0.00666666666666671,
+        "hi": 0.09999999999999998,
+        "share_le_0": 0.0125,
+        "share_ge_0": 0.9919,
+        "predicted_sign": null,
+        "share_wrong_side": 0.0125
+      },
+      "penalised_score": {
+        "value": 0.10666666666666669,
+        "lo": 0.013333333333333308,
+        "hi": 0.2,
+        "share_le_0": 0.0125,
+        "share_ge_0": 0.9919,
+        "predicted_sign": -1,
+        "share_wrong_side": 0.9919
+      }
+    },
+    "F-K": {
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "share_le_0": 1.0,
+        "share_ge_0": 1.0,
+        "predicted_sign": -1,
+        "share_wrong_side": 1.0
+      },
+      "wrong_rate": {
+        "value": -0.013333333333333336,
+        "lo": -0.043333333333333335,
+        "hi": 0.016666666666666663,
+        "share_le_0": 0.8327,
+        "share_ge_0": 0.2277,
+        "predicted_sign": null,
+        "share_wrong_side": 0.2277
+      },
+      "accuracy": {
+        "value": 0.06666666666666665,
+        "lo": 0.026666666666666616,
+        "hi": 0.10999999999999999,
+        "share_le_0": 0.0008,
+        "share_ge_0": 0.9996,
+        "predicted_sign": null,
+        "share_wrong_side": 0.0008
+      },
+      "penalised_score": {
+        "value": 0.13333333333333336,
+        "lo": 0.05333333333333329,
+        "hi": 0.21999999999999997,
+        "share_le_0": 0.0008,
+        "share_ge_0": 0.9996,
+        "predicted_sign": -1,
+        "share_wrong_side": 0.9996
+      }
+    },
+    "J-F": {
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "share_le_0": 1.0,
+        "share_ge_0": 1.0,
+        "predicted_sign": -1,
+        "share_wrong_side": 1.0
+      },
+      "wrong_rate": {
+        "value": 0.013333333333333336,
+        "lo": -0.013333333333333336,
+        "hi": 0.04000000000000001,
+        "share_le_0": 0.1874,
+        "share_ge_0": 0.8717,
+        "predicted_sign": null,
+        "share_wrong_side": 0.1874
+      },
+      "accuracy": {
+        "value": -0.013333333333333308,
+        "lo": -0.043333333333333335,
+        "hi": 0.019999999999999907,
+        "share_le_0": 0.8223,
+        "share_ge_0": 0.2382,
+        "predicted_sign": null,
+        "share_wrong_side": 0.2382
+      },
+      "penalised_score": {
+        "value": -0.026666666666666672,
+        "lo": -0.08666666666666673,
+        "hi": 0.039999999999999925,
+        "share_le_0": 0.8223,
+        "share_ge_0": 0.2382,
+        "predicted_sign": -1,
+        "share_wrong_side": 0.2382
+      }
+    },
+    "J-R": {
+      "abstention_rate": {
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "share_le_0": 1.0,
+        "share_ge_0": 1.0,
+        "predicted_sign": null,
+        "share_wrong_side": 1.0
+      },
+      "wrong_rate": {
+        "value": -0.006666666666666654,
+        "lo": -0.04000000000000001,
+        "hi": 0.026666666666666672,
+        "share_le_0": 0.6837,
+        "share_ge_0": 0.3867,
+        "predicted_sign": null,
+        "share_wrong_side": 0.3867
+      },
+      "accuracy": {
+        "value": 0.046666666666666634,
+        "lo": 0.0033333333333334103,
+        "hi": 0.08999999999999997,
+        "share_le_0": 0.0168,
+        "share_ge_0": 0.9883,
+        "predicted_sign": null,
+        "share_wrong_side": 0.0168
+      },
+      "penalised_score": {
+        "value": 0.09333333333333338,
+        "lo": 0.00666666666666671,
+        "hi": 0.18,
+        "share_le_0": 0.0168,
+        "share_ge_0": 0.9883,
+        "predicted_sign": null,
+        "share_wrong_side": 0.0168
+      }
+    }
+  },
+  "predictions": {
+    "P5c": {
+      "holds": false,
+      "level": 0.05,
+      "shares": {
+        "abstention_rate": 1.0,
+        "wrong_rate": 0.5351,
+        "penalised_score": 0.9919
+      }
+    },
+    "P5e": {
+      "abstention_rate": {
+        "J": 0.0,
+        "F": 0.0,
+        "K": 0.0,
+        "all_equal": true,
+        "F_between_J_and_K": true,
+        "predicted_order_J_F_K": false,
+        "share_resamples_F_between": 1.0
+      },
+      "penalised_score": {
+        "J": 0.46,
+        "F": 0.4866666666666667,
+        "K": 0.35333333333333333,
+        "all_equal": false,
+        "F_between_J_and_K": false,
+        "predicted_order_J_F_K": false,
+        "share_resamples_F_between": 0.2382
+      }
+    }
+  }
+}

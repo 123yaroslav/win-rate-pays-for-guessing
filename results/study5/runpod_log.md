@@ -58,3 +58,26 @@ All times UTC, 2026-11-14. The four adapter folders were complete on the laptop 
 | 18:31:48 | start pod `omacru723l4qql` | 0.59 USD/h | refused by RunPod: "not enough free GPUs on the host machine". Nothing started, nothing billed beyond its storage |
 | 18:32 | stock read, A40 48 GB, Secure Cloud | 0.59 USD/h | stock Low in CA-MTL-1 and EU-SE-1 |
 | 18:32:24 | **create pod `o9m5gie80kmn40`** (`epi-study5-eval-2`), 1 x A40 48 GB, Secure Cloud, EU-SE-1 | **0.59 USD/h** | billing starts. Same image, disks and settings as the first pod |
+| 18:33 to 18:37 | install the environment, download the weights | | part of the pod time |
+| 18:34 to 18:39 | upload the four adapter folders, 520 MB | | checksums equal on both sides |
+| 18:38 to 18:41 | smoke test on 16 questions with adapter K, the three style prompts and the format probe | | throwaway output deleted |
+| 18:42 to 19:25 | full run: base, base with the three style prompts, format probe, adapters J, F, K, R | | 18 output files copied to `results/study5/`, checksums equal |
+| 19:26:02 | **stop pod `o9m5gie80kmn40`**, final state EXITED | storage only | ran 3,218 s |
+| 19:26:20 | **delete pod `omacru723l4qql`** (the first pod) | billing for it ends | it could not start, and the second pod holds the same environment, weights and base output (300 of 300 base responses identical on the two pods) |
+
+### Spend of step 2
+
+| Item | Amount |
+|---|---|
+| GPU time of the second pod, 3,218 s (0.894 h) at 0.59 USD/h | 0.53 USD |
+| Disks of the second pod while running | under 0.01 USD |
+| Volume of the first pod while stopped, 17:40 to 19:26 at 0.0125 USD/h | 0.02 USD |
+| **Total for step 2** | **about 0.56 USD** of the 1.50 USD cap |
+| **Total for both steps** | **about 0.95 USD** |
+| From now on, second pod stopped, volume 45 GB | about 0.0125 USD/h, 0.30 USD per day, until the pod is deleted |
+
+The RunPod billing history confirms the first step (0.389 USD for 17:00 to 18:00) and the stopped rate
+(0.00625 USD for half an hour of the stopped first pod). The GPU time of the second pod was not in the history
+yet at 19:27, so its amount is computed from the run time.
+
+One pod is left on the account: `o9m5gie80kmn40`, stopped.
