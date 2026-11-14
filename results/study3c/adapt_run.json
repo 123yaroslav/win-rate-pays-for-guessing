@@ -1,0 +1,15 @@
+{
+ "dataset_id": "4fb1a160-f1f5-4eb8-922d-7fa9d13b9896",
+ "started": "2026-11-14T23:03:57+0500",
+ "response": {
+  "run_id": "dataset-4fb1a160-f1f5-4eb8-922d-7fa9d13b9896-1794679438056",
+  "estimated_minutes": 13.0,
+  "estimated_credits_consumed": 2.0,
+  "estimate": false,
+  "multimodal_pricing_applied": false,
+  "credit_multiplier": null,
+  "estimatedMinutes": 13,
+  "estimatedCreditsConsumed": 2,
+  "multimodalPricingApplied": false
+ }
+}

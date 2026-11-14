@@ -186,6 +186,16 @@ The primary hypothesis H1 is that $b$ is above 0.5 on the items a judge knows, f
 
 We test whether the instruction can remove the preference. \emph{Accuracy first} tells the judge that a false statement is worse than admitting ignorance. \emph{Stakes} says that the user will act on the answer and that a wrong answer costs more than no answer. \emph{Own answer shown} adds the judge's own answer to the prompt. \emph{Written reasoning} asks for two or three sentences before the verdict. \emph{Reasoning mode} leaves the provider's reasoning on. \emph{Data curation} asks which response is the better training example, the framing of a data pipeline. Exact texts are in \cref{app:prompts}. We registered a criterion in advance. A variant repairs a judge if, on the items the judge knows, $b$ falls below 0.5 while $a$ stays at or above 0.9.
 
+\subsection*{A selection loop with fine-tuning}
+
+The loop asks whether the judge's preference reaches a trained model. The base model is Qwen 3.5 9B. For each of 1{,}500 MedQA training questions it answers three times, under an instruction to assert, to hedge, or to say ``I don't know'' unless it is confident. Each response ends with a line ``Final answer'' that names a letter or says ``I don't know'', so the option and the abstention can be read by rule. Four rules then keep one response per question. Rule J keeps the winner of a round robin judged by Claude Haiku 5.5 with the default instruction. Rule F does the same with the accuracy-first instruction. Rule K uses the key. It keeps a correct response if there is one, otherwise an abstention if there is one. Rule R keeps a random response.
+
+We fine-tune the base model once per rule with AutoScientist, the fine-tuning service of the same platform (LoRA, one epoch, hyperparameters recommended by the service). The four models answer 300 held-out MedQA test questions with no system prompt and greedy decoding. From the final line we compute the abstention rate, the wrong-answer rate, accuracy, and a penalised score of $+1$ for a right answer, $-1$ for a wrong one and $0$ for an abstention.
+
+\subsection*{Audit of a deployed data pipeline}
+
+Adaptive Data, the data product of the same platform, rewrites the completions of a dataset to raise their quality and then grades the dataset. We gave it 400 MedQA questions with completions that we wrote in four registers, 100 each. The registers are an assertive correct answer, a hedged correct answer, an abstention and an assertive wrong answer. We ran the rewrite on default settings. Two extractor models read each rewritten completion and reported which option it commits to and whether it hedges. We count a row only where the two agree. A second audit set, built after the first was seen, has 200 questions about invented internal facts of invented companies, which no outside model can know.
+
 \section{Results}
 
 \subsection{A wrong answer beats ``I don't know'' for every judge}
@@ -264,42 +274,36 @@ We audited the default rewrite of a commercial data platform, Adaptive Data by A
 % PIPELINE-UNANSWERABLE-PLACEHOLDER
 
 \section{Discussion and Limitations}
-% Template: Discuss the broader implications for AI safety. What do your results mean?
-TODO
+
+Win rate is not a neutral summary of quality once one side may abstain. Under every judge we tested, a model that guesses when it does not know gains win rate, and a model that learns to say ``I don't know'' loses it. Anyone who picks checkpoints, prompts or training data by win rate applies this pressure, whether or not they mean to. The systems that come out of such loops will tell their users something in the cases where the honest reply is nothing, and users cannot tell those cases apart.
+
+Three steps follow for practice. First, measure $b$ for the judge and the instruction in use. It takes about 100 questions with a key, two template responses and a few hundred judge calls, and it can be reported next to any win rate. Second, do not let a duel decide between an answer and an abstention. Score abstentions on a subset with keys, or check each answer before comparing. Third, a data pipeline should carry an abstention through a rewrite unless it can verify the answer that replaces it.
 
 \subsection*{Limitations}
-% Template: What are the limitations of your work? Note the assumptions you made and how the
-% interpretation of your results would change if a given assumption did not hold.
-TODO
+
+The duel responses are templates. Real abstentions vary, and a fuller abstention that explains the risk of guessing did better in a check that we ran after the registered study. With it $b$ fell to between \idkTwoMin{} and \idkTwoMax{} for \idkTwoJudges{} judges on the questions they knew, still above one half. With the base model's own outputs $b$ was \natBMin{} to \natBMax{}. So the template result is neither an upper nor a lower bound.
+
+The judges mostly ran without reasoning. With reasoning switched on, $b$ on known questions fell to \fixThinkBHaiku{} for Claude Haiku 5.5 and to \fixThinkBLuna{} for GPT-5.6 Luna, on 90 questions. Our main numbers therefore overstate the effect for judges that reason before the verdict. Short verdicts without reasoning remain common in large evaluations because they are cheap.
+
+All questions are multiple choice with a key, which is what makes the truth independent of any judge. Open questions may behave differently and we did not test them. A judge ``knows'' a question when it picks the keyed option in a single closed-book attempt, which includes lucky guesses, so the true rate on known questions may be slightly lower than reported.
+
+The loop uses one base model, one domain and one fine-tuning run per rule. The pipeline audit is one run per audit set on default settings, and the medical questions are public exam items that the rewriting model may have seen.
 
 \subsection*{Future Work}
-% Template: What are the natural next steps? How could this work be extended?
-TODO
+
+The verify-then-compare rule should be tested inside the loop, with new judge calls and a trained model. The same two rates can be measured for human raters and for judges that reason. Open-ended questions need a way to plant a wrong answer of known wrongness.
 
 \section{Conclusion}
-% Template: Briefly summarize your main findings and their implications (1 to 2 paragraphs).
-TODO
+
+LLM judges prefer a wrong answer to an honest ``I don't know'', and they do so on questions where they know the answer and say that the response is wrong. A comparison metric built on such judges pays for guessing more than accuracy grading does. The preference reaches trained models and deployed data pipelines. Until judges change, a win rate should come with the rate at which a wrong answer beats an abstention under the same judge.
 
 \section*{Code and Data}
-% Template: Include links if applicable. Every link must open.
 \begin{itemize}
-  \item \textbf{Code repository:} TODO
-  \item \textbf{Data/Datasets:} TODO
-  \item \textbf{Other artifacts (optional):} TODO
-  % Sprint rule (not in the template): "Mark any code you wrote before the sprint as
-  % preexisting in the README and the report." State here what existed before
-  % November 13, 2026 and what is new, even if everything is new.
-  \item TODO
+  \item \textbf{Code repository:} TODO: repository URL. It holds the pre-registration, every judge call with its prompt hash, the analysis scripts and the script that writes each number of this report.
+  \item \textbf{Data:} MedQA \citep{jin2021medqa} and MMLU \citep{hendrycks2021mmlu} from the Hugging Face datasets server. Item lists with the planted wrong options are in the repository.
+  \item \textbf{Prior work:} all code, data files and text were produced during the sprint, November 13 to 15, 2026. Nothing preexisting is reused.
 \end{itemize}
 
-% Optional in the template. Uncomment for a team entry.
-% \section*{Author Contributions}
-% TODO
-
-% ====================================================================================
-% References and appendices do not count toward the 8 pages.
-% Every entry in refs.bib must be a real, checked source.
-% ====================================================================================
 \bibliographystyle{plainnat}
 \bibliography{refs}
 
@@ -309,17 +313,169 @@ TODO
 % Required by the sprint page. Keep the title exactly as written.
 \section{Limitations and \mbox{Dual-Use} / Ethical Considerations}
 \label{app:limitations}
-% Sprint page: state what your result does and does not establish, note any way your tool or
-% findings could be used to manipulate rather than inform, and how you handled any personal data.
-TODO
 
-% Optional appendices (template: additional figures, detailed methodology, prompts used,
-% extended results).
-% \section{TODO}
-% TODO
+\textbf{What the result establishes.} Six LLM judges and one stronger judge, at temperature 0 and mostly without reasoning, prefer an assertive wrong answer to a short abstention on 300 multiple-choice questions from three domains. They do so on questions they answer correctly themselves and on questions where they flag the wrong answer as incorrect. One base model fine-tuned on judge-selected responses, and one commercial data pipeline on default settings, show the same loss of abstention outside the duel.
 
-% Template section. Template: "If you used LLM assistance in developing your project or
-% writing this report, briefly note how. Ensure all claims and results have been verified."
+\textbf{What it does not establish.} It does not show that human raters share the preference, that judges with reasoning switched on share it to the same degree, or that it holds on open-ended tasks. It gives no estimate of the size of the effect in any production evaluation. The pipeline audit is a snapshot of one product on one day and says nothing about its other settings or later versions.
+
+\textbf{How the finding could be misused.} A developer who wants a higher win rate can strip abstentions and hedges from a model's outputs, and this report says the judge will reward it. The same knowledge lets an evaluator close the gap, and the measurement we propose costs a few hundred judge calls. We release the duel code and the item lists. We do not release the fine-tuned adapters, since two of them were trained to answer where the base model would abstain.
+
+\textbf{The audited product.} The audit ran on the author's own account with credits granted for the sprint, on public exam questions and on invented questions, with default settings. We name the product because the result is only useful if it can be checked and fixed.
+
+\textbf{Wrong answers in medical and legal questions.} The wrong answers are distractor options of public exam questions. They were shown to models only and are not presented as advice anywhere.
+
+\textbf{Personal data.} None was used. The people and companies in the second audit set are invented.
+
+\section{Pre-registration, outcomes and deviations}
+\label{app:prereg}
+
+The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{26ef52c}, November 14, 2026) before any confirmatory item was sent to a judge. Amendment 1 (commit \texttt{d816b76}) added the detection check while the first confirmatory calls were running and before any confirmatory result was read. \Cref{tab:prereg} lists the registered tests and their outcomes.
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{Registered tests and outcomes.}}
+  \label{tab:prereg}
+  \begin{tabular}{@{}p{0.08\linewidth}p{0.52\linewidth}p{0.33\linewidth}@{}}
+    \toprule
+    Test & Criterion & Outcome \\
+    \midrule
+    H1 & $b$ above 0.5 on questions the judge knows, Holm at 0.04, at least four of six judges & \hOnePass{} of \hOneJudges{} judges pass \\
+    H1F & the same on all questions, Holm at 0.01 & \hOneFPass{} of \hOneFJudges{} judges pass \\
+    S1a & tone, assertive against hedged wrong answer & \toneMin{} to \toneMax{} across judges \\
+    S1b & wrong beats right, questions the judge knows & \wrongOverRightMin{} to \wrongOverRightMax{} \\
+    S1c & share of duels decided by correctness, $a - b$ & \vEffMin{} to \vEffMax{}, own accuracy \accMin{} to \accMax{} \\
+    S1d & two-step account, error at most 0.10 and Spearman at least 0.7 & fails, error \twoStepMae{}, Spearman \twoStepRho{} \\
+    S1g & $b$ above 0.5 where the judge flags the wrong answer & \sOneGPass{} of \sOneGJudges{} judges pass \\
+    S4 & a variant repairs a judge & see \cref{tab:fix} \\
+    P5a & $b$ above 0.5 on the model's own outputs, three judges & holds for 3 of 3 \\
+    P5b & J set has fewer abstentions and more wrong answers than K set & holds \\
+    % P5-ROWS-PLACEHOLDER
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{Deviations.}
+\begin{enumerate}
+  \item S1f. Claude Sonnet 5.5 was not run, for lack of budget. GPT-5.6 Terra was run as planned.
+  \item Three analyses were added after the first confirmatory results were seen and are exploratory. They are the fuller abstention wording (\cref{tab:idk2}), the verify-then-compare rule (\cref{tab:vtc}) and the second pipeline audit.
+  \item Second pipeline audit. A first run is discarded. The uploaded file had a helper column with the invented value, and the platform mapped it as context, so the rewrite was shown the answer. The run reported here uploads prompts and completions only.
+  \item Study 5. Plain instructions to abstain when unsure gave 0\% to 7\% abstention on the tuning questions. The fixed instruction makes ``I don't know'' the default reply. The model still decides on every question. Rules K and R were trained about 19 minutes before J and F with identical settings. The API gives no price quote or cost for a training run. % LOOP-DEVIATIONS-PLACEHOLDER
+  \item The base model without a system prompt does not write a final line, so its outputs cannot be read by the registered rule. We report the base model under the three style instructions as a reference.
+\end{enumerate}
+
+\section{Prompts}
+\label{app:prompts}
+
+\begingroup\small
+\input{app_prompts}
+\endgroup
+
+\section{Additional results}
+\label{app:extra}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{All seven pairs, all questions, default instruction.} Percent of duels won by the first-named response. C is assertive, H hedged, the second letter says whether the named option is correct (C) or wrong (W), IDK is the abstention.}
+  \label{tab:pairs}
+  \begin{tabular}{@{}lrrrrrrr@{}}
+    \toprule
+    Judge & CC-IDK & CW-IDK & HC-IDK & HW-IDK & CW-HC & CW-HW & CC-HC \\
+    \midrule
+    \tabinput{tab_pairs}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{The result holds in each domain.} Percent of duels won by the first-named response, all questions of the domain, default instruction.}
+  \label{tab:domains}
+  \setlength{\tabcolsep}{3.5pt}
+  \begin{tabular}{@{}lrrrrrrrrr@{}}
+    \toprule
+     & \multicolumn{3}{c}{Medicine} & \multicolumn{3}{c}{Law} & \multicolumn{3}{c}{Geography} \\
+    Judge & CC-IDK & CW-IDK & CW-HC & CC-IDK & CW-IDK & CW-HC & CC-IDK & CW-IDK & CW-HC \\
+    \midrule
+    \tabinput{tab_domains}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{Detection.} Percent of single responses that the judge called incorrect (wrong answers) or correct (right answers) when asked directly. $^{*}$60 questions.}
+  \label{tab:detect}
+  \begin{tabular}{@{}lrr@{}}
+    \toprule
+    Judge & Wrong answers flagged & Right answers accepted \\
+    \midrule
+    \tabinput{tab_detect}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{Verify-then-compare, composed from logged verdicts (exploratory).} $a$ and $b$ in percent before and after the rule that an answer the judge calls incorrect loses to the abstention. Break-even accuracy with a 95\% interval. $^{*}$60 questions.}
+  \label{tab:vtc}
+  \begin{tabular}{@{}lrrrrr@{}}
+    \toprule
+    Judge & $a$ & $b$ & $a$ with check & $b$ with check & Break-even accuracy \\
+    \midrule
+    \tabinput{tab_vtc}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{A fuller abstention loses less often but still loses (exploratory).} Questions the judge knows, first 150 questions, percent with 95\% intervals. The fuller abstention reads ``I'm not sure about this one, and a wrong answer could mislead you, so I'd rather not guess. Please check a reliable reference.''}
+  \label{tab:idk2}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+     & \multicolumn{2}{c}{Wrong answer beats} & \multicolumn{2}{c}{Right answer beats} \\
+    Judge & short abstention & fuller abstention & short abstention & fuller abstention \\
+    \midrule
+    \tabinput{tab_idk2}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{The base model's own wrong answers beat its own abstentions.} Assert-style response against the abstention of the cautious style on the same question, percent of duels won by the assert-style response, with 95\% intervals.}
+  \label{tab:natural}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Judge & Wrong answer wins & Questions & Right answer wins & Questions \\
+    \midrule
+    \tabinput{tab_natural}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \small
+  \caption{\textbf{Composition of the four selected training sets.} Percent of 1{,}500 questions with 95\% intervals.}
+  \label{tab:selection}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Rule & Abstentions & Correct & Wrong & Unparsed \\
+    \midrule
+    \tabinput{tab_selection}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% Template section. The author writes this statement.
 \section*{LLM Usage Statement}
 TODO
 

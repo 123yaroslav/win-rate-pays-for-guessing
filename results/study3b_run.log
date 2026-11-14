@@ -1,0 +1,3 @@
+estimate {'run_id': None, 'estimated_minutes': 13.0, 'estimated_credits_consumed': 2.0, 'estimate': True, 'multimodal_pricing_applied': False, 'credit_multiplier': None, 'estimatedMinutes': 13, 'estimatedCreditsConsumed': 2, 'multimodalPricingApplied': False}
+23:03 succeeded {'grade_before': 'D', 'grade_after': 'D', 'score_before': 5.0, 'score_after': 4.4, 'improvement_percent': -12.0}
+evaluation {"grade_before": "D", "grade_after": "D", "score_before": 5.0, "score_after": 4.4, "percentile_after": 6.8, "improvement_percent": -12.0}

@@ -129,8 +129,10 @@ async def audit1() -> None:
 async def audit2() -> None:
     src = {json.loads(l)["item_id"]: json.loads(l) for l in
            (ROOT / "data/adapt/source_unanswerable_200.jsonl").read_text().splitlines()}
-    rows = [json.loads(l) for l in (ROOT / "results/study3b/adapted.jsonl").read_text().splitlines() if l.strip()]
-    cl = Client(ROOT / "results/study3b/extract", or_budget=0.15, or_conc=6, gap=1.45)
+    rows = [json.loads(l) for l in (ROOT / "results/study3c/adapted.jsonl").read_text().splitlines() if l.strip()]
+    for r in rows:
+        r["register"] = src[r["item_id"]]["register"]
+    cl = Client(ROOT / "results/study3c/extract", or_budget=0.15, or_conc=6, gap=1.45)
 
     async def one(r: dict, ex: str) -> tuple[str, str, str]:
         s = src[r["item_id"]]
@@ -157,7 +159,7 @@ async def audit2() -> None:
         detail.append({"item_id": r["item_id"], "register": r["register"], "outcome": outcome,
                        "head": (r["enhanced_completion"] or "")[:300]})
     lines = ["# Adaptive Data on 200 questions that no outside model can answer (exploratory)", ""]
-    evp = ROOT / "results/study3b/evaluation.json"
+    evp = ROOT / "results/study3c/evaluation.json"
     if evp.exists():
         q = json.loads(evp.read_text()).get("quality", {})
         lines += [f"Platform evaluation: grade {q.get('grade_before')} to {q.get('grade_after')}, score "
@@ -169,9 +171,9 @@ async def audit2() -> None:
         n = c["n"]
         lines.append(f"| {name} | {n} | {share(c['DIFFERENT'], n)} | {share(c['SAME'], n)} | {share(c['ABSTAIN'], n)} | "
                      f"{c['disagree']} | {c['leak']} |")
-    (ROOT / "results/study3b/summary.md").write_text("\n".join(lines) + "\n")
-    (ROOT / "results/study3b/summary.json").write_text(json.dumps({k: dict(v) for k, v in tab.items()}, indent=1))
-    (ROOT / "results/study3b/rows_labelled.jsonl").write_text("".join(json.dumps(d) + "\n" for d in detail))
+    (ROOT / "results/study3c/summary.md").write_text("\n".join(lines) + "\n")
+    (ROOT / "results/study3c/summary.json").write_text(json.dumps({k: dict(v) for k, v in tab.items()}, indent=1))
+    (ROOT / "results/study3c/rows_labelled.jsonl").write_text("".join(json.dumps(d) + "\n" for d in detail))
     print("\n".join(lines))
 
 

@@ -24,7 +24,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data/adapt/source_unanswerable_200.jsonl"
-OUT = ROOT / "results/study3b"
+UPLOAD = ROOT / "data/adapt/upload_unanswerable_200.jsonl"   # prompt and completion only
+# The first run (results/study3b) is invalid for the question asked: the platform mapped the helper column
+# "fact" of the uploaded file as context, so the rewrite was shown the value. The rerun uploads a file
+# without that column and passes an empty context mapping.
+OUT = ROOT / "results/study3c"
 
 COMPANIES = ["Brannock and Vale Logistics", "Tessaly Marine Supply", "Orrin Feldt Instruments", "Quillmate Paper Works",
              "Dunmere Cold Storage", "Halvorsen Ridge Bakery", "Pellam Street Optics", "Varkley Seed Cooperative",
@@ -72,6 +76,8 @@ def build() -> None:
                      "completion": IDK if kind == "IDK" else value, "fact": value})
     SRC.parent.mkdir(parents=True, exist_ok=True)
     SRC.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    UPLOAD.write_text("".join(json.dumps({"item_id": r["item_id"], "prompt": r["prompt"],
+                                          "completion": r["completion"]}) + "\n" for r in rows))
     print(len(rows), "rows ->", SRC)
     for r in rows[:4]:
         print(r)
@@ -86,12 +92,12 @@ def run() -> None:
     if rec_path.exists():
         ds = json.loads(rec_path.read_text())["dataset_id"]
     else:
-        up = c.datasets.upload_file(str(SRC))
+        up = c.datasets.upload_file(str(UPLOAD))
         ds = up.dataset_id
         c.datasets.wait_for_completion(ds)
-        est = c.datasets.adapt(ds, column_mapping={"prompt": "prompt", "completion": "completion"}, estimate=True)
+        est = c.datasets.adapt(ds, column_mapping={"prompt": "prompt", "completion": "completion", "context": []}, estimate=True)
         print("estimate", est.model_dump())
-        r = c.datasets.adapt(ds, column_mapping={"prompt": "prompt", "completion": "completion"})
+        r = c.datasets.adapt(ds, column_mapping={"prompt": "prompt", "completion": "completion", "context": []})
         rec_path.write_text(json.dumps({"dataset_id": ds, "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
                                         "response": r.model_dump()}, default=str, indent=1))
     t0 = time.time()

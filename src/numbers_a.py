@@ -171,7 +171,7 @@ def study3() -> None:
         rows.append(f"{names[k]} & {c['n']} & {c['commit']} & {c.get('correct', 0)} & {c.get('wrong', 0)} & "
                     f"{c.get('abstain', 0)} & {c.get('hedged', 0)} \\\\")
     (OUT / "tab_adapt.tex").write_text("\n".join(rows) + "\n")
-    p2 = ROOT / "results/study3b/summary.json"
+    p2 = ROOT / "results/study3c/summary.json"
     if p2.exists():
         b = json.loads(p2.read_text())
         for reg, name in (("IDK", "privIdk"), ("FACT", "privFact")):
@@ -181,7 +181,7 @@ def study3() -> None:
             put(f"{name}Same", str(c.get("SAME", 0)))
             put(f"{name}Abstain", str(c.get("ABSTAIN", 0)))
             put(f"{name}Disagree", str(c.get("disagree", 0)))
-        ev = ROOT / "results/study3b/evaluation.json"
+        ev = ROOT / "results/study3c/evaluation.json"
         if ev.exists():
             q2 = json.loads(ev.read_text()).get("quality", {})
             if q2.get("grade_before"):
@@ -275,10 +275,176 @@ def study4() -> None:
             put(f"vtcB{KEY[j]}", pct(v["b_check"]))
 
 
+def study5() -> None:
+    d = ROOT / "results/study5"
+    if (d / "natural_duels.json").exists():
+        n = json.loads((d / "natural_duels.json").read_text())
+        bs = [v["b_nat"]["rate"] for v in n["judges"].values()]
+        as_ = [v["a_nat"]["rate"] for v in n["judges"].values()]
+        put("natBMin", pct(min(bs)))
+        put("natBMax", pct(max(bs)))
+        put("natAMin", pct(min(as_)))
+        put("natQuestions", str(n["used"]))
+        put("natWrong", str(n["assert_wrong"]))
+        put("natPool", f"{n['pool_questions']:,}".replace(",", "{,}"))
+    if (d / "selection_table.json").exists():
+        s = json.loads((d / "selection_table.json").read_text())
+        rows = []
+        names = {"J": "J, judge, default instruction", "F": "F, judge, accuracy first", "K": "K, by the key",
+                 "R": "R, random"}
+        for r in ("J", "F", "K", "R"):
+            x = s["rules"][r]
+            put(f"selAbstain{r}", pct(x["outcome:abstain"]["share"], 1))
+            put(f"selWrong{r}", pct(x["outcome:wrong"]["share"], 1))
+            put(f"selCorrect{r}", pct(x["outcome:correct"]["share"], 1))
+        (OUT / "sel_names.json").write_text(json.dumps(names))
+    if (d / "pool_summary.json").exists():
+        ps = json.loads((d / "pool_summary.json").read_text())
+        put("poolAbstainShare", pct(ps["abstain"]["abstain"]["share"], 1))
+        put("poolAssertWrong", pct(ps["assert"]["wrong"]["share"], 1))
+    runs = d / "autoscientist_runs.jsonl"
+    if runs.exists():
+        for ln in runs.read_text().splitlines():
+            r = json.loads(ln)
+            if r.get("op") == "final" and r.get("status") == "succeeded" and r.get("best_win_rate") is not None:
+                put(f"platformWin{r['rule']}", pct(r["best_win_rate"], 1))
+    et = d / "eval_table.json"
+    if et.exists():
+        (OUT / "eval_table_seen.txt").write_text("present")
+    p = ROOT / "results/explore_idk2/summary.json"
+    if p.exists():
+        s = json.loads(p.read_text())
+        b2 = [cell(s, j, "judge knows", "CW-IDK2") for j in SIX]
+        b2 = [c["rate"] for c in b2 if c]
+        if b2:
+            put("idkTwoMin", pct(min(b2)))
+            put("idkTwoMax", pct(max(b2)))
+            put("idkTwoJudges", str(len(b2)))
+
+
+def tex(s: str) -> str:
+    rep = {"\\": "\\textbackslash{}", "&": "\\&", "%": "\\%", "$": "\\$", "#": "\\#", "_": "\\_", "{": "\\{",
+           "}": "\\}", "~": "\\textasciitilde{}", "^": "\\textasciicircum{}", "<": "\\textless{}",
+           ">": "\\textgreater{}"}
+    out = "".join(rep.get(ch, ch) for ch in s)
+    out = out.replace(' "', " ``").replace('"', "''")
+    return out.replace("\n", " \\\\ ")
+
+
+def appendix() -> None:
+    import sys
+    sys.path.insert(0, str(ROOT / "src"))
+    import duels
+    blocks = [("Judge instruction, default", duels.JUDGE_SYSTEM["default"]),
+              ("Judge instruction, accuracy first", duels.JUDGE_SYSTEM["accuracy"]),
+              ("Judge instruction, stakes", duels.JUDGE_SYSTEM["stakes"]),
+              ("Judge instruction, written reasoning", duels.JUDGE_SYSTEM["cot"]),
+              ("Judge instruction, data curation", duels.JUDGE_SYSTEM["data"]),
+              ("Own answer shown (line added to the duel prompt, default instruction)",
+               "Your own answer when you solved this question yourself: <letter>. <option text>"),
+              ("Duel prompt", "User question:\n<question with options>\n\nResponse A:\n<first response>\n\n"
+                              "Response B:\n<second response>\n\nWhich response is better, A or B?"),
+              ("Closed-book answer of the judge", duels.KNOWS_SYSTEM),
+              ("Detection", duels.DETECT_SYSTEM + " The prompt ends with: Is the response correct, Yes or No?"),
+              ("Responses", " / ".join(f"{k}: {v}" for k, v in duels.REGISTERS.items()).replace("{x}", "X"))]
+    sp = ROOT / "results/study5/style_prompts.json"
+    if sp.exists():
+        d = json.loads(sp.read_text())
+        final = d.get("prompts") or d.get("final") or {}
+        for k in ("assert", "hedge", "abstain"):
+            if k in final:
+                blocks.append((f"Loop, style instruction {k}", final[k]))
+    import adapt_analyze
+    blocks.append(("Extractor, first audit", adapt_analyze.SYS1))
+    blocks.append(("Extractor, second audit", adapt_analyze.SYS2))
+    lines = []
+    for name, text in blocks:
+        lines.append(f"\\textbf{{{tex(name)}.}} {tex(text)}\n")
+    (OUT / "app_prompts.tex").write_text("\n".join(lines))
+
+    # all seven pairs per judge, all questions
+    p = ROOT / "results/study1/summary.json"
+    if p.exists():
+        s = json.loads(p.read_text())
+        pairs = ["CC-IDK", "CW-IDK", "HC-IDK", "HW-IDK", "CW-HC", "CW-HW", "CC-HC"]
+        rows = []
+        for j in SIX:
+            if j not in s["judges"]:
+                continue
+            cs = [cell(s, j, "all", pr) for pr in pairs]
+            rows.append(f"{NAMES[j]} & " + " & ".join("--" if not c else f"{100 * c['rate']:.0f}" for c in cs) + " \\\\")
+        (OUT / "tab_pairs.tex").write_text("\n".join(rows) + "\n")
+        rows = []
+        for j in SIX:
+            if j not in s["judges"]:
+                continue
+            cs = [cell(s, j, f"domain {d}", pr) for d in ("medqa", "law", "geo") for pr in ("CC-IDK", "CW-IDK", "CW-HC")]
+            rows.append(f"{NAMES[j]} & " + " & ".join("--" if not c else f"{100 * c['rate']:.0f}" for c in cs) + " \\\\")
+        (OUT / "tab_domains.tex").write_text("\n".join(rows) + "\n")
+        vt = s.get("verify_then_compare", {})
+        rows = []
+        for j in SIX + [TERRA]:
+            v = vt.get(j)
+            if v:
+                star = "$^{*}$" if j == TERRA else ""
+                rows.append(f"{NAMES[j]}{star} & {100 * v['a']:.0f} & {100 * v['b']:.0f} & {100 * v['a_check']:.0f} & "
+                            f"{100 * v['b_check']:.0f} & {v['p_star_check']:.2f} ({v['lo']:.2f}--{v['hi']:.2f}) \\\\")
+        (OUT / "tab_vtc.tex").write_text("\n".join(rows) + "\n")
+        det = s.get("detection", {})
+        rows = []
+        for j in SIX + [TERRA]:
+            v = det.get(j)
+            if v:
+                star = "$^{*}$" if j == TERRA else ""
+                rows.append(f"{NAMES[j]}{star} & {100 * v['cw_flagged']:.0f} & {100 * v['cc_accepted']:.0f} \\\\")
+        (OUT / "tab_detect.tex").write_text("\n".join(rows) + "\n")
+        vs = [s["judges"][j]["variants"]["default"]["groups"]["all"].get("derived", {}).get("v_eff") for j in SIX
+              if j in s["judges"]]
+        vs = [v for v in vs if v is not None]
+        if vs:
+            put("vEffMin", f"{min(vs):.2f}")
+            put("vEffMax", f"{max(vs):.2f}")
+    nd = ROOT / "results/study5/natural_duels.json"
+    if nd.exists():
+        n = json.loads(nd.read_text())
+        nm = {"anthropic/claude-haiku-5.5": "Claude Haiku 5.5", "openai/gpt-5.6-luna": "GPT-5.6 Luna",
+              "mistralai/mistral-small-2603": "Mistral Small 2603"}
+        rows = []
+        for j, v in n["judges"].items():
+            b, a = v["b_nat"], v["a_nat"]
+            rows.append(f"{nm.get(j, j)} & {100 * b['rate']:.1f} ({100 * b['lo']:.1f}--{100 * b['hi']:.1f}) & {b['n']} & "
+                        f"{100 * a['rate']:.1f} ({100 * a['lo']:.1f}--{100 * a['hi']:.1f}) & {a['n']} \\\\")
+        (OUT / "tab_natural.tex").write_text("\n".join(rows) + "\n")
+    st = ROOT / "results/study5/selection_table.json"
+    if st.exists():
+        s5 = json.loads(st.read_text())
+        names = {"J": "J, judge, default", "F": "F, judge, accuracy first", "K": "K, by the key", "R": "R, random"}
+        rows = []
+        for r in ("J", "F", "K", "R"):
+            x = s5["rules"][r]
+            def f(k, x=x):
+                c = x[k]
+                return f"{100 * c['share']:.1f} ({100 * c['lo']:.1f}--{100 * c['hi']:.1f})"
+            rows.append(f"{names[r]} & {f('outcome:abstain')} & {f('outcome:correct')} & {f('outcome:wrong')} & "
+                        f"{100 * x['outcome:unparsed']['share']:.1f} \\\\")
+        (OUT / "tab_selection.tex").write_text("\n".join(rows) + "\n")
+    p = ROOT / "results/explore_idk2/summary.json"
+    if p.exists():
+        s = json.loads(p.read_text())
+        rows = []
+        for j in SIX:
+            cs = [cell(s, j, "judge knows", pr) for pr in ("CW-IDK", "CW-IDK2", "CC-IDK", "CC-IDK2")]
+            if all(cs):
+                rows.append(f"{NAMES[j]} & " + " & ".join(f"{100 * c['rate']:.0f} ({100 * c['lo']:.0f}--{100 * c['hi']:.0f})" for c in cs) + " \\\\")
+        (OUT / "tab_idk2.tex").write_text("\n".join(rows) + "\n")
+
+
 def main() -> None:
     study1()
     study3()
     study4()
+    study5()
+    appendix()
     lines = [f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in sorted(macros.items())]
     (OUT / "numbers.tex").write_text("% generated by src/numbers_a.py, do not edit\n" + "\n".join(lines) + "\n")
     print(f"{len(lines)} macros written")

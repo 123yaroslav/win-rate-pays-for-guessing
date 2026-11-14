@@ -1,0 +1,35 @@
+{
+ "dataset_id": "519c6f6c-1281-427c-8873-6edbdc97de45",
+ "kind": "uploaded",
+ "source_dataset_id": null,
+ "name": "corporate_ops_qa",
+ "status": "succeeded",
+ "created_at": "2026-11-14 17:29:00.986000+00:00",
+ "created_by_user_id": "ae8e1709-02fa-48f4-a23b-1027e27bec2b",
+ "updated_at": "2026-11-14 18:03:00.388000+00:00",
+ "row_count": 200,
+ "configured_column_mapping": {
+  "prompt": "prompt",
+  "completion": "completion",
+  "chat": null,
+  "context": [
+   "fact"
+  ],
+  "image": null
+ },
+ "evaluation_summary": {
+  "grade_before": "D",
+  "grade_after": "D",
+  "score_before": 5.0,
+  "score_after": 4.4,
+  "improvement_percent": -12.0
+ },
+ "run_id": "dataset-519c6f6c-1281-427c-8873-6edbdc97de45-1794677349551",
+ "progress": {
+  "percent": null,
+  "processed_rows": 200,
+  "total_rows": 200
+ },
+ "error_data": null,
+ "image_column_formats": null
+}
