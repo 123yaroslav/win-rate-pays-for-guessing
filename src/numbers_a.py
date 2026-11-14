@@ -57,9 +57,10 @@ def study1() -> None:
         c_bu = cell(s, j, "judge does not know", "CW-IDK")
         c_hw = cell(s, j, "all", "HW-IDK")
         det = s.get("detection", {}).get(j)
-        c_bf = cell(s, j, "judge flags the wrong answer as incorrect", "CW-IDK")
+        c_bf = cell(s, j, "judge tells the two answers apart", "CW-IDK")
+        c_bflag = cell(s, j, "judge flags the wrong answer as incorrect", "CW-IDK")
         star = "$^{*}$" if j == TERRA else ""
-        det_txt = f"{100 * det['cw_flagged']:.0f}" if det else "--"
+        det_txt = f"{100 * det['tells_apart']:.0f}" if det and "tells_apart" in det else "--"
         rows.append(f"{NAMES[j]}{star} & {100 * jr['own_accuracy']:.0f} & {ci(c_ak)} & {ci(c_bk)} & {ci(c_bu)} & "
                     f"{ci(c_wh)} & {det_txt} & {ci(c_bf)} \\\\")
         k = KEY[j]
@@ -81,6 +82,9 @@ def study1() -> None:
         if det:
             put(f"flagged{k}", pct(det["cw_flagged"]))
             put(f"accepted{k}", pct(det["cc_accepted"]))
+            put(f"tellsApart{k}", pct(det.get("tells_apart", float("nan"))))
+        if c_bflag:
+            put(f"bFlaggedOnly{k}", pct(c_bflag["rate"]))
         if c_bf:
             put(f"bFlagged{k}", pct(c_bf["rate"]))
             put(f"nFlagged{k}", str(c_bf["n"]))
@@ -112,7 +116,7 @@ def study1() -> None:
     if tone:
         put("toneMin", pct(min(tone)))
         put("toneMax", pct(max(tone)))
-    dom, hw, fl, bf = [], [], [], []
+    dom, hw, fl, bf, ta, acp = [], [], [], [], [], []
     for j in SIX:
         for d in ("medqa", "law", "geo"):
             c = cell(s, j, f"domain {d}", "CW-IDK")
@@ -124,18 +128,24 @@ def study1() -> None:
         det = s.get("detection", {}).get(j)
         if det:
             fl.append(det["cw_flagged"])
-        c = cell(s, j, "judge flags the wrong answer as incorrect", "CW-IDK")
+            acp.append(det["cc_accepted"])
+            if "tells_apart" in det:
+                ta.append(det["tells_apart"])
+        c = cell(s, j, "judge tells the two answers apart", "CW-IDK")
         if c:
             bf.append(c["rate"])
-    for name, xs in (("bDomain", dom), ("hwIdk", hw), ("flagged", fl), ("bFlagged", bf)):
+    put("domainCells", str(len(dom)))
+    put("domainCellsAbove", str(sum(x > 0.5 for x in dom)))
+    for name, xs in (("bDomain", dom), ("hwIdk", hw), ("flagged", fl), ("bFlagged", bf), ("tellsApart", ta),
+                     ("accepted", acp)):
         if xs:
             put(f"{name}Min", pct(min(xs)))
             put(f"{name}Max", pct(max(xs)))
-    for lab in ("H1", "H1F", "S1g"):
+    for lab in ("H1", "H1F", "S1g", "S1g2"):
         t = s.get("tests", {}).get(lab)
         if t:
             six = [j for j in SIX if j in t["holm_pass"]]
-            name = {"H1": "hOne", "H1F": "hOneF", "S1g": "sOneG"}[lab]
+            name = {"H1": "hOne", "H1F": "hOneF", "S1g": "sOneG", "S1g2": "sOneGApart"}[lab]
             put(f"{name}Pass", str(sum(t["holm_pass"][j] for j in six)))
             put(f"{name}Judges", str(len(six)))
     ts = s.get("two_step_check")
@@ -443,7 +453,8 @@ def appendix() -> None:
             v = det.get(j)
             if v:
                 star = "$^{*}$" if j == TERRA else ""
-                rows.append(f"{NAMES[j]}{star} & {100 * v['cw_flagged']:.0f} & {100 * v['cc_accepted']:.0f} \\\\")
+                rows.append(f"{NAMES[j]}{star} & {100 * v['cw_flagged']:.0f} & {100 * v['cc_accepted']:.0f} & "
+                            f"{100 * v.get('tells_apart', float('nan')):.0f} \\\\")
         (OUT / "tab_detect.tex").write_text("\n".join(rows) + "\n")
         vs = [s["judges"][j]["variants"]["default"]["groups"]["all"].get("derived", {}).get("v_eff") for j in SIX
               if j in s["judges"]]

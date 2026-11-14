@@ -1,0 +1,4 @@
+items 300 judges ['openrouter/anthropic/claude-haiku-5.5', 'openrouter/openai/gpt-5.6-luna'] pairs 2 variants ['think'] cached 0
+[00:52:47] fresh 250 done 250 failed 0 429s 0 spend adaption 0.000 openrouter 0.009 rate 348/min
+[00:53:28] fresh 500 done 500 failed 0 429s 0 spend adaption 0.000 openrouter 0.018 rate 355/min
+[00:54:38] fresh 750 done 750 failed 0 429s 0 spend adaption 0.000 openrouter 0.043 rate 292/min

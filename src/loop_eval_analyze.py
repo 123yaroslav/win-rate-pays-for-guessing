@@ -39,6 +39,8 @@ NAMES = {"abstention_rate": "abstentions", "accuracy": "correct", "wrong_rate": 
          "unparsed_rate": "unparsed", "penalised_score": "penalised score"}
 PHRASE = {"abstention_rate": "Abstention rate", "wrong_rate": "Wrong-answer rate", "penalised_score": "Penalised score"}
 PAIRS = [("J", "K"), ("F", "K"), ("J", "F"), ("J", "R")]
+# models of the exploratory follow-up, kept out of the registered table (see src/loop_eval_followup.py)
+FOLLOWUP = {"C3", "J3", "K3", "R3"}
 # predicted sign of the difference first minus second: P5c for J-K, P5e (F between J and K) for F-K and J-F
 PREDICTED = {
     ("J", "K"): {"abstention_rate": -1, "wrong_rate": +1, "penalised_score": -1},
@@ -93,6 +95,7 @@ def main() -> None:
     d = Path(a.dir)
 
     found = {p.name[len("eval_"):-len(".jsonl")]: p for p in d.glob("eval_*.jsonl")}
+    found = {m: p for m, p in found.items() if m not in FOLLOWUP}
     models = [m for m in ORDER if m in found] + sorted(m for m in found if m not in ORDER)
     missing = [m for m in ORDER if m not in found]
     rows = {m: [json.loads(ln) for ln in found[m].read_text().splitlines() if ln.strip()] for m in models}

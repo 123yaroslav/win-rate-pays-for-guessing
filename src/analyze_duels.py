@@ -123,7 +123,9 @@ def main() -> None:
             groups = [("all", lambda i: True), ("judge knows", lambda i: know.get(i, False)),
                       ("judge does not know", lambda i: i in know and not know[i])]
             if any(k[0] == j for k in flags):
-                groups += [("judge flags the wrong answer as incorrect", lambda i: flags.get((j, i, "CW")) == "NO"),
+                groups += [("judge tells the two answers apart", lambda i: flags.get((j, i, "CW")) == "NO"
+                            and flags.get((j, i, "CC")) == "YES"),
+                           ("judge flags the wrong answer as incorrect", lambda i: flags.get((j, i, "CW")) == "NO"),
                            ("judge knows and flags the wrong answer", lambda i: know.get(i, False)
                             and flags.get((j, i, "CW")) == "NO")]
             groups += [(f"domain {d}", lambda i, d=d: items[i]["domain"] == d) for d in domains]
@@ -189,7 +191,8 @@ def main() -> None:
     head = ["## Registered tests (default instruction)", ""]
     tests: dict = {}
     for gname, alpha, label in (("judge knows", 0.04, "H1"), ("all", 0.01, "H1F"),
-                                ("judge flags the wrong answer as incorrect", 0.05, "S1g")):
+                                ("judge flags the wrong answer as incorrect", 0.05, "S1g"),
+                                ("judge tells the two answers apart", 0.05, "S1g2")):
         ps = {}
         for j in judges:
             g = out["judges"][j]["variants"].get("default", {}).get("groups", {}).get(gname, {}).get("CW-IDK")
@@ -219,7 +222,9 @@ def main() -> None:
             cc = [flags[k] for k in flags if k[0] == j and k[2] == "CC"]
             if not cw:
                 continue
+            both = [i for (jj, i, r) in flags if jj == j and r == "CW" and (j, i, "CC") in flags]
             det[j] = {"cw_flagged": mean([x == "NO" for x in cw]), "cc_accepted": mean([x == "YES" for x in cc]),
+                      "tells_apart": mean([flags[(j, i, "CW")] == "NO" and flags[(j, i, "CC")] == "YES" for i in both]),
                       "unparsed": sum(x is None for x in cw + cc), "n": len(cw)}
             head.append(f"| {j} | {det[j]['cw_flagged']:.1%} | {det[j]['cc_accepted']:.1%} | {det[j]['unparsed']} |")
         head.append("")
