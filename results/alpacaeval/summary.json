@@ -1,0 +1,264 @@
+{
+ "template_sha256": "784227e6dc2832fc08c43d2c8ea3a308e7523780187a1aaad2f85e30bac85f62",
+ "n_items": 150,
+ "judges": {
+  "adaption/deepseek-v4-flash": {
+   "own_accuracy": 0.8333333333333334,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.0,
+   "unparsed_control": 0.0,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.972,
+    "lo": 0.952,
+    "hi": 0.992,
+    "n": 125,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.1,
+    "lo": 0.06,
+    "hi": 0.144,
+    "n": 125
+   },
+   "a2_pass": true,
+   "control_worst": 0.1,
+   "b_all": {
+    "rate": 0.9733333333333334,
+    "lo": 0.9533333333333334,
+    "hi": 0.99,
+    "n": 150
+   },
+   "b_pass": true
+  },
+  "adaption/gemma-4-31b-it": {
+   "own_accuracy": 0.8133333333333334,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.02666666666666667,
+   "unparsed_control": 0.02,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.743801652892562,
+    "lo": 0.6818181818181818,
+    "hi": 0.8057851239669421,
+    "n": 121,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.024793388429752067,
+    "lo": 0.004132231404958678,
+    "hi": 0.05371900826446281,
+    "n": 121
+   },
+   "a2_pass": true,
+   "control_worst": 0.045081967213114756,
+   "b_all": {
+    "rate": 0.785234899328859,
+    "lo": 0.7315436241610739,
+    "hi": 0.8355704697986577,
+    "n": 149
+   },
+   "b_pass": true
+  },
+  "adaption/qwen3.8-27b": {
+   "own_accuracy": 0.7933333333333333,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.006666666666666667,
+   "unparsed_control": 0.006666666666666667,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.9159663865546218,
+    "lo": 0.8739495798319328,
+    "hi": 0.9537815126050421,
+    "n": 119,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.037815126050420166,
+    "lo": 0.012605042016806723,
+    "hi": 0.07142857142857142,
+    "n": 119
+   },
+   "a2_pass": true,
+   "control_worst": 0.04201680672268908,
+   "b_all": {
+    "rate": 0.9266666666666666,
+    "lo": 0.8933333333333333,
+    "hi": 0.9566666666666667,
+    "n": 150
+   },
+   "b_pass": true
+  },
+  "openrouter/anthropic/claude-haiku-5.5": {
+   "own_accuracy": 0.8266666666666667,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.02,
+   "unparsed_control": 0.19,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.9878048780487805,
+    "lo": 0.9715447154471545,
+    "hi": 1.0,
+    "n": 123,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.16101694915254236,
+    "lo": 0.11440677966101695,
+    "hi": 0.21610169491525424,
+    "n": 118
+   },
+   "a2_pass": true,
+   "control_worst": 0.2903225806451613,
+   "b_all": {
+    "rate": 0.9899328859060402,
+    "lo": 0.9765100671140939,
+    "hi": 1.0,
+    "n": 149
+   },
+   "b_pass": true
+  },
+  "openrouter/openai/gpt-5.6-luna": {
+   "own_accuracy": 0.9,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.0,
+   "unparsed_control": 0.0,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.8962962962962963,
+    "lo": 0.8592592592592593,
+    "hi": 0.9333333333333333,
+    "n": 135,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.08148148148148149,
+    "lo": 0.04814814814814815,
+    "hi": 0.12222222222222222,
+    "n": 135
+   },
+   "a2_pass": true,
+   "control_worst": 0.08148148148148149,
+   "b_all": {
+    "rate": 0.9066666666666666,
+    "lo": 0.8733333333333333,
+    "hi": 0.94,
+    "n": 150
+   },
+   "b_pass": true
+  },
+  "openrouter/mistralai/mistral-small-2603": {
+   "own_accuracy": 0.7933333333333333,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.0,
+   "unparsed_control": 0.0033333333333333335,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.8739495798319328,
+    "lo": 0.8319327731092437,
+    "hi": 0.9117647058823529,
+    "n": 119,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.18487394957983194,
+    "lo": 0.13865546218487396,
+    "hi": 0.23109243697478993,
+    "n": 119
+   },
+   "a2_pass": true,
+   "control_worst": 0.18907563025210083,
+   "b_all": {
+    "rate": 0.89,
+    "lo": 0.8566666666666667,
+    "hi": 0.92,
+    "n": 150
+   },
+   "b_pass": true
+  },
+  "adaption/qwen3.5-397b": {
+   "own_accuracy": 0.8733333333333333,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.0,
+   "unparsed_control": 0.006666666666666667,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.9007633587786259,
+    "lo": 0.8625954198473282,
+    "hi": 0.9351145038167938,
+    "n": 131,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.04961832061068702,
+    "lo": 0.022900763358778626,
+    "hi": 0.08396946564885496,
+    "n": 131
+   },
+   "a2_pass": true,
+   "control_worst": 0.05343511450381679,
+   "b_all": {
+    "rate": 0.9066666666666666,
+    "lo": 0.8733333333333333,
+    "hi": 0.9366666666666666,
+    "n": 150
+   },
+   "b_pass": true
+  },
+  "adaption/glm-5.2": {
+   "own_accuracy": 0.8666666666666667,
+   "calls_primary": 300,
+   "calls_control": 300,
+   "unparsed_primary": 0.0,
+   "unparsed_control": 0.0,
+   "first_pick": null,
+   "dropped": false,
+   "b": {
+    "rate": 0.8846153846153846,
+    "lo": 0.8346153846153846,
+    "hi": 0.9307692307692308,
+    "n": 130,
+    "share_le_half": 0.0
+   },
+   "control": {
+    "rate": 0.08846153846153847,
+    "lo": 0.05,
+    "hi": 0.13076923076923078,
+    "n": 130
+   },
+   "a2_pass": true,
+   "control_worst": 0.08846153846153847,
+   "b_all": {
+    "rate": 0.9,
+    "lo": 0.8566666666666667,
+    "hi": 0.94,
+    "n": 150
+   },
+   "b_pass": true
+  }
+ },
+ "tests": {
+  "registered_kept": 6,
+  "large_kept": 2,
+  "A1": 6,
+  "A1_holds": true,
+  "A2": 6,
+  "A2_holds": true,
+  "A3": 2,
+  "A3_holds": true
+ }
+}

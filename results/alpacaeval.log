@@ -1,0 +1,21 @@
+items 150 judges 8 pairs 2 cached 0
+[00:36:32] fresh 250 done 250 failed 0 429s 14 spend adaption 0.008 openrouter 0.017 rate 324/min
+[00:37:18] fresh 500 done 500 failed 0 429s 36 spend adaption 0.015 openrouter 0.035 rate 324/min
+[00:38:09] fresh 750 done 750 failed 0 429s 80 spend adaption 0.023 openrouter 0.052 rate 314/min
+[00:38:54] fresh 1000 done 1000 failed 0 429s 97 spend adaption 0.030 openrouter 0.069 rate 318/min
+[00:39:41] fresh 1250 done 1250 failed 0 429s 117 spend adaption 0.034 openrouter 0.086 rate 319/min
+[00:40:30] fresh 1500 done 1500 failed 0 429s 142 spend adaption 0.039 openrouter 0.104 rate 317/min
+[00:41:17] fresh 1750 done 1750 failed 0 429s 168 spend adaption 0.043 openrouter 0.121 rate 317/min
+[00:42:16] fresh 2000 done 2000 failed 0 429s 297 spend adaption 0.049 openrouter 0.135 rate 307/min
+[00:46:43] fresh 2250 done 2250 failed 0 429s 297 spend adaption 0.081 openrouter 0.139 rate 205/min
+[00:52:49] fresh 2500 done 2500 failed 0 429s 297 spend adaption 0.128 openrouter 0.139 rate 147/min
+[00:59:10] fresh 2750 done 2750 failed 0 429s 297 spend adaption 0.174 openrouter 0.139 rate 118/min
+[01:07:32] fresh 3000 done 3000 failed 0 429s 297 spend adaption 0.226 openrouter 0.139 rate 94/min
+[01:14:43] fresh 3250 done 3250 failed 0 429s 297 spend adaption 0.274 openrouter 0.139 rate 83/min
+[01:22:17] fresh 3500 done 3500 failed 0 429s 297 spend adaption 0.315 openrouter 0.139 rate 75/min
+[01:29:01] fresh 3750 done 3750 failed 0 429s 297 spend adaption 0.352 openrouter 0.139 rate 70/min
+[01:35:37] fresh 4000 done 4000 failed 0 429s 297 spend adaption 0.389 openrouter 0.139 rate 67/min
+[01:41:42] fresh 4250 done 4250 failed 0 429s 297 spend adaption 0.437 openrouter 0.139 rate 64/min
+[01:48:07] fresh 4500 done 4500 failed 0 429s 297 spend adaption 0.474 openrouter 0.139 rate 62/min
+[01:54:12] fresh 4750 done 4750 failed 0 429s 297 spend adaption 0.483 openrouter 0.139 rate 61/min
+finished: fresh 4800 failed 0 429s 297 spend adaption 0.491 openrouter 0.139

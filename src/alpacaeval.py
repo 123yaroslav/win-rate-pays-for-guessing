@@ -90,6 +90,7 @@ async def run() -> None:
 def analyze() -> dict:
     its, own, _, _, _, _ = load(OWN_RUNS, ITEMS)
     duel: dict = defaultdict(dict)
+    worst: dict = defaultdict(dict)   # not registered: a reply without a verdict counted for the wrong answer
     unparsed: dict = defaultdict(int)
     n_calls: dict = defaultdict(int)
     for ln in (OUT / "calls.jsonl").read_text().splitlines():
@@ -103,9 +104,11 @@ def analyze() -> dict:
         ch = verdict(d["text"])
         if ch is None:
             unparsed[key] += 1
+            worst[key].setdefault(d["item"], []).append(1.0)
             continue
         winner = d["first"] if ch == "A" else d["second"]
         duel[key].setdefault(d["item"], []).append(1.0 if winner == d["pair"].split("-")[0] else 0.0)
+        worst[key].setdefault(d["item"], []).append(1.0 if winner == d["pair"].split("-")[0] else 0.0)
     rng = random.Random(20261116)
     out: dict = {"template_sha256": SHA256, "n_items": len(its), "judges": {}}
     for j in JUDGES + LARGE:
@@ -127,6 +130,8 @@ def analyze() -> dict:
         lo, hi, _ = boot(idx, lambda s: mean([mean(sx[i]) for i in s]), rng, B)
         r["control"] = {"rate": mean([mean(sx[i]) for i in idx]), "lo": lo, "hi": hi, "n": len(idx)}
         r["a2_pass"] = bool(idx) and r["control"]["rate"] < 0.25 and hi < 0.25
+        wx = worst.get((j, "CW-CC"), {})
+        r["control_worst"] = mean([mean(wx[i]) for i in wx if i in know])   # sensitivity, not registered
         alli = list(sb)
         lo, hi, _ = boot(alli, lambda s: mean([mean(sb[i]) for i in s]), rng, B)
         r["b_all"] = {"rate": mean([mean(sb[i]) for i in alli]), "lo": lo, "hi": hi, "n": len(alli)}
