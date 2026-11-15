@@ -23,6 +23,8 @@ macros: dict[str, str] = {}
 
 
 def pct(x: float, digits: int = 0) -> str:
+    if digits == 0 and (0.995 <= x < 1 or 0 < x < 0.005):
+        digits = 1   # do not round 99.7% up to 100% or 0.3% down to 0%
     return f"{100 * x:.{digits}f}\\%"
 
 
@@ -326,9 +328,10 @@ def study4() -> None:
     (OUT / "tab_fix.tex").write_text("\n".join(rows) + "\n")
     (OUT / "tab_fix_head.tex").write_text(" & ".join(["Instruction"] + [NAMES[j].replace(" ", "~", 1) if False else NAMES[j] for j in judges]) + " \\\\\n")
     put("fixJudges", str(len(judges)))
-    per_variant = {v: sum(1 for j in judges if rep.get(f"{j}|{v}", {}).get("repaired")) for v, _ in VARIANTS
-                   if v not in ("default", "data", "think")}
+    # a cell with more than half of the replies cut is not evaluated, so it cannot count as repaired
+    per_variant = {v: len(repaired_by.get(v, [])) for v, _ in VARIANTS if v not in ("default", "data", "think")}
     put("fixMaxSingle", str(max(per_variant.values()) if per_variant else 0))
+    put("fixMaxSingleWord", WORDS[max(per_variant.values()) if per_variant else 0])
     put("fixRepairedUnknown", str(sum(1 for k_, r_ in rep.items() if r_.get("repaired_unknown")
                                       and k_.split("|")[1] not in ("default", "data", "think"))))
     put("fixRepairedAccuracy", str(len(repaired_by.get("accuracy", []))))
@@ -457,6 +460,7 @@ def study5() -> None:
         put("natAMin", pct(min(as_)))
         put("natQuestions", str(n["used"]))
         put("natWrong", str(n["assert_wrong"]))
+        put("natWrongMin", str(min(v["b_nat"]["n"] for v in n["judges"].values())))
         put("natPool", f"{n['pool_questions']:,}".replace(",", "{,}"))
     if (d / "selection_table.json").exists():
         s = json.loads((d / "selection_table.json").read_text())
@@ -706,7 +710,11 @@ def confirm2() -> None:
     rng_put("cfRuleB", [s["judges"][j]["rule"]["b"] for j in rule])
     rng_put("cfRuleBBefore", [s["judges"][j]["rule"]["b_before"] for j in rule])
     rng_put("cfRuleA", [s["judges"][j]["rule"]["a"] for j in rule])
-    low = [j for j in rule if s["judges"][j]["rule"]["a"] < 0.6]
+    put("cfRuleBelowHalf", WORDS[sum(s["judges"][j]["rule"]["b"] < 0.5 for j in rule)])
+    fails = [j for j in rule if not s["judges"][j]["rule"]["share_ge_half"] < 0.05]
+    put("cfCFourFailNames", " and ".join(NAMES[j] for j in fails) or "none")
+    put("cfCFourFailB", ", ".join(pct(s["judges"][j]["rule"]["b"]) for j in fails) or "--")
+    low =[j for j in rule if s["judges"][j]["rule"]["a"] < 0.6]
     put("cfRuleUnusable", WORDS[len(low)])
     put("cfRuleUnusableNames", " and ".join(NAMES[j] for j in low) or "none")
     ps = [s["judges"][j]["rule"]["p_star"] for j in rule]
@@ -759,6 +767,10 @@ def freeform() -> None:
     rng_put("ffFlagged", fl)
     put("ffAboveHalf", WORDS[sum(s["judges"][j]["b_short"]["rate"] > 0.5 for j in kept if "b_short" in s["judges"][j])])
     put("ffFullAboveHalf", WORDS[sum(s["judges"][j]["b_full"]["rate"] > 0.5 for j in kept if "b_full" in s["judges"][j])])
+    below = [j for j in kept if "b_short" in s["judges"][j] and s["judges"][j]["b_short"]["rate"] <= 0.5]
+    put("ffBelowNames", " and ".join(NAMES[j] for j in below) or "none")
+    put("ffBelowB", ", ".join(f"{100 * s['judges'][j]['b_short']['rate']:.0f}\\%" for j in below) or "--")
+    put("ffBelowKnows", ", ".join(f"{100 * s['judges'][j]['knows']:.0f}\\%" for j in below) or "--")
     cp = ROOT / "results/confirm2/confirm.json"
     cf = json.loads(cp.read_text())["judges"] if cp.exists() else {}
     rows = []

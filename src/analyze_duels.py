@@ -82,6 +82,8 @@ def load(runs: list[str], item_files: list[str], limit: int = 0, replace: list[s
             d = json.loads(ln)
             if d["item"] not in items:
                 continue
+            if run in replace and d["kind"] != "duel":   # a rerun supersedes duels only, never own answers
+                continue
             if d["kind"] == "knows":
                 own[(d["judge"], d["item"])] = parse_letter(d["text"], "ABCD")
                 continue

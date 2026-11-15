@@ -18,7 +18,7 @@ On questions the judge answers correctly itself, the wrong answer beats "I don't
 
 ## Slide 5
 
-A rerun on {{cfQuestions}} fresh questions reproduced both rates for {{cfCOnePass}} and {{cfCTwoPass}} of {{cfKept}} judges. A second check used {{ffQuestions}} free-form questions with replies of two sentences. There the registered test passed for {{ffFOnePass}} of {{ffKept}} judges, where I had predicted at least five.
+A rerun on {{cfQuestions}} fresh questions reproduced both rates for {{cfCOnePass}} and {{cfCTwoPass}} of {{cfKept}} judges. A second check used {{ffQuestions}} free-form questions with replies of two sentences. There the registered test passed for {{ffFOnePass}} of {{ffKept}} judges, where I had predicted at least five. Against a fuller abstention it failed, with {{ffFTwoPass}} judges where four were needed. Under the published MT-Bench prompt, which asks for an explanation, the wrong reply won most duels for only {{ffMtAbove}} of {{ffMtUsable}} judges. On free-form questions an explanation mostly removes the effect.
 
 ## Slide 6
 

@@ -11,7 +11,7 @@ H1: b above 0.5 on group 'judge knows', Holm at 0.04. Passed by 6 of 6 judges.
 | adaption/qwen3.8-27b | 65.3% | 59.7% to 70.8% | 72 | 0.0000 | yes |
 | openrouter/anthropic/claude-haiku-5.5 | 82.2% | 75.7% to 88.2% | 76 | 0.0000 | yes |
 | openrouter/mistralai/mistral-small-2603 | 93.3% | 89.0% to 97.0% | 82 | 0.0000 | yes |
-| openrouter/openai/gpt-5.6-luna | 82.5% | 76.5% to 88.6% | 83 | 0.0000 | yes |
+| openrouter/openai/gpt-5.6-luna | 82.5% | 75.9% to 88.6% | 83 | 0.0000 | yes |
 
 H1F: b above 0.5 on group 'all', Holm at 0.01. Passed by 6 of 6 judges.
 
@@ -20,8 +20,8 @@ H1F: b above 0.5 on group 'all', Holm at 0.01. Passed by 6 of 6 judges.
 | adaption/deepseek-v4-flash | 93.6% | 90.2% to 96.6% | 102 | 0.0000 | yes |
 | adaption/gemma-4-31b-it | 69.7% | 61.6% to 77.3% | 99 | 0.0000 | yes |
 | adaption/qwen3.8-27b | 69.6% | 64.7% to 74.5% | 102 | 0.0000 | yes |
-| openrouter/anthropic/claude-haiku-5.5 | 83.8% | 78.4% to 89.2% | 102 | 0.0000 | yes |
-| openrouter/mistralai/mistral-small-2603 | 94.1% | 90.6% to 97.0% | 101 | 0.0000 | yes |
+| openrouter/anthropic/claude-haiku-5.5 | 83.8% | 78.4% to 88.7% | 102 | 0.0000 | yes |
+| openrouter/mistralai/mistral-small-2603 | 94.1% | 90.1% to 97.0% | 101 | 0.0000 | yes |
 | openrouter/openai/gpt-5.6-luna | 85.8% | 80.4% to 90.7% | 102 | 0.0000 | yes |
 
 S1g: b above 0.5 on group 'judge flags the wrong answer as incorrect', Holm at 0.05. Passed by 6 of 6 judges.
@@ -33,7 +33,7 @@ S1g: b above 0.5 on group 'judge flags the wrong answer as incorrect', Holm at 0
 | adaption/qwen3.8-27b | 69.6% | 64.7% to 74.5% | 102 | 0.0000 | yes |
 | openrouter/anthropic/claude-haiku-5.5 | 83.2% | 77.6% to 88.3% | 98 | 0.0000 | yes |
 | openrouter/mistralai/mistral-small-2603 | 92.0% | 87.3% to 96.0% | 75 | 0.0000 | yes |
-| openrouter/openai/gpt-5.6-luna | 83.7% | 78.1% to 89.3% | 89 | 0.0000 | yes |
+| openrouter/openai/gpt-5.6-luna | 83.7% | 77.5% to 89.3% | 89 | 0.0000 | yes |
 
 S1g2: b above 0.5 on group 'judge tells the two answers apart', Holm at 0.05. Passed by 6 of 6 judges.
 
@@ -64,7 +64,7 @@ S1g2: b above 0.5 on group 'judge tells the two answers apart', Holm at 0.05. Pa
 | adaption/deepseek-v4-flash | 99.5% | 93.6% | 89.7% | 35.8% | 0.26 | 0.11 to 0.38 |
 | adaption/gemma-4-31b-it | 98.4% | 72.0% | 76.3% | 8.6% | 0.61 | 0.54 to 0.71 |
 | adaption/qwen3.8-27b | 87.3% | 69.6% | 44.1% | 0.0% | 1.13 | 0.94 to 1.44 |
-| openrouter/anthropic/claude-haiku-5.5 | 99.0% | 83.7% | 42.6% | 3.0% | 1.19 | 0.95 to 1.58 |
+| openrouter/anthropic/claude-haiku-5.5 | 99.0% | 83.7% | 42.6% | 3.0% | 1.19 | 0.95 to 1.57 |
 | openrouter/mistralai/mistral-small-2603 | 100.0% | 94.1% | 86.1% | 25.7% | 0.40 | 0.30 to 0.49 |
 | openrouter/openai/gpt-5.6-luna | 100.0% | 85.8% | 87.3% | 12.7% | 0.50 | 0.45 to 0.55 |
 
@@ -77,7 +77,7 @@ S1g2: b above 0.5 on group 'judge tells the two answers apart', Holm at 0.05. Pa
 | adaption/gemma-4-31b-it | default | 100% | 64% | 0.999 | no | 93% | 91% |
 | adaption/gemma-4-31b-it | mtbench | 100% | 14% | 0.000 | yes | 82% | 52% |
 | adaption/qwen3.8-27b | default | 91% | 65% | 1.000 | no | 78% | 80% |
-| adaption/qwen3.8-27b | mtbench | 100% | 15% | 0.000 | yes | 100% | 100% |
+| adaption/qwen3.8-27b | mtbench | 99% | 10% | 0.000 | yes | 88% | 35% |
 | openrouter/anthropic/claude-haiku-5.5 | default | 99% | 82% | 1.000 | no | 98% | 88% |
 | openrouter/anthropic/claude-haiku-5.5 | mtbench | 100% | 27% | 0.000 | yes | 88% | 69% |
 | openrouter/mistralai/mistral-small-2603 | default | 100% | 93% | 1.000 | no | 100% | 97% |
@@ -441,49 +441,49 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | domain law, judge knows | 83% | 71% | +0.12 | -1.80 | -11.00 to -0.45 | 71% | 63% | 43% |
 | domain medqa, judge knows | 90% | 64% | +0.26 | -0.55 | -1.43 to -0.14 | 74% | 54% | 45% |
 
-### prompt variant mtbench (picks the first position in 51% of duels)
+### prompt variant mtbench (picks the first position in 49% of duels)
 
 | pair, first vs second | group | first wins | 95% CI | items | unparsed calls |
 |---|---|---|---|---|---|
-| CC-IDK | all | 100% | 100% to 100% | 93 | 32 |
-| CW-IDK | all | 39% | 21% to 57% | 28 | 164 |
-| CC-IDK | judge knows | 100% | 100% to 100% | 69 | 32 |
-| CW-IDK | judge knows | 15% | 0% to 30% | 20 | 164 |
-| CC-IDK | judge does not know | 100% | 100% to 100% | 24 | 32 |
-| CW-IDK | judge does not know | 100% | 100% to 100% | 8 | 164 |
-| CC-IDK | judge tells the two answers apart | 100% | 100% to 100% | 48 | 32 |
-| CW-IDK | judge tells the two answers apart | 0% | 0% to 0% | 15 | 164 |
-| CC-IDK | judge flags the wrong answer as incorrect | 100% | 100% to 100% | 93 | 32 |
-| CW-IDK | judge flags the wrong answer as incorrect | 39% | 21% to 57% | 28 | 164 |
-| CC-IDK | judge knows and flags the wrong answer | 100% | 100% to 100% | 69 | 32 |
-| CW-IDK | judge knows and flags the wrong answer | 15% | 0% to 30% | 20 | 164 |
-| CC-IDK | domain geo | 100% | 100% to 100% | 33 | 32 |
-| CW-IDK | domain geo | 12% | 0% to 31% | 16 | 164 |
-| CC-IDK | domain law | 100% | 100% to 100% | 28 | 32 |
-| CW-IDK | domain law | 75% | 38% to 100% | 8 | 164 |
-| CC-IDK | domain medqa | 100% | 100% to 100% | 32 | 32 |
-| CW-IDK | domain medqa | 75% | 25% to 100% | 4 | 164 |
-| CC-IDK | domain geo, judge knows | 100% | 100% to 100% | 30 | 32 |
-| CW-IDK | domain geo, judge knows | 7% | 0% to 20% | 15 | 164 |
-| CC-IDK | domain law, judge knows | 100% | 100% to 100% | 19 | 32 |
-| CW-IDK | domain law, judge knows | 33% | 0% to 100% | 3 | 164 |
-| CC-IDK | domain medqa, judge knows | 100% | 100% to 100% | 20 | 32 |
-| CW-IDK | domain medqa, judge knows | 50% | 0% to 100% | 2 | 164 |
+| CC-IDK | all | 96% | 92% to 99% | 102 | 3 |
+| CW-IDK | all | 18% | 11% to 25% | 99 | 19 |
+| CC-IDK | judge knows | 99% | 97% to 100% | 72 | 3 |
+| CW-IDK | judge knows | 10% | 4% to 17% | 69 | 19 |
+| CC-IDK | judge does not know | 88% | 77% to 98% | 30 | 3 |
+| CW-IDK | judge does not know | 35% | 20% to 52% | 30 | 19 |
+| CC-IDK | judge tells the two answers apart | 100% | 100% to 100% | 48 | 3 |
+| CW-IDK | judge tells the two answers apart | 2% | 0% to 6% | 48 | 19 |
+| CC-IDK | judge flags the wrong answer as incorrect | 96% | 92% to 99% | 102 | 3 |
+| CW-IDK | judge flags the wrong answer as incorrect | 18% | 11% to 25% | 99 | 19 |
+| CC-IDK | judge knows and flags the wrong answer | 99% | 97% to 100% | 72 | 3 |
+| CW-IDK | judge knows and flags the wrong answer | 10% | 4% to 17% | 69 | 19 |
+| CC-IDK | domain geo | 96% | 88% to 100% | 34 | 3 |
+| CW-IDK | domain geo | 9% | 1% to 18% | 34 | 19 |
+| CC-IDK | domain law | 91% | 82% to 99% | 34 | 3 |
+| CW-IDK | domain law | 25% | 11% to 41% | 32 | 19 |
+| CC-IDK | domain medqa | 100% | 100% to 100% | 34 | 3 |
+| CW-IDK | domain medqa | 20% | 8% to 33% | 33 | 19 |
+| CC-IDK | domain geo, judge knows | 98% | 95% to 100% | 30 | 3 |
+| CW-IDK | domain geo, judge knows | 5% | 0% to 13% | 30 | 19 |
+| CC-IDK | domain law, judge knows | 98% | 93% to 100% | 21 | 3 |
+| CW-IDK | domain law, judge knows | 8% | 0% to 21% | 19 | 19 |
+| CC-IDK | domain medqa, judge knows | 100% | 100% to 100% | 21 | 3 |
+| CW-IDK | domain medqa, judge knows | 20% | 5% to 40% | 20 | 19 |
 
 | group | a = CC beats IDK | b = CW beats IDK | a - b | break-even accuracy p* | 95% CI | tone, CW beats HW | CW beats HC predicted | observed |
 |---|---|---|---|---|---|---|---|---|
-| all | 100% | 35% | +0.65 | +0.24 | -0.08 to +0.41 | - | - | - |
-| judge knows | 100% | 15% | +0.85 | +0.41 | +0.29 to +0.50 | - | - | - |
-| judge does not know | 100% | 100% | +0.00 | undefined | +nan to +nan | - | - | - |
-| judge tells the two answers apart | 100% | 0% | +1.00 | +0.50 | +0.50 to +0.50 | - | - | - |
-| judge flags the wrong answer as incorrect | 100% | 35% | +0.65 | +0.24 | -0.08 to +0.41 | - | - | - |
-| judge knows and flags the wrong answer | 100% | 15% | +0.85 | +0.41 | +0.29 to +0.50 | - | - | - |
-| domain geo | 100% | 7% | +0.93 | +0.46 | +0.37 to +0.50 | - | - | - |
-| domain law | 100% | 71% | +0.29 | -0.75 | -2.50 to +0.30 | - | - | - |
-| domain medqa | 100% | 75% | +0.25 | -1.00 | -1.00 to +0.33 | - | - | - |
-| domain geo, judge knows | 100% | 7% | +0.93 | +0.46 | +0.37 to +0.50 | - | - | - |
-| domain law, judge knows | 100% | 33% | +0.67 | +0.25 | -0.50 to +0.50 | - | - | - |
-| domain medqa, judge knows | 100% | 50% | +0.50 | +0.00 | +0.00 to +0.50 | - | - | - |
+| all | 95% | 18% | +0.78 | +0.42 | +0.36 to +0.46 | - | - | - |
+| judge knows | 99% | 10% | +0.88 | +0.45 | +0.40 to +0.49 | - | - | - |
+| judge does not know | 88% | 35% | +0.53 | +0.28 | -0.05 to +0.44 | - | - | - |
+| judge tells the two answers apart | 100% | 2% | +0.98 | +0.49 | +0.47 to +0.50 | - | - | - |
+| judge flags the wrong answer as incorrect | 95% | 18% | +0.78 | +0.42 | +0.36 to +0.46 | - | - | - |
+| judge knows and flags the wrong answer | 99% | 10% | +0.88 | +0.45 | +0.40 to +0.49 | - | - | - |
+| domain geo | 96% | 9% | +0.87 | +0.47 | +0.44 to +0.50 | - | - | - |
+| domain law | 91% | 25% | +0.66 | +0.38 | +0.20 to +0.49 | - | - | - |
+| domain medqa | 100% | 20% | +0.80 | +0.38 | +0.25 to +0.46 | - | - | - |
+| domain geo, judge knows | 98% | 5% | +0.93 | +0.48 | +0.45 to +0.50 | - | - | - |
+| domain law, judge knows | 97% | 8% | +0.89 | +0.47 | +0.38 to +0.53 | - | - | - |
+| domain medqa, judge knows | 100% | 20% | +0.80 | +0.37 | +0.17 to +0.47 | - | - | - |
 
 ## openrouter/anthropic/claude-haiku-5.5: own closed-book accuracy 75% on 102 items
 
@@ -495,7 +495,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CC-IDK | all | 99% | 98% to 100% | 102 | 0 |
 | CW-CC | all | 20% | 14% to 26% | 102 | 5 |
 | CW-HC | all | 42% | 34% to 50% | 101 | 11 |
-| CW-HW | all | 57% | 50% to 64% | 99 | 24 |
+| CW-HW | all | 57% | 51% to 64% | 99 | 24 |
 | CW-IDK | all | 84% | 78% to 89% | 102 | 3 |
 | HC-IDK | all | 99% | 97% to 100% | 102 | 0 |
 | HW-IDK | all | 94% | 90% to 97% | 102 | 2 |
@@ -509,7 +509,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | HW-IDK | judge knows | 93% | 89% to 97% | 76 | 2 |
 | CC-HC | judge does not know | 73% | 62% to 83% | 26 | 4 |
 | CC-IDK | judge does not know | 98% | 94% to 100% | 26 | 0 |
-| CW-CC | judge does not know | 33% | 19% to 48% | 26 | 5 |
+| CW-CC | judge does not know | 33% | 17% to 48% | 26 | 5 |
 | CW-HC | judge does not know | 60% | 46% to 73% | 26 | 11 |
 | CW-HW | judge does not know | 52% | 40% to 63% | 26 | 24 |
 | CW-IDK | judge does not know | 88% | 81% to 96% | 26 | 3 |
@@ -525,7 +525,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | HW-IDK | judge tells the two answers apart | 96% | 92% to 100% | 42 | 2 |
 | CC-HC | judge flags the wrong answer as incorrect | 82% | 77% to 87% | 98 | 4 |
 | CC-IDK | judge flags the wrong answer as incorrect | 99% | 97% to 100% | 98 | 0 |
-| CW-CC | judge flags the wrong answer as incorrect | 18% | 12% to 24% | 98 | 5 |
+| CW-CC | judge flags the wrong answer as incorrect | 18% | 12% to 25% | 98 | 5 |
 | CW-HC | judge flags the wrong answer as incorrect | 40% | 32% to 48% | 97 | 11 |
 | CW-HW | judge flags the wrong answer as incorrect | 56% | 49% to 63% | 95 | 24 |
 | CW-IDK | judge flags the wrong answer as incorrect | 83% | 78% to 88% | 98 | 3 |
@@ -534,7 +534,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CC-HC | judge knows and flags the wrong answer | 86% | 80% to 90% | 73 | 4 |
 | CC-IDK | judge knows and flags the wrong answer | 99% | 98% to 100% | 73 | 0 |
 | CW-CC | judge knows and flags the wrong answer | 14% | 8% to 21% | 73 | 5 |
-| CW-HC | judge knows and flags the wrong answer | 34% | 25% to 43% | 72 | 11 |
+| CW-HC | judge knows and flags the wrong answer | 34% | 25% to 44% | 72 | 11 |
 | CW-HW | judge knows and flags the wrong answer | 59% | 50% to 67% | 70 | 24 |
 | CW-IDK | judge knows and flags the wrong answer | 82% | 75% to 88% | 73 | 3 |
 | HC-IDK | judge knows and flags the wrong answer | 99% | 97% to 100% | 73 | 0 |
@@ -543,31 +543,31 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-HC | domain geo | 41% | 28% to 54% | 34 | 11 |
 | CW-IDK | domain geo | 85% | 76% to 93% | 34 | 3 |
 | CC-IDK | domain law | 99% | 96% to 100% | 34 | 0 |
-| CW-HC | domain law | 47% | 32% to 60% | 34 | 11 |
+| CW-HC | domain law | 47% | 32% to 62% | 34 | 11 |
 | CW-IDK | domain law | 82% | 74% to 91% | 34 | 3 |
 | CC-IDK | domain medqa | 99% | 96% to 100% | 34 | 0 |
 | CW-HC | domain medqa | 38% | 24% to 52% | 33 | 11 |
 | CW-IDK | domain medqa | 84% | 74% to 93% | 34 | 3 |
 | CC-IDK | domain geo, judge knows | 100% | 100% to 100% | 27 | 0 |
-| CW-HC | domain geo, judge knows | 35% | 20% to 52% | 27 | 11 |
+| CW-HC | domain geo, judge knows | 35% | 20% to 50% | 27 | 11 |
 | CW-IDK | domain geo, judge knows | 85% | 74% to 94% | 27 | 3 |
 | CC-IDK | domain law, judge knows | 100% | 100% to 100% | 21 | 0 |
 | CW-HC | domain law, judge knows | 40% | 24% to 60% | 21 | 11 |
 | CW-IDK | domain law, judge knows | 81% | 69% to 93% | 21 | 3 |
 | CC-IDK | domain medqa, judge knows | 98% | 95% to 100% | 28 | 0 |
-| CW-HC | domain medqa, judge knows | 33% | 19% to 48% | 27 | 11 |
+| CW-HC | domain medqa, judge knows | 33% | 20% to 48% | 27 | 11 |
 | CW-IDK | domain medqa, judge knows | 80% | 68% to 91% | 28 | 3 |
 
 | group | a = CC beats IDK | b = CW beats IDK | a - b | break-even accuracy p* | 95% CI | tone, CW beats HW | CW beats HC predicted | observed |
 |---|---|---|---|---|---|---|---|---|
-| all | 99% | 84% | +0.15 | -2.23 | -3.86 to -1.37 | 58% | 49% | 43% |
-| judge knows | 99% | 82% | +0.17 | -1.88 | -3.56 to -1.06 | 60% | 50% | 37% |
-| judge does not know | 98% | 88% | +0.10 | -4.00 | -11.50 to -1.67 | 52% | 47% | 60% |
-| judge tells the two answers apart | 100% | 82% | +0.18 | -1.80 | -4.25 to -0.83 | 55% | 45% | 26% |
-| judge flags the wrong answer as incorrect | 99% | 83% | +0.16 | -2.10 | -3.67 to -1.29 | 57% | 48% | 41% |
-| judge knows and flags the wrong answer | 99% | 82% | +0.18 | -1.77 | -3.44 to -0.97 | 59% | 50% | 35% |
+| all | 99% | 84% | +0.15 | -2.23 | -3.90 to -1.36 | 58% | 49% | 43% |
+| judge knows | 99% | 82% | +0.17 | -1.88 | -3.62 to -1.05 | 60% | 50% | 37% |
+| judge does not know | 98% | 88% | +0.10 | -4.00 | -11.50 to -1.78 | 52% | 47% | 60% |
+| judge tells the two answers apart | 100% | 82% | +0.18 | -1.80 | -4.25 to -0.91 | 55% | 45% | 26% |
+| judge flags the wrong answer as incorrect | 99% | 83% | +0.16 | -2.10 | -3.67 to -1.28 | 57% | 48% | 41% |
+| judge knows and flags the wrong answer | 99% | 82% | +0.18 | -1.77 | -3.38 to -0.97 | 59% | 50% | 35% |
 | domain geo | 100% | 85% | +0.15 | -2.40 | -5.80 to -1.12 | 63% | 54% | 41% |
-| domain law | 99% | 82% | +0.16 | -2.00 | -5.40 to -0.89 | 65% | 54% | 47% |
+| domain law | 99% | 82% | +0.16 | -2.00 | -5.20 to -0.89 | 65% | 54% | 47% |
 | domain medqa | 99% | 84% | +0.15 | -2.30 | -7.50 to -0.94 | 43% | 38% | 40% |
 | domain geo, judge knows | 100% | 85% | +0.15 | -2.38 | -8.00 to -0.93 | 63% | 54% | 35% |
 | domain law, judge knows | 100% | 81% | +0.19 | -1.63 | -6.00 to -0.50 | 69% | 56% | 40% |
@@ -581,7 +581,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-IDK | all | 38% | 30% to 46% | 102 | 0 |
 | CC-IDK | judge knows | 100% | 99% to 100% | 76 | 0 |
 | CW-IDK | judge knows | 27% | 19% to 35% | 76 | 0 |
-| CC-IDK | judge does not know | 88% | 77% to 98% | 26 | 0 |
+| CC-IDK | judge does not know | 88% | 75% to 98% | 26 | 0 |
 | CW-IDK | judge does not know | 69% | 53% to 85% | 26 | 0 |
 | CC-IDK | judge tells the two answers apart | 100% | 100% to 100% | 42 | 0 |
 | CW-IDK | judge tells the two answers apart | 18% | 11% to 27% | 42 | 0 |
@@ -594,11 +594,11 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CC-IDK | domain law | 98% | 94% to 100% | 34 | 0 |
 | CW-IDK | domain law | 57% | 43% to 71% | 34 | 0 |
 | CC-IDK | domain medqa | 100% | 100% to 100% | 34 | 0 |
-| CW-IDK | domain medqa | 29% | 17% to 43% | 34 | 0 |
+| CW-IDK | domain medqa | 29% | 16% to 43% | 34 | 0 |
 | CC-IDK | domain geo, judge knows | 100% | 100% to 100% | 27 | 0 |
 | CW-IDK | domain geo, judge knows | 18% | 7% to 30% | 27 | 0 |
 | CC-IDK | domain law, judge knows | 99% | 96% to 100% | 21 | 0 |
-| CW-IDK | domain law, judge knows | 42% | 25% to 58% | 21 | 0 |
+| CW-IDK | domain law, judge knows | 42% | 26% to 58% | 21 | 0 |
 | CC-IDK | domain medqa, judge knows | 100% | 100% to 100% | 28 | 0 |
 | CW-IDK | domain medqa, judge knows | 24% | 11% to 38% | 28 | 0 |
 
@@ -606,14 +606,14 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 |---|---|---|---|---|---|---|---|---|
 | all | 97% | 38% | +0.59 | +0.21 | +0.08 to +0.30 | - | - | - |
 | judge knows | 100% | 27% | +0.73 | +0.32 | +0.23 to +0.39 | - | - | - |
-| judge does not know | 88% | 69% | +0.19 | -1.00 | -6.20 to -0.07 | - | - | - |
-| judge tells the two answers apart | 100% | 18% | +0.82 | +0.39 | +0.31 to +0.44 | - | - | - |
+| judge does not know | 88% | 69% | +0.19 | -1.00 | -6.50 to -0.09 | - | - | - |
+| judge tells the two answers apart | 100% | 18% | +0.82 | +0.39 | +0.32 to +0.44 | - | - | - |
 | judge flags the wrong answer as incorrect | 97% | 35% | +0.62 | +0.24 | +0.13 to +0.33 | - | - | - |
-| judge knows and flags the wrong answer | 100% | 24% | +0.76 | +0.35 | +0.27 to +0.41 | - | - | - |
+| judge knows and flags the wrong answer | 100% | 24% | +0.76 | +0.35 | +0.27 to +0.40 | - | - | - |
 | domain geo | 93% | 26% | +0.67 | +0.36 | +0.22 to +0.45 | - | - | - |
-| domain law | 98% | 57% | +0.40 | -0.18 | -0.83 to +0.13 | - | - | - |
+| domain law | 98% | 57% | +0.40 | -0.18 | -0.82 to +0.13 | - | - | - |
 | domain medqa | 100% | 29% | +0.71 | +0.29 | +0.12 to +0.40 | - | - | - |
-| domain geo, judge knows | 100% | 18% | +0.82 | +0.39 | +0.29 to +0.46 | - | - | - |
+| domain geo, judge knows | 100% | 18% | +0.82 | +0.39 | +0.30 to +0.45 | - | - | - |
 | domain law, judge knows | 99% | 42% | +0.57 | +0.15 | -0.20 to +0.33 | - | - | - |
 | domain medqa, judge knows | 100% | 24% | +0.76 | +0.34 | +0.19 to +0.44 | - | - | - |
 
@@ -628,12 +628,12 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-CC | all | 19% | 13% to 25% | 102 | 1 |
 | CW-HC | all | 50% | 41% to 58% | 102 | 1 |
 | CW-HW | all | 98% | 96% to 100% | 102 | 2 |
-| CW-IDK | all | 94% | 91% to 97% | 101 | 5 |
+| CW-IDK | all | 94% | 90% to 97% | 101 | 5 |
 | HC-IDK | all | 93% | 89% to 96% | 102 | 0 |
 | HW-IDK | all | 85% | 80% to 90% | 100 | 5 |
 | CC-HC | judge knows | 99% | 98% to 100% | 83 | 0 |
 | CC-IDK | judge knows | 100% | 100% to 100% | 83 | 0 |
-| CW-CC | judge knows | 10% | 5% to 14% | 83 | 1 |
+| CW-CC | judge knows | 10% | 5% to 15% | 83 | 1 |
 | CW-HC | judge knows | 42% | 33% to 51% | 83 | 1 |
 | CW-HW | judge knows | 98% | 96% to 100% | 83 | 2 |
 | CW-IDK | judge knows | 93% | 89% to 97% | 82 | 5 |
@@ -645,7 +645,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-HC | judge does not know | 82% | 66% to 95% | 19 | 1 |
 | CW-HW | judge does not know | 97% | 92% to 100% | 19 | 2 |
 | CW-IDK | judge does not know | 97% | 92% to 100% | 19 | 5 |
-| HC-IDK | judge does not know | 87% | 76% to 97% | 19 | 0 |
+| HC-IDK | judge does not know | 87% | 76% to 95% | 19 | 0 |
 | HW-IDK | judge does not know | 92% | 84% to 100% | 19 | 5 |
 | CC-HC | judge tells the two answers apart | 99% | 98% to 100% | 67 | 0 |
 | CC-IDK | judge tells the two answers apart | 100% | 100% to 100% | 67 | 0 |
@@ -653,7 +653,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-HC | judge tells the two answers apart | 36% | 27% to 45% | 67 | 1 |
 | CW-HW | judge tells the two answers apart | 97% | 94% to 99% | 67 | 2 |
 | CW-IDK | judge tells the two answers apart | 91% | 86% to 95% | 66 | 5 |
-| HC-IDK | judge tells the two answers apart | 95% | 91% to 98% | 67 | 0 |
+| HC-IDK | judge tells the two answers apart | 95% | 91% to 99% | 67 | 0 |
 | HW-IDK | judge tells the two answers apart | 82% | 76% to 88% | 66 | 5 |
 | CC-HC | judge flags the wrong answer as incorrect | 99% | 98% to 100% | 76 | 0 |
 | CC-IDK | judge flags the wrong answer as incorrect | 100% | 100% to 100% | 76 | 0 |
@@ -670,9 +670,9 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-HW | judge knows and flags the wrong answer | 98% | 95% to 100% | 67 | 2 |
 | CW-IDK | judge knows and flags the wrong answer | 92% | 86% to 96% | 66 | 5 |
 | HC-IDK | judge knows and flags the wrong answer | 93% | 89% to 97% | 67 | 0 |
-| HW-IDK | judge knows and flags the wrong answer | 82% | 76% to 87% | 66 | 5 |
+| HW-IDK | judge knows and flags the wrong answer | 82% | 76% to 88% | 66 | 5 |
 | CC-IDK | domain geo | 100% | 100% to 100% | 34 | 0 |
-| CW-HC | domain geo | 41% | 28% to 56% | 34 | 1 |
+| CW-HC | domain geo | 41% | 28% to 54% | 34 | 1 |
 | CW-IDK | domain geo | 90% | 81% to 97% | 34 | 5 |
 | CC-IDK | domain law | 100% | 100% to 100% | 34 | 0 |
 | CW-HC | domain law | 53% | 38% to 68% | 34 | 1 |
@@ -698,7 +698,7 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | judge tells the two answers apart | 100% | 91% | +0.09 | -4.50 | -10.00 to -2.47 | 97% | 88% | 36% |
 | judge flags the wrong answer as incorrect | 100% | 92% | +0.08 | -5.25 | -11.50 to -2.95 | 97% | 90% | 42% |
 | judge knows and flags the wrong answer | 100% | 92% | +0.08 | -5.00 | -12.20 to -2.67 | 98% | 90% | 38% |
-| domain geo | 100% | 90% | +0.10 | -3.86 | -16.00 to -1.62 | 99% | 88% | 41% |
+| domain geo | 100% | 90% | +0.10 | -3.86 | -10.33 to -1.62 | 99% | 88% | 41% |
 | domain law | 100% | 97% | +0.03 | -16.00 | -16.00 to -5.80 | 99% | 96% | 53% |
 | domain medqa | 100% | 95% | +0.05 | -10.00 | -15.50 to -3.71 | 97% | 93% | 56% |
 | domain geo, judge knows | 100% | 89% | +0.11 | -3.43 | -14.50 to -1.38 | 98% | 87% | 35% |
@@ -736,18 +736,18 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 
 | group | a = CC beats IDK | b = CW beats IDK | a - b | break-even accuracy p* | 95% CI | tone, CW beats HW | CW beats HC predicted | observed |
 |---|---|---|---|---|---|---|---|---|
-| all | 99% | 84% | +0.14 | -2.41 | -4.10 to -1.54 | - | - | - |
-| judge knows | 99% | 82% | +0.17 | -1.84 | -3.15 to -1.14 | - | - | - |
+| all | 99% | 84% | +0.14 | -2.41 | -4.08 to -1.53 | - | - | - |
+| judge knows | 99% | 82% | +0.17 | -1.84 | -3.19 to -1.13 | - | - | - |
 | judge does not know | 97% | 96% | +0.01 | undefined | -18.00 to -6.60 | - | - | - |
 | judge tells the two answers apart | 100% | 78% | +0.22 | -1.25 | -2.12 to -0.74 | - | - | - |
-| judge flags the wrong answer as incorrect | 98% | 80% | +0.19 | -1.58 | -2.70 to -0.95 | - | - | - |
-| judge knows and flags the wrong answer | 99% | 78% | +0.21 | -1.30 | -2.31 to -0.76 | - | - | - |
+| judge flags the wrong answer as incorrect | 98% | 80% | +0.19 | -1.58 | -2.77 to -0.95 | - | - | - |
+| judge knows and flags the wrong answer | 99% | 78% | +0.21 | -1.30 | -2.28 to -0.75 | - | - | - |
 | domain geo | 99% | 83% | +0.15 | -2.14 | -6.11 to -1.00 | - | - | - |
 | domain law | 100% | 93% | +0.07 | -5.80 | -16.00 to -2.78 | - | - | - |
 | domain medqa | 97% | 77% | +0.20 | -1.37 | -3.36 to -0.61 | - | - | - |
 | domain geo, judge knows | 98% | 81% | +0.17 | -1.86 | -5.22 to -0.82 | - | - | - |
 | domain law, judge knows | 100% | 91% | +0.09 | -4.50 | -21.00 to -1.75 | - | - | - |
-| domain medqa, judge knows | 98% | 75% | +0.23 | -1.07 | -2.50 to -0.44 | - | - | - |
+| domain medqa, judge knows | 98% | 75% | +0.23 | -1.07 | -2.56 to -0.44 | - | - | - |
 
 ## openrouter/openai/gpt-5.6-luna: own closed-book accuracy 81% on 102 items
 
@@ -755,10 +755,10 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 
 | pair, first vs second | group | first wins | 95% CI | items | unparsed calls |
 |---|---|---|---|---|---|
-| CC-HC | all | 92% | 89% to 96% | 102 | 0 |
+| CC-HC | all | 92% | 88% to 96% | 102 | 0 |
 | CC-IDK | all | 100% | 100% to 100% | 102 | 0 |
-| CW-CC | all | 15% | 10% to 22% | 102 | 0 |
-| CW-HC | all | 25% | 17% to 32% | 102 | 0 |
+| CW-CC | all | 15% | 9% to 22% | 102 | 0 |
+| CW-HC | all | 25% | 18% to 32% | 102 | 0 |
 | CW-HW | all | 69% | 63% to 75% | 102 | 0 |
 | CW-IDK | all | 86% | 80% to 91% | 102 | 0 |
 | HC-IDK | all | 100% | 100% to 100% | 102 | 0 |
@@ -768,12 +768,12 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-CC | judge knows | 7% | 3% to 11% | 83 | 0 |
 | CW-HC | judge knows | 13% | 8% to 19% | 83 | 0 |
 | CW-HW | judge knows | 67% | 60% to 73% | 83 | 0 |
-| CW-IDK | judge knows | 83% | 77% to 89% | 83 | 0 |
+| CW-IDK | judge knows | 83% | 76% to 89% | 83 | 0 |
 | HC-IDK | judge knows | 100% | 100% to 100% | 83 | 0 |
 | HW-IDK | judge knows | 99% | 97% to 100% | 83 | 0 |
 | CC-HC | judge does not know | 82% | 71% to 92% | 19 | 0 |
 | CC-IDK | judge does not know | 100% | 100% to 100% | 19 | 0 |
-| CW-CC | judge does not know | 53% | 34% to 74% | 19 | 0 |
+| CW-CC | judge does not know | 53% | 32% to 71% | 19 | 0 |
 | CW-HC | judge does not know | 74% | 55% to 89% | 19 | 0 |
 | CW-HW | judge does not know | 76% | 66% to 87% | 19 | 0 |
 | CW-IDK | judge does not know | 100% | 100% to 100% | 19 | 0 |
@@ -787,10 +787,10 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CW-IDK | judge tells the two answers apart | 82% | 76% to 88% | 82 | 0 |
 | HC-IDK | judge tells the two answers apart | 100% | 100% to 100% | 82 | 0 |
 | HW-IDK | judge tells the two answers apart | 99% | 97% to 100% | 82 | 0 |
-| CC-HC | judge flags the wrong answer as incorrect | 93% | 90% to 97% | 89 | 0 |
+| CC-HC | judge flags the wrong answer as incorrect | 93% | 89% to 97% | 89 | 0 |
 | CC-IDK | judge flags the wrong answer as incorrect | 100% | 100% to 100% | 89 | 0 |
 | CW-CC | judge flags the wrong answer as incorrect | 8% | 4% to 12% | 89 | 0 |
-| CW-HC | judge flags the wrong answer as incorrect | 16% | 10% to 22% | 89 | 0 |
+| CW-HC | judge flags the wrong answer as incorrect | 16% | 11% to 23% | 89 | 0 |
 | CW-HW | judge flags the wrong answer as incorrect | 67% | 61% to 74% | 89 | 0 |
 | CW-IDK | judge flags the wrong answer as incorrect | 84% | 78% to 89% | 89 | 0 |
 | HC-IDK | judge flags the wrong answer as incorrect | 100% | 100% to 100% | 89 | 0 |
@@ -804,20 +804,20 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | HC-IDK | judge knows and flags the wrong answer | 100% | 100% to 100% | 81 | 0 |
 | HW-IDK | judge knows and flags the wrong answer | 99% | 97% to 100% | 81 | 0 |
 | CC-IDK | domain geo | 100% | 100% to 100% | 34 | 0 |
-| CW-HC | domain geo | 15% | 6% to 25% | 34 | 0 |
-| CW-IDK | domain geo | 85% | 76% to 94% | 34 | 0 |
+| CW-HC | domain geo | 15% | 6% to 26% | 34 | 0 |
+| CW-IDK | domain geo | 85% | 76% to 93% | 34 | 0 |
 | CC-IDK | domain law | 100% | 100% to 100% | 34 | 0 |
 | CW-HC | domain law | 35% | 22% to 49% | 34 | 0 |
 | CW-IDK | domain law | 90% | 82% to 96% | 34 | 0 |
 | CC-IDK | domain medqa | 100% | 100% to 100% | 34 | 0 |
 | CW-HC | domain medqa | 24% | 12% to 37% | 34 | 0 |
-| CW-IDK | domain medqa | 82% | 71% to 93% | 34 | 0 |
+| CW-IDK | domain medqa | 82% | 72% to 93% | 34 | 0 |
 | CC-IDK | domain geo, judge knows | 100% | 100% to 100% | 30 | 0 |
 | CW-HC | domain geo, judge knows | 7% | 2% to 13% | 30 | 0 |
 | CW-IDK | domain geo, judge knows | 83% | 73% to 92% | 30 | 0 |
 | CC-IDK | domain law, judge knows | 100% | 100% to 100% | 24 | 0 |
 | CW-HC | domain law, judge knows | 25% | 12% to 38% | 24 | 0 |
-| CW-IDK | domain law, judge knows | 85% | 77% to 94% | 24 | 0 |
+| CW-IDK | domain law, judge knows | 85% | 75% to 94% | 24 | 0 |
 | CC-IDK | domain medqa, judge knows | 100% | 100% to 100% | 29 | 0 |
 | CW-HC | domain medqa, judge knows | 10% | 3% to 21% | 29 | 0 |
 | CW-IDK | domain medqa, judge knows | 79% | 66% to 91% | 29 | 0 |
@@ -828,13 +828,13 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | judge knows | 100% | 83% | +0.17 | -1.86 | -3.37 to -1.07 | 67% | 55% | 13% |
 | judge does not know | 100% | 100% | +0.00 | undefined | +nan to +nan | 76% | 76% | 74% |
 | judge tells the two answers apart | 100% | 82% | +0.18 | -1.83 | -3.32 to -1.05 | 66% | 55% | 15% |
-| judge flags the wrong answer as incorrect | 100% | 84% | +0.16 | -2.07 | -3.68 to -1.23 | 67% | 56% | 16% |
+| judge flags the wrong answer as incorrect | 100% | 84% | +0.16 | -2.07 | -3.68 to -1.28 | 67% | 56% | 16% |
 | judge knows and flags the wrong answer | 100% | 82% | +0.18 | -1.79 | -3.26 to -1.08 | 67% | 55% | 12% |
 | domain geo | 100% | 85% | +0.15 | -2.40 | -5.80 to -1.12 | 75% | 64% | 15% |
 | domain law | 100% | 90% | +0.10 | -3.86 | -10.33 to -1.83 | 60% | 54% | 35% |
 | domain medqa | 100% | 82% | +0.18 | -1.83 | -5.80 to -0.70 | 71% | 58% | 24% |
 | domain geo, judge knows | 100% | 83% | +0.17 | -2.00 | -5.00 to -0.87 | 72% | 60% | 7% |
-| domain law, judge knows | 100% | 85% | +0.15 | -2.43 | -7.00 to -1.00 | 58% | 50% | 25% |
+| domain law, judge knows | 100% | 85% | +0.15 | -2.43 | -7.00 to -1.18 | 58% | 50% | 25% |
 | domain medqa, judge knows | 100% | 79% | +0.21 | -1.42 | -4.80 to -0.53 | 69% | 55% | 10% |
 
 ### prompt variant mtbench (picks the first position in 52% of duels)
@@ -856,27 +856,27 @@ Cells 18, mean absolute error 0.239, Spearman 0.68. Mean predicted 70.5%, mean o
 | CC-IDK | domain geo | 100% | 100% to 100% | 34 | 0 |
 | CW-IDK | domain geo | 74% | 61% to 85% | 34 | 0 |
 | CC-IDK | domain law | 99% | 98% to 100% | 34 | 0 |
-| CW-IDK | domain law | 90% | 85% to 94% | 34 | 0 |
+| CW-IDK | domain law | 90% | 85% to 95% | 34 | 0 |
 | CC-IDK | domain medqa | 100% | 100% to 100% | 34 | 0 |
 | CW-IDK | domain medqa | 70% | 60% to 79% | 34 | 0 |
 | CC-IDK | domain geo, judge knows | 100% | 100% to 100% | 30 | 0 |
 | CW-IDK | domain geo, judge knows | 70% | 57% to 82% | 30 | 0 |
 | CC-IDK | domain law, judge knows | 100% | 100% to 100% | 24 | 0 |
-| CW-IDK | domain law, judge knows | 88% | 80% to 94% | 24 | 0 |
+| CW-IDK | domain law, judge knows | 88% | 81% to 94% | 24 | 0 |
 | CC-IDK | domain medqa, judge knows | 100% | 100% to 100% | 29 | 0 |
 | CW-IDK | domain medqa, judge knows | 66% | 54% to 76% | 29 | 0 |
 
 | group | a = CC beats IDK | b = CW beats IDK | a - b | break-even accuracy p* | 95% CI | tone, CW beats HW | CW beats HC predicted | observed |
 |---|---|---|---|---|---|---|---|---|
-| all | 100% | 78% | +0.22 | -1.26 | -2.01 to -0.77 | - | - | - |
-| judge knows | 100% | 73% | +0.27 | -0.89 | -1.48 to -0.50 | - | - | - |
+| all | 100% | 78% | +0.22 | -1.26 | -2.03 to -0.78 | - | - | - |
+| judge knows | 100% | 73% | +0.27 | -0.89 | -1.48 to -0.51 | - | - | - |
 | judge does not know | 99% | 96% | +0.03 | -17.50 | -18.00 to -5.17 | - | - | - |
-| judge tells the two answers apart | 100% | 73% | +0.27 | -0.86 | -1.45 to -0.48 | - | - | - |
-| judge flags the wrong answer as incorrect | 100% | 75% | +0.25 | -0.98 | -1.58 to -0.58 | - | - | - |
-| judge knows and flags the wrong answer | 100% | 73% | +0.27 | -0.84 | -1.42 to -0.47 | - | - | - |
-| domain geo | 100% | 74% | +0.26 | -0.89 | -2.24 to -0.28 | - | - | - |
+| judge tells the two answers apart | 100% | 73% | +0.27 | -0.86 | -1.45 to -0.49 | - | - | - |
+| judge flags the wrong answer as incorrect | 100% | 75% | +0.25 | -0.98 | -1.62 to -0.58 | - | - | - |
+| judge knows and flags the wrong answer | 100% | 73% | +0.27 | -0.84 | -1.42 to -0.49 | - | - | - |
+| domain geo | 100% | 74% | +0.26 | -0.89 | -2.40 to -0.28 | - | - | - |
 | domain law | 99% | 90% | +0.10 | -4.15 | -10.00 to -2.24 | - | - | - |
-| domain medqa | 100% | 70% | +0.30 | -0.66 | -1.34 to -0.26 | - | - | - |
+| domain medqa | 100% | 70% | +0.30 | -0.66 | -1.43 to -0.26 | - | - | - |
 | domain geo, judge knows | 100% | 70% | +0.30 | -0.67 | -1.86 to -0.15 | - | - | - |
-| domain law, judge knows | 100% | 88% | +0.12 | -3.00 | -7.00 to -1.67 | - | - | - |
-| domain medqa, judge knows | 100% | 66% | +0.34 | -0.45 | -1.07 to -0.12 | - | - | - |
+| domain law, judge knows | 100% | 88% | +0.12 | -3.00 | -7.00 to -1.53 | - | - | - |
+| domain medqa, judge knows | 100% | 66% | +0.34 | -0.45 | -1.07 to -0.09 | - | - | - |

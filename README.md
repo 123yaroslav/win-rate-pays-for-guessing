@@ -14,7 +14,7 @@ Yaroslav Rogoza. Entry for the Apart Research AI x Epistemics Research Sprint, N
 ## Summary
 
 <!-- abstract:start -->
-Models and training data are often compared by win rate, the share of pairwise comparisons that an LLM judge awards to one side. We ask what win rate pays a model that does not know the answer. In pre-registered duels on 300 multiple-choice questions with keys, six judges giving a bare verdict preferred an assertive wrong answer to an honest "I don't know" in 61% to 94% of comparisons, on questions they answered correctly themselves. Against the right answer in the same words the same wrong answer won only 2% to 15%. The judges can tell that the answer is wrong, yet win rate under such a judge pays for guessing at any accuracy. A registered confirmation on 150 fresh questions reproduced both rates for six of six judges. On 100 free-form questions with two-sentence replies the wrong reply won 63% to 97% of such duels, and the registered test passed for three of three judges. Changed instructions, a written rationale and a published judge prompt each left the preference for at least half of the judges, and a provider reasoning mode removed it for one of three. Checking each answer first removed it, at a cost in right answers. A judge that selected training data kept almost no abstentions, and a registered test of the effect on fine-tuned models failed. We propose reporting, next to any win rate, the rate at which a wrong answer beats an abstention.
+Models are often compared by win rate, the share of pairwise comparisons an LLM judge awards to one side. We ask what win rate pays a model that does not know the answer. In pre-registered duels on 300 multiple-choice questions with keys, six judges giving a bare verdict preferred an assertive wrong answer to an honest "I don't know" in 61% to 94% of comparisons, on questions they answered correctly. In a control added later, the wrong answer won 2% to 15% against the right answer in the same words. The judges can tell the answer is wrong, yet win rate under them pays for guessing at any accuracy. A registered confirmation on 150 fresh questions reproduced both rates for six of six judges. On 100 free-form questions with two-sentence replies the wrong reply won 32% to 97%, and the registered test passed for five of six judges. Under a published judge prompt that asks for an explanation it won most duels for only two of six. No registered change of instructions repaired more than two of six judges on multiple choice, and a reasoning mode repaired one of three. Checking each answer first cut the wrong answer's wins below one half for six of six judges, at a cost in right answers. A judge that selected training data kept almost no abstentions, but a registered test on fine-tuned models failed. We propose reporting, next to any win rate, how often a wrong answer beats an abstention.
 <!-- abstract:end -->
 
 ![An assertive wrong answer beats the abstention and loses to the same right answer](paper_A/figs/fig1_core.png)
@@ -33,6 +33,20 @@ An LLM judge compares two responses to a multiple-choice question with a known k
 - `b` is the rate at which an assertive wrong answer beats "I don't know".
 
 A policy that always answers and is right with probability `p` wins `b + p (a - b)` of its comparisons against a policy that abstains. If `b` is above one half, answering wins at any accuracy.
+
+## Measure b for your own judge
+
+The report recommends publishing `b` next to any win rate. This measures it for any judge on OpenRouter with the 150 fresh questions of the confirmation, about 750 calls.
+
+```
+python src/duels.py --items data/items/medqa_fresh.jsonl data/items/law_fresh.jsonl data/items/geo_fresh.jsonl \
+    --judges openrouter/<provider>/<model> --pairs CW-IDK,CC-IDK --out results/my_judge
+python src/analyze_duels.py --runs results/my_judge \
+    --items data/items/medqa_fresh.jsonl data/items/law_fresh.jsonl data/items/geo_fresh.jsonl \
+    --out results/my_judge/summary
+```
+
+In `results/my_judge/summary.md`, the row `CW-IDK` in the group `judge knows` is `b`. A value above 0.5 means that under this judge a model gains win rate by guessing instead of saying "I don't know", even when it is always wrong. Add `--variants accuracy` or another name from `JUDGE_SYSTEM` in `src/duels.py` to test your own instruction.
 
 ## What is in the repository
 

@@ -18,7 +18,7 @@ On questions the judge answers correctly itself, the wrong answer beats "I don't
 
 ## Slide 5
 
-A rerun on 150 fresh questions reproduced both rates for four and five of six judges. A second check used 100 free-form questions with replies of two sentences. There the registered test passed for three of three judges, where I had predicted at least five.
+A rerun on 150 fresh questions reproduced both rates for six and six of six judges. A second check used 100 free-form questions with replies of two sentences. There the registered test passed for five of six judges, where I had predicted at least five. Against a fuller abstention it failed, with three judges where four were needed. Under the published MT-Bench prompt, which asks for an explanation, the wrong reply won most duels for only two of six judges. On free-form questions an explanation mostly removes the effect.
 
 ## Slide 6
 
@@ -26,7 +26,7 @@ A policy that always answers and is right with probability p wins b plus p times
 
 ## Slide 7
 
-The judges can tell that the answer is wrong. Asked about a single response, they call the wrong answer incorrect in 66% to 100% of cases. On those questions it still beats the abstention in 63% to 93% of duels. One judge wrote that A is incorrect and more responsive than B, and chose A.
+The judges can tell that the answer is wrong. Asked about a single response, they call the wrong answer incorrect in 66% to 99.7% of cases. On those questions it still beats the abstention in 63% to 93% of duels. One judge wrote that A is incorrect and more responsive than B, and chose A.
 
 ## Slide 8
 

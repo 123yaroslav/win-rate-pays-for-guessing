@@ -42,8 +42,8 @@ def fig1(s1: dict, out: Path, confirm: dict | None = None, free: dict | None = N
 
     def points(ax, get) -> None:
         for y, j in zip(ys, judges):
-            for kind, col, mk, dy, hollow in (("right", BLUE, "o", 0.16, False), ("idk", ORANGE, "s", -0.16, False),
-                                              ("full", ORANGE, "s", -0.16, True)):
+            for kind, col, mk, dy, hollow in (("right", BLUE, "o", 0.2, False), ("idk", ORANGE, "s", -0.1, False),
+                                              ("full", ORANGE, "s", -0.34, True)):
                 c = get(j, kind)
                 if not c:
                     continue

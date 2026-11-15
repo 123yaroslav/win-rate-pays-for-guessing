@@ -62,7 +62,7 @@ Registered & hypotheses committed before the data \\
 \end{frame}
 
 % === 4. Main result ===
-\begin{frame}{A wrong answer beats ``I don't know'' for every judge}
+\begin{frame}{On multiple choice a wrong answer beats ``I don't know'' for every judge}
 \vspace{1mm}
 \begin{minipage}[t]{0.30\textwidth}\vspace{0pt}\raggedright
 \vspace{2mm}
@@ -72,8 +72,8 @@ Registered & hypotheses committed before the data \\
 \herosmalldark{\wrongOverRightMin{}--\wrongOverRightMax{}}\par
 {\fontsize{12}{14}\selectfont\keydot\ against the right answer in the same words\par}
 \end{minipage}\hfill
-\begin{minipage}[t]{0.66\textwidth}\vspace{0pt}
-\figcontrast{\linewidth}
+\begin{minipage}[t]{0.66\textwidth}\vspace{0pt}\centering
+\figcontrast{0.86\linewidth}
 \end{minipage}\par
 \vspace{0.5mm}
 \fignote{Panel a: registered test passed for \hOnePass{} of \hOneJudges{} judges, blue control added after it. Panels b and c: registered reruns, next slide.}
@@ -170,10 +170,10 @@ An exploratory follow-up showed only that abstention reaches a trained model if 
 \begin{frame}{Report \sym{b}, the rate at which a wrong answer beats an abstention, next to any win rate}
 \begin{tabular}{@{}>{\bfseries}p{28mm}>{\raggedright\arraybackslash}p{107mm}@{}}
 Limits & The scope is a bare verdict on short factual questions. \\[1mm]
- & Longer or open-ended tasks without a key were not tested. \\[1mm]
+ & Open-ended tasks without a key were not tested. \\[1mm]
  & We have no human raters. \\[1.5mm]
 What to do & Measure \sym{b} for the judge and the instruction in use, on about 100 questions with a key. \\[1mm]
- & Or check each answer first. On fresh questions that took \sym{b} below one half for \cfCFourPass{} of \cfKept{} judges and cost right answers. \\
+ & Or check each answer first. That took \sym{b} below one half on fresh questions, by the registered test for \cfCFourPass{} of \cfKept{} judges, and cost right answers. \\
 \end{tabular}\par
 \vspace{1.5mm}
 \url{https://github.com/123yaroslav/win-rate-pays-for-guessing}

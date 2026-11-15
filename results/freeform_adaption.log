@@ -1,0 +1,28 @@
+items 100 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adaption/qwen3.8-27b'] variant default cached 0
+[15:09:37] fresh 250 done 250 failed 0 429s 0 spend adaption 0.002 openrouter 0.000 rate 41/min
+[15:15:39] fresh 500 done 500 failed 0 429s 0 spend adaption 0.003 openrouter 0.000 rate 41/min
+[15:21:42] fresh 750 done 750 failed 0 429s 0 spend adaption 0.005 openrouter 0.000 rate 41/min
+[15:27:44] fresh 1000 done 1000 failed 0 429s 0 spend adaption 0.006 openrouter 0.000 rate 41/min
+[15:33:49] fresh 1250 done 1250 failed 0 429s 0 spend adaption 0.009 openrouter 0.000 rate 41/min
+[15:39:51] fresh 1500 done 1500 failed 0 429s 0 spend adaption 0.011 openrouter 0.000 rate 41/min
+[15:45:53] fresh 1750 done 1750 failed 0 429s 0 spend adaption 0.013 openrouter 0.000 rate 41/min
+[15:51:55] fresh 2000 done 2000 failed 0 429s 0 spend adaption 0.015 openrouter 0.000 rate 41/min
+[15:57:58] fresh 2250 done 2250 failed 0 429s 0 spend adaption 0.017 openrouter 0.000 rate 41/min
+[16:04:01] fresh 2500 done 2500 failed 0 429s 0 spend adaption 0.019 openrouter 0.000 rate 41/min
+[16:10:03] fresh 2750 done 2750 failed 0 429s 0 spend adaption 0.021 openrouter 0.000 rate 41/min
+[16:16:06] fresh 3000 done 3000 failed 0 429s 0 spend adaption 0.023 openrouter 0.000 rate 41/min
+[16:22:08] fresh 3250 done 3250 failed 0 429s 0 spend adaption 0.025 openrouter 0.000 rate 41/min
+finished: fresh 3300 failed 0 429s 0 spend adaption 0.026 openrouter 0.000
+items 100 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adaption/qwen3.8-27b'] variant mtbench cached 3300
+[16:29:25] fresh 250 done 250 failed 0 429s 0 spend adaption 0.070 openrouter 0.000 rate 41/min
+[16:35:26] fresh 500 done 500 failed 0 429s 0 spend adaption 0.136 openrouter 0.000 rate 41/min
+[16:41:29] fresh 750 done 750 failed 0 429s 0 spend adaption 0.213 openrouter 0.000 rate 41/min
+[16:47:33] fresh 1000 done 1000 failed 0 429s 0 spend adaption 0.295 openrouter 0.000 rate 41/min
+finished: fresh 1200 failed 0 429s 0 spend adaption 0.375 openrouter 0.000
+items 90 judges ['adaption/qwen3.8-27b'] pairs 2 variants ['cot'] cached 0
+[16:58:28] fresh 250 done 250 failed 0 429s 0 spend adaption 0.100 openrouter 0.000 rate 41/min
+finished: fresh 450 failed 0 429s 0 spend adaption 0.219 openrouter 0.000
+items 102 judges ['adaption/qwen3.8-27b'] pairs 2 variants ['mtbench'] cached 0
+[17:09:25] fresh 250 done 250 failed 0 429s 0 spend adaption 0.196 openrouter 0.000 rate 40/min
+[17:15:23] fresh 500 done 500 failed 0 429s 0 spend adaption 0.529 openrouter 0.000 rate 41/min
+finished: fresh 510 failed 0 429s 0 spend adaption 0.540 openrouter 0.000
