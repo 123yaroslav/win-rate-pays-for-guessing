@@ -28,3 +28,11 @@ items 150 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adap
 [03:57:23] fresh 4000 done 4000 failed 0 429s 93 spend adaption 0.057 openrouter 0.000 rate 38/min
 [04:04:12] fresh 4250 done 4250 failed 0 429s 93 spend adaption 0.061 openrouter 0.000 rate 38/min
 [04:10:14] fresh 4500 done 4500 failed 0 429s 93 spend adaption 0.065 openrouter 0.000 rate 38/min
+[04:16:17] fresh 4750 done 4750 failed 0 429s 93 spend adaption 0.069 openrouter 0.000 rate 38/min
+[04:22:19] fresh 5000 done 5000 failed 0 429s 93 spend adaption 0.072 openrouter 0.000 rate 38/min
+[04:28:22] fresh 5250 done 5250 failed 0 429s 93 spend adaption 0.075 openrouter 0.000 rate 38/min
+[04:34:24] fresh 5500 done 5500 failed 0 429s 93 spend adaption 0.079 openrouter 0.000 rate 39/min
+[04:40:27] fresh 5750 done 5750 failed 0 429s 93 spend adaption 0.083 openrouter 0.000 rate 39/min
+[04:46:29] fresh 6000 done 6000 failed 0 429s 93 spend adaption 0.086 openrouter 0.000 rate 39/min
+[04:52:32] fresh 6250 done 6250 failed 0 429s 93 spend adaption 0.089 openrouter 0.000 rate 39/min
+[04:58:34] fresh 6500 done 6500 failed 0 429s 93 spend adaption 0.093 openrouter 0.000 rate 39/min
