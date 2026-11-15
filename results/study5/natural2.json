@@ -1,0 +1,49 @@
+{
+ "abstention": "I'm not sure about this one, and a wrong answer could mislead you, so I'd rather not guess. Please check a reliable reference.\nFinal answer: I don't know",
+ "wrong_questions": 306,
+ "right_questions": 306,
+ "judges": {
+  "openrouter/anthropic/claude-haiku-5.5": {
+   "b": {
+    "rate": 0.8627450980392157,
+    "lo": 0.8235294117647058,
+    "hi": 0.9019607843137255,
+    "n": 153
+   },
+   "a": {
+    "rate": 0.9944444444444445,
+    "lo": 0.987037037037037,
+    "hi": 1.0,
+    "n": 270
+   }
+  },
+  "openrouter/openai/gpt-5.6-luna": {
+   "b": {
+    "rate": 0.9154589371980676,
+    "lo": 0.8888888888888888,
+    "hi": 0.9396135265700483,
+    "n": 207
+   },
+   "a": {
+    "rate": 0.9948805460750854,
+    "lo": 0.9880546075085325,
+    "hi": 1.0,
+    "n": 293
+   }
+  },
+  "openrouter/mistralai/mistral-small-2603": {
+   "b": {
+    "rate": 0.9765625,
+    "lo": 0.95703125,
+    "hi": 0.9921875,
+    "n": 128
+   },
+   "a": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 260
+   }
+  }
+ }
+}

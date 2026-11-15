@@ -1,0 +1,8 @@
+{
+ "judge": "openrouter/openai/gpt-5.6-luna",
+ "known_questions": 253,
+ "reasoned_any": 154,
+ "default_b_reasoned_any": 0.8084415584415584,
+ "reasoned_none": 99,
+ "default_b_reasoned_none": 0.8838383838383839
+}

@@ -311,6 +311,19 @@ def study4() -> None:
             r = rep.get(f"{j}|{v}")
             if r:
                 put(f"fix{key}B{KEY[j]}", pct(r["b_knows"]))
+    cot = {j: rep[f"{j}|cot"] for j in judges if f"{j}|cot" in rep}
+    if cot:
+        left = [r_["b_knows"] for r_ in cot.values() if not r_["repaired"]]
+        put("cotJudges", str(len(cot)))
+        put("cotNotRepaired", ["no", "one", "two", "three", "four", "five", "six"][len(left)])
+        if left:
+            put("cotLeftBMin", pct(min(left)))
+            put("cotLeftBMax", pct(max(left)))
+    ls = ROOT / "results/study4/luna_selection.json"
+    if ls.exists():
+        x = json.loads(ls.read_text())
+        put("lunaSelReasoned", pct(x["default_b_reasoned_any"]))
+        put("lunaSelNot", pct(x["default_b_reasoned_none"]))
     rp = ROOT / "results/study4/reasoning.json"
     if rp.exists():
         r = json.loads(rp.read_text())
@@ -419,9 +432,46 @@ def study5() -> None:
                             f"{100 * m['unparsed_rate']['value']:.1f} & {m['penalised_score']['value']:.2f} \\\\")
         (OUT / "tab_loop.tex").write_text("\n".join(rows) + "\n")
         put("evalQuestions", str(e["questions"]))
+    n2 = d / "natural2.json"
+    if n2.exists():
+        x = json.loads(n2.read_text())
+        bs = [v["b"]["rate"] for v in x["judges"].values()]
+        as_ = [v["a"]["rate"] for v in x["judges"].values()]
+        put("natTwoBMin", pct(min(bs)))
+        put("natTwoBMax", pct(max(bs)))
+        put("natTwoAMin", pct(min(as_)))
+        put("natTwoQuestions", str(x["wrong_questions"]))
+        nm = {"openrouter/anthropic/claude-haiku-5.5": "Claude Haiku 5.5", "openrouter/openai/gpt-5.6-luna": "GPT-5.6 Luna",
+              "openrouter/mistralai/mistral-small-2603": "Mistral Small 2603"}
+        rows_n = []
+        for j, v in x["judges"].items():
+            b, a_ = v["b"], v["a"]
+            rows_n.append(f"{nm.get(j, j)} & {100 * b['rate']:.0f} ({100 * b['lo']:.0f}--{100 * b['hi']:.0f}) & {b['n']} & "
+                          f"{100 * a_['rate']:.0f} ({100 * a_['lo']:.0f}--{100 * a_['hi']:.0f}) & {a_['n']} \\\\")
+        (OUT / "tab_natural2.tex").write_text("\n".join(rows_n) + "\n")
     fu = d / "eval_table_followup.json"
     if fu.exists():
         f = json.loads(fu.read_text())
+        shares = {}
+        st1 = d / "selection_table.json"
+        st2 = d / "selection_table_followup.json"
+        if st1.exists():
+            for r_, x_ in json.loads(st1.read_text())["rules"].items():
+                shares[r_] = x_["outcome:abstain"]["share"]
+        if st2.exists():
+            x2 = json.loads(st2.read_text())
+            for r_, x_ in (x2.get("rules") or x2).items():
+                if isinstance(x_, dict) and ("outcome:abstain" in x_ or "abstain" in x_):
+                    shares.setdefault(r_, (x_.get("outcome:abstain") or x_["abstain"])["share"])
+        dose = []
+        for k_, lab in (("C", "C, cautious responses, no selection"), ("R", "R, random pick"), ("K", "K, pick by the key"),
+                        ("J", "J, pick by the judge")):
+            m = f["models"].get(k_ + "3")
+            if m and k_ in shares:
+                dose.append(f"{lab} & {100 * shares[k_]:.1f} & {100 * m['abstention_rate']['value']:.1f} & "
+                            f"{100 * m['wrong_rate']['value']:.1f} & {100 * m['accuracy']['value']:.1f} \\\\")
+                put(f"trainAbstain{k_}", pct(shares[k_], 1))
+        (OUT / "tab_dose.tex").write_text("\n".join(dose) + "\n")
         labels = {"C3": "C, cautious style, no selection", "J3": "J, judge, default instruction", "K3": "K, by the key",
                   "R3": "R, random"}
         rows_f = []
