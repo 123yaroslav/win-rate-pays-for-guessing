@@ -168,6 +168,16 @@ def fig_map(s4: dict, reasoning: dict | None, idk2: dict | None, out: Path) -> N
         grid.append(vals)
         marks.append([False] * len(judges))
         labels.append("Reasoning mode, calls that reasoned")
+    mp = ROOT / "results/study4/mtbench.json"
+    if mp.exists():
+        mb = json.loads(mp.read_text())
+        vals = []
+        for j in judges:
+            c = cell(mb, j, "judge knows", "CW-IDK", "mtbench")
+            vals.append(None if not c else c["rate"])
+        grid.append(vals)
+        marks.append([False] * len(judges))
+        labels.append("Published judge prompt (MT-Bench)")
     if idk2:
         vals = []
         for j in judges:
@@ -176,7 +186,7 @@ def fig_map(s4: dict, reasoning: dict | None, idk2: dict | None, out: Path) -> N
         grid.append(vals)
         marks.append([False] * len(judges))
         labels.append("Fuller abstention")
-    fig, ax = plt.subplots(figsize=(6.5, 2.55))
+    fig, ax = plt.subplots(figsize=(6.5, 2.8))
     cmap = plt.get_cmap("Oranges")
     for y, vals in enumerate(grid):
         for x, v in enumerate(vals):

@@ -1,0 +1,4 @@
+items 102 judges ['openrouter/anthropic/claude-haiku-5.5'] pairs 2 variants ['mtbench'] cached 0
+[06:43:59] fresh 250 done 250 failed 0 429s 0 spend adaption 0.000 openrouter 0.034 rate 193/min
+[06:45:37] fresh 500 done 500 failed 0 429s 0 spend adaption 0.000 openrouter 0.087 rate 171/min
+finished: fresh 510 failed 0 429s 0 spend adaption 0.000 openrouter 0.089

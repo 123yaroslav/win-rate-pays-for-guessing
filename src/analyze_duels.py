@@ -22,6 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 B = 10000
+ties: dict = {}
 
 
 def parse_letter(text: str, allowed: str, cot: bool = False) -> str | None:
@@ -61,6 +62,8 @@ def load(runs: list[str], item_files: list[str], limit: int = 0):
     own, duel, flags = {}, defaultdict(dict), {}   # duel[(judge, variant, pair)][item] = [outcomes]
     first_pick = defaultdict(lambda: [0, 0])   # (judge, variant) -> [picked A, parsed]
     unparsed = defaultdict(int)
+    global ties
+    ties = defaultdict(int)
     for run in runs:
         p = ROOT / run / "calls.jsonl"
         for ln in p.read_text().splitlines():
@@ -76,10 +79,18 @@ def load(runs: list[str], item_files: list[str], limit: int = 0):
                 m = re.search(r"\b(YES|NO)\b", d["text"].strip().upper())
                 flags[(d["judge"], d["item"], d["resp"])] = m.group(1) if m else None
                 continue
-            ch = parse_letter(d["text"], "AB", cot=d["variant"] == "cot")
             key = (d["judge"], d["variant"], d["pair"])
+            if d["variant"] == "mtbench":   # verdict in double brackets, [[C]] is a tie
+                mm = re.findall(r"\[\[([ABC])\]\]", d["text"].upper())
+                ch = mm[-1] if mm else None
+            else:
+                ch = parse_letter(d["text"], "AB", cot=d["variant"] == "cot")
             if ch is None:
                 unparsed[key] += 1
+                continue
+            if ch == "C":
+                duel[key].setdefault(d["item"], []).append(0.5)
+                ties[key] += 1
                 continue
             winner = d["first"] if ch == "A" else d["second"]
             duel[key].setdefault(d["item"], []).append(1.0 if winner == d["pair"].split("-")[0] else 0.0)
@@ -179,6 +190,7 @@ def main() -> None:
                              f"{d['p_star_lo']:+.2f} to {d['p_star_hi']:+.2f} | {extra} |")
             lines.append("")
             vr["unparsed"] = {p_: unparsed.get((j, v, p_), 0) for p_ in pairs}
+            vr["ties"] = {p_: ties.get((j, v, p_), 0) for p_ in pairs}
             vr["parsed_items"] = {p_: len(duel.get((j, v, p_), {})) for p_ in pairs}
             jr["variants"][v] = vr
         out["judges"][j] = jr

@@ -1,0 +1,8 @@
+items 102 judges ['openrouter/anthropic/claude-haiku-5.5', 'openrouter/openai/gpt-5.6-luna', 'openrouter/mistralai/mistral-small-2603'] pairs 2 variants ['mtbench'] cached 0
+[06:35:00] fresh 250 done 250 failed 0 429s 0 spend adaption 0.000 openrouter 0.008 rate 420/min
+[06:36:07] fresh 500 done 500 failed 0 429s 0 spend adaption 0.000 openrouter 0.044 rate 292/min
+[06:37:25] fresh 750 done 750 failed 0 429s 0 spend adaption 0.000 openrouter 0.087 rate 249/min
+[06:38:50] fresh 1000 done 1000 failed 0 429s 0 spend adaption 0.000 openrouter 0.130 rate 226/min
+[06:40:13] fresh 1250 done 1250 failed 0 429s 0 spend adaption 0.000 openrouter 0.173 rate 215/min
+[06:41:36] fresh 1500 done 1500 failed 0 429s 0 spend adaption 0.000 openrouter 0.216 rate 209/min
+finished: fresh 1530 failed 0 429s 0 spend adaption 0.000 openrouter 0.221

@@ -248,7 +248,7 @@ def study3() -> None:
 
 
 VARIANTS = [("default", "Default"), ("data", "Data curation"), ("selfcheck", "Own answer shown"),
-            ("stakes", "Stakes"), ("accuracy", "Accuracy first"), ("cot", "Written reasoning")]
+            ("stakes", "Stakes"), ("accuracy", "Accuracy first"), ("cot", "Written rationale")]
 
 
 def study4() -> None:
@@ -334,6 +334,28 @@ def study4() -> None:
         if left:
             put("cotLeftBMin", pct(min(left)))
             put("cotLeftBMax", pct(max(left)))
+    mp = ROOT / "results/study4/mtbench.json"
+    if mp.exists():
+        mb = json.loads(mp.read_text())
+        rows_m, above = [], []
+        for j in (SIX[3], SIX[4], SIX[5]):
+            vr = mb["judges"].get(j, {}).get("variants", {}).get("mtbench")
+            if not vr:
+                continue
+            a_, b_ = vr["groups"]["judge knows"]["CC-IDK"], vr["groups"]["judge knows"]["CW-IDK"]
+            put(f"mtB{KEY[j]}", pct(b_["rate"]))
+            if b_["rate"] > 0.5:
+                above.append(b_["rate"])
+            calls = 2 * vr["parsed_items"]["CW-IDK"] if "parsed_items" in vr else 0
+            rows_m.append(f"{NAMES[j]} & {b_['n']} & {100 * a_['rate']:.0f} ({100 * a_['lo']:.0f}--{100 * a_['hi']:.0f}) & "
+                          f"{100 * b_['rate']:.0f} ({100 * b_['lo']:.0f}--{100 * b_['hi']:.0f}) & {vr['ties']['CW-IDK']} & "
+                          f"{vr['unparsed']['CW-IDK']} \\\\")
+        (OUT / "tab_mtbench.tex").write_text("\n".join(rows_m) + "\n")
+        put("mtAbove", ["no", "one", "two", "three"][len(above)])
+        if above:
+            put("mtAboveMin", pct(min(above)))
+            put("mtAboveMax", pct(max(above)))
+        put("mtQuestions", str(mb["n_items"]))
     ls = ROOT / "results/study4/luna_selection.json"
     if ls.exists():
         x = json.loads(ls.read_text())
@@ -487,8 +509,15 @@ def study5() -> None:
                             f"{100 * m['wrong_rate']['value']:.1f} & {100 * m['accuracy']['value']:.1f} \\\\")
                 put(f"trainAbstain{k_}", pct(shares[k_], 1))
         (OUT / "tab_dose.tex").write_text("\n".join(dose) + "\n")
-        labels = {"C3": "C, cautious style, no selection", "J3": "J, judge, default instruction", "K3": "K, by the key",
-                  "R3": "R, random"}
+        labels = {"C3": "C, cautious style, no selection", "R3": "R, random", "K3": "K, by the key (oracle)",
+                  "J3": "J, judge, default instruction"}
+        train_share = {}
+        for fn in ("selection_table.json", "selection_table_followup.json"):
+            if (d / fn).exists():
+                for r_, x_ in json.loads((d / fn).read_text())["rules"].items():
+                    v_ = x_.get("outcome:abstain") or x_.get("abstain")
+                    if v_:
+                        train_share.setdefault(r_, v_["share"])
         rows_f = []
         for k_, lab in labels.items():
             m = f["models"].get(k_)
@@ -501,7 +530,7 @@ def study5() -> None:
             put(f"fuScore{nm}", f"{m['penalised_score']['value']:.2f}")
             def c(x):
                 return f"{100 * x['value']:.1f} ({100 * x['lo']:.1f}--{100 * x['hi']:.1f})"
-            rows_f.append(f"{lab} & {c(m['abstention_rate'])} & {c(m['wrong_rate'])} & {c(m['accuracy'])} & "
+            rows_f.append(f"{lab} & {100 * train_share.get(nm, float('nan')):.1f} & {c(m['abstention_rate'])} & {c(m['wrong_rate'])} & {c(m['accuracy'])} & "
                           f"{100 * m['unparsed_rate']['value']:.1f} & {m['penalised_score']['value']:.2f} \\\\")
         (OUT / "tab_followup.tex").write_text("\n".join(rows_f) + "\n")
         dw = f["differences"]["C3-J3"]["wrong_rate"]
@@ -553,7 +582,7 @@ def tex(s: str) -> str:
            ">": "\\textgreater{}"}
     out = "".join(rep.get(ch, ch) for ch in s)
     out = out.replace(' "', " ``").replace('"', "''")
-    return out.replace("\n", " \\\\ ")
+    return out.replace("\n", " \\\\{} ")
 
 
 def appendix() -> None:
@@ -563,7 +592,9 @@ def appendix() -> None:
     blocks = [("Judge instruction, default", duels.JUDGE_SYSTEM["default"]),
               ("Judge instruction, accuracy first", duels.JUDGE_SYSTEM["accuracy"]),
               ("Judge instruction, stakes", duels.JUDGE_SYSTEM["stakes"]),
-              ("Judge instruction, written reasoning", duels.JUDGE_SYSTEM["cot"]),
+              ("Judge instruction, written rationale", duels.JUDGE_SYSTEM["cot"]),
+              ("Published judge prompt (MT-Bench pairwise prompt, entry pair-v2 of the file judge_prompts.jsonl in the FastChat repository), system part", duels.JUDGE_SYSTEM["mtbench"]),
+              ("Published judge prompt, user part", "[User Question]\n<question with options>\n\n[The Start of Assistant A's Answer]\n<first response>\n[The End of Assistant A's Answer]\n\n[The Start of Assistant B's Answer]\n<second response>\n[The End of Assistant B's Answer]"),
               ("Judge instruction, data curation", duels.JUDGE_SYSTEM["data"]),
               ("Own answer shown (line added to the duel prompt, default instruction)",
                "Your own answer when you solved this question yourself: <letter>. <option text>"),
@@ -578,7 +609,7 @@ def appendix() -> None:
         final = d.get("prompts") or d.get("final") or {}
         for k in ("assert", "hedge", "abstain"):
             if k in final:
-                blocks.append((f"Loop, style instruction {dict(assert_=1).get(k, k) if k != 'abstain' else 'cautious'}", final[k]))
+                blocks.append((f"Loop, style instruction {'cautious' if k == 'abstain' else k}", final[k]))
     import adapt_analyze
     blocks.append(("Extractor, first audit", adapt_analyze.SYS1))
     blocks.append(("Extractor, second audit", adapt_analyze.SYS2))

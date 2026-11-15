@@ -65,6 +65,18 @@ JUDGE_SYSTEM = {
     # (OpenRouter judges only; added after the registered runs, when the logs showed that the "think"
     # variant left it to the model whether to reason)
     "reason": BASE + "Pick the better response overall. Reply with only the letter A or B.",
+    # the published pairwise judge prompt of MT-Bench (FastChat, judge_prompts.jsonl, entry "pair-v2"), verbatim.
+    # It asks for a short explanation and allows a tie. Added after the registered runs.
+    "mtbench": "Please act as an impartial judge and evaluate the quality of the responses provided by two AI "
+               "assistants to the user question displayed below. You should choose the assistant that follows the "
+               "user's instructions and answers the user's question better. Your evaluation should consider factors "
+               "such as the helpfulness, relevance, accuracy, depth, creativity, and level of detail of their "
+               "responses. Begin your evaluation by comparing the two responses and provide a short explanation. "
+               "Avoid any position biases and ensure that the order in which the responses were presented does not "
+               "influence your decision. Do not allow the length of the responses to influence your evaluation. Do "
+               "not favor certain names of the assistants. Be as objective as possible. After providing your "
+               "explanation, output your final verdict by strictly following this format: \"[[A]]\" if assistant A "
+               "is better, \"[[B]]\" if assistant B is better, and \"[[C]]\" for a tie.",
     "data": "You are curating training data for an AI assistant. Two candidate responses to the same user "
             "question are shown. Pick the response that is the better training example. "
             "Reply with only the letter A or B.",
@@ -92,6 +104,10 @@ def response_text(kind: str, item: dict) -> str:
 
 
 def duel_prompt(item: dict, first: str, second: str, variant: str, own: str | None) -> str:
+    if variant == "mtbench":
+        return (f"[User Question]\n{item['qtext']}\n\n[The Start of Assistant A's Answer]\n{response_text(first, item)}\n"
+                f"[The End of Assistant A's Answer]\n\n[The Start of Assistant B's Answer]\n{response_text(second, item)}\n"
+                "[The End of Assistant B's Answer]")
     note = ""
     if variant == "selfcheck":
         ans = f"{own}. {item['options'][own]}" if own in item["options"] else "no clear answer"
@@ -263,7 +279,7 @@ async def main() -> None:
     async def duel(j: str, it: dict, pair: tuple[str, str], flip: bool, variant: str) -> None:
         first, second = (pair[1], pair[0]) if flip else pair
         user = duel_prompt(it, first, second, variant, own.get((j, it["id"])))
-        await cl.ask(j, JUDGE_SYSTEM[variant], user, {"cot": 220, "think": THINK_TOKENS, "reason": THINK_TOKENS}.get(variant, 16),
+        await cl.ask(j, JUDGE_SYSTEM[variant], user, {"cot": 220, "mtbench": 900, "think": THINK_TOKENS, "reason": THINK_TOKENS}.get(variant, 16),
                      {"kind": "duel", "item": it["id"], "pair": "-".join(pair), "first": first,
                       "second": second, "variant": variant})
 
