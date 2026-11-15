@@ -169,6 +169,16 @@ def study1() -> None:
         if xs:
             put(f"{name}Min", pct(min(xs)))
             put(f"{name}Max", pct(max(xs)))
+    # a sized example: two models that differ only on the questions neither knows
+    hk = SIX[3]
+    a_h, b_h = cell(s, hk, "all", "CC-IDK"), cell(s, hk, "all", "CW-IDK")
+    if a_h and b_h:
+        import math
+        w = b_h["rate"] + 0.25 * (a_h["rate"] - b_h["rate"])
+        overall = 0.8 * 0.5 + 0.2 * w
+        put("exampleW", pct(w))
+        put("exampleOverall", pct(overall, 1))
+        put("exampleElo", f"{400 * math.log10(overall / (1 - overall)):.0f}")
     for lab in ("H1", "H1F", "S1g", "S1g2"):
         t = s.get("tests", {}).get(lab)
         if t:
@@ -315,6 +325,11 @@ def study4() -> None:
     if cot:
         left = [r_["b_knows"] for r_ in cot.values() if not r_["repaired"]]
         put("cotJudges", str(len(cot)))
+        above = [r_["b_knows"] for r_ in cot.values() if r_["b_knows"] > 0.5]
+        put("cotAboveHalf", ["no", "one", "two", "three", "four", "five", "six"][len(above)])
+        if above:
+            put("cotAboveBMin", pct(min(above)))
+            put("cotAboveBMax", pct(max(above)))
         put("cotNotRepaired", ["no", "one", "two", "three", "four", "five", "six"][len(left)])
         if left:
             put("cotLeftBMin", pct(min(left)))

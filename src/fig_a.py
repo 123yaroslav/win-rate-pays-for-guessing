@@ -140,6 +140,71 @@ def fig_fix(s4: dict, s1: dict, out: Path) -> None:
     plt.close(fig)
 
 
+def fig_map(s4: dict, reasoning: dict | None, idk2: dict | None, out: Path) -> None:
+    """b on questions the judge knows, for every judge and condition. Darker means the wrong answer wins more."""
+    judges = [j for j in NAMES if j in s4["judges"] and "terra" not in j]
+    rep = s4.get("repair", {})
+    rows = [("Default instruction", "default"), ("Data-curation framing", "data"), ("Own answer shown", "selfcheck"),
+            ("Stakes", "stakes"), ("Accuracy first", "accuracy"), ("Written rationale", "cot")]
+    grid, marks, labels = [], [], []
+    for lab, v in rows:
+        vals, mk = [], []
+        for j in judges:
+            r = rep.get(f"{j}|{v}")
+            vals.append(None if not r else r["b_knows"])
+            mk.append(bool(r and r["repaired"] and v not in ("default", "data")))
+        grid.append(vals)
+        marks.append(mk)
+        labels.append(lab)
+    if reasoning:
+        vals = []
+        for j in judges:
+            c = None
+            for key_ in ("think|" + j, "reason|" + j):
+                x = reasoning.get(key_)
+                if x and x.get("b_reasoned") and x["share_reasoned"] > 0.2 and c is None:
+                    c = x["b_reasoned"]["rate"]
+            vals.append(c)
+        grid.append(vals)
+        marks.append([False] * len(judges))
+        labels.append("Reasoning mode, calls that reasoned")
+    if idk2:
+        vals = []
+        for j in judges:
+            c = cell(idk2, j, "judge knows", "CW-IDK2")
+            vals.append(None if not c else c["rate"])
+        grid.append(vals)
+        marks.append([False] * len(judges))
+        labels.append("Fuller abstention")
+    fig, ax = plt.subplots(figsize=(6.5, 2.55))
+    cmap = plt.get_cmap("Oranges")
+    for y, vals in enumerate(grid):
+        for x, v in enumerate(vals):
+            if v is None:
+                ax.text(x, y, "not run", ha="center", va="center", fontsize=6.5, color="#999999")
+                continue
+            ax.add_patch(plt.Rectangle((x - 0.5, y - 0.5), 1, 1, color=cmap(0.08 + 0.72 * v), lw=0))
+            ax.text(x, y, f"{100 * v:.0f}", ha="center", va="center", fontsize=8,
+                    color="white" if v > 0.62 else "#222222", fontweight="bold" if marks[y][x] else "normal")
+            if marks[y][x]:
+                ax.add_patch(plt.Rectangle((x - 0.47, y - 0.44), 0.94, 0.88, fill=False, ec="#0072B2", lw=1.3))
+    ax.set_xlim(-0.5, len(judges) - 0.5)
+    ax.set_ylim(len(grid) - 0.5, -0.5)
+    ax.set_xticks(range(len(judges)))
+    ax.set_xticklabels([NAMES[j].replace(" V4 Flash", "\nV4 Flash").replace(" 4 31B", "\n4 31B").replace(" 3.8 27B", "\n3.8 27B")
+                        .replace(" Haiku 5.5", "\nHaiku 5.5").replace(" Luna", "\nLuna").replace(" Small 2603", "\nSmall 2603")
+                        for j in judges], fontsize=7.5)
+    ax.xaxis.tick_top()
+    ax.set_yticks(range(len(grid)))
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.tick_params(length=0)
+    for sp in ax.spines.values():
+        sp.set_visible(False)
+    for ext in ("pdf", "png"):
+        fig.savefig(out / f"fig2_map.{ext}")
+    plt.close(fig)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--style", default="")
@@ -155,7 +220,11 @@ def main() -> None:
     tp = ROOT / "results/study4/reasoning.json"
     fig1(s1, out, json.loads(tp.read_text()) if tp.exists() else None)
     if (ROOT / a.s4).exists():
-        fig_fix(json.loads((ROOT / a.s4).read_text()), s1, out)
+        s4 = json.loads((ROOT / a.s4).read_text())
+        fig_fix(s4, s1, out)
+        ip = ROOT / "results/explore_idk2/summary.json"
+        fig_map(s4, json.loads(tp.read_text()) if tp.exists() else None,
+                json.loads(ip.read_text()) if ip.exists() else None, out)
     print("figures written to", out)
 
 
