@@ -8,13 +8,13 @@ Yaroslav Rogoza. Entry for the Apart Research AI x Epistemics Research Sprint, N
 |---|---|
 | Report | [`paper_A/main.pdf`](paper_A/main.pdf) |
 | Slides | [`slides/slides.pdf`](slides/slides.pdf) |
-| Pre-registration | [`prereg/A_prereg.md`](prereg/A_prereg.md), plan `e0fe746` and four amendments |
-| Every judge call | `results/study*/calls.jsonl` |
+| Pre-registration | [`prereg/A_prereg.md`](prereg/A_prereg.md), plan `e0fe746` and five amendments |
+| Every judge call | `results/*/calls.jsonl` |
 
 ## Summary
 
 <!-- abstract:start -->
-Models are ranked and training data chosen by win rate, the share of pairwise comparisons an LLM judge awards to one side. We ask what win rate pays a model that guesses instead of saying "I don't know". Accuracy grading, blamed for hallucination, scores the two alike. We measure the bluff rate, the share of comparisons in which a confident wrong answer beats "I don't know". In pre-registered duels, six judges that answer with one token, as the default judge of AlpacaEval 2.0 does, had bluff rates of 61% to 94% on questions they answered correctly. The same wrong answer won only 2% to 15% against the right answer. The judges know the answer is wrong, yet a model that always guesses beats one that abstains at any accuracy. By our formula, guessing on a fifth of the questions would earn 29 to 65 Elo points. A registered run reproduced both rates on fresh questions for all six judges, and on free-form questions the bluff rate stayed above one half for five. Under a published prompt that asks for an explanation and allows a tie, only two judges kept it on free-form questions. Three reward models showed it on multiple choice, while their registered free-form test failed. Letting the judge first check each answer alone brought the bluff rate below one half for all six, significantly for five, at a cost in right answers. We propose reporting the bluff rate next to any win rate.
+Models are ranked and training data chosen by win rate, the share of pairwise comparisons an LLM judge awards to one side. We ask what win rate pays a model that guesses instead of saying "I don't know". Accuracy grading, blamed for hallucination, scores the two alike. We measure the bluff rate, the share of comparisons a confident wrong answer wins against "I don't know". In pre-registered duels, six judges answering with one token had bluff rates of 61% to 94% on questions they answered correctly. The same wrong answer won only 2% to 15% against the right answer. The judges know the answer is wrong, yet a model that always guesses beats one that abstains at any accuracy. By our formula, guessing on a fifth of the questions would earn 29 to 65 Elo points. Registered runs on fresh questions reproduced both rates for all six judges and two larger ones. With the AlpacaEval 2.0 judge prompt, the bluff rate was 74% to 99% for all eight. On free-form questions it stayed above one half for five of the six, but for only two under a published prompt with an explanation and a tie. Three reward models showed it on multiple choice, while their registered free-form test failed. Letting the judge first check each answer alone brought the bluff rate below one half for all six, significantly for five, at a cost in right answers. We propose reporting the bluff rate next to any win rate.
 <!-- abstract:end -->
 
 ## The result in four figures
@@ -25,7 +25,7 @@ Models are ranked and training data chosen by win rate, the share of pairwise co
 
 ![The contrast replicates](paper_A/figs/fig2_replicate.png)
 
-**It replicates.** The same contrast in the registered study, in a registered confirmation on 150 fresh questions and in a registered check on 100 free-form questions with two-sentence replies.
+**It replicates.** The same contrast in the registered study, in a registered confirmation on 150 fresh questions and in a registered check on 100 free-form questions with two-sentence replies. Rows marked † are two larger judges, Qwen 3.5 397B and GLM 5.2, registered later in amendment 4.
 
 ![Guessing buys leaderboard points](paper_A/figs/fig3_guess.png)
 
@@ -34,6 +34,10 @@ Models are ranked and training data chosen by win rate, the share of pairwise co
 ![What lowers the bluff rate](paper_A/figs/fig4_fixes.png)
 
 **What fixes it.** Checking each answer before the comparison (verify-then-compare) brings every judge below one half, at a cost in right answers. Instructions do so for at most three judges.
+
+**Larger judges and reward models.** Amendment 4 registered two larger judges and three open reward models before any call on these question sets. On fresh multiple-choice questions the judges know, Qwen 3.5 397B gave the duel to the wrong answer in 80% of cases and GLM 5.2 in 64%, against 3% to 8% when the opponent was the right answer. The three reward models, which score one response at a time, scored the wrong answer above "I don't know" on 70% to 76% of the multiple-choice questions where they score the right answer above the wrong one. Their registered test on free-form questions failed (one of three models passed where two were needed). The numbers come from `results/large/summary.json` and `results/reward_models/summary.md`.
+
+**The judge prompt of AlpacaEval 2.0.** Amendment 5 registered the template of the default AlpacaEval 2.0 judge, used verbatim, before any call with it. On the 150 fresh questions, on questions they know, all eight judges gave the duel to the wrong answer in 74% to 99% of cases, and the same wrong answer beat the right one in 2% to 18%. All three registered tests held (six of six, six of six, two of two). We read the identifier the judge wrote rather than its probability, and our judges stand in for the leaderboard's GPT-4 Turbo. The numbers come from `results/alpacaeval/summary.md`.
 
 ## How the measurement works
 
@@ -72,6 +76,9 @@ In `results/my_judge/summary.md`, the row `CW-IDK` in the group `judge knows` is
 | Selection loop: pool, selection, duels on the model's own outputs, training records | `src/loop_*.py` | `results/study5/` |
 | Evaluation of fine-tuned models on a GPU | `src/gpu_eval.py`, `src/gpu_train_lora.py`, `docs/gpu_eval_runbook.md` | `results/study5/eval_*` |
 | Audit of the data pipeline | `src/adapt_audit2.py`, `src/adapt_analyze.py` | `results/study3/`, `results/study3c/` |
+| Registered runs of two larger judges (amendment 4, part A) | `src/duels.py`, `src/freeform.py`, `src/large_judges.py` | `results/confirm2_large/calls.jsonl`, `results/freeform_large/calls.jsonl`, `results/large/summary.json` |
+| Registered reward-model scores (amendment 4, part B), scored on a rented GPU | `src/rm_inputs.py`, `src/rm_score.py`, `src/rm_analyze.py` | `results/reward_models/scores.jsonl`, `results/reward_models/summary.md` |
+| Registered run with the judge prompt of AlpacaEval 2.0 (amendment 5) | `src/alpacaeval.py`, `data/alpacaeval_clf.txt` | `results/alpacaeval/calls.jsonl`, `results/alpacaeval/summary.md` |
 | Numbers, tables and figures of the report | `src/numbers_a.py`, `src/fig_a.py` | `paper_A/numbers.tex`, `paper_A/tab_*.tex`, `paper_A/figs/` |
 
 The plan numbers its studies 1, 3, 4 and 5. Study 1 is the duels, Study 3 the pipeline audit, Study 4 the changes to the judge and Study 5 the selection loop.
@@ -86,6 +93,9 @@ python src/analyze_duels.py --runs results/study1_openrouter results/study1_adap
     --out results/study1/summary
 python src/confirm2.py
 python src/freeform.py analyze
+python src/large_judges.py
+python src/rm_analyze.py
+python src/alpacaeval.py analyze
 python src/numbers_a.py
 python src/fig_a.py --style src/paper.mplstyle
 cd paper_A && latexmk -pdf main.tex
@@ -99,7 +109,7 @@ You need an `.env` file with `ADAPTION_API_KEY` and `OPENROUTER_API_KEY`. Every 
 
 ## What was registered and what was added later
 
-The hypotheses, tests and sample sizes were fixed in `prereg/A_prereg.md` before the confirmatory data were read. The commits are `e0fe746` (plan), `244435b` (amendment 1, detection check), `0b3d7f7` (design of the follow-up to Study 5), `44099d6` (amendment 2, confirmation on fresh questions) and `55d2155` (amendment 3, free-form questions). Appendix B of the report lists every registered test with its outcome, including the test on fine-tuned models that failed, and every analysis that was added later.
+The hypotheses, tests and sample sizes were fixed in `prereg/A_prereg.md` before the confirmatory data were read. The commits are `e0fe746` (plan), `244435b` (amendment 1, detection check), `0b3d7f7` (design of the follow-up to Study 5), `44099d6` (amendment 2, confirmation on fresh questions), `55d2155` (amendment 3, free-form questions), `1864259` (amendment 4, two larger judges and three reward models) and `f507615` (amendment 5, the judge prompt of AlpacaEval 2.0, with the template and script in `283cd2e` before any call). The reward-model scoring script was committed in `cebbc26` before any model was loaded and the analysis script in `12835a7` before any score was read. The first line of amendment 4 gives a wrong time of writing. A dated note at its end, commit `2b91d75`, gives the true commit times and changes nothing else. Appendix B of the report lists every registered test with its outcome, including the test on fine-tuned models that failed, and every analysis that was added later.
 
 ## A note on the history
 
@@ -114,7 +124,7 @@ Everything here was written during the sprint. No code, data file or text existe
 ```
 prereg/      pre-registrations
 src/         all code
-data/items/  question lists with the planted wrong options
+data/        question lists with the planted wrong options (items/), the AlpacaEval 2.0 judge template
 results/     model calls, analysis outputs, logs
 paper_A/     the report (LaTeX, generated numbers and tables, PDF)
 slides/      slide deck, project image and speaker notes
@@ -124,4 +134,4 @@ pilots/      exploratory pilots that preceded the pre-registrations
 
 ## Licence
 
-Code is under the MIT licence, see `LICENSE`. The questions come from MedQA, MMLU and TriviaQA and keep the licences of their sources.
+Code is under the MIT licence, see `LICENSE`. The questions come from MedQA, MMLU and TriviaQA and keep the licences of their sources. `data/alpacaeval_clf.txt` is copied unchanged from github.com/tatsu-lab/alpaca_eval and is under its Apache License 2.0.

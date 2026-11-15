@@ -26,16 +26,20 @@ I registered two more runs before sending any of their questions. On 150 fresh q
 
 ## Slide 7
 
-What does this do to a leaderboard? I computed it from the measured rates. A model that guesses among four options beats a model that abstains in 71% to 96% of duels. If two models differ only on the fifth of questions neither knows, guessing is worth 29 to 65 Elo points. The accuracy grader gives 17, and the penalty grader takes 35 away.
+Does this hold for the prompt of a real leaderboard? I registered one more run with the judge prompt of AlpacaEval 2.0, word for word, on the 150 fresh questions. All eight judges gave the duel to the wrong answer in 74% to 99% of cases, and the same wrong answer beat the right one in only 2% to 18%. All three registered tests held. Two things differ from the leaderboard. I read the identifier the judge wrote, not its probability, and the judges are mine, not GPT-4 Turbo.
 
 ## Slide 8
 
-Can we fix the judge? No instruction brought more than three judges below one half. An explanation helps on free-form questions, where under the MT-Bench prompt only two of six stayed above one half. What works is verify-then-compare. Ask the judge first whether the answer is correct, and give the duel to the abstention if it says no. That brought all six judges below one half. The cost is right answers it wrongly rejects. A right answer then beats the abstention in 49% to 93% of duels.
+What does this do to a leaderboard? I computed it from the measured rates. A model that guesses among four options beats a model that abstains in 71% to 96% of duels. If two models differ only on the fifth of questions neither knows, guessing is worth 29 to 65 Elo points. The accuracy grader gives 17, and the penalty grader takes 35 away.
 
 ## Slide 9
 
-This slide shows the results for the larger judges and for the reward models.
+Can we fix the judge? No instruction brought more than three judges below one half. An explanation helps on free-form questions, where under the MT-Bench prompt only two of six stayed above one half. What works is verify-then-compare. Ask the judge first whether the answer is correct, and give the duel to the abstention if it says no. That brought all six judges below one half, five of them significantly. The cost is right answers it wrongly rejects. A right answer then beats the abstention in 49% to 93% of duels.
 
 ## Slide 10
 
-The scope is a bare verdict on short factual questions. That is how the default judge of AlpacaEval 2.0 works, with a single output token. I have no human raters, and when the judge has to explain, the effect shrinks. So measure the bluff rate of your judge and report it next to any win rate. Or use verify-then-compare and report what it costs in right answers. The code and every judge call are in the repository. Thank you.
+Do bigger judges fix this? I registered two of the largest open models available to me before sending them any question from these sets. On multiple choice, Qwen 3.5 397B gave the duel to the wrong answer in 80% of cases and GLM 5.2 in 64%, while the same wrong answer beat the right one in only 3% to 8%. On free-form questions their rates were 61% and 36%. All three registered tests held. The free-form test needed one of the two judges, and Qwen passed it. Reward models, which score one response at a time, behave the same way on multiple choice. Where a model scored the right answer above the wrong one, the wrong answer still scored above "I don't know" on 70% to 76% of questions, for all three models. On free-form questions that registered test failed. It passed for one model of three.
+
+## Slide 11
+
+The scope is a bare verdict on short factual questions. The default judge of AlpacaEval 2.0 also reads a single output token. I have no human raters, and a published prompt that asks for an explanation and allows a tie shrinks the effect. So measure the bluff rate of your judge and report it next to any win rate. Or use verify-then-compare and report what it costs in right answers. The code and every judge call are in the repository. Thank you.

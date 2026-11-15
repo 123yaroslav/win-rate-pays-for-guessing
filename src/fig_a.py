@@ -65,7 +65,7 @@ def save(fig, out: Path, name: str) -> None:
 # ---------------------------------------------------------------------------------------------
 def fig1(s1: dict, out: Path) -> None:
     """Bluff rate per judge on the questions it knows, the control, and two rule-based graders."""
-    fig, ax = plt.subplots(figsize=(6.5, 2.3))
+    fig, ax = plt.subplots(figsize=(6.5, 2.15))
     rows = [("Penalty grader (+1, \u22121, 0)", "rule0"), ("Accuracy grader (+1, 0, 0)", "rule50")]
     rows += [(NAMES[j], j) for j in SIX]
     n = len(rows)
@@ -117,7 +117,7 @@ def fig1(s1: dict, out: Path) -> None:
 def fig2(s1: dict, confirm: dict, free: dict, large: dict | None, out: Path) -> None:
     """The bluff rate and the control on three registered question sets."""
     judges = SIX + ([j for j in LARGE if large and j in large.get("confirm", {})] if large else [])
-    fig, axes = plt.subplots(1, 3, figsize=(6.5, 2.3 + 0.26 * (len(judges) - 6)), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(6.5, 2.05 + 0.18 * (len(judges) - 6)), sharey=True)
     pos = {j: -i - (0.6 if j in LARGE else 0) for i, j in enumerate(judges)}
 
     def get(src: str, j: str, kind: str) -> dict | None:
@@ -144,7 +144,7 @@ def fig2(s1: dict, confirm: dict, free: dict, large: dict | None, out: Path) -> 
             b, c = get(src, j, "b"), get(src, j, "c")
             y = pos[j]
             if not b:
-                ax.text(0.5, y, "not run", ha="center", va="center", fontsize=7, color=GREY)
+                ax.text(0.25, y, "not run", ha="center", va="center", fontsize=7, color=GREY)
                 continue
             ax.plot([c["rate"], b["rate"]], [y, y], color="#d9d9d9", lw=0.7, ls=(0, (1, 1.5)), zorder=2)
             ax.errorbar(c["rate"], y, xerr=err(c), fmt="o", color=BLUE, ms=4.2, lw=0.8, zorder=3)
@@ -212,7 +212,8 @@ def fig3(s1: dict, out: Path) -> None:
 
 
 # ---------------------------------------------------------------------------------------------
-def fixes_rows(s4: dict, reasoning: dict | None, mb: dict | None, idk2: dict | None, confirm: dict) -> list[dict]:
+def fixes_rows(s4: dict, reasoning: dict | None, mb: dict | None, idk2: dict | None, confirm: dict,
+               ae: dict | None = None) -> list[dict]:
     """One row per change to the judge: b and a per judge (None if not run or not usable)."""
     rep = s4.get("repair", {})
 
@@ -233,6 +234,11 @@ def fixes_rows(s4: dict, reasoning: dict | None, mb: dict | None, idk2: dict | N
                         ("Data-curation framing", "data", "Instruction"), ("Written rationale", "cot", "Explanation")):
         bs, as_ = variant(v, 90 if v == "cot" else 150)
         rows.append({"label": lab, "b": bs, "a": as_, "group": grp})
+        if v == "default" and ae:   # Amendment 5, on the fresh questions; the pair CC-IDK was not run
+            js = ae["judges"]
+            rows.append({"label": "AlpacaEval 2.0 prompt", "group": grp, "a_note": "not run",
+                         "b": [js[j]["b"]["rate"] if j in js and not js[j]["dropped"] else None for j in SIX],
+                         "a": [None] * len(SIX)})
     if mb:
         bs, as_ = [], []
         for j in SIX:
@@ -264,7 +270,7 @@ def fixes_rows(s4: dict, reasoning: dict | None, mb: dict | None, idk2: dict | N
 
 
 def fig4(rows: list[dict], out: Path) -> None:
-    fig, ax = plt.subplots(figsize=(6.5, 2.45))
+    fig, ax = plt.subplots(figsize=(6.5, 2.2 + 0.12 * (len(rows) - 10)))
     n = len(rows)
     ys, y, prev = [], 0.0, None
     for r in rows:
@@ -289,6 +295,8 @@ def fig4(rows: list[dict], out: Path) -> None:
             lo, hi = min(as_), max(as_)
             txt = f"{100 * lo:.0f}%" if round(100 * lo) == round(100 * hi) else f"{100 * lo:.0f}\u2013{100 * hi:.0f}%"
             ax.text(1.34, y, txt, va="center", ha="center", fontsize=7.8, color=INK)
+        elif r.get("a_note"):
+            ax.text(1.34, y, r["a_note"], va="center", ha="center", fontsize=7.2, color="#888888")
     hy = ys[0] + 0.75
     ax.text(1.09, hy, "judges\nbelow half", ha="center", va="bottom", fontsize=7.2, color="#555555", linespacing=1.05)
     ax.text(1.34, hy, "right answer still\nbeats \u201cI don't know\u201d", ha="center", va="bottom", fontsize=7.2,
@@ -327,7 +335,7 @@ def main() -> None:
     fig3(s1, out)
     s4 = load("results/study4/summary.json")
     rows = fixes_rows(s4, load("results/study4/reasoning.json"), load("results/study4/mtbench.json"),
-                      load("results/explore_idk2/summary.json"), confirm)
+                      load("results/explore_idk2/summary.json"), confirm, load("results/alpacaeval/summary.json"))
     fig4(rows, out)
     print("figures written to", out)
 

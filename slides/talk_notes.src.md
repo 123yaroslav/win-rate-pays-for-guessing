@@ -26,16 +26,20 @@ I registered two more runs before sending any of their questions. On {{cfQuestio
 
 ## Slide 7
 
-What does this do to a leaderboard? I computed it from the measured rates. A model that guesses among four options beats a model that abstains in {{guessWMin}} to {{guessWMax}} of duels. If two models differ only on the fifth of questions neither knows, guessing is worth {{guessEloMin}} to {{guessEloMax}} Elo points. The accuracy grader gives {{guessEloAcc}}, and the penalty grader takes {{guessEloRule}} away.
+Does this hold for the prompt of a real leaderboard? I registered one more run with the judge prompt of AlpacaEval 2.0, word for word, on the {{cfQuestions}} fresh questions. All eight judges gave the duel to the wrong answer in {{aeBEightMin}} to {{aeBEightMax}} of cases, and the same wrong answer beat the right one in only {{aeCtrlEightMin}} to {{aeCtrlEightMax}}. All three registered tests held. Two things differ from the leaderboard. I read the identifier the judge wrote, not its probability, and the judges are mine, not GPT-4 Turbo.
 
 ## Slide 8
 
-Can we fix the judge? No instruction brought more than {{instrBelowMax}} judges below one half. An explanation helps on free-form questions, where under the MT-Bench prompt only {{ffMtAbove}} of {{ffMtUsable}} stayed above one half. What works is verify-then-compare. Ask the judge first whether the answer is correct, and give the duel to the abstention if it says no. That brought all {{vtcBelow}} judges below one half, {{cfCFourPass}} of them significantly. The cost is right answers it wrongly rejects. A right answer then beats the abstention in {{cfRuleAMin}} to {{cfRuleAMax}} of duels.
+What does this do to a leaderboard? I computed it from the measured rates. A model that guesses among four options beats a model that abstains in {{guessWMin}} to {{guessWMax}} of duels. If two models differ only on the fifth of questions neither knows, guessing is worth {{guessEloMin}} to {{guessEloMax}} Elo points. The accuracy grader gives {{guessEloAcc}}, and the penalty grader takes {{guessEloRule}} away.
 
 ## Slide 9
 
-This slide shows the results for the larger judges and for the reward models.
+Can we fix the judge? No instruction brought more than {{instrBelowMax}} judges below one half. An explanation helps on free-form questions, where under the MT-Bench prompt only {{ffMtAbove}} of {{ffMtUsable}} stayed above one half. What works is verify-then-compare. Ask the judge first whether the answer is correct, and give the duel to the abstention if it says no. That brought all {{vtcBelow}} judges below one half, {{cfCFourPass}} of them significantly. The cost is right answers it wrongly rejects. A right answer then beats the abstention in {{cfRuleAMin}} to {{cfRuleAMax}} of duels.
 
 ## Slide 10
+
+Do bigger judges fix this? I registered two of the largest open models available to me before sending them any question from these sets. On multiple choice, Qwen 3.5 397B gave the duel to the wrong answer in {{lgBQwen}} of cases and GLM 5.2 in {{lgBGLM}}, while the same wrong answer beat the right one in only {{lgCtrlMin}} to {{lgCtrlMax}}. On free-form questions their rates were {{lgFfBQwen}} and {{lgFfBGLM}}. All three registered tests held. The free-form test needed one of the two judges, and Qwen passed it. Reward models, which score one response at a time, behave the same way on multiple choice. Where a model scored the right answer above the wrong one, the wrong answer still scored above "I don't know" on {{rmMcBSepMin}} to {{rmMcBSepMax}} of questions, for all {{rmROnePass}} models. On free-form questions that registered test failed. It passed for {{rmRTwoPass}} model of {{rmCount}}.
+
+## Slide 11
 
 The scope is a bare verdict on short factual questions. The default judge of AlpacaEval 2.0 also reads a single output token. I have no human raters, and a published prompt that asks for an explanation and allows a tie shrinks the effect. So measure the bluff rate of your judge and report it next to any win rate. Or use verify-then-compare and report what it costs in right answers. The code and every judge call are in the repository. Thank you.

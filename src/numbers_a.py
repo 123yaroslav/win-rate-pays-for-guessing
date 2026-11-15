@@ -987,7 +987,8 @@ def reward_models() -> None:
     short = {"Skywork/Skywork-Reward-V2-Llama-3.1-8B": "Skywork V2 Llama 8B",
              "Skywork/Skywork-Reward-V2-Qwen3-8B": "Skywork V2 Qwen3 8B",
              "allenai/Llama-3.1-Tulu-3-8B-RM": "Tulu 3 8B RM"}
-    ms = s["models"]
+    skip = set(s.get("exploratory", []))   # unregistered sensitivity rows stay out of the registered ranges
+    ms = {m: v for m, v in s["models"].items() if m not in skip}
     for st, key in (("mcq", "rmMc"), ("free", "rmFf")):
         for fld, k2 in (("b", "B"), ("b_separated", "BSep"), ("control", "Ctrl"), ("separated", "Sep"), ("a", "A"),
                         ("b_full", "Full")):
@@ -1023,6 +1024,64 @@ def reward_models() -> None:
                 cells.append(f"{100 * c['rate']:.0f} ({100 * c['lo']:.0f}--{100 * c['hi']:.0f})")
         rows.append(" & ".join(cells) + " \\\\")
     (OUT / "tab_rm.tex").write_text("\n".join(rows) + "\n")
+
+
+def alpacaeval() -> None:
+    """Amendment 5: the judge prompt of AlpacaEval 2.0 (results/alpacaeval/summary.json from src/alpacaeval.py)."""
+    f = ROOT / "results/alpacaeval/summary.json"
+    if not f.exists():
+        return
+    s = json.loads(f.read_text())
+    js, t = s["judges"], s["tests"]
+    reg = [j for j in NAMES if j in js and not js[j]["dropped"]]
+    big = {"adaption/qwen3.5-397b": "Qwen", "adaption/glm-5.2": "GLM"}
+    put("aeKept", WORDS[len(reg)])
+    dropped = [j for j in NAMES if j in js and js[j]["dropped"]]
+    put("aeDroppedNames", " and ".join(NAMES[j] for j in dropped) or "none")
+    rng_put("aeB", [js[j]["b"]["rate"] for j in reg])
+    rng_put("aeCtrl", [js[j]["control"]["rate"] for j in reg])
+    rng_put("aeBAll", [js[j]["b_all"]["rate"] for j in reg])
+    put("aeAbove", WORDS[sum(js[j]["b"]["rate"] > 0.5 for j in reg)])
+    below = [j for j in reg if js[j]["b"]["rate"] <= 0.5]
+    put("aeBelowNames", " and ".join(NAMES[j] for j in below) or "none")
+    put("aeBelowB", " and ".join(pct(js[j]["b"]["rate"]) for j in below) or "none")
+    for j, k in big.items():
+        if j in js:
+            put("aeB" + k, pct(js[j]["b"]["rate"]))
+            put("aeCtrl" + k, pct(js[j]["control"]["rate"]))
+    for lab, k in (("One", "A1"), ("Two", "A2"), ("Three", "A3")):
+        put(f"aeA{lab}Outcome", "holds" if t[k + "_holds"] else "fails")
+        put(f"aeA{lab}Pass", WORDS[t[k]])
+    put("aeLargeKept", WORDS[t["large_kept"]])
+    # all eight judges, and the generic instruction on the same fresh questions (a comparison not registered)
+    eight = reg + [j for j in big if j in js and not js[j]["dropped"]]
+    rng_put("aeBEight", [js[j]["b"]["rate"] for j in eight])
+    rng_put("aeCtrlEight", [js[j]["control"]["rate"] for j in eight])
+    w8 = WORDS + ["seven", "eight"]
+    put("aeEight", w8[len(eight)])
+    gen = json.loads((ROOT / "results/confirm2/confirm.json").read_text())["judges"]
+    gen.update(json.loads((ROOT / "results/large/summary.json").read_text())["confirm"])
+    rng_put("aeGenEight", [gen[j]["b"]["rate"] for j in eight])
+    put("aeRise", w8[sum(js[j]["b"]["rate"] > gen[j]["b"]["rate"] for j in eight)])
+    fall = [j for j in eight if js[j]["b"]["rate"] <= gen[j]["b"]["rate"]]
+    names = {**NAMES, "adaption/qwen3.5-397b": "Qwen 3.5 397B", "adaption/glm-5.2": "GLM 5.2"}
+    put("aeFallNames", " and ".join(names[j] for j in fall) or "none")
+    hk = "openrouter/anthropic/claude-haiku-5.5"
+    if hk in js:
+        put("aeHaikuCtrlUnparsed", pct(js[hk]["unparsed_control"]))
+        put("aeHaikuCtrlQ", str(js[hk]["control"]["n"]))
+        # sensitivity, not registered: Haiku's replies without a verdict counted for the wrong answer
+        put("aeHaikuWorst", pct(js[hk]["control_worst"]))
+        put("aeATwoWithoutHaiku", WORDS[sum(js[j]["a2_pass"] for j in reg if j != hk)])
+    rows = []
+    for j in eight:
+        r = js[j]
+        f = lambda c: f"{100 * c['rate']:.0f} ({100 * c['lo']:.0f}--{100 * c['hi']:.0f})"  # noqa: E731
+        lab = names[j] + ("$^{\\dagger}$" if j in big else "")
+        rows.append(" & ".join([lab, f"{100 * r['own_accuracy']:.0f}", f(r["b"]), f(r["control"]),
+                                f"{100 * gen[j]['b']['rate']:.0f}", f"{100 * r['b_all']['rate']:.0f}",
+                                f"{100 * r['unparsed_primary']:.1f}"]) + " \\\\")
+    (OUT / "tab_ae.tex").write_text("\n".join(rows) + "\n")
 
 
 def figure_numbers() -> None:
@@ -1067,6 +1126,7 @@ def main() -> None:
     figure_numbers()
     large()
     reward_models()
+    alpacaeval()
     appendix()
     form_abstract()
     lines = [f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in sorted(macros.items())]

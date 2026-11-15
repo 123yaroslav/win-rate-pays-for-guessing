@@ -101,12 +101,27 @@ The \lead{bluff rate} is the share of duels in which a confident wrong answer be
 
 % === 6. Registered replications ===
 \begin{frame}{It replicates in two more registered question sets}
-\widefig{138mm}{fig2_replicate.pdf}\par
+\widefig{122mm}{fig2_replicate.pdf}\par
 \vspace{0.5mm}
-{\fontsize{12}{14.5}\selectfont Fresh questions reproduced both rates for \lead{\cfAllPass{} of \cfKept{}} judges. On free-form questions \lead{\ffAboveHalf{} of \ffKept{}} stayed above one half, \ffBelowNames{} the exception at \ffBelowB{}.\par}
+{\fontsize{12}{14.5}\selectfont Fresh questions reproduced both rates for \lead{\cfAllPass{} of \cfKept{}} judges. On free-form questions \lead{\ffAboveHalf{} of \ffKept{}} stayed above one half, \ffBelowNames{} the exception at \ffBelowB{}. Rows with $\dagger$ are two larger judges, registered later.\par}
 \end{frame}
 
-% === 7. What it does to a leaderboard ===
+% === 7. The judge prompt of AlpacaEval 2.0 (Amendment 5, registered before any call with it) ===
+\begin{frame}{Same result with the AlpacaEval 2.0 judge prompt}
+\vspace{0.5mm}
+\stat{\herosmall{\aeBEightMin{}--\aeBEightMax{}}}{40mm}{\keysquare\ wrong answer against ``I don't know'', eight judges}\hfill
+\stat{\herosmalldark{\aeCtrlEightMin{}--\aeCtrlEightMax{}}}{38mm}{\keydot\ same wrong answer against the right one}\par
+\vspace{2mm}
+\begin{exhibit}
+\raggedright{\fontsize{12}{14.5}\selectfont ``Your task is to assess these responses, and select the model that produces the best output from a human perspective. [\ldots] make sure your output only contains one of the following model identifiers and nothing else [\ldots]: m or M.''\par}
+\vspace{0.5mm}
+\fignote{The template of the default AlpacaEval 2.0 judge, used verbatim on the 150 fresh questions.}
+\end{exhibit}
+\vspace{2mm}
+{\fontsize{11.5}{13.5}\selectfont Registered tests A1 and A2 passed for \lead{\aeAOnePass{} of \aeKept{}} judges, A3 for \aeAThreePass{} of \aeLargeKept{} larger ones. We read the written identifier, not its probability, and our judges stand in for GPT-4 Turbo.\par}
+\end{frame}
+
+% === 8. What it does to a leaderboard ===
 \begin{frame}{Guessing buys Elo points under every judge}
 \vspace{1mm}
 \widefig{148mm}{fig3_guess.pdf}\par
@@ -116,28 +131,53 @@ The \lead{bluff rate} is the share of duels in which a confident wrong answer be
 \fignote{\sym{W}(0.25) = \sym{b} + 0.25\,(\sym{a} \textminus{} \sym{b}), with \sym{a} and \sym{b} measured on all questions of the registered study.}
 \end{frame}
 
-% === 8. What fixes it ===
+% === 9. What fixes it ===
 \begin{frame}{Verify-then-compare brings all six below one half}
 \widefig{140mm}{fig4_fixes.pdf}\par
 \vspace{1mm}
 {\fontsize{12}{14.5}\selectfont \lead{Verify-then-compare} brings all \vtcBelow{} below one half, at a cost in right answers. Instructions manage at most \instrBelowMax{}. Explanations help on free-form questions.\par}
 \end{frame}
 
-% === 9. Larger judges and reward models. Filled later; kept here so the numbering stays ===
+% === 10. Larger judges and reward models (Amendment 4, registered before any call on these question sets) ===
 \begin{frame}{Larger judges and reward models}
-\slot{results pending}
+\vspace{1mm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.47\textwidth}
+\textbf{Two larger judges}\par
+{\fontsize{10.5}{12.5}\selectfont\grey{Registered before any call on these questions}\par}
+\vspace{3mm}
+\stat{\herosmall{\lgBQwen{}}}{46mm}{\keysquare\ Qwen 3.5 397B, wrong answer against ``I don't know''}\par
+\vspace{2mm}
+\stat{\herosmall{\lgBGLM{}}}{46mm}{\keysquare\ GLM 5.2, the same}\par
+\vspace{2mm}
+\stat{\herosmalldark{\lgCtrlMin{}--\lgCtrlMax{}}}{38mm}{\keydot\ same wrong answer against the right one}\par
+\vspace{3mm}
+{\fontsize{10.5}{12.5}\selectfont On multiple choice L1 and L2 passed for both. On free-form questions the bluff rates were \lgFfBQwen{} and \lgFfBGLM{}, and L3, which needed one judge, \outcome{\lgLThreeOutcome{}} with Qwen.\par}
+\end{column}
+\hfill
+\begin{column}{0.47\textwidth}
+\textbf{Three reward models}\par
+{\fontsize{10.5}{12.5}\selectfont\grey{Each response scored alone}\par}
+\vspace{3mm}
+\stat{\herosmall{\rmMcBSepMin{}--\rmMcBSepMax{}}}{36mm}{multiple choice, wrong answer scored above ``I don't know''}\par
+\vspace{2mm}
+\stat{\herosmalldark{\rmFfBSepMin{}--\rmFfBSepMax{}}}{36mm}{free-form questions, the same}\par
+\vspace{3mm}
+{\fontsize{10.5}{12.5}\selectfont Rates are over the questions on which a model scores the right answer above the wrong one. R1 on multiple choice passed for \rmROnePass{} of \rmCount{}. R2 on free-form questions \outcome{\rmRTwoOutcome{}}, with \rmRTwoPass{} of \rmCount{} where two were needed.\par}
+\end{column}
+\end{columns}
 \end{frame}
 
-% === 10. Scope and what to do ===
+% === 11. Scope and what to do ===
 \begin{frame}{Report the bluff rate next to any win rate}
 \begin{tabular}{@{}>{\bfseries}p{28mm}>{\raggedright\arraybackslash}p{107mm}@{}}
-Scope & A bare verdict on short factual questions. The default judge of AlpacaEval 2.0 also reads a single token. \\[1mm]
- & No human raters. \\[1mm]
- & A prompt that asks for an explanation and allows a tie shrinks the effect. \\[2mm]
+Scope & A bare verdict on short factual questions, as the default AlpacaEval 2.0 judge reads. \\[1mm]
+ & No human raters. \\[0.5mm]
+ & A prompt that asks for an explanation and allows a tie shrinks the effect. \\[1mm]
 What to do & Measure the bluff rate of the judge and the instruction in use, on about 100 questions with a key, and report it next to any win rate. \\[1mm]
  & Or use verify-then-compare and report how many right answers it costs. \\
 \end{tabular}\par
-\vspace{2.5mm}
+\vspace{1mm}
 \url{https://github.com/123yaroslav/win-rate-pays-for-guessing}
 \end{frame}
 

@@ -99,7 +99,7 @@
 % Abstract: 150 to 250 words. Cover the problem, the approach, key results and the main takeaway.
 % The same text goes into the "Project summary" field of the submission form.
 \begin{apartabstract}
-Models are ranked and training data chosen by win rate, the share of pairwise comparisons an LLM judge awards to one side. We ask what win rate pays a model that guesses instead of saying ``I don't know''. Accuracy grading, blamed for hallucination, scores the two alike. We measure the \emph{bluff rate}, the share of comparisons in which a confident wrong answer beats ``I don't know''. In pre-registered duels, six judges that answer with one token, as the default judge of AlpacaEval 2.0 does, had bluff rates of \bKnowsMin{} to \bKnowsMax{} on questions they answered correctly. The same wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{} against the right answer. The judges know the answer is wrong, yet a model that always guesses beats one that abstains at any accuracy. By our formula, guessing on a fifth of the questions would earn \guessEloMin{} to \guessEloMax{} Elo points. A registered run reproduced both rates on fresh questions for all six judges, and on free-form questions the bluff rate stayed above one half for \ffAboveHalf{}. Under a published prompt that asks for an explanation and allows a tie, only \ffMtAbove{} judges kept it on free-form questions. Three reward models showed it on multiple choice, while their registered free-form test failed. Letting the judge first check each answer alone brought the bluff rate below one half for all six, significantly for \cfCFourPass{}, at a cost in right answers. We propose reporting the bluff rate next to any win rate.
+Models are ranked and training data chosen by win rate, the share of pairwise comparisons an LLM judge awards to one side. We ask what win rate pays a model that guesses instead of saying ``I don't know''. Accuracy grading, blamed for hallucination, scores the two alike. We measure the \emph{bluff rate}, the share of comparisons a confident wrong answer wins against ``I don't know''. In pre-registered duels, six judges answering with one token had bluff rates of \bKnowsMin{} to \bKnowsMax{} on questions they answered correctly. The same wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{} against the right answer. The judges know the answer is wrong, yet a model that always guesses beats one that abstains at any accuracy. By our formula, guessing on a fifth of the questions would earn \guessEloMin{} to \guessEloMax{} Elo points. Registered runs on fresh questions reproduced both rates for all six judges and two larger ones. With the AlpacaEval 2.0 judge prompt, the bluff rate was \aeBEightMin{} to \aeBEightMax{} for all eight. On free-form questions it stayed above one half for \ffAboveHalf{} of the six, but for only \ffMtAbove{} under a published prompt with an explanation and a tie. Three reward models showed it on multiple choice, while their registered free-form test failed. Letting the judge first check each answer alone brought the bluff rate below one half for all six, significantly for \cfCFourPass{}, at a cost in right answers. We propose reporting the bluff rate next to any win rate.
 \end{apartabstract}
 
 % ====================================================================================
@@ -112,22 +112,22 @@ When answers have no reference, the field compares models by win rate. An LLM ju
 
 We test this assumption in the one case where the user's need is not in doubt. The model does not know the answer. It can guess, and a wrong guess stated plainly misleads the user. Or it can say ``I don't know'', which misleads nobody. \citet{kalai2025hallucinate} argue that models hallucinate partly because accuracy grading gives a wrong answer and an abstention the same zero, so guessing never loses. An LLM judge reads both responses and could prefer the honest one.
 
-It prefers the guess. We call the share of duels in which a confident wrong answer beats ``I don't know'' the \emph{bluff rate}. A \emph{penalty grader}, which scores a right answer $+1$, a wrong one $-1$ and an abstention 0, has a bluff rate of 0\%. An \emph{accuracy grader}, which scores a wrong answer and an abstention alike, has 50\%, a tie. In pre-registered duels on 300 multiple-choice questions with known keys, six judges from six developers had bluff rates of \bKnowsMin{} to \bKnowsMax{} on questions they answered correctly themselves (\cref{fig:bluff}). Every judge paid a wrong answer more than the accuracy grader does.
+It prefers the guess. We call the share of duels in which a confident wrong answer beats ``I don't know'' the \emph{bluff rate}. A \emph{penalty grader}, which scores a right answer $+1$, a wrong one $-1$ and an abstention 0, has a bluff rate of 0\%. An \emph{accuracy grader}, which scores a wrong answer and an abstention alike, has 50\%, a tie. In pre-registered duels on 300 multiple-choice questions with known keys, six judges from six developers had bluff rates of \bKnowsMin{} to \bKnowsMax{} on questions they answered correctly themselves (\cref{fig:bluff}). Two larger open judges, registered later, had \lgBQwen{} and \lgBGLM{} on 150 fresh questions. Every judge paid a wrong answer more than the accuracy grader does.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{fig1_bluff.pdf}
-  \caption{\textbf{Six LLM judges prefer a wrong answer to ``I don't know'' on questions they know, yet reject the same wrong answer when the right one is its opponent.} Squares give the bluff rate and circles the same-wording control, on questions the judge answers correctly itself, with 95\% intervals. Diamonds mark the two rule-based graders. The right column gives the Elo points that guessing on a fifth of the questions would buy against a model that abstains, computed from rates on all questions (\cref{sec:res-guess}), so its order can differ from the squares. The control was added after the registered runs and confirmed later (\cref{fig:replicate}b).}
+  \caption{\textbf{Six LLM judges prefer a wrong answer to ``I don't know'' on questions they know, yet reject the same wrong answer when the right one is its opponent.} Squares give the bluff rate and circles the same-wording control, on questions the judge answers correctly itself, with 95\% intervals. Diamonds mark the two rule-based graders. The right column gives the Elo points that guessing on a fifth of the questions would buy against abstaining, from rates on all questions (\cref{sec:res-guess}). The control was added after the registered runs and confirmed later (\cref{fig:replicate}b).}
   \label{fig:bluff}
 \end{figure}
 
-The judges know that the answer is wrong. In a \emph{same-wording control}, where the opponent was the right answer stated in the same words, the same wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{} of duels on those questions. Asked about the wrong answer alone, the judges called it incorrect in \flaggedMin{} to \flaggedMax{} of cases. They reward an attempt over an abstention, and correctness counts mainly when a right answer is on the table. Both rates replicated on fresh questions, and on free-form questions the bluff rate stayed above one half for \ffAboveHalf{} of \ffKept{} judges (\cref{fig:replicate}).
+The judges know that the answer is wrong. In a \emph{same-wording control}, where the opponent was the right answer stated in the same words, the same wrong answer won only \wrongOverRightMin{} to \wrongOverRightMax{} of duels on those questions. Asked about the wrong answer alone, the judges called it incorrect in \flaggedMin{} to \flaggedMax{} of cases. They reward an attempt over an abstention, and correctness counts mainly when a right answer is on the table.
 
-Under such a judge a model that always guesses beats one that abstains, at any accuracy. By \cref{eq:w}, guessing on a fifth of the questions would be worth \guessEloMin{} to \guessEloMax{} Elo points, where the penalty grader takes \guessEloRule{} away (\cref{fig:bluff}, right column). Instructions rarely removed the preference. A rule we call \emph{verify-then-compare}, which gives the duel to the abstention whenever the judge calls the answer incorrect, brought the bluff rate below one half for every judge, significantly for \cfCFourPass{}, at a cost in right answers (\cref{fig:fixes}). Our scope is a \emph{bare verdict}, a judge that answers with a single token, as the default judge of AlpacaEval 2.0 does \citep{dubois2024lcalpacaeval}, on short factual questions.\footnote{AlpacaEval 2.0 reads one output token and scores by its probability, configuration \texttt{weighted\_alpaca\_eval\_gpt4\_turbo} at \url{https://github.com/tatsu-lab/alpaca_eval}.} Under a published prompt that asks for an explanation and allows a tie, the effect shrinks.
+Under such a judge a model that always guesses beats one that abstains, at any accuracy. By \cref{eq:w}, guessing on a fifth of the questions would be worth \guessEloMin{} to \guessEloMax{} Elo points, where the penalty grader takes \guessEloRule{} away (\cref{fig:bluff}, right column). Instructions rarely removed the preference. A rule we call \emph{verify-then-compare}, which gives the duel to the abstention whenever the judge calls the answer incorrect, brought the bluff rate below one half for every judge, significantly for \cfCFourPass{}, at a cost in right answers (\cref{fig:fixes}). Our scope is a \emph{bare verdict}, a judge that answers with a single token, as the default judge of AlpacaEval 2.0 does \citep{dubois2024lcalpacaeval}, on short factual questions.\footnote{AlpacaEval 2.0 reads one output token and scores by its probability, configuration \texttt{weighted\_alpaca\_eval\_gpt4\_turbo} at \url{https://github.com/tatsu-lab/alpaca_eval}.} With the AlpacaEval 2.0 judge prompt, our judges in place of its GPT-4 Turbo and the written verdict in place of its probability, all eight judges had bluff rates of \aeBEightMin{} to \aeBEightMax{} on questions they knew, as registered. Under a published prompt that asks for an explanation and allows a tie, the effect shrinks.
 
 \textbf{Our main contributions are:}
 \begin{enumerate}
-  \item The bluff rate, a measurement with a key, and what it does to win rate. It is above one half for all six judges on multiple choice (\cref{sec:res-main,sec:res-guess}).
+  \item The bluff rate, a measurement with a key, and what it does to win rate. It is above one half for all six judges and two larger ones on multiple choice, also under the judge prompt of AlpacaEval 2.0 (\cref{sec:res-main,sec:res-free,sec:res-guess}).
   \item Evidence that the judges know the answer is wrong, with registered confirmations on fresh and on free-form questions (\cref{sec:res-knows,sec:res-free}).
   \item A map of fixes. Instructions repair at most two of six judges, and verify-then-compare brings all six below one half at a cost in right answers (\cref{sec:res-fix}).
   \item The same preference in three reward models on multiple choice, as registered. Their registered test on free-form questions failed (\cref{sec:res-rm}).
@@ -137,7 +137,7 @@ Under such a judge a model that always guesses beats one that abstains, at any a
 
 \textbf{Scoring rules and guessing.} \citet{kalai2025hallucinate,kalai2026evaluating} show that accuracy grading gives a wrong answer and an abstention the same score, so guessing is never worse. For rubrics graded by a language model they conjecture that ``I don't know'' may score below a flawed answer, but they measure no judge that compares responses without a reference.
 
-\textbf{Judges, hedges and refusals.} LLM judges penalise hedges \citep{lee2025ember,datta2026tiebreaker,yin2026judge}, but the hedged response there still names an answer, and the correct hedged answer usually wins (90.3\% of pairs for GPT-4o in \citet{lee2025ember}). Refusals lose pairwise comparisons with human voters in Chatbot Arena \citep{lmsys2023leaderboard,pasch2025refusals} and with LLM judges \citep{pasch2025aivshuman}, but the correctness of the competing response is unknown there. Preference data and reward models push models away from expressed uncertainty \citep{zhou2024relying,leng2024taming,song2025hallucinationtax}. To our knowledge no prior work measures, with the key known, how often an LLM judge prefers a wrong answer to an explicit abstention.
+\textbf{Judges, hedges and refusals.} LLM judges penalise hedges \citep{lee2025ember,datta2026tiebreaker,yin2026judge}, but the hedged response there still names an answer, and the correct hedged answer usually wins. Refusals lose pairwise comparisons with human voters in Chatbot Arena \citep{lmsys2023leaderboard,pasch2025refusals} and with LLM judges \citep{pasch2025aivshuman}, but the correctness of the competing response is unknown there. Preference data and reward models push models away from expressed uncertainty \citep{zhou2024relying,leng2024taming,song2025hallucinationtax}. To our knowledge no prior work measures, with the key known, how often an LLM judge prefers a wrong answer to an explicit abstention.
 
 \section{Methods}
 \label{sec:methods}
@@ -169,14 +169,14 @@ Answering pays when $W(p)$ is above one half. The two rule-based graders fix the
 
 \subsection*{Judges and what they know}
 
-Six judges from six developers run at temperature 0 with provider reasoning switched off. DeepSeek V4 Flash, Gemma 4 31B and Qwen 3.8 27B run on the inference API of Adaption, a sprint sponsor, and Claude Haiku 5.5, GPT-5.6 Luna and Mistral Small 2603 on OpenRouter. A stronger judge, GPT-5.6 Terra, runs on the first 20 items of each domain.%LARGEJUDGES
+Six judges from six developers run at temperature 0 with provider reasoning switched off. DeepSeek V4 Flash, Gemma 4 31B and Qwen 3.8 27B run on the inference API of Adaption, a sprint sponsor, and Claude Haiku 5.5, GPT-5.6 Luna and Mistral Small 2603 on OpenRouter. A stronger judge, GPT-5.6 Terra, runs on the first 20 items of each domain. Two larger open models, \lgNames{}, run on the Adaption API in a fourth registration and are reported apart from the six.
 
 We measure what each judge knows in two ways. The judge answers every item itself, and we say that it \emph{knows} an item if its answer equals the key. The judge is also shown a single response and asked ``Is the response factually correct? Reply with only Yes or No.'' We say that it \emph{rejects} a response if it replies No. It \emph{tells the two answers apart} on an item if it rejects the wrong answer and accepts the right one. The verify-then-compare rule gives a duel to the abstention whenever the judge rejects the answer in it, and otherwise keeps the duel verdict.
 
 \subsection*{Pre-registration}
 
-Each study was registered in a dated commit before its items were sent to a judge (\cref{app:prereg}). The plan fixed the main test H1, which predicted a bluff rate above one half on the items a judge knows for at least four of the six judges (bootstrap test, Holm correction). A second registration tested the same-wording control and verify-then-compare, both found in analyses added later, on \cfQuestions{} fresh multiple-choice questions from the same three sources, and a third registered a check on \ffQuestions{} free-form questions. A fourth added two larger judges and three reward models.
-\Cref{tab:regsummary} lists the main registered tests with their outcomes. All tests, including the failed S1d, P5d and P5e, are in \cref{tab:prereg}. Analyses added later are marked where they appear.
+Each study was registered in a dated commit before its items were sent to a judge (\cref{app:prereg}), with bootstrap tests and Holm correction across judges. The plan fixed the main test H1. A second registration tested the same-wording control and verify-then-compare, both found in analyses added later, on \cfQuestions{} fresh multiple-choice questions from the same three sources, and a third registered a check on \ffQuestions{} free-form questions. A fourth added two larger judges and three reward models, and a fifth the judge prompt of AlpacaEval 2.0.
+\Cref{tab:regsummary} lists the main registered tests with their outcomes. All tests, including failed ones not listed there (S1d, P5d and P5e), are in \cref{tab:prereg}. Analyses added later are marked where they appear.
 
 \begin{table}[t]
   \centering
@@ -200,9 +200,14 @@ Each study was registered in a dated commit before its items were sent to a judg
     F2 & 100 free-form & The same against a fuller abstention (4) & \ffFTwoOutcome{}, \ffFTwoPass{} \\
     F3 & 100 free-form & Wrong beats right in under 25\% of duels (5) & \ffFThreeOutcome{}, \ffFThreePass{} \\
     F4 & 100 free-form & Bluff rate above one half under the MT-Bench prompt (3) & \ffFFourOutcome{}, \ffFFourPass{} \\
+    L1 & 150 fresh & Larger judges, bluff rate above one half (2 of 2) & \lgLOneOutcome{}, \lgLOnePass{} \\
+    L2 & 150 fresh & Larger judges, wrong beats right in under 25\% of duels (2 of 2) & \lgLTwoOutcome{}, \lgLTwoPass{} \\
+    L3 & 100 free-form & Larger judges, bluff rate above one half (1 of 2) & \lgLThreeOutcome{}, \lgLThreePass{} \\
+    A1 & 150 fresh & AlpacaEval 2.0 prompt, bluff rate above one half (4) & \aeAOneOutcome{}, \aeAOnePass{} \\
+    A2 & 150 fresh & That prompt, wrong beats right in under 25\% of duels (5) & \aeATwoOutcome{}, \aeATwoPass{} \\
+    A3 & 150 fresh & That prompt, larger judges, as A1 (1 of 2) & \aeAThreeOutcome{}, \aeAThreePass{} \\
     R1 & 150 fresh & Reward models, bluff rate above one half where they separate (2 of 3) & \rmROneOutcome{}, \rmROnePass{} \\
     R2 & 100 free-form & The same on free-form questions (2 of 3) & \rmRTwoOutcome{}, \rmRTwoPass{} \\
-    %REGROWS
     \bottomrule
   \end{tabular}
 \end{table}
@@ -210,10 +215,12 @@ Each study was registered in a dated commit before its items were sent to a judg
 
 \section{Results}
 
-\subsection{Under the default instruction every judge pays a wrong answer more than the accuracy grader}
+\subsection{On multiple choice every judge pays a wrong answer more than the accuracy grader, also under the AlpacaEval 2.0 prompt}
 \label{sec:res-main}
 
-On questions they answered correctly themselves, the six judges gave the duel to the wrong answer in \bKnowsMin{} to \bKnowsMax{} of comparisons (\cref{fig:bluff,tab:main}). The registered test H1 passed for \hOnePass{} of \hOneJudges{} judges, and its registered fallback on all questions for \hOneFPass{} of \hOneFJudges{}. The default instruction forces a choice. Under a published prompt that allows a tie, in a run added later, \mtAbove{} of \mtJudges{} judges still preferred the wrong answer (\cref{sec:res-fix}). The stronger judge GPT-5.6 Terra, run on 60 questions, had a bluff rate of \bKnowsTerra{} on the questions it knew. The bluff rate was above one half in \domainCellsAbove{} of \domainCells{} cells of judge and domain (\cref{tab:domains}), and a hedged wrong answer also beat the abstention for \hwIdkAbove{} of six judges (\cref{tab:pairs}).
+On questions they answered correctly themselves, the six judges gave the duel to the wrong answer in \bKnowsMin{} to \bKnowsMax{} of comparisons (\cref{fig:bluff,tab:main}). The registered test H1 passed for \hOnePass{} of \hOneJudges{} judges, and its registered fallback on all questions for \hOneFPass{} of \hOneFJudges{}. When a tie was allowed, in a run added later, \mtAbove{} of \mtJudges{} judges still preferred the wrong answer (\cref{sec:res-fix}). The stronger judge GPT-5.6 Terra, run on 60 questions, had a bluff rate of \bKnowsTerra{} on the questions it knew. The bluff rate was above one half in \domainCellsAbove{} of \domainCells{} cells of judge and domain (\cref{tab:domains}), and a hedged wrong answer also beat the abstention for \hwIdkAbove{} of six judges (\cref{tab:pairs}).
+
+The judge prompt of a public leaderboard gives the same result. The default judge of AlpacaEval 2.0 reads an instruction and two outputs and names the better one with a single identifier \citep{dubois2024lcalpacaeval}. A fifth registration ran its template verbatim with the six judges and the two larger ones on the \cfQuestions{} fresh questions of \cref{sec:res-free}. We read the identifier the judge wrote at temperature 0, where AlpacaEval reads the probability of a one-token reply. On known questions the bluff rate was \aeBEightMin{} to \aeBEightMax{}, and the wrong answer beat the right one in only \aeCtrlEightMin{} to \aeCtrlEightMax{} of duels (\cref{fig:fixes}, second row, and \cref{tab:ae}). Tests A1 and A2 passed for \aeAOnePass{} and \aeATwoPass{} of \aeKept{} registered judges, and A3 for \aeAThreePass{} of \aeLargeKept{} larger ones. Under our generic instruction the same judges had \aeGenEightMin{} to \aeGenEightMax{} on these questions.
 
 
 \subsection{The judges know that the answer is wrong}
@@ -221,9 +228,9 @@ On questions they answered correctly themselves, the six judges gave the duel to
 
 The same judges rejected the wrong answer when the right answer was its opponent. On the questions a judge knew, a confident wrong answer beat an equally confident right one in \wrongOverRightMin{} to \wrongOverRightMax{} of duels (\cref{fig:bluff}, circles), a control added later and confirmed in \cref{sec:res-free}.
 
-Asked about a single response, the judges rejected the wrong answer in \flaggedMin{} to \flaggedMax{} of cases and accepted the right answer in \acceptedMin{} to \acceptedMax{} (\cref{tab:detect}). On the questions where a judge rejected the wrong answer, that answer still beat the abstention in \bFlaggedOnlyMin{} to \bFlaggedOnlyMax{} of duels, as registered. Qwen 3.8 27B and Claude Haiku 5.5 also reject about half of the right answers, so a rejection alone means little for them. In an analysis added later we keep only the questions on which a judge tells the two answers apart, \tellsApartMin{} to \tellsApartMax{} of questions. There the bluff rate was \bFlaggedMin{} to \bFlaggedMax{} (\cref{tab:main}, last column). The judges hold the knowledge and do not use it when the other side abstains.
+Asked about a single response, the judges rejected the wrong answer in \flaggedMin{} to \flaggedMax{} of cases and accepted the right answer in \acceptedMin{} to \acceptedMax{} (\cref{tab:detect}). On the questions where a judge rejected the wrong answer, that answer still beat the abstention in \bFlaggedOnlyMin{} to \bFlaggedOnlyMax{} of duels, as registered. Qwen 3.8 27B and Claude Haiku 5.5 also reject about half of the right answers. In an analysis added later we keep only the questions on which a judge tells the two answers apart, \tellsApartMin{} to \tellsApartMax{} of questions. There the bluff rate was \bFlaggedMin{} to \bFlaggedMax{} (\cref{tab:main}, last column).
 
-\subsection{The preference replicates on fresh questions and mostly holds on free-form questions}
+\subsection{The preference replicates on fresh and mostly on free-form questions}
 \label{sec:res-free}
 
 A registered run on \cfQuestions{} fresh questions reproduced both rates (\cref{fig:replicate}b). On known questions the bluff rate was \cfBMin{} to \cfBMax{}, and the wrong answer beat the right one in \cfCtrlMin{} to \cfCtrlMax{} of duels. The tests of the bluff rate, of the control and of the gap between them passed for \cfCOnePass{}, \cfCTwoPass{} and \cfCThreePass{} of \cfKept{} judges.
@@ -231,80 +238,65 @@ A registered run on \cfQuestions{} fresh questions reproduced both rates (\cref{
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{fig2_replicate.pdf}
-  \caption{\textbf{The contrast holds on fresh questions and, for five of six judges, on free-form questions.} Same encoding as \cref{fig:bluff}. (a) The registered study, with the control added later. (b) Registered confirmation on fresh questions. (c) Registered check on free-form questions with two-sentence replies written by a model outside the judge set.%FIG2LARGE
+  \caption{\textbf{The contrast holds on fresh questions and, for five of six registered judges and one of two larger ones, on free-form questions.} Same encoding as \cref{fig:bluff}. (a) The registered study, with the control added later. (b, c) Registered runs, with free-form replies written by a model outside the judge set. Rows marked $\dagger$ are two larger judges registered later.
   }
   \label{fig:replicate}
 \end{figure}
 
-The free-form check asks whether answer options and one-line templates produce the effect. One question reads ``\ffExampleQ{}'' The key is \ffExampleKey{}, and the wrong reply is ``\ffExampleWrong{}'' Replies of this kind beat ``I don't know'' in \ffBMin{} to \ffBMax{} of duels on known questions and beat the right reply of the same form in \ffCtrlMin{} to \ffCtrlMax{} (\cref{fig:replicate}c). The registered test passed for \ffFOnePass{} of \ffKept{} judges, as predicted. The exception was \ffBelowNames{}, at \ffBelowB{}. Against a fuller abstention that says why the model will not guess, the wrong reply won \ffFullMin{} to \ffFullMax{}, and that registered test failed, passing for \ffFTwoPass{} judges where four were needed. How the abstention is worded matters. It also holds for the outputs of one base model. Where Qwen 3.5 9B gave a confident wrong answer to a MedQA training question, three judges preferred it to the same model's own abstention on that question in \natBMin{} to \natBMax{} of duels, as registered (\cref{tab:natural}).%LARGERESULTS
+The free-form check asks whether answer options and one-line templates produce the effect. One question reads ``\ffExampleQ{}'' The key is \ffExampleKey{}, and the wrong reply is ``\ffExampleWrong{}'' Replies of this kind beat ``I don't know'' in \ffBMin{} to \ffBMax{} of duels on known questions and beat the right reply of the same form in \ffCtrlMin{} to \ffCtrlMax{} (\cref{fig:replicate}c). The registered test passed for \ffFOnePass{} of \ffKept{} judges, as predicted. The exception was \ffBelowNames{}, at \ffBelowB{}. Against a fuller abstention that says why the model will not guess, the wrong reply won \ffFullMin{} to \ffFullMax{}, and that registered test failed, passing for \ffFTwoPass{} judges where four were needed. How the abstention is worded matters. It also holds for the outputs of one base model. Where Qwen 3.5 9B gave a confident wrong answer to a MedQA training question, three judges preferred it to the same model's own abstention on that question in \natBMin{} to \natBMax{} of duels, as registered (\cref{tab:natural}).
+
+On multiple choice, larger judges behave the same way. On known fresh questions Qwen 3.5 397B and GLM 5.2 had bluff rates of \lgBQwen{} and \lgBGLM{} against controls of \lgCtrlMin{} to \lgCtrlMax{}, and on free-form questions \lgFfBQwen{} and \lgFfBGLM{} (\cref{fig:replicate}, rows marked $\dagger$). The registered tests L1 and L2 passed for both, and L3, which needed one of the two on free-form questions, passed for Qwen 3.5 397B.
 
 \subsection{Under these judges guessing buys leaderboard points}
 \label{sec:res-guess}
 
-With the bluff rate above one half, $W(p)$ of \cref{eq:w} stays above one half at every accuracy. A model that guesses among four options, right one time in four, would win \guessWMin{} to \guessWMax{} of duels against a model that abstains under the six judges (computed with $a$ and $b$ on all questions). The accuracy grader gives it 62.5\%, a win on the quarter it gets right and a tie on the rest, and the penalty grader 25\%. If two models differ only on a fifth of the questions, which neither knows, the guesser's overall win rate is $0.4 + 0.2\,W(0.25)$. On the Elo scale of leaderboards that is \guessEloMin{} to \guessEloMax{} points under these judges (\cref{fig:bluff}, right column), \guessEloAcc{} under the accuracy grader and minus \guessEloRule{} under the penalty grader.
+By \cref{eq:w}, a model that guesses among four options, right one time in four, would win \guessWMin{} to \guessWMax{} of duels against a model that abstains under the six judges (computed with $a$ and $b$ on all questions). The accuracy grader gives it 62.5\%, a win on the quarter it gets right and a tie on the rest, and the penalty grader 25\%. If two models differ only on a fifth of the questions, which neither knows, the guesser's overall win rate is $0.4 + 0.2\,W(0.25)$. On the Elo scale of leaderboards that is \guessEloMin{} to \guessEloMax{} points under these judges (\cref{fig:bluff}, right column), \guessEloAcc{} under the accuracy grader and minus \guessEloRule{} under the penalty grader.
 
 
-\subsection{Verify-then-compare overrides the preference at a cost, and instructions mostly do not}
+\subsection{Verify-then-compare works at a cost, and instructions mostly do not}
 \label{sec:res-fix}
 
 We changed the judge in four ways (\cref{fig:fixes}, prompts in \cref{app:prompts}).
 
-\emph{Instructions.} Four instructions said that a false statement is worse than admitting ignorance (accuracy first) or that a wrong answer costs the user more (stakes), showed the judge its own answer, or asked for the better training example (data curation). No instruction brought more than \instrBelowMax{} of six judges below one half. By the registered criterion, which also asks for a significant drop and a right answer that still wins at least 90\% of duels, no instruction repaired more than \fixMaxSingleWord{} judges, where we had predicted that at least one instruction would repair most judges.
+\emph{Instructions.} Four instructions said that a false statement is worse than admitting ignorance (accuracy first) or that a wrong answer costs the user more (stakes), showed the judge its own answer, or asked for the better training example (data curation). No instruction brought more than \instrBelowMax{} of six judges below one half. Our registered prediction that one instruction would repair most judges failed, with at most \fixMaxSingleWord{} repaired by a stricter criterion (\cref{tab:prereg}).
 
-\emph{Explanations.} With a written rationale before the verdict, \cotAboveHalf{} of \cotJudges{} judges still preferred the wrong answer. The published pairwise prompt of MT-Bench \citep{zheng2023judging}, which asks for an explanation and allows a tie, left the preference for \mtAbove{} of \mtJudges{} judges on multiple choice (added later). On free-form questions it lowered the bluff rate for every judge, and only \ffMtAbove{} of \ffMtUsable{} stayed above one half. The registered test F4, which predicted that the preference would survive, passed for \ffFFourPass{} where three were needed. The provider's reasoning mode, registered for three judges on 90 questions, repaired \thinkRegRepaired{}, Claude Haiku 5.5. In the calls in which a judge reasoned, an analysis added later, the bluff rate was \reasonedBHaiku{} and \reasonedBLuna{} for two judges, but GPT-5.6 Luna reasoned mostly when the answer was wrong, so its rate is not an effect of reasoning. With a reasoning effort requested, Mistral Small 2603 still preferred the wrong answer in \reasonedBMistral{} of duels (\cref{tab:reasoning}).
+\emph{Explanations.} With a written rationale before the verdict, \cotAboveHalf{} of \cotJudges{} judges still preferred the wrong answer. The published pairwise prompt of MT-Bench \citep{zheng2023judging}, which asks for an explanation and allows a tie, left the preference for \mtAbove{} of \mtJudges{} judges on multiple choice (added later). On free-form questions it lowered the bluff rate for every judge, and only \ffMtAbove{} of \ffMtUsable{} stayed above one half. The registered test F4, which predicted that the preference would survive, passed for \ffFFourPass{} where three were needed. The provider's reasoning mode, registered for three judges on 90 questions, repaired \thinkRegRepaired{}, Claude Haiku 5.5. Analyses added later of the calls in which a judge reasoned are in \cref{tab:reasoning}.
 
-\emph{Wording of the abstention.} A fuller abstention that names the risk of a wrong answer lost less often and still lost for \idkTwoAbove{} of \idkTwoJudges{} judges (exploratory, \cref{tab:idk2}).
+\emph{Wording of the abstention.} A fuller abstention that names the risk lost less often, but still lost for \idkTwoAbove{} of \idkTwoJudges{} judges (exploratory, \cref{tab:idk2}).
 
 \emph{Verification.} Verify-then-compare does not change the preference but routes around it, and it works for every judge at a price. Over all fresh questions, not only known ones, the bluff rate was \cfRuleBBeforeMin{} to \cfRuleBBeforeMax{} without the rule and \cfRuleBMin{} to \cfRuleBMax{} with it, below one half for \vtcBelow{} of \cfKept{} judges. The registered test of this drop passed for \cfCFourPass{} and failed for \cfCFourFailNames{} at \cfCFourFailB{} (\cref{tab:confirm}). The price is the right answers that a judge wrongly rejects. With the rule a right answer still beat the abstention in \cfRuleAMin{} to \cfRuleAMax{} of duels. For \cfRuleUnusableNames{}, under 60\%, the rule is not usable as registered.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{fig4_fixes.pdf}
-  \caption{\textbf{Verify-then-compare brings the bluff rate below one half for every judge, at a cost in right answers. Instructions do so for at most \instrBelowMax{} judges.} Each dot is one judge's bluff rate under one change, on known questions (verify-then-compare on all fresh questions). The right column, the rate at which a right answer still beats the abstention, is the price. The MT-Bench, reasoning and fuller-abstention rows were added or extended after the registered runs, and the reasoning row keeps only the calls in which a judge chose to reason. Qwen 3.8 27B under a written rationale is left out, since most of its replies were cut.}
+  \caption{\textbf{Verify-then-compare brings the bluff rate below one half for every judge, at a cost in right answers. Instructions do so for at most \instrBelowMax{} judges.} Each dot is one judge's bluff rate under one change, on known questions (verify-then-compare on all fresh questions). The right column, the rate at which a right answer still beats the abstention, is the price. The AlpacaEval 2.0 row is the registered run on fresh questions, without that duel. The MT-Bench, reasoning and fuller-abstention rows were added or extended after the registered runs, and the reasoning row keeps only the calls in which a judge chose to reason. Qwen 3.8 27B under a written rationale is left out, since most of its replies were cut.}
   \label{fig:fixes}
 \end{figure}
 
 \subsection{Reward models share the preference on multiple choice}
 \label{sec:res-rm}
 
-Preference training scores responses with reward models, which rate one response at a time. We scored each response alone with \rmCount{} open reward models, as registered in Amendment 4 (\cref{tab:rm}). A reward model cannot answer, so the questions a judge knows are replaced by the questions on which the model scores the right answer above the wrong one, \rmMcSepMin{} to \rmMcSepMax{} of the multiple-choice questions. On those questions the wrong answer still scored above ``I don't know'' on \rmMcBSepMin{} to \rmMcBSepMax{} of them, and the registered test R1 held for \rmROnePass{} of \rmCount{} models. On free-form questions the rate was \rmFfBSepMin{} to \rmFfBSepMax{}, and the registered test R2 failed, passing for \rmRTwoPass{} model where two were needed. Wording matters here too. Over all questions the wrong answer beat ``I don't know'' on \rmMcBMin{} to \rmMcBMax{} of multiple-choice and \rmFfBMin{} to \rmFfBMax{} of free-form questions, but a fuller abstention on only \rmMcFullMin{} to \rmMcFullMax{} and \rmFfFullMin{} to \rmFfFullMax{}.
+Preference training uses reward models, which score one response at a time. We scored each response alone with \rmCount{} open reward models, as registered (\cref{tab:rm} in \cref{app:extra}). In place of the questions a judge knows we use those on which a model scores the right answer above the wrong one, \rmMcSepMin{} to \rmMcSepMax{} of the multiple-choice questions. There the wrong answer still outscored ``I don't know'' on \rmMcBSepMin{} to \rmMcBSepMax{} of questions, and the registered test R1 passed for \rmROnePass{} of \rmCount{} models. On free-form questions the rate was \rmFfBSepMin{} to \rmFfBSepMax{}, and R2 failed, passing for \rmRTwoPass{} model where two were needed. Wording matters here too. Over all questions a fuller abstention lost to the wrong answer on only \rmMcFullMin{} to \rmMcFullMax{} of multiple-choice and \rmFfFullMin{} to \rmFfFullMax{} of free-form questions.
 
-\begin{table}[t]
-  \centering
-  \footnotesize
-  \caption{\textbf{Three reward models score a wrong answer above ``I don't know'' on most multiple-choice questions, also where they score the right answer above the wrong one.} Percent of questions with 95\% intervals. IDK is ``I don't know''. Each response is scored alone. A model separates a question if it scores the right answer above the wrong one.}
-  \label{tab:rm}
-  \setlength{\tabcolsep}{2.5pt}
-  \begin{tabular}{@{}lrrrrrr@{}}
-    \toprule
-     & \multicolumn{3}{c}{150 fresh multiple-choice questions} & \multicolumn{3}{c}{100 free-form questions} \\
-    \cmidrule(lr){2-4}\cmidrule(l){5-7}
-     & Wrong & the same, & Wrong & Wrong & the same, & Wrong \\
-    Reward model & beats IDK & separated & beats right & beats IDK & separated & beats right \\
-    \midrule
-    \tabinput{tab_rm}
-    \bottomrule
-  \end{tabular}
-\end{table}
 
 
 \section{Discussion and Limitations}
 
-Win rate is not a neutral summary of quality once one side may abstain. Under every judge we tested on multiple-choice questions, with the default instruction and a bare verdict, a model that guesses when it does not know gains win rate, and a model that learns to say ``I don't know'' loses it. Anyone who picks checkpoints, prompts or training data by such a win rate applies this pressure. It is stronger than the pressure that \citet{kalai2025hallucinate} attribute to accuracy grading, since the judge does more than fail to punish a wrong answer. It prefers it. A judge picking among a model's own responses kept almost no abstentions for training (\selAbstainJ{} against \selAbstainR{} at random), though our registered fine-tuning test failed (\cref{app:loop}).
+Win rate is not a neutral summary of quality once one side may abstain. Under every judge we tested on multiple-choice questions, with a bare verdict under our default instruction or the prompt of AlpacaEval 2.0, a model that guesses when it does not know gains win rate. A model that learns to say ``I don't know'' loses it. Picking checkpoints, prompts or training data by such a win rate applies this pressure, which is stronger than the one \citet{kalai2025hallucinate} attribute to accuracy grading. A judge picking among a model's own responses kept almost no abstentions (\selAbstainJ{} against \selAbstainR{} at random), though our registered fine-tuning test failed (\cref{app:loop}).
 
 For practice, measure the bluff rate of the judge and the instruction in use, which takes about 100 questions with a key and a few hundred judge calls, and report it next to any win rate. Do not let a bare verdict decide between an answer and an abstention. Score abstentions on a subset with keys, or use verify-then-compare and report how many right answers it costs.
 
 \subsection*{Limitations}
 
-The scope is a bare verdict on short factual questions. A published prompt that asks for an explanation and allows a tie lowered the bluff rate on free-form questions, and a reasoning mode repaired one judge of three as registered. The free-form replies were written by one model and have two sentences, and longer or open-ended tasks without a key were not tested. We have no human raters, so we cannot say whether the preference is a bias of these judges or a norm that people share. A side audit of one deployed data pipeline, which is not a pairwise judge, is in \cref{app:audit}.
+The scope is a bare verdict on short factual questions. Our AlpacaEval run reads the written identifier rather than its probability and uses our judges in place of its GPT-4 Turbo. An explanation with a tie option lowered the bluff rate on free-form questions, and a reasoning mode repaired one judge of three. The free-form replies come from one model, and open-ended tasks without a key were not tested. Without human raters we cannot say whether people share the preference. A data-pipeline audit is in \cref{app:audit}.
 
 \section{Conclusion}
 
-With a bare verdict, every LLM judge we tested preferred a confident wrong answer to ``I don't know'' on multiple-choice questions, on questions it knew, so win rate under such judges pays for guessing more than the accuracy grader does. A win rate should come with the bluff rate of its judge, and a comparison between an answer and an abstention should check the answer first.
+With a bare verdict, every LLM judge we tested preferred a confident wrong answer to ``I don't know'' on multiple-choice questions it knew, also under the judge prompt of AlpacaEval 2.0. Such judges pay a wrong answer more than the accuracy grader does. A win rate should come with the bluff rate of its judge, and a comparison between an answer and an abstention should check the answer first.
 
 \section*{Code and Data}
 \begin{itemize}
-  \item \textbf{Code repository:} \url{https://github.com/123yaroslav/win-rate-pays-for-guessing}. It holds the pre-registration, every judge call and the script that writes each number here. All of it was produced during the sprint, November 13 to 15, 2026, and nothing preexisting is reused.
+  \item \textbf{Code repository:} \url{https://github.com/123yaroslav/win-rate-pays-for-guessing}. It holds the pre-registration, every judge call and the script behind each number. All of it was made during the sprint, from November 13 to the deadline on November 15, 2026, anywhere on Earth. Apart from the cited datasets and the published MT-Bench and AlpacaEval 2.0 judge prompts, nothing preexisting is reused.
   \item \textbf{Data:} MedQA \citep{jin2021medqa}, MMLU \citep{hendrycks2021mmlu} and TriviaQA \citep{joshi2017triviaqa}, with item lists in the repository.
 \end{itemize}
 
@@ -319,9 +311,9 @@ With a bare verdict, every LLM judge we tested preferred a confident wrong answe
 \section{Limitations and \mbox{Dual-Use} / Ethical Considerations}
 \label{app:limitations}
 
-\textbf{What the result establishes.} Six LLM judges and one stronger judge, at temperature 0 and with a bare verdict without reasoning, prefer a confident wrong answer to a short abstention on 300 multiple-choice questions from three domains (the stronger judge on 60). They do so on questions they answer correctly themselves and, in an analysis added later, on questions where they call the wrong answer incorrect and the right answer correct. A registered confirmation on \cfQuestions{} fresh questions reproduced the two rates. On \ffQuestions{} free-form questions with two-sentence replies the wrong reply beat a short abstention for \ffAboveHalf{} of \ffKept{} judges, and the registered test passed for \ffFOnePass{}. A judge that selects among a model's own responses keeps almost no abstention in the training set (\selAbstainJ{} against \selAbstainR{} for a random pick). One commercial data pipeline on default settings replaced abstentions with answers on exam questions and, in a second audit designed after the first, kept them on questions it could not know.
+\textbf{What the result establishes.} Six LLM judges and one stronger judge, at temperature 0 and with a bare verdict without reasoning, prefer a confident wrong answer to a short abstention on 300 multiple-choice questions from three domains (the stronger judge on 60). They do so on questions they answer correctly themselves and, in an analysis added later, on questions where they call the wrong answer incorrect and the right answer correct. A registered confirmation on \cfQuestions{} fresh questions reproduced the two rates, and two larger judges, registered later, showed both. Under the judge prompt of AlpacaEval 2.0, registered last, all eight judges had bluff rates of \aeBEightMin{} to \aeBEightMax{} on the fresh questions they knew. On \ffQuestions{} free-form questions with two-sentence replies the wrong reply beat a short abstention for \ffAboveHalf{} of \ffKept{} judges, and the registered test passed for \ffFOnePass{}. A judge that selects among a model's own responses keeps almost no abstention in the training set (\selAbstainJ{} against \selAbstainR{} for a random pick). One commercial data pipeline on default settings replaced abstentions with answers on exam questions and, in a second audit designed after the first, kept them on questions it could not know.
 
-\textbf{What it does not establish.} It does not show whether human raters share the preference, or that it holds on long or open-ended tasks without a key. The free-form replies were written by one model. With a provider reasoning mode the preference fell sharply for one judge and for a second in the calls where it chose to reason. Our registered test on fine-tuned models failed. No model abstained under any rule, and the judge-selected model scored above the key-selected one. The exploratory follow-up, with one run per rule, shows that a training set of unselected cautious responses yields a model that abstains. It does not separate the judge's pick from the pick by the key. The report gives no estimate of the size of the effect in any production evaluation. The pipeline audit is a snapshot of one product on one day and says nothing about its other settings or later versions, and its quality grade is a single number per dataset that we cannot trace to rows.
+\textbf{What it does not establish.} It does not show whether human raters share the preference, or that it holds on long or open-ended tasks without a key. The free-form replies were written by one model. The AlpacaEval run reads the identifier a judge wrote, not its probability, and none of our judges is the GPT-4 Turbo that the leaderboard uses. With a provider reasoning mode the preference fell sharply for one judge and for a second in the calls where it chose to reason. Our registered test on fine-tuned models failed. No model abstained under any rule, and the judge-selected model scored above the key-selected one. The exploratory follow-up, with one run per rule, shows that a training set of unselected cautious responses yields a model that abstains. It does not separate the judge's pick from the pick by the key. The report gives no estimate of the size of the effect in any production evaluation. The pipeline audit is a snapshot of one product on one day and says nothing about its other settings or later versions, and its quality grade is a single number per dataset that we cannot trace to rows.
 
 \textbf{How the finding could be misused.} A developer who wants a higher win rate can strip abstentions and hedges from a model's outputs, and this report says the judge will reward it. The same knowledge lets an evaluator close the gap, and the measurement we propose costs a few hundred judge calls. We release the duel code and the item lists. We do not release the fine-tuned adapters, since two of them were trained on sets with the abstentions removed.
 
@@ -334,12 +326,12 @@ With a bare verdict, every LLM judge we tested preferred a confident wrong answe
 \section{Pre-registration, outcomes and deviations}
 \label{app:prereg}
 
-The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{e0fe746}, November 14, 2026) before any confirmatory item was sent to a judge. Amendment 1 (commit \texttt{244435b}) added the detection check while the first confirmatory calls were running and before any confirmatory result was read. Amendment 2 (commit \texttt{44099d6}, November 15) registered the confirmation on fresh questions, and Amendment 3 (commit \texttt{55d2155}) the free-form check with its question set. Both were written after all earlier results had been seen and before any of their questions was sent to a judge. Amendment 4 (commit \texttt{1864259}) registered two larger judges and three reward models before either judge saw a question of these sets and before any reward model was loaded. The scoring script followed in commit \texttt{cebbc26} and the analysis script in commit \texttt{12835a7}, each before the step it serves. \Cref{tab:prereg} lists the registered tests and their outcomes under the labels of the plan. The plan numbers its studies 1, 3, 4 and 5. Study 1 is the duels, Study 3 the pipeline audit, Study 4 the instruction variants and Study 5 the selection loop. The check S1d asks whether $a - b$, the share of duels decided by correctness, predicts how often a wrong answer beats a hedged right one, as it would if a judge either used its knowledge or fell back on surface cues. On the questions that have all four pairs it predicts \twoStepPred{} on average where \twoStepObs{} is observed.
+The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{e0fe746}, November 14, 2026) before any confirmatory item was sent to a judge. Amendment 1 (commit \texttt{244435b}) added the detection check while the first confirmatory calls were running and before any confirmatory result was read. Amendment 2 (commit \texttt{44099d6}, November 15) registered the confirmation on fresh questions, and Amendment 3 (commit \texttt{55d2155}) the free-form check with its question set. Both were written after all earlier results had been seen and before any of their questions was sent to a judge. Amendment 4 (commit \texttt{1864259}) registered two larger judges and three reward models before either judge saw a question of these sets and before any reward model was loaded. The scoring script followed in commit \texttt{cebbc26} and the analysis script in commit \texttt{12835a7}, each before the step it serves. Amendment 5 (commit \texttt{f507615}, November 16 in UTC+5, still November 15 anywhere on Earth) registered the judge prompt of AlpacaEval 2.0, and the verbatim template with the run and analysis script followed in commit \texttt{283cd2e}, both before any call with that prompt. \Cref{tab:prereg} lists the registered tests and their outcomes under the labels of the plan. The plan numbers its studies 1, 3, 4 and 5. Study 1 is the duels, Study 3 the pipeline audit, Study 4 the instruction variants and Study 5 the selection loop. The check S1d asks whether $a - b$, the share of duels decided by correctness, predicts how often a wrong answer beats a hedged right one, as it would if a judge either used its knowledge or fell back on surface cues. On the questions that have all four pairs it predicts \twoStepPred{} on average where \twoStepObs{} is observed.
 
 \begin{table}[h]
   \centering
   \small
-  \caption{\textbf{Registered tests and outcomes.} Ranges are over the six registered judges.}
+  \caption{\textbf{Registered tests and outcomes.} Ranges are over the six registered judges, except that L rows and A3 cover the two larger judges and R rows the three reward models.}
   \label{tab:prereg}
   \begin{tabular}{@{}p{0.07\linewidth}p{0.47\linewidth}p{0.40\linewidth}@{}}
     \toprule
@@ -371,7 +363,12 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{e0fe746},
     F4 & free-form under the published prompt, the wrong reply beats the short abstention, at least three judges with usable replies & \ffFFourOutcome{}, \ffFFourPass{} of \ffMtUsable{} \\
     R1 & reward models, fresh questions, CW beats IDK on more than half of the questions the model separates, Holm at 0.05, at least two of three models & \rmROneOutcome{}, \rmROnePass{} of \rmCount{} \\
     R2 & the same on free-form questions & \rmRTwoOutcome{}, \rmRTwoPass{} of \rmCount{} \\
-    %PREREGL
+    L1 & larger judges, fresh questions, $b$ above 0.5 on known questions, Holm over the two judges at 0.05, both judges & \lgLOneOutcome{}, \lgLOnePass{} of two, $b$ of \lgBMin{} to \lgBMax{} \\
+    L2 & larger judges, fresh questions, wrong beats right in the same words in under 25\% of duels with the upper end of the interval under 25\%, both judges & \lgLTwoOutcome{}, \lgLTwoPass{} of two, \lgCtrlMin{} to \lgCtrlMax{} \\
+    L3 & larger judges, free-form, the wrong reply beats the short abstention on known questions, at least one judge & \lgLThreeOutcome{}, \lgLThreePass{} of two, $b$ of \lgFfBMin{} to \lgFfBMax{} \\
+    A1 & judge prompt of AlpacaEval 2.0, fresh questions, $b$ above 0.5 on known questions, Holm at 0.05, at least four of six judges & \aeAOneOutcome{}, \aeAOnePass{} of \aeKept{}, $b$ of \aeBMin{} to \aeBMax{} \\
+    A2 & that prompt, wrong beats right in the same words in under 25\% of duels with the upper end of the interval under 25\%, at least five judges & \aeATwoOutcome{}, \aeATwoPass{} of \aeKept{}, \aeCtrlMin{} to \aeCtrlMax{} \\
+    A3 & the test of A1 for the two larger judges, Holm over the two, at least one & \aeAThreeOutcome{}, \aeAThreePass{} of \aeLargeKept{}, $b$ of \aeBQwen{} and \aeBGLM{} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -389,6 +386,7 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{e0fe746},
   \item Reruns of cut replies. Under the written rationale and under the MT-Bench prompt, \qwenCotCut{} of \qwenCotTotal{} and \qwenMtCut{} of \qwenMtTotal{} replies of Qwen 3.8 27B on the main pair were cut before the verdict by the reply limits of 220 and 900 tokens. We reran these two cells with limits of 800 and 3{,}000 tokens, where \qwenCotRerunCut{} of \qwenCotRerunTotal{} and \qwenMtRerunCut{} of \qwenMtRerunTotal{} replies had no verdict. We report the MT-Bench rerun. The rationale cell still has more than half of its replies without a verdict and stays not evaluated. The free-form check registered the higher limit for this judge.
   \item Confirmation and free-form check. These two runs were registered after all earlier results were seen, so they confirm and extend the first study and are not part of its plan. The replies of the free-form check were written by one model, and no reply was selected by hand.
   \item Amendment 4. Its first line gives a wrong time of writing, and a dated correction in the plan gives the commit times. All three registered reward models loaded, so no replacement was used. Each model's own chat template was applied as registered. The template of the Qwen3-based model inserts an empty reasoning block before the reply, and the Tulu template adds no start token. A rescoring of the Tulu model with a start token, not registered, gives a rate on separated questions of \rmBosMc{} on multiple choice (\rmTuluMc{} as registered) and \rmBosFf{} on free-form questions (\rmTuluFf{}).
+  \item Amendment 5. As registered, the verdict is the identifier the judge wrote, read by the first standalone ``m'' or ``M'', so our rate is the binarised version of the AlpacaEval score. The reply limit was 16 tokens and the temperature 0, where AlpacaEval reads the log probabilities of a single token at temperature 1. No judge was dropped. Claude Haiku 5.5 wrote text without an identifier in \aeHaikuCtrlUnparsed{} of its duels of a wrong against a right answer, mostly the start of an argument cut by the 16-token limit, so its control rests on \aeHaikuCtrlQ{} questions. The registered limit applies to the main pair only. In a check not registered, if all of these replies counted for the wrong answer, its control would be \aeHaikuWorst{}, and A2 would still hold with \aeATwoWithoutHaiku{} of six judges. The comparison with the generic instruction in \cref{tab:ae} was not registered.
   \item Parsing and position. The parser takes the first standalone letter of a reply. Replies with no letter are dropped, at most \unparsedPrimaryMax{} of the calls of a judge in the primary pair, below the registered limit of 10\%. Under a strict reading that accepts only a bare letter, Gemma 4 31B has \strictGemmaShare{} of replies without a verdict in that pair, above the limit. Its $b$ on known questions is then \strictGemmaB{} on \strictGemmaQ{} questions, and the other five judges do not change. For the pair of a confident against a hedged wrong answer, Gemma left \gemmaToneUnparsed{} of 600 replies without a letter, so that rate rests on \gemmaToneItems{} questions. In Study 4 the share of replies without a verdict is above 10\% for \fixFlagged{}, and these cells are marked in \cref{tab:fix}. The judges pick the first position in \posFirstMin{} to \posFirstMax{} of duels, which the two orders balance.
 \end{enumerate}
 
@@ -404,7 +402,41 @@ The plan was committed as \texttt{prereg/A\_prereg.md} (commit \texttt{e0fe746},
 \section{Additional results}
 \label{app:extra}
 
-The tables below give the full pair rates, the detection check, the two registered follow-on runs and the exploratory analyses.
+The tables below give the full pair rates, the detection check, the registered follow-on runs and the exploratory analyses.
+
+\begin{table}[h]
+  \centering
+  \footnotesize
+  \caption{\textbf{Under the judge prompt of AlpacaEval 2.0 every judge prefers a wrong answer to ``I don't know'' and rejects it against the right answer (Amendment 5).} \cfQuestions{} fresh multiple-choice questions, percent with 95\% intervals on questions the judge knows. The generic-instruction column repeats $b$ from the runs of Amendments 2 and 4 on the same questions. In this comparison, not registered, $b$ is higher under the AlpacaEval prompt in point estimate for \aeRise{} of eight judges, all but \aeFallNames{}. $^{\dagger}$Larger judges.}
+  \label{tab:ae}
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+     & Own & $b$, & Wrong beats & $b$, generic & $b$, all & No verdict, \\
+    Judge & acc. & knows & right, knows & instruction & questions & main pair \\
+    \midrule
+    \tabinput{tab_ae}
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \footnotesize
+  \caption{\textbf{Three reward models score a wrong answer above ``I don't know'' on most multiple-choice questions, also where they score the right answer above the wrong one.} Percent of questions with 95\% intervals. IDK is ``I don't know''. A model separates a question if it scores the right answer above the wrong one.}
+  \label{tab:rm}
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+     & \multicolumn{3}{c}{150 fresh multiple-choice questions} & \multicolumn{3}{c}{100 free-form questions} \\
+    \cmidrule(lr){2-4}\cmidrule(l){5-7}
+     & Wrong & the same, & Wrong & Wrong & the same, & Wrong \\
+    Reward model & beats IDK & separated & beats right & beats IDK & separated & beats right \\
+    \midrule
+    \tabinput{tab_rm}
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \begin{table}[h]
   \centering
@@ -500,7 +532,7 @@ The tables below give the full pair rates, the detection check, the two register
 \begin{table}[h]
   \centering
   \small
-  \caption{\textbf{When a judge reasons before its verdict (exploratory).} Questions the judge knows. Share of duels between a wrong answer and an abstention in which the judge reasoned, and $b$ in percent with 95\% intervals, in the calls where it reasoned (at least 20 output tokens) and where it did not.}
+  \caption{\textbf{When a judge reasons before its verdict (exploratory).} Questions the judge knows. Share of duels between a wrong answer and an abstention in which the judge reasoned, and $b$ in percent with 95\% intervals, in the calls where it reasoned (at least 20 output tokens) and where it did not. In the calls that reasoned $b$ was \reasonedBHaiku{} for Claude Haiku 5.5 and \reasonedBLuna{} for GPT-5.6 Luna, but Luna reasoned mostly when the answer was wrong, so its rate is not an effect of reasoning. With a reasoning effort requested, Mistral Small 2603 still preferred the wrong answer in \reasonedBMistral{} of duels.}
   \label{tab:reasoning}
   \begin{tabular}{@{}lrrrr@{}}
     \toprule
@@ -529,7 +561,7 @@ The tables below give the full pair rates, the detection check, the two register
 \begin{table}[h]
   \centering
   \small
-  \caption{\textbf{Registered confirmation on \cfQuestions{} fresh questions.} Percent with 95\% intervals. $a$, $b$ and the control on questions the judge knows. The last two columns apply the verify-then-compare rule over all questions with a parsed reply to both checks and both duels.}
+  \caption{\textbf{Registered confirmation on \cfQuestions{} fresh questions.} Percent with 95\% intervals. $a$, $b$ and the control on questions the judge knows. The last two columns apply the verify-then-compare rule over all questions with a parsed reply to both checks and both duels. For the two larger judges, outside their registered tests, the rule gave bluff rates of \lgRuleBMin{} to \lgRuleBMax{} while a right answer still won \lgRuleAMin{} to \lgRuleAMax{}.}
   \label{tab:confirm}
   \footnotesize\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}lrrrrrr@{}}
@@ -677,6 +709,6 @@ The rewrite is not a pairwise judge, and it behaved sensibly (\cref{tab:adapt}).
 % Template section. Template: "If you used LLM assistance in developing your project or
 % writing this report, briefly note how. Ensure all claims and results have been verified."
 \section*{LLM Usage Statement}
-LLMs are the object of this study. The seven judges, the base model of the selection loop and the two extractors of the pipeline audit are listed in \cref{sec:methods}. LLM-based assistants were also used at every stage of the project. They searched and summarised related work, proposed and compared candidate questions, wrote and ran the experiment and analysis code, and drafted and edited this report. Four safeguards apply. The hypotheses and tests were fixed in dated commits before the confirmatory data were read. Every number in the text is written by a script from the logged model calls in the repository. Every reference was opened and checked against its source. A final pass compared every number and claim in the text with the result files. The author is responsible for all claims.
+LLMs are the object of this study. The nine judges and the three reward models are listed in \cref{sec:methods,sec:res-rm}, the base model of the selection loop in \cref{app:loop}, the writer and checkers of the free-form replies in \cref{app:prompts} and the pipeline in \cref{app:audit}. LLM-based assistants were also used at every stage of the project. They searched and summarised related work, proposed and compared candidate questions, wrote and ran the experiment and analysis code, and drafted and edited this report. Four safeguards apply. The hypotheses and tests were fixed in dated commits before the confirmatory data were read. Every result number in the text is written by a script from the logged model calls in the repository. Every reference was opened and checked against its source. A final pass compared every number and claim in the text with the result files. The author is responsible for all claims.
 
 \end{document}
