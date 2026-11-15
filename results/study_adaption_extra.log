@@ -1,1 +1,4 @@
 items 102 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adaption/qwen3.8-27b'] pairs 2 variants ['mtbench'] cached 0
+[09:10:56] fresh 250 done 250 failed 0 429s 0 spend adaption 0.003 openrouter 0.000 rate 41/min
+[09:16:59] fresh 500 done 500 failed 0 429s 0 spend adaption 0.066 openrouter 0.000 rate 41/min
+[09:23:02] fresh 750 done 750 failed 0 429s 0 spend adaption 0.146 openrouter 0.000 rate 41/min

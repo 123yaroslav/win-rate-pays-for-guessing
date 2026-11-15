@@ -187,6 +187,16 @@ def study1() -> None:
         put("exampleW", pct(w))
         put("exampleOverall", pct(overall, 1))
         put("exampleElo", f"{400 * math.log10(overall / (1 - overall)):.0f}")
+    sp_ = ROOT / "results/study1/strict_parse.json"
+    if sp_.exists():
+        x = json.loads(sp_.read_text())[SIX[1]]
+        put("strictGemmaShare", pct(x["strict"]["share_no_verdict"]))
+        put("strictGemmaB", pct(x["strict"]["b_knows"]))
+        put("strictGemmaQ", str(x["strict"]["known_questions"]))
+        put("looseGemmaShare", pct(x["loose"]["share_no_verdict"], 1))
+    gm = s["judges"][SIX[1]]["variants"]["default"]
+    put("gemmaToneUnparsed", str(gm["unparsed"]["CW-HW"]))
+    put("gemmaToneItems", str(gm["parsed_items"]["CW-HW"]))
     for lab in ("H1", "H1F", "S1g", "S1g2"):
         t = s.get("tests", {}).get(lab)
         if t:
@@ -266,6 +276,13 @@ def study4() -> None:
     s = json.loads(p.read_text())
     rep = s.get("repair", {})
     judges = [j for j in SIX if j in s["judges"]]
+
+    def cut_share(j: str, v: str) -> float:
+        vr = s["judges"][j]["variants"].get(v, {})
+        n_q = 90 if v in ("cot", "think") else 150
+        return vr.get("unparsed", {}).get("CW-IDK", 0) / (2 * n_q)
+
+    flagged = []
     rows, repaired_by = [], {}
     for v, name in VARIANTS:
         cells = []
@@ -274,7 +291,15 @@ def study4() -> None:
             if not r:
                 cells.append("--")
                 continue
+            cs = cut_share(j, v)
+            if cs > 0.5:
+                cells.append("n/e")
+                flagged.append((j, v, cs, r["n_knows"]))
+                continue
             mark = "$^{\\dagger}$" if r["repaired"] and v != "default" else ""
+            if cs > 0.10:
+                mark += "$^{\\ddagger}$"
+                flagged.append((j, v, cs, r["n_knows"]))
             cells.append(f"{100 * r['b_knows']:.0f}{mark}")
             if r["repaired"] and v not in ("default", "data"):
                 repaired_by.setdefault(v, []).append(j)
@@ -329,10 +354,17 @@ def study4() -> None:
             r = rep.get(f"{j}|{v}")
             if r:
                 put(f"fix{key}B{KEY[j]}", pct(r["b_knows"]))
-    cot = {j: rep[f"{j}|cot"] for j in judges if f"{j}|cot" in rep}
+    vn = dict(VARIANTS)
+    put("fixFlagged", ", ".join(f"{NAMES[j]} under {vn[v].lower()} ({100 * cs_:.0f}\\%)" for j, v, cs_, _ in flagged))
+    for j in (SIX[3], SIX[4], SIX[5]):
+        r_ = rep.get(f"{j}|think")
+        if r_:
+            put(f"thinkReg{KEY[j]}", pct(r_["b_knows"]))
+    put("thinkRegRepaired", ["no", "one", "two", "three"][sum(1 for j in (SIX[3], SIX[4], SIX[5]) if rep.get(f"{j}|think", {}).get("repaired"))])
+    cot = {j: rep[f"{j}|cot"] for j in judges if f"{j}|cot" in rep and cut_share(j, "cot") <= 0.5}
     if cot:
         left = [r_["b_knows"] for r_ in cot.values() if not r_["repaired"]]
-        put("cotJudges", str(len(cot)))
+        put("cotJudges", ["no", "one", "two", "three", "four", "five", "six"][len(cot)])
         above = [r_["b_knows"] for r_ in cot.values() if r_["b_knows"] > 0.5]
         put("cotAboveHalf", ["no", "one", "two", "three", "four", "five", "six"][len(above)])
         if above:
@@ -346,10 +378,12 @@ def study4() -> None:
     if mp.exists():
         mb = json.loads(mp.read_text())
         rows_m, above = [], []
-        for j in (SIX[3], SIX[4], SIX[5]):
+        ran = 0
+        for j in SIX:
             vr = mb["judges"].get(j, {}).get("variants", {}).get("mtbench")
-            if not vr:
+            if not vr or "CW-IDK" not in vr["groups"]["judge knows"]:
                 continue
+            ran += 1
             a_, b_ = vr["groups"]["judge knows"]["CC-IDK"], vr["groups"]["judge knows"]["CW-IDK"]
             put(f"mtB{KEY[j]}", pct(b_["rate"]))
             if b_["rate"] > 0.5:
@@ -359,7 +393,8 @@ def study4() -> None:
                           f"{100 * b_['rate']:.0f} ({100 * b_['lo']:.0f}--{100 * b_['hi']:.0f}) & {vr['ties']['CW-IDK']} & "
                           f"{vr['unparsed']['CW-IDK']} \\\\")
         (OUT / "tab_mtbench.tex").write_text("\n".join(rows_m) + "\n")
-        put("mtAbove", ["no", "one", "two", "three"][len(above)])
+        put("mtAbove", ["no", "one", "two", "three", "four", "five", "six"][len(above)])
+        put("mtJudges", ["no", "one", "two", "three", "four", "five", "six"][ran])
         if above:
             put("mtAboveMin", pct(min(above)))
             put("mtAboveMax", pct(max(above)))
@@ -545,6 +580,10 @@ def study5() -> None:
         put("fuWrongDiff", f"{abs(100 * dw['value']):.1f}")
         put("fuWrongDiffLo", f"{abs(100 * dw['hi']):.1f}")
         put("fuWrongDiffHi", f"{abs(100 * dw['lo']):.1f}")
+        jr_ = f["differences"]["J3-R3"]["abstention_rate"]
+        put("fuJRDiff", f"{abs(100 * jr_['value']):.1f}")
+        put("fuJRDiffLo", f"{abs(100 * jr_['hi']):.1f}")
+        put("fuJRDiffHi", f"{abs(100 * jr_['lo']):.1f}")
         ds_ = f["differences"]["C3-J3"]["penalised_score"]
         put("fuScoreDiffLo", f"{ds_['lo']:.2f}".replace("-", "$-$"))
         put("fuScoreDiffHi", f"{ds_['hi']:.2f}")

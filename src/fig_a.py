@@ -151,8 +151,10 @@ def fig_map(s4: dict, reasoning: dict | None, idk2: dict | None, out: Path) -> N
         vals, mk = [], []
         for j in judges:
             r = rep.get(f"{j}|{v}")
-            vals.append(None if not r else r["b_knows"])
-            mk.append(bool(r and r["repaired"] and v not in ("default", "data")))
+            vr = s4["judges"][j]["variants"].get(v, {})
+            cut = vr.get("unparsed", {}).get("CW-IDK", 0) / (2 * (90 if v == "cot" else 150))
+            vals.append(None if not r else ("cut" if cut > 0.5 else r["b_knows"]))
+            mk.append(bool(r and r["repaired"] and v not in ("default", "data") and cut <= 0.5))
         grid.append(vals)
         marks.append(mk)
         labels.append(lab)
@@ -190,8 +192,9 @@ def fig_map(s4: dict, reasoning: dict | None, idk2: dict | None, out: Path) -> N
     cmap = plt.get_cmap("Oranges")
     for y, vals in enumerate(grid):
         for x, v in enumerate(vals):
-            if v is None:
-                ax.text(x, y, "not run", ha="center", va="center", fontsize=6.5, color="#999999")
+            if v is None or v == "cut":
+                ax.text(x, y, "not run" if v is None else "replies cut", ha="center", va="center", fontsize=6.5,
+                        color="#999999")
                 continue
             ax.add_patch(plt.Rectangle((x - 0.5, y - 0.5), 1, 1, color=cmap(0.08 + 0.72 * v), lw=0))
             ax.text(x, y, f"{100 * v:.0f}", ha="center", va="center", fontsize=8,
