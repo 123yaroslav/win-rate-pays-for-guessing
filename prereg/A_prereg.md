@@ -178,3 +178,21 @@ Predictions.
 What the report will say. R1 and R2 are reported in the body with their outcomes either way. If both fail, the report says that the reward models tested did not share the preference.
 
 Correction to Amendment 4, added later on 2026-11-15. Its first line says it was written at 22:40 (+05). That time is wrong. The commit that adds the amendment is dated 22:18:41 (+05), the first call to a new judge was logged at 22:18:58, the reward-model scoring script was committed at 22:22:52 before any model was loaded, and the analysis script at 22:31:57 before any score was read. Nothing else in the amendment was changed.
+
+## Amendment 5, 2026-11-16. The judge prompt of AlpacaEval 2.0
+
+Written after all earlier results were seen, including a simulated review that asked whether the effect holds under the prompt of a real leaderboard, and before any call with this prompt. The commit that adds this section is the timestamp; this amendment states no clock time.
+
+Why. The report compares its bare-verdict judges with the default judge of AlpacaEval 2.0 but has not run that judge's prompt. This amendment runs it.
+
+Prompt. The template `alpaca_eval_clf_gpt4_turbo/alpaca_eval_clf.txt` of the configuration `weighted_alpaca_eval_gpt4_turbo` in github.com/tatsu-lab/alpaca_eval (branch main, file SHA-256 784227e6dc2832fc08c43d2c8ea3a308e7523780187a1aaad2f85e30bac85f62), verbatim. Its system part is the system message and its user part is the user message. The instruction is the question with its four options as the judges saw it in the duels, output_1 is the first response and output_2 the second. The judge answers "m" for the first and "M" for the second. Deviations from AlpacaEval, fixed here: the reply limit is 16 tokens, as for the registered default instruction, temperature 0, and the verdict is the identifier in the reply (the first standalone "m" or "M", case-sensitive). AlpacaEval reads the probability of "m" against "M" instead, and that probability is not available from every provider we use, so our rate is the binarised version of its score.
+
+Runs. The six registered judges and the two larger judges of Amendment 4, with the settings of Amendment 2 (temperature 0, provider reasoning off). The 150 fresh multiple-choice questions of Amendment 2, pairs CW-IDK and CW-CC, both orders, to `results/alpacaeval/calls.jsonl`. "Known" questions are those the judge answered correctly in its own-answer calls of Amendments 2 and 4, which are reused and not repeated. A judge with more than 10% of replies without a verdict in the pair CW-IDK is dropped from the tests and reported. OpenRouter spending for this run is capped at 0.25 USD; if the cap stops a judge before it finishes, the report says so and that judge is dropped.
+
+Predictions.
+
+- A1. On known questions, b is above 0.5 under this prompt, by the bootstrap share at or below 0.5, Holm over the six registered judges at 0.05. A1 holds if it passes for at least four of the six.
+- A2. On known questions, the wrong answer beats the right answer in the same words in fewer than 25% of duels, with the upper end of the 95% interval below 0.25. A2 holds if this is true for at least five of the six registered judges.
+- A3. The test of A1 for the two larger judges, Holm over the two. A3 holds if it passes for at least one.
+
+What the report will say. A1 to A3 are reported in the body with their outcomes either way, next to the rates under the generic instruction. If A1 fails, the report says that under the AlpacaEval 2.0 prompt most registered judges did not prefer the wrong answer, and the title and abstract are changed to match.
