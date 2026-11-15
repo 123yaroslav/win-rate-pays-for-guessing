@@ -53,7 +53,17 @@ def boot(ids: list[str], stat, rng: random.Random, n: int = B) -> tuple[float, f
     return draws[int(0.025 * len(draws))], draws[min(len(draws) - 1, int(0.975 * len(draws)))], draws
 
 
-def load(runs: list[str], item_files: list[str], limit: int = 0):
+def load(runs: list[str], item_files: list[str], limit: int = 0, replace: list[str] | None = None):
+    """Reads the calls of the runs. Duels in a run listed under `replace` supersede the same duels
+    (judge, variant, pair, item, order) in the other runs. This is used for reruns of replies that
+    were cut by the token limit."""
+    replace = list(replace or [])
+    superseded = set()
+    for run in replace:
+        for ln in (ROOT / run / "calls.jsonl").read_text().splitlines():
+            d = json.loads(ln) if ln.strip() else {}
+            if d.get("kind") == "duel":
+                superseded.add((d["judge"], d["variant"], d["pair"], d["item"], d["first"]))
     items = {}
     for f in item_files:
         rows = [json.loads(ln) for ln in Path(f).read_text().splitlines() if ln.strip()]
@@ -64,7 +74,7 @@ def load(runs: list[str], item_files: list[str], limit: int = 0):
     unparsed = defaultdict(int)
     global ties
     ties = defaultdict(int)
-    for run in runs:
+    for run in list(runs) + replace:
         p = ROOT / run / "calls.jsonl"
         for ln in p.read_text().splitlines():
             if not ln.strip():
@@ -78,6 +88,8 @@ def load(runs: list[str], item_files: list[str], limit: int = 0):
             if d["kind"] == "detect":
                 m = re.search(r"\b(YES|NO)\b", d["text"].strip().upper())
                 flags[(d["judge"], d["item"], d["resp"])] = m.group(1) if m else None
+                continue
+            if run not in replace and (d["judge"], d["variant"], d["pair"], d["item"], d["first"]) in superseded:
                 continue
             key = (d["judge"], d["variant"], d["pair"])
             if d["variant"] == "mtbench":   # verdict in double brackets, [[C]] is a tie
@@ -107,8 +119,10 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     ap.add_argument("--boot", type=int, default=B)
     ap.add_argument("--limit", type=int, default=0, help="use only the first N items of every file")
+    ap.add_argument("--replace", nargs="*", default=[],
+                    help="runs whose duels supersede the same duels of the other runs (reruns of cut replies)")
     a = ap.parse_args()
-    items, own, duel, first_pick, unparsed, flags = load(a.runs, a.items, a.limit)
+    items, own, duel, first_pick, unparsed, flags = load(a.runs, a.items, a.limit, a.replace)
     rng = random.Random(20261115)
     judges = sorted({k[0] for k in duel})
     variants = sorted({k[1] for k in duel}, key=lambda v: (v != "default", v))

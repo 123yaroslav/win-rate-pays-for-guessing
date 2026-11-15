@@ -18,3 +18,15 @@ paper_*/*.synctex.gz
 results/study5/adapters/
 results/study5/adapters_e3/
 data/raw/cn_prev/
+
+# slide build files (the PDFs and the PNG stay visible)
+slides/*.aux
+slides/*.fdb_latexmk
+slides/*.fls
+slides/*.log
+slides/*.nav
+slides/*.out
+slides/*.snm
+slides/*.toc
+slides/*.vrb
+slides/*.synctex.gz

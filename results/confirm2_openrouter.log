@@ -1,0 +1,19 @@
+items 150 judges ['openrouter/anthropic/claude-haiku-5.5', 'openrouter/openai/gpt-5.6-luna', 'openrouter/mistralai/mistral-small-2603'] pairs 3 variants ['default'] cached 0
+[13:20:11] fresh 250 done 250 failed 0 429s 0 spend adaption 0.000 openrouter 0.008 rate 352/min
+[13:20:52] fresh 500 done 500 failed 0 429s 0 spend adaption 0.000 openrouter 0.019 rate 358/min
+[13:21:33] fresh 750 done 750 failed 0 429s 0 spend adaption 0.000 openrouter 0.029 rate 363/min
+[13:22:13] fresh 1000 done 1000 failed 0 429s 0 spend adaption 0.000 openrouter 0.038 rate 366/min
+[13:22:53] fresh 1250 done 1250 failed 0 429s 0 spend adaption 0.000 openrouter 0.047 rate 366/min
+[13:23:34] fresh 1500 done 1500 failed 0 429s 0 spend adaption 0.000 openrouter 0.056 rate 367/min
+[13:24:15] fresh 1750 done 1750 failed 0 429s 0 spend adaption 0.000 openrouter 0.065 rate 367/min
+[13:24:56] fresh 2000 done 2000 failed 0 429s 0 spend adaption 0.000 openrouter 0.075 rate 367/min
+[13:25:37] fresh 2250 done 2250 failed 0 429s 0 spend adaption 0.000 openrouter 0.086 rate 367/min
+[13:26:17] fresh 2500 done 2500 failed 0 429s 0 spend adaption 0.000 openrouter 0.095 rate 367/min
+[13:26:57] fresh 2750 done 2750 failed 0 429s 0 spend adaption 0.000 openrouter 0.105 rate 368/min
+[13:27:37] fresh 3000 done 3000 failed 0 429s 0 spend adaption 0.000 openrouter 0.117 rate 369/min
+finished: fresh 3150 failed 0 429s 0 spend adaption 0.000 openrouter 0.125
+items 150 judges ['openrouter/anthropic/claude-haiku-5.5', 'openrouter/openai/gpt-5.6-luna', 'openrouter/mistralai/mistral-small-2603'] pairs 7 variants ['default'] cached 3150
+[13:28:42] fresh 250 done 250 failed 0 429s 0 spend adaption 0.000 openrouter 0.009 rate 369/min
+[13:29:22] fresh 500 done 500 failed 0 429s 0 spend adaption 0.000 openrouter 0.019 rate 373/min
+[13:30:02] fresh 750 done 750 failed 0 429s 0 spend adaption 0.000 openrouter 0.030 rate 372/min
+finished detect: fresh 900 failed 0 429s 0 spend adaption 0.000 openrouter 0.037

@@ -1,0 +1,210 @@
+{
+ "n_items": 100,
+ "generator": "openrouter/meta-llama/llama-4-maverick",
+ "judges": {
+  "openrouter/anthropic/claude-haiku-5.5": {
+   "knows": 0.75,
+   "b_short": {
+    "rate": 0.7333333333333333,
+    "lo": 0.6666666666666666,
+    "hi": 0.8,
+    "n": 75,
+    "share_le_half": 0.0,
+    "unparsed": 0.015,
+    "ties": 0
+   },
+   "a_short": {
+    "rate": 0.9933333333333333,
+    "lo": 0.98,
+    "hi": 1.0,
+    "n": 75,
+    "share_le_half": 0.0,
+    "unparsed": 0.005,
+    "ties": 0
+   },
+   "b_full": {
+    "rate": 0.5933333333333334,
+    "lo": 0.52,
+    "hi": 0.6666666666666666,
+    "n": 75,
+    "share_le_half": 0.0102,
+    "unparsed": 0.03,
+    "ties": 0
+   },
+   "control": {
+    "rate": 0.02666666666666667,
+    "lo": 0.006666666666666667,
+    "hi": 0.05333333333333334,
+    "n": 75,
+    "share_le_half": 1.0,
+    "unparsed": 0.03,
+    "ties": 0
+   },
+   "mt_b_short": {
+    "rate": 0.10333333333333333,
+    "lo": 0.043333333333333335,
+    "hi": 0.17333333333333334,
+    "n": 75,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 1
+   },
+   "mt_b_full": {
+    "rate": 0.08,
+    "lo": 0.02666666666666667,
+    "hi": 0.14,
+    "n": 75,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "wrong_flagged": 0.99,
+   "right_accepted": 0.69,
+   "dropped": false,
+   "f3_pass": true,
+   "mt_usable": true,
+   "f1_pass": true,
+   "f2_pass": true
+  },
+  "openrouter/openai/gpt-5.6-luna": {
+   "knows": 0.81,
+   "b_short": {
+    "rate": 0.6296296296296297,
+    "lo": 0.5370370370370371,
+    "hi": 0.7160493827160493,
+    "n": 81,
+    "share_le_half": 0.0032,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "a_short": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 81,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "b_full": {
+    "rate": 0.36419753086419754,
+    "lo": 0.2839506172839506,
+    "hi": 0.4506172839506173,
+    "n": 81,
+    "share_le_half": 0.9994,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "control": {
+    "rate": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n": 81,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "mt_b_short": {
+    "rate": 0.41358024691358025,
+    "lo": 0.33024691358024694,
+    "hi": 0.49691358024691357,
+    "n": 81,
+    "share_le_half": 0.9799,
+    "unparsed": 0.0,
+    "ties": 17
+   },
+   "mt_b_full": {
+    "rate": 0.13580246913580246,
+    "lo": 0.08641975308641975,
+    "hi": 0.19135802469135801,
+    "n": 81,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 13
+   },
+   "wrong_flagged": 0.97,
+   "right_accepted": 0.8,
+   "dropped": false,
+   "f3_pass": true,
+   "mt_usable": true,
+   "f1_pass": true,
+   "f2_pass": false
+  },
+  "openrouter/mistralai/mistral-small-2603": {
+   "knows": 0.79,
+   "b_short": {
+    "rate": 0.9683544303797469,
+    "lo": 0.9367088607594937,
+    "hi": 0.9936708860759493,
+    "n": 79,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "a_short": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 79,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "b_full": {
+    "rate": 0.7468354430379747,
+    "lo": 0.689873417721519,
+    "hi": 0.8037974683544303,
+    "n": 79,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "control": {
+    "rate": 0.04430379746835443,
+    "lo": 0.0189873417721519,
+    "hi": 0.0759493670886076,
+    "n": 79,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "mt_b_short": {
+    "rate": 0.8512658227848101,
+    "lo": 0.7974683544303798,
+    "hi": 0.9018987341772152,
+    "n": 79,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 25
+   },
+   "mt_b_full": {
+    "rate": 0.7341772151898734,
+    "lo": 0.6550632911392406,
+    "hi": 0.8069620253164557,
+    "n": 79,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 13
+   },
+   "wrong_flagged": 0.83,
+   "right_accepted": 0.87,
+   "dropped": false,
+   "f3_pass": true,
+   "mt_usable": true,
+   "f1_pass": true,
+   "f2_pass": true
+  }
+ },
+ "tests": {
+  "judges_kept": 3,
+  "F1": 3,
+  "F2": 2,
+  "F3": 3,
+  "F4_usable": 3,
+  "F4": 1,
+  "F1_holds": false,
+  "F2_holds": false,
+  "F3_holds": false,
+  "F4_holds": false
+ }
+}

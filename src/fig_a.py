@@ -30,79 +30,94 @@ def cell(summary: dict, judge: str, group: str, pair: str, variant: str = "defau
     return summary["judges"].get(judge, {}).get("variants", {}).get(variant, {}).get("groups", {}).get(group, {}).get(pair)
 
 
-def fig1(s1: dict, out: Path, think: dict | None = None) -> None:
-    judges = [j for j in NAMES if j in s1["judges"]]
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.5, 2.45), gridspec_kw={"width_ratios": [1.25, 1]})
-    # panel a: the same wrong answer against two opponents, on items the judge answers correctly itself
-    ys = list(range(len(judges)))[::-1]
-    # equal-tone control (assertive wrong against assertive right) once every judge has it
-    right_pair = "CW-CC"
-    for y, j in zip(ys, judges):
-        for pair, col, mk, dy in ((right_pair, BLUE, "o", 0.14), ("CW-IDK", ORANGE, "s", -0.14)):
-            c = cell(s1, j, "judge knows", pair)
-            if not c:
-                continue
-            ax.errorbar(c["rate"], y + dy, xerr=[[c["rate"] - c["lo"]], [c["hi"] - c["rate"]]], fmt=mk, color=col,
-                        ms=4.5, lw=1, capsize=2)
-    first = True
-    for y, j in zip(ys, judges):
-        c = None
-        for key_ in ("think|" + j, "reason|" + j):
-            if think and think.get(key_, {}).get("b_reasoned") and think[key_]["share_reasoned"] > 0.2 \
-                    and not ("reason|" in key_ and ("think|" + j) in think):
-                c = think[key_]["b_reasoned"]
-                break
-        if not c:
-            continue
-        ax.errorbar(c["rate"], y - 0.14, xerr=[[c["rate"] - c["lo"]], [c["hi"] - c["rate"]]], fmt="s", color=ORANGE,
-                    mfc="white", ms=4.5, lw=1, capsize=2)
-        if first:
-            ax.annotate("when the judge\nreasoned first", xy=(c["rate"] + 0.03, y - 0.14), xytext=(0.36, y - 0.38),
-                        fontsize=7, color=ORANGE, ha="left", va="center",
-                        arrowprops={"arrowstyle": "-", "color": ORANGE, "lw": 0.6})
-            first = False
-    ax.axvline(0.5, color=GREY, lw=0.8, ls=":")
-    ax.set_yticks(ys)
-    ax.set_yticklabels([NAMES[j] for j in judges])
-    ax.set_xlim(-0.03, 1.03)
-    ax.set_ylim(-0.6, len(judges) - 0.4)
-    ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
-    ax.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
-    ax.set_xlabel("Duels won by the wrong answer\n(questions the judge answers correctly itself)")
-    ax.text(0.02, len(judges) - 0.45, "against the\nright answer", color=BLUE, va="bottom", ha="left", fontsize=8)
-    ax.text(0.98, len(judges) - 0.45, "against\n\"I don't know\"", color=ORANGE, va="bottom", ha="right", fontsize=8)
-    ax.set_title("a", loc="left")
+def fig1(s1: dict, out: Path, confirm: dict | None = None, free: dict | None = None) -> None:
+    """The same contrast in three settings, and what it means for win rate.
 
-    # panel b: win rate of a policy that always answers, against one that abstains
+    Panels a to c: share of duels won by the wrong answer on questions the judge answers correctly itself,
+    against the right answer (blue) and against "I don't know" (orange). Panel d: the lines W(p).
+    """
+    judges = [j for j in NAMES if j in s1["judges"] and "terra" not in j]   # the six registered judges
+    fig, axes = plt.subplots(1, 4, figsize=(6.5, 2.55), gridspec_kw={"width_ratios": [1, 1, 1, 1.2], "wspace": 0.12})
+    ys = list(range(len(judges)))[::-1]
+
+    def points(ax, get) -> None:
+        for y, j in zip(ys, judges):
+            for kind, col, mk, dy, hollow in (("right", BLUE, "o", 0.16, False), ("idk", ORANGE, "s", -0.16, False),
+                                              ("full", ORANGE, "s", -0.16, True)):
+                c = get(j, kind)
+                if not c:
+                    continue
+                ax.errorbar(c["rate"], y + dy, xerr=[[max(0, c["rate"] - c["lo"])], [max(0, c["hi"] - c["rate"])]],
+                            fmt=mk, color=col, mfc="white" if hollow else col, ms=3.8, lw=0.9, capsize=1.6)
+        ax.axvline(0.5, color=GREY, lw=0.8, ls=":")
+        ax.set_xlim(-0.04, 1.04)
+        ax.set_ylim(-0.6, len(judges) - 0.4)
+        ax.set_xticks([0, 0.5, 1])
+        ax.set_xticklabels(["0", "50%", "100%"], fontsize=7.5)
+        ax.set_yticks(ys)
+
+    def from_s1(j, kind):
+        return None if kind == "full" else cell(s1, j, "judge knows", "CW-CC" if kind == "right" else "CW-IDK")
+
+    def from_confirm(j, kind):
+        r = (confirm or {}).get("judges", {}).get(j)
+        return None if not r or kind == "full" else r["control" if kind == "right" else "b"]
+
+    def from_free(j, kind):
+        r = (free or {}).get("judges", {}).get(j)
+        return None if not r else r.get({"right": "control", "idk": "b_short", "full": "b_full"}[kind])
+
+    titles = [("a", "Registered study", "multiple choice, 300"),
+              ("b", "Fresh questions", "multiple choice, 150"),
+              ("c", "Free-form questions", "two-sentence replies, 100")]
+    for ax, get, (letter, t1, t2) in zip(axes[:3], (from_s1, from_confirm, from_free), titles):
+        points(ax, get)
+        ax.set_title(f"$\\mathbf{{{letter}}}$  {t1}\n{t2}", loc="left", fontsize=6.8, fontweight="normal",
+                     linespacing=1.2)
+    axes[0].set_yticklabels([NAMES[j] for j in judges], fontsize=7.5)
+    for ax in axes[1:3]:
+        ax.set_yticklabels([])
+        ax.tick_params(axis="y", length=0)
+    axes[1].set_xlabel("Duels won by the wrong answer, on questions the judge answers correctly itself", fontsize=7.5)
+    from matplotlib.lines import Line2D
+    handles = [Line2D([], [], marker="o", color=BLUE, ls="", ms=4, label="against the right answer"),
+               Line2D([], [], marker="s", color=ORANGE, ls="", ms=4, label="against \"I don't know\"")]
+    if free:
+        handles.append(Line2D([], [], marker="s", color=ORANGE, mfc="white", ls="", ms=4,
+                              label="against a fuller abstention"))
+    fig.legend(handles=handles, loc="lower left", bbox_to_anchor=(0.115, -0.115), ncol=3, fontsize=7, frameon=False,
+               handletextpad=0.2, columnspacing=1.2)
+
+    # panel d: win rate of a policy that always answers, against one that abstains
+    bx = axes[3]
     xs = [0, 1]
     bx.fill_between(xs, 0.5, 1.0, color="#f3f3f3", lw=0)
-    bx.plot(xs, [0, 1], color="black", lw=1, ls="--")
-    bx.plot(xs, [0.5, 1], color="black", lw=1, ls=":")
+    bx.plot(xs, [0, 1], color="black", lw=1, ls="--", label="right +1, wrong $-$1")
+    bx.plot(xs, [0.5, 1], color="black", lw=1, ls=":", label="accuracy grading")
     lows = []
     for j in judges:
         a, b = cell(s1, j, "all", "CC-IDK"), cell(s1, j, "all", "CW-IDK")
         if not a or not b:
             continue
-        star = "*" in NAMES[j]
-        bx.plot(xs, [b["rate"], a["rate"]], color=ORANGE, lw=1.2, alpha=0.85, ls="-." if star else "-")
+        bx.plot(xs, [b["rate"], a["rate"]], color=ORANGE, lw=1.1, alpha=0.85)
         lows.append(b["rate"])
     bx.axhline(0.5, color=GREY, lw=0.8)
     bx.set_xlim(0, 1)
     bx.set_ylim(0, 1.02)
     bx.set_xticks([0, 0.5, 1])
-    bx.set_xticklabels(["0%", "50%", "100%"])
+    bx.set_xticklabels(["0", "50%", "100%"], fontsize=7.5)
     bx.set_yticks([0, 0.5, 1])
-    bx.set_yticklabels(["0%", "50%", "100%"])
-    bx.set_xlabel("Accuracy of a policy that always answers")
-    bx.set_ylabel("Its win rate against\na policy that abstains")
+    bx.set_yticklabels(["0%", "50%", "100%"], fontsize=7.5)
+    bx.yaxis.tick_right()
+    bx.yaxis.set_label_position("right")
+    bx.set_xlabel("Accuracy of a policy\nthat always answers", fontsize=7.5)
+    bx.set_ylabel("Its win rate against\na policy that abstains", fontsize=7.5)
     if lows:
-        bx.annotate("LLM judges", xy=(0.10, min(lows) + 0.02), xytext=(0.47, 0.27), color=ORANGE, fontsize=8,
+        bx.annotate("LLM judges", xy=(0.10, min(lows) + 0.02), xytext=(0.47, 0.30), color=ORANGE, fontsize=7,
                     ha="left", va="center", arrowprops={"arrowstyle": "-", "color": ORANGE, "lw": 0.7})
-    bx.text(0.25, 0.578, "accuracy grading", fontsize=7.5, ha="center", va="center", rotation=26.57,
-            rotation_mode="anchor", transform_rotates_text=True)
-    bx.text(0.66, 0.60, "right +1, wrong $-$1", fontsize=7.5, ha="center", va="center", rotation=45,
-            rotation_mode="anchor", transform_rotates_text=True)
-    bx.set_title("b", loc="left")
+    bx.legend(loc="lower right", fontsize=6, frameon=False, handlelength=1.6, borderaxespad=0.2)
+    bx.set_title("$\\mathbf{d}$  What the two rates\nmean for win rate", loc="left", fontsize=6.8,
+                 fontweight="normal", linespacing=1.2)
     for ext in ("pdf", "png"):
         fig.savefig(out / f"fig1_core.{ext}")
     plt.close(fig)
@@ -233,7 +248,9 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     s1 = json.loads((ROOT / a.s1).read_text())
     tp = ROOT / "results/study4/reasoning.json"
-    fig1(s1, out, json.loads(tp.read_text()) if tp.exists() else None)
+    cp, fp = ROOT / "results/confirm2/confirm.json", ROOT / "results/freeform/summary.json"
+    fig1(s1, out, json.loads(cp.read_text()) if cp.exists() else None,
+         json.loads(fp.read_text()) if fp.exists() else None)
     if (ROOT / a.s4).exists():
         s4 = json.loads((ROOT / a.s4).read_text())
         fig_fix(s4, s1, out)

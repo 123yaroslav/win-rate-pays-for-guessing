@@ -1,0 +1,85 @@
+% Look shared by slides.tex and card.tex.
+% White page, one accent colour, dark grey text, a sans face that matches the paper's figures.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{deck}[2026/11/15 Look of the slides and the project image]
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage{tgheros}            % Helvetica clone, the face of the figures in ../paper_A/figs
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage[most]{tcolorbox}
+
+% === Colours. The accent is ORANGE and the note grey is GREY in ../src/fig_a.py ===
+\definecolor{accent}{HTML}{D55E00}
+\definecolor{ink}{HTML}{2B2B2B}
+\definecolor{muted}{HTML}{777777}
+\definecolor{tint}{HTML}{F3F3F3}
+\definecolor{figblue}{HTML}{0072B2}   % BLUE in ../src/fig_a.py, used only for the key to the figure
+
+\setbeamercolor{normal text}{fg=ink,bg=white}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{frametitle}{fg=ink}
+\setbeamertemplate{navigation symbols}{}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdftitle={Win Rate Pays for Guessing},pdfauthor={Yaroslav Rogoza}}
+\urlstyle{same}
+
+% === Page. 160 mm by 90 mm, side margins of 10 mm ===
+\newlength{\deckmargin}
+\setlength{\deckmargin}{10mm}
+\setbeamersize{text margin left=\deckmargin,text margin right=\deckmargin}
+
+% === Type. Body 14 pt on 17 pt, titles 16 pt bold, notes and page numbers small ===
+\makeatletter
+\renewcommand\normalsize{\@setfontsize\normalsize{14}{17}}
+\makeatother
+\normalsize
+\setbeamerfont{frametitle}{size=\fontsize{16}{19}\selectfont,series=\bfseries}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \vskip 4mm
+  \hbox to \textwidth{%
+    \parbox[t]{\textwidth}{\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}%
+      \raggedright\insertframetitle\par}\hss}
+  \vskip -0.5mm
+}
+
+\setbeamertemplate{footline}{%
+  \hfill{\fontsize{8}{9}\selectfont\color{muted}\insertframenumber}\hspace*{6mm}\par
+  \vskip 3.5mm
+}
+
+% === Building blocks ===
+% A large number in the accent colour, and the same in the text colour.
+\newcommand{\hero}[1]{\leavevmode{\fontsize{24}{27}\selectfont\bfseries\color{accent}#1}}
+\newcommand{\herodark}[1]{\leavevmode{\fontsize{24}{27}\selectfont\bfseries\color{ink}#1}}
+% The same at a size that fits a narrow column.
+\newcommand{\herosmall}[1]{\leavevmode{\fontsize{17}{20}\selectfont\bfseries\color{accent}#1}}
+\newcommand{\herosmalldark}[1]{\leavevmode{\fontsize{17}{20}\selectfont\bfseries\color{ink}#1}}
+% A number or a word in the accent colour inside a sentence or a table.
+\newcommand{\lead}[1]{\leavevmode{\bfseries\color{accent}#1}}
+% The outcome word of a registered test. A failed test is set in the accent colour.
+\def\deckfails{fails}
+\newcommand{\outcome}[1]{\leavevmode\begingroup\edef\deckword{#1}%
+  \ifx\deckword\deckfails{\bfseries\color{accent}#1}\else #1\fi\endgroup}
+% A filled label.
+\newcommand{\flag}[1]{{\setlength{\fboxsep}{1.2mm}\colorbox{accent}{\color{white}\bfseries\strut #1}}}
+% A small grey note under a figure or a table.
+\newcommand{\fignote}[1]{{\fontsize{8.5}{10.5}\selectfont\raggedright\leavevmode\color{muted}#1\par}}
+% Grey text inside a line or a table cell.
+\newcommand{\grey}[1]{\leavevmode{\color{muted}#1}}
+% A symbol of the formula, set in the text face.
+\newcommand{\sym}[1]{\textit{#1}}
+% Keys to the two series of Figure 1.
+\newcommand{\keysquare}{{\color{accent}\rule[0.05ex]{1.25ex}{1.25ex}}}
+\newcommand{\keydot}{{\color{figblue}\raisebox{-0.6ex}{\scalebox{1.9}{\textbullet}}}}
+% Grey italic text for a placeholder inside a quoted sentence.
+\newcommand{\slot}[1]{{\color{muted}\itshape #1}}
+% A tinted box with an accent bar, for quoted material.
+\newtcolorbox{exhibit}[1][]{enhanced,frame hidden,boxrule=0pt,sharp corners,colback=tint,
+  borderline west={1.1mm}{0pt}{accent},boxsep=0pt,left=4mm,right=3mm,top=2.2mm,bottom=2.2mm,
+  before skip=0pt,after skip=0pt,#1}

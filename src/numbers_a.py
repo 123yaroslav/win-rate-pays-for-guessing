@@ -638,6 +638,152 @@ def study5() -> None:
                 put("idkTwoBelow", pct(min(be)))
 
 
+WORDS = ["no", "one", "two", "three", "four", "five", "six"]
+
+
+def rng_put(name: str, xs: list[float]) -> None:
+    if xs:
+        put(name + "Min", pct(min(xs)))
+        put(name + "Max", pct(max(xs)))
+
+
+def reruns() -> None:
+    """Replies of one judge that were cut by the reply limit, and the reruns with a higher limit."""
+    import re
+
+    def count(run: str, variant: str, judge: str) -> tuple[int, int] | None:
+        p = ROOT / run / "calls.jsonl"
+        if not p.exists():
+            return None
+        n_, cut = 0, 0
+        for ln in p.read_text().splitlines():
+            d = json.loads(ln) if ln.strip() else {}
+            if d.get("kind") == "duel" and d.get("variant") == variant and d["judge"] == judge and d["pair"] == "CW-IDK":
+                n_ += 1
+                up = d["text"].upper()
+                ok = re.findall(r"\[\[([ABC])\]\]", up) if variant == "mtbench" else re.findall(r"VERDICT\W*([AB])\b", up)
+                cut += not ok
+        return (cut, n_) if n_ else None
+
+    for lab, variant, first, again in (("Cot", "cot", "results/study4_adaption", "results/study4_adaption_cot_rerun"),
+                                       ("Mt", "mtbench", "results/study4_adaption_mtbench",
+                                        "results/study4_adaption_mtbench_rerun")):
+        a, b = count(first, variant, SIX[2]), count(again, variant, SIX[2])
+        if a:
+            put(f"qwen{lab}Cut", str(a[0]))
+            put(f"qwen{lab}Total", str(a[1]))
+        put(f"qwen{lab}RerunCut", str(b[0]) if b else "?")
+        put(f"qwen{lab}RerunTotal", str(b[1]) if b else "?")
+
+
+def confirm2() -> None:
+    """Registered confirmation on fresh questions (Amendment 2)."""
+    p = ROOT / "results/confirm2/confirm.json"
+    if not p.exists():
+        return
+    s = json.loads(p.read_text())
+    js = [j for j in SIX if j in s["judges"]]
+    kept = [j for j in js if not s["judges"][j]["dropped"]]
+    t_ = s["tests"]
+    put("cfQuestions", str(s["n_items"]))
+    put("cfJudges", WORDS[len(js)])
+    put("cfKept", WORDS[len(kept)])
+    put("cfDropped", WORDS[len(js) - len(kept)])
+    rng_put("cfB", [s["judges"][j]["b"]["rate"] for j in kept])
+    rng_put("cfCtrl", [s["judges"][j]["control"]["rate"] for j in kept])
+    gaps = [s["judges"][j]["gap"]["value"] for j in kept]
+    if gaps:
+        put("cfGapMin", f"{100 * min(gaps):.0f}")
+        put("cfGapMax", f"{100 * max(gaps):.0f}")
+    for lab, key in (("One", "C1"), ("Two", "C2"), ("Three", "C3"), ("Four", "C4_b"), ("FourA", "C4_a")):
+        put("cfC" + lab + "Pass", WORDS[t_[key]])
+    for lab, key in (("One", "C1_holds"), ("Two", "C2_holds"), ("Three", "C3_holds"), ("Four", "C4_holds")):
+        put("cfC" + lab + "Outcome", "holds" if t_[key] else "fails")
+    put("cfAllHold", "yes" if t_["C1_holds"] and t_["C2_holds"] and t_["C3_holds"] else "no")
+    put("cfAllPass", WORDS[sum(s["judges"][j]["c1_pass"] and s["judges"][j]["c2_pass"] and s["judges"][j]["c3_pass"]
+                               for j in kept)])
+    rule = [j for j in kept if "rule" in s["judges"][j]]
+    rng_put("cfRuleB", [s["judges"][j]["rule"]["b"] for j in rule])
+    rng_put("cfRuleBBefore", [s["judges"][j]["rule"]["b_before"] for j in rule])
+    rng_put("cfRuleA", [s["judges"][j]["rule"]["a"] for j in rule])
+    low = [j for j in rule if s["judges"][j]["rule"]["a"] < 0.6]
+    put("cfRuleUnusable", WORDS[len(low)])
+    put("cfRuleUnusableNames", " and ".join(NAMES[j] for j in low) or "none")
+    ps = [s["judges"][j]["rule"]["p_star"] for j in rule]
+    if ps:
+        put("cfRulePstarMin", f"{min(ps):.2f}")
+        put("cfRulePstarMax", f"{max(ps):.2f}")
+    put("cfUnparsedMax", pct(max([s["judges"][j]["unparsed_primary"] for j in js] or [0]), 1))
+    put("cfAboveHalf", WORDS[sum(s["judges"][j]["b"]["rate"] > 0.5 for j in kept)])
+    fl = [s["judges"][j]["rule"]["wrong_flagged"] for j in rule]
+    rng_put("cfFlagged", fl)
+    rng_put("cfAccepted", [s["judges"][j]["rule"]["right_accepted"] for j in rule])
+    rows = []
+    for j in js:
+        r = s["judges"][j]
+        ru = r.get("rule")
+        rows.append(f"{NAMES[j]}{'$^{\\ddagger}$' if r['dropped'] else ''} & {100 * r['own_accuracy']:.0f} & {ci(r['a'])} & {ci(r['b'])} & "
+                    f"{ci(r['control'])} & "
+                    + (f"{100 * ru['b']:.0f} ({100 * ru['b_lo']:.0f}--{100 * ru['b_hi']:.0f}) & "
+                       f"{100 * ru['a']:.0f} ({100 * ru['a_lo']:.0f}--{100 * ru['a_hi']:.0f})" if ru else "-- & --")
+                    + " \\\\")
+    (OUT / "tab_confirm.tex").write_text("\n".join(rows) + "\n")
+
+
+def freeform() -> None:
+    """Free-form questions with natural-length replies (Amendment 3)."""
+    p = ROOT / "results/freeform/summary.json"
+    if not p.exists():
+        return
+    s = json.loads(p.read_text())
+    js = [j for j in SIX if j in s["judges"]]
+    kept = [j for j in js if not s["judges"][j]["dropped"]]
+    t_ = s["tests"]
+    put("ffQuestions", str(s["n_items"]))
+    put("ffJudges", WORDS[len(js)])
+    put("ffKept", WORDS[len(kept)])
+    rng_put("ffKnows", [s["judges"][j]["knows"] for j in js])
+    for lab, key in (("ffB", "b_short"), ("ffFull", "b_full"), ("ffCtrl", "control"), ("ffA", "a_short")):
+        rng_put(lab, [s["judges"][j][key]["rate"] for j in kept if key in s["judges"][j]])
+    for lab, key in (("One", "F1"), ("Two", "F2"), ("Three", "F3"), ("Four", "F4")):
+        put("ffF" + lab + "Pass", WORDS[t_[key]])
+        put("ffF" + lab + "Outcome", "holds" if t_[key + "_holds"] else "fails")
+    put("ffMtUsable", WORDS[t_["F4_usable"]])
+    usable = [j for j in js if s["judges"][j]["mt_usable"]]
+    rng_put("ffMt", [s["judges"][j]["mt_b_short"]["rate"] for j in usable])
+    above = [s["judges"][j]["mt_b_short"]["rate"] for j in usable if s["judges"][j]["mt_b_short"]["rate"] > 0.5]
+    put("ffMtAbove", WORDS[len(above)])
+    rng_put("ffMtAboveB", above)
+    rng_put("ffMtFull", [s["judges"][j]["mt_b_full"]["rate"] for j in usable if "mt_b_full" in s["judges"][j]])
+    fl = [s["judges"][j]["wrong_flagged"] for j in js if "wrong_flagged" in s["judges"][j]]
+    rng_put("ffFlagged", fl)
+    put("ffAboveHalf", WORDS[sum(s["judges"][j]["b_short"]["rate"] > 0.5 for j in kept if "b_short" in s["judges"][j])])
+    put("ffFullAboveHalf", WORDS[sum(s["judges"][j]["b_full"]["rate"] > 0.5 for j in kept if "b_full" in s["judges"][j])])
+    cp = ROOT / "results/confirm2/confirm.json"
+    cf = json.loads(cp.read_text())["judges"] if cp.exists() else {}
+    rows = []
+    for j in SIX:
+        r, c = s["judges"].get(j), cf.get(j)
+        g = lambda d, k: "--" if not d or k not in d else f"{100 * d[k]['rate']:.0f}"  # noqa: E731
+        mt = "--" if not r or "mt_b_short" not in r else ("n/e" if not r["mt_usable"] else f"{100 * r['mt_b_short']['rate']:.0f}")
+        rows.append(f"{NAMES[j]} & {g(c, 'b')} & {g(c, 'control')} & {g(r, 'b_short')} & {g(r, 'b_full')} & "
+                    f"{g(r, 'control')} & {mt} \\\\")
+    (OUT / "tab_replicate.tex").write_text("\n".join(rows) + "\n")
+    rows = []
+    for j in js:
+        r = s["judges"][j]
+        mt = (lambda k: ci(r.get(k)) if r["mt_usable"] else "n/e")
+        rows.append(f"{NAMES[j]}{'$^{\\ddagger}$' if r['dropped'] else ''} & {100 * r['knows']:.0f} & {ci(r.get('a_short'))} & "
+                    f"{ci(r.get('b_short'))} & {ci(r.get('b_full'))} & {ci(r.get('control'))} & {mt('mt_b_short')} & "
+                    f"{mt('mt_b_full')} \\\\")
+    (OUT / "tab_freeform.tex").write_text("\n".join(rows) + "\n")
+    items = [json.loads(ln) for ln in (ROOT / "data/items/trivia_free.jsonl").read_text().splitlines() if ln.strip()]
+    ex = items[0]   # the first question of the set
+    put("ffExampleQ", tex(ex["question"]))
+    put("ffExampleWrong", tex(ex["resp"]["CW"]))
+    put("ffExampleKey", tex(ex["answer"]))
+
+
 def tex(s: str) -> str:
     rep = {"\\": "\\textbackslash{}", "&": "\\&", "%": "\\%", "$": "\\$", "#": "\\#", "_": "\\_", "{": "\\{",
            "}": "\\}", "~": "\\textasciitilde{}", "^": "\\textasciicircum{}", "<": "\\textless{}",
@@ -673,6 +819,11 @@ def appendix() -> None:
             if k in final:
                 blocks.append((f"Loop, style instruction {'cautious' if k == 'abstain' else k}", final[k]))
     import adapt_analyze
+    import freeform as ff
+    blocks.append(("Free-form check, writer of the replies (Llama 4 Maverick)", ff.GEN_SYSTEM))
+    blocks.append(("Free-form check, check of the planted answer", ff.VERIFY_SYSTEM
+                   + " The prompt gives the question and the proposed answer and ends with: Is the proposed answer correct?"))
+    blocks.append(("Free-form check, the judge's own answer", ff.KNOWS_SYSTEM))
     blocks.append(("Extractor, first audit", adapt_analyze.SYS1))
     blocks.append(("Extractor, second audit", adapt_analyze.SYS2))
     lines = []
@@ -771,6 +922,12 @@ def form_abstract() -> None:
     txt = txt.replace("\\%", "%").replace("``", '"').replace("\'\'", '"').replace("{,}", ",")
     txt = re.sub(r"\s+", " ", txt)
     (OUT / "abstract_for_form.txt").write_text(txt + "\n")
+    readme = ROOT / "README.md"   # the summary in the README is the same text
+    if readme.exists():
+        r = readme.read_text()
+        a, b = "<!-- abstract:start -->", "<!-- abstract:end -->"
+        if a in r and b in r:
+            readme.write_text(r[:r.index(a) + len(a)] + "\n" + txt + "\n" + r[r.index(b):])
     put("abstractWords", str(len(txt.split())))
 
 
@@ -779,6 +936,9 @@ def main() -> None:
     study3()
     study4()
     study5()
+    reruns()
+    confirm2()
+    freeform()
     appendix()
     form_abstract()
     lines = [f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in sorted(macros.items())]

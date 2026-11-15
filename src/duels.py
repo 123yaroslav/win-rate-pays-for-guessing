@@ -244,6 +244,8 @@ async def main() -> None:
     ap.add_argument("--or-budget", type=float, default=1.0)
     ap.add_argument("--or-conc", type=int, default=6)
     ap.add_argument("--gap", type=float, default=1.45)
+    ap.add_argument("--max-tokens", type=int, default=0,
+                    help="reply limit for the duels, overriding the limit of the variant (reruns of cut replies)")
     ap.add_argument("--detect", action="store_true",
                     help="run only the pointwise correctness check on the CW and CC responses")
     a = ap.parse_args()
@@ -279,7 +281,8 @@ async def main() -> None:
     async def duel(j: str, it: dict, pair: tuple[str, str], flip: bool, variant: str) -> None:
         first, second = (pair[1], pair[0]) if flip else pair
         user = duel_prompt(it, first, second, variant, own.get((j, it["id"])))
-        await cl.ask(j, JUDGE_SYSTEM[variant], user, {"cot": 220, "mtbench": 900, "think": THINK_TOKENS, "reason": THINK_TOKENS}.get(variant, 16),
+        limit = a.max_tokens or {"cot": 220, "mtbench": 900, "think": THINK_TOKENS, "reason": THINK_TOKENS}.get(variant, 16)
+        await cl.ask(j, JUDGE_SYSTEM[variant], user, limit,
                      {"kind": "duel", "item": it["id"], "pair": "-".join(pair), "first": first,
                       "second": second, "variant": variant})
 
