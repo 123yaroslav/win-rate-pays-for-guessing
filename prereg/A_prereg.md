@@ -120,3 +120,24 @@ Predictions.
 
 What the report will say. If C1, C2 and C3 hold, the report says that the preference and its control are confirmed on fresh questions. If any of them fails, the abstract says so. C4 is reported with its outcome and its cost either way.
 
+## Amendment 3, 2026-11-15. Free-form questions with natural-length responses
+
+Written after all earlier results were seen and before any judge saw a question of this set. The commit that adds this section is the timestamp. The script `src/freeform.py` and the item file are in the same commit. The runs of Amendment 2 were in progress and none of their results had been read.
+
+Why. Studies 1 and 4 use multiple-choice questions and one-line templates. This check asks whether the preference holds for free-form questions and replies of natural length.
+
+Items. 100 free-form questions from the TriviaQA validation split (configuration rc.nocontext), taken in dataset order from the first 300 rows. A row is a candidate if the question ends with a question mark and has at most 160 characters and the key has 2 to 40 characters and is not a number. For every candidate a model outside the judge set (Llama 4 Maverick) wrote a planted wrong answer of the same kind and two replies of two sentences each, one that states the key and one that states the planted answer in the same form. A candidate is kept if the replies pass fixed string rules (each reply states its own answer and not the other, the planted answer does not overlap any accepted form of the key, the lengths are within a factor of 1.6) and if two models outside the judge set (Llama 4 Maverick and Nemotron 3 Super) both call the planted answer incorrect. The first 100 kept candidates are the set, `data/items/trivia_free.jsonl`. Nothing was selected by hand. The build log is `results/freeform_build/calls.jsonl`.
+
+Runs. The six registered judges, reasoning off, both orders. A judge "knows" a question if its own closed-book answer contains an accepted form of the key. Responses: CC is the reply that states the key, CW the reply that states the planted answer, IDK is "I don't know the answer to this one." and IDK2 is the fuller abstention of the earlier wording check. With the default instruction the pairs are CW-IDK, CC-IDK, CW-IDK2 and CW-CC, plus the pointwise verdict on CC and CW. With the published MT-Bench pairwise prompt the pairs are CW-IDK and CW-IDK2, a tie counts as half, and the reply limit is 900 tokens (3,000 for Qwen 3.8 27B, whose replies were cut at 900 in the earlier run).
+
+Statistics. As in Study 1, item bootstrap with 10,000 resamples, known questions only. A judge with more than 10% of replies without a letter in the pair CW-IDK is dropped from the counts and reported. Under the MT-Bench prompt a judge with more than half of the replies without a verdict is not evaluated.
+
+Predictions.
+
+- F1. The wrong reply beats the short abstention in more than half of the duels. Test per judge by the bootstrap share at or below 0.5, Holm over the judges at 0.05. F1 holds if it passes for at least five judges.
+- F2. The same against the fuller abstention. F2 holds if it passes for at least four judges.
+- F3. The wrong reply beats the right reply in fewer than 25% of duels, and the upper end of the 95% interval is below 0.25. F3 holds if this is true for at least five judges.
+- F4. Under the published MT-Bench prompt the wrong reply beats the short abstention in more than half of the duels, with a bootstrap share at or below 0.5 under 0.05, for at least three of the judges with usable replies.
+
+What the report will say. If F1 and F3 hold, the report says that the preference holds on free-form questions with replies of natural length. If F1 fails, the abstract says that the preference was not found outside multiple-choice templates. F2 and F4 are reported with their outcomes either way.
+
