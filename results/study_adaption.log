@@ -36,3 +36,4 @@ items 150 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adap
 [04:46:29] fresh 6000 done 6000 failed 0 429s 93 spend adaption 0.086 openrouter 0.000 rate 39/min
 [04:52:32] fresh 6250 done 6250 failed 0 429s 93 spend adaption 0.089 openrouter 0.000 rate 39/min
 [04:58:34] fresh 6500 done 6500 failed 0 429s 93 spend adaption 0.093 openrouter 0.000 rate 39/min
+[05:04:37] fresh 6750 done 6750 failed 0 429s 93 spend adaption 0.097 openrouter 0.000 rate 39/min
