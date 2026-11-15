@@ -176,3 +176,5 @@ Predictions.
 - R2. The same on free-form questions. R2 holds if it passes for at least two of the three models.
 
 What the report will say. R1 and R2 are reported in the body with their outcomes either way. If both fail, the report says that the reward models tested did not share the preference.
+
+Correction to Amendment 4, added later on 2026-11-15. Its first line says it was written at 22:40 (+05). That time is wrong. The commit that adds the amendment is dated 22:18:41 (+05), the first call to a new judge was logged at 22:18:58, the reward-model scoring script was committed at 22:22:52 before any model was loaded, and the analysis script at 22:31:57 before any score was read. Nothing else in the amendment was changed.
