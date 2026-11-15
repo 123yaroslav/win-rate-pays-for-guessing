@@ -8,7 +8,8 @@
 LATEXMK  ?= latexmk
 PDFTOPPM ?= pdftoppm
 PAPER    := ../paper_A
-FIGS     := $(PAPER)/figs/fig1_core.pdf $(PAPER)/figs/fig2_map.pdf
+FIGS     := $(PAPER)/figs/fig1_bluff.pdf $(PAPER)/figs/fig2_replicate.pdf \
+            $(PAPER)/figs/fig3_guess.pdf $(PAPER)/figs/fig4_fixes.pdf
 SHARED   := deck.sty paper_text.tex $(PAPER)/numbers.tex
 
 .PHONY: all clean
@@ -25,7 +26,7 @@ paper_text.tex: $(PAPER)/main.tex
 slides.pdf: slides.tex $(SHARED) $(FIGS)
 	$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error slides.tex
 
-card.pdf: card.tex $(SHARED)
+card.pdf: card.tex $(SHARED) $(PAPER)/figs/fig1_bluff.pdf
 	$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error card.tex
 
 # The page is 160 mm by 90 mm, so 254 dpi gives 1600 by 900 pixels.

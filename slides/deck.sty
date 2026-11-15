@@ -16,6 +16,7 @@
 \definecolor{muted}{HTML}{777777}
 \definecolor{tint}{HTML}{F3F3F3}
 \definecolor{figblue}{HTML}{0072B2}   % BLUE in ../src/fig_a.py, used only for the key to the figure
+\definecolor{pays}{HTML}{FBEEE6}      % PAYS in ../src/fig_a.py, the region where guessing pays
 
 \setbeamercolor{normal text}{fg=ink,bg=white}
 \setbeamercolor{structure}{fg=accent}
@@ -60,6 +61,12 @@
 % The same at a size that fits a narrow column.
 \newcommand{\herosmall}[1]{\leavevmode{\fontsize{17}{20}\selectfont\bfseries\color{accent}#1}}
 \newcommand{\herosmalldark}[1]{\leavevmode{\fontsize{17}{20}\selectfont\bfseries\color{ink}#1}}
+% A large number with a short caption to its right, the two centred on each other.
+% #1 the number, already set (\hero or \herodark), #2 the width of the caption, #3 the caption.
+\newsavebox{\deckstatbox}
+\newcommand{\stat}[3]{\leavevmode\sbox{\deckstatbox}{#1}%
+  \begin{minipage}[c]{\wd\deckstatbox}\usebox{\deckstatbox}\end{minipage}\hspace{2.5mm}%
+  \begin{minipage}[c]{#2}\raggedright\fontsize{10.5}{12.5}\selectfont #3\end{minipage}}
 % A number or a word in the accent colour inside a sentence or a table.
 \newcommand{\lead}[1]{\leavevmode{\bfseries\color{accent}#1}}
 % The outcome word of a registered test. A failed test is set in the accent colour.

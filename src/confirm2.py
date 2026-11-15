@@ -34,12 +34,14 @@ def holm(ps: dict[str, float], alpha: float) -> dict[str, bool]:
     return ok
 
 
-def main() -> None:
-    runs = [r for r in RUNS if (ROOT / r / "calls.jsonl").exists()]
+def main(run_dirs: list[str] | None = None, judges: list[str] | None = None,
+         outdir: str = "results/confirm2") -> dict:
+    """Defaults reproduce Amendment 2. Amendment 4 calls this with its own runs, judges and output folder."""
+    runs = [r for r in (run_dirs or RUNS) if (ROOT / r / "calls.jsonl").exists()]
     items, own, duel, _, unparsed, flags = load(runs, ITEMS)
     rng = random.Random(20261116)
     out: dict = {"n_items": len(items), "judges": {}}
-    for j in JUDGES:
+    for j in (judges or JUDGES):
         sb, sa, sx = (duel.get((j, "default", p), {}) for p in ("CW-IDK", "CC-IDK", "CW-CC"))
         if not sb:
             continue
@@ -123,11 +125,12 @@ def main() -> None:
             f"{yn(r.get('c4_b_pass'))} |")
     lines += ["", f"Judges kept {t['judges_kept']}. C1 holds for {t['C1']}, C2 for {t['C2']}, C3 for {t['C3']}, "
                   f"C4 (b below 0.5 with the rule) for {t['C4_b']}, a with the rule at or above 0.80 for {t['C4_a']}."]
-    od = ROOT / "results/confirm2"
+    od = ROOT / outdir
     od.mkdir(parents=True, exist_ok=True)
     (od / "confirm.json").write_text(json.dumps(out, indent=1))
     (od / "confirm.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
+    return out
 
 
 if __name__ == "__main__":

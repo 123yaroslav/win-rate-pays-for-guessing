@@ -1,35 +1,26 @@
 % Project image for the submission form. One frame, rendered by make to project_image.png
-% at 1600 by 900 pixels. The two ranges are macros from ../paper_A/numbers.tex.
+% at 1600 by 900 pixels. The two ranges are macros from ../paper_A/numbers.tex, and the
+% figure is Figure 1 of the report, used whole.
 \documentclass[14pt,aspectratio=169,t]{beamer}
 \usepackage{deck}
 \input{../paper_A/numbers}
-\setbeamersize{text margin left=12mm,text margin right=12mm}
+\graphicspath{{../paper_A/figs/}}
+\setbeamersize{text margin left=8mm,text margin right=8mm}
 
 \begin{document}
 
 \begin{frame}[plain]
-\vspace*{5.5mm}
-{\color{accent}\rule{16mm}{1.2mm}}\par
-\vspace{3mm}
-{\fontsize{26}{31}\selectfont\bfseries Win Rate Pays for Guessing:\par}
-\vspace{0.8mm}
-{\fontsize{15}{18.5}\selectfont\bfseries LLM Judges Prefer a Wrong Answer\\ to an Honest ``I Don't Know''\par}
-\vspace{5.5mm}
-Six judges, on questions they answer correctly themselves\par
-\vspace{3mm}
-\begin{minipage}[t]{0.48\textwidth}\raggedright
-\leavevmode{\fontsize{30}{34}\selectfont\bfseries\color{accent}\bKnowsMin{} to \bKnowsMax{}}\par
+\vspace*{4mm}
+{\color{accent}\rule{16mm}{1.2mm}}\hfill{\fontsize{8.5}{10}\selectfont\color{muted}Yaroslav Rogoza\quad Apart Research AI x Epistemics Research Sprint, November 2026}\par
+\vspace{2.5mm}
+{\fontsize{26}{30}\selectfont\bfseries Win Rate Pays for Guessing\par}
 \vspace{1mm}
-of duels go to a wrong answer over ``I don't know''
-\end{minipage}\hfill
-\begin{minipage}[t]{0.48\textwidth}\raggedright
-\leavevmode{\fontsize{30}{34}\selectfont\bfseries \wrongOverRightMin{} to \wrongOverRightMax{}}\par
-\vspace{1mm}
-over the right answer in the same words
-\end{minipage}\par
-\vfill
-{\fontsize{9.5}{12}\selectfont\color{muted}Yaroslav Rogoza, Independent researcher\par Apart Research AI x Epistemics Research Sprint, November 2026\par}
-\vspace*{0.5mm}
+{\fontsize{12.5}{15}\selectfont\bfseries Bare-verdict LLM judges prefer a wrong answer to ``I don't know''\par}
+\vspace{3mm}
+\stat{\leavevmode{\fontsize{22}{25}\selectfont\bfseries\color{accent}\bKnowsMin{}--\bKnowsMax{}}}{33mm}{\keysquare\ wrong answer beats ``I don't know''}\hfill
+\stat{\leavevmode{\fontsize{22}{25}\selectfont\bfseries\color{ink}\wrongOverRightMin{}--\wrongOverRightMax{}}}{33mm}{\keydot\ wrong answer beats the right one}\par
+\vspace{2mm}
+{\centering\includegraphics[width=132mm]{fig1_bluff.pdf}\par}
 \end{frame}
 
 \end{document}

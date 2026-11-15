@@ -1,16 +1,17 @@
 % Slides for the report in ../paper_A, AI x Epistemics Research Sprint, November 2026.
 % Build with make. Every result number is a macro from ../paper_A/numbers.tex.
 % The one count without a macro is read from the paper's sentence into paper_text.tex.
+% The four figures are the report's own, from ../paper_A/figs, used whole.
 \documentclass[14pt,aspectratio=169,t]{beamer}
 \usepackage{deck}
 \input{../paper_A/numbers}
 \input{paper_text}
 \graphicspath{{../paper_A/figs/}}
 
-% Crops of Figure 1, which has four panels in a row and a legend line under panels a to c.
-% The trim is left, bottom, right, top in big points. Check both after the figure is redrawn.
-\newcommand{\figcontrast}[1]{\includegraphics[trim=0 0 132bp 0,clip,width=#1]{fig1_core.pdf}}
-\newcommand{\figlines}[1]{\includegraphics[trim=337bp 22bp 0 0,clip,width=#1]{fig1_core.pdf}}
+% A figure wider than the text, centred on the page.
+\newcommand{\widefig}[2]{\makebox[\textwidth][c]{\includegraphics[width=#1]{#2}}}
+% A small diamond, the mark of a rule-based grader in the figures.
+\newcommand{\gradermark}[1]{\fill[ink] (#1) ++(0,1.5mm) -- ++(1.5mm,-1.5mm) -- ++(-1.5mm,-1.5mm) -- ++(-1.5mm,1.5mm) -- cycle;}
 
 \begin{document}
 
@@ -21,7 +22,7 @@
 \vspace{5mm}
 {\fontsize{26}{31}\selectfont\bfseries Win Rate Pays for Guessing:\par}
 \vspace{1.5mm}
-{\fontsize{18}{22}\selectfont\bfseries LLM Judges Prefer a Wrong Answer to an Honest ``I Don't Know''\par}
+{\fontsize{18}{22}\selectfont\bfseries Bare-Verdict LLM Judges Prefer a Wrong Answer to ``I Don't Know''\par}
 \vspace{10mm}
 Yaroslav Rogoza, Independent researcher\par
 \vspace{1mm}
@@ -44,84 +45,45 @@ Key & A, secularism. \\
 With the default instruction, \lead{\duelVerdicts{} verdicts} of the six judges on this duel went to the wrong answer.
 \end{frame}
 
-% === 3. Design ===
-\begin{frame}{Duels with a key give two rates per judge}
-\begin{tabular}{@{}l@{\hspace{4mm}}p{64mm}>{\raggedright\arraybackslash}p{56mm}@{}}
-\grey{Rate} & \grey{at which this answer} & \grey{beats this opponent} \\
-\lead{\sym{a}} & ``The answer is \slot{right option}.'' & ``I don't know the answer to this one.'' \\
-\lead{\sym{b}} & ``The answer is \slot{wrong option}.'' & the same abstention \\
-\end{tabular}\par
+% === 3. The bluff rate ===
+% The scale is a sketch of the definition, not data. The two graders sit where their rules put them.
+\begin{frame}{Above 50\%, a judge is worse than accuracy grading}
+The \lead{bluff rate} is the share of duels in which a confident wrong answer beats ``I don't know''.\par
 \vspace{3mm}
-\begin{tabular}{@{}>{\bfseries}p{28mm}>{\raggedright\arraybackslash}p{107mm}@{}}
-Responses & fixed sentences, so only the named option and the wording differ \\
-Questions & 300 multiple choice with keys, from medicine, law and geography \\
-Judges & six, plus one stronger judge on 60 questions \\
-Verdicts & a bare A or B, every pair in both orders \\
-Registered & hypotheses committed before the data \\
-\end{tabular}
+\begin{tikzpicture}[x=0.97mm,y=1mm,font=\fontsize{11}{13}\selectfont]
+  \fill[pays] (65,0) rectangle (130,19);
+  \draw[muted,densely dashed,line width=0.5pt] (65,0) -- (65,19);
+  \node[font=\fontsize{11}{13}\selectfont\bfseries,text=muted] at (32.5,15) {honesty pays};
+  \node[font=\fontsize{11}{13}\selectfont\bfseries,text=accent] at (97.5,15) {guessing pays};
+  \node[text width=62mm,align=center,text=accent] at (97.5,7) {a judge here pays a wrong answer\\ more than accuracy grading does};
+  \draw[ink,line width=0.6pt] (0,0) -- (130,0);
+  \foreach \x/\t in {0/0\%,65/50\%,130/100\%} {
+    \draw[ink,line width=0.6pt] (\x,0) -- (\x,-1.5);
+    \node[anchor=north,text=muted] at (\x,-1.8) {\t};
+  }
+  \gradermark{0,0}
+  \gradermark{65,0}
+  \node[anchor=north west,align=left,inner xsep=0pt] at (0,-7.5)
+    {\textbf{Penalty grader}\\ \grey{right $+1$, wrong $-1$}\\ \grey{``I don't know'' 0}};
+  \node[anchor=north,align=center] at (65,-7.5)
+    {\textbf{Accuracy grader}, a tie\\ \grey{right $+1$, wrong 0}\\ \grey{``I don't know'' 0}};
+\end{tikzpicture}\par
+\vspace{3mm}
+{\fontsize{12}{14.5}\selectfont Kalai et al.\ (2025) blame accuracy grading for hallucination, since a guess never scores below an abstention.\par}
 \end{frame}
 
 % === 4. Main result ===
-\begin{frame}{On multiple choice a wrong answer beats ``I don't know'' for every judge}
-\vspace{1mm}
-\begin{minipage}[t]{0.30\textwidth}\vspace{0pt}\raggedright
-\vspace{2mm}
-\herosmall{\bKnowsMin{}--\bKnowsMax{}}\par
-{\fontsize{12}{14}\selectfont\keysquare\ against ``I don't know''\par}
-\vspace{4mm}
-\herosmalldark{\wrongOverRightMin{}--\wrongOverRightMax{}}\par
-{\fontsize{12}{14}\selectfont\keydot\ against the right answer in the same words\par}
-\end{minipage}\hfill
-\begin{minipage}[t]{0.66\textwidth}\vspace{0pt}\centering
-\figcontrast{0.86\linewidth}
-\end{minipage}\par
+\begin{frame}{All six judges prefer a wrong answer to ``I don't know''}
 \vspace{0.5mm}
-\fignote{Panel a: registered test passed for \hOnePass{} of \hOneJudges{} judges, blue control added after it. Panels b and c: registered reruns, next slide.}
+\stat{\herosmall{\bKnowsMin{}--\bKnowsMax{}}}{40mm}{\keysquare\ wrong answer against ``I don't know''}\hfill
+\stat{\herosmalldark{\wrongOverRightMin{}--\wrongOverRightMax{}}}{40mm}{\keydot\ same wrong answer against the right one}\par
+\vspace{1.5mm}
+\widefig{146mm}{fig1_bluff.pdf}\par
+\vspace{0.5mm}
+\fignote{Registered test passed for \hOnePass{} of \hOneJudges{} judges. Control added after the registered runs, confirmed later.}
 \end{frame}
 
-% === 5. Registered reruns ===
-\begin{frame}{The contrast holds on fresh questions, and on free-form questions with a bare verdict}
-\begingroup\fontsize{12}{14.2}\selectfont
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{55mm}p{31mm}p{30mm}l@{}}
-\toprule
-\grey{Wrong answer against} & \grey{Duels it wins} & \grey{Judges passing} & \grey{Test} \\
-\midrule
-\multicolumn{4}{@{}l}{\textbf{Fresh questions}, \cfQuestions{} multiple choice} \\
-``I don't know'' & \cfBMin{} to \cfBMax{} & \cfCOnePass{} of \cfKept{} & \outcome{\cfCOneOutcome} \\
-the right answer & \cfCtrlMin{} to \cfCtrlMax{} & \cfCTwoPass{} of \cfKept{} & \outcome{\cfCTwoOutcome} \\
-\addlinespace[0.6mm]
-\multicolumn{4}{@{}l}{\textbf{Free-form questions}, \ffQuestions{} with replies of two sentences} \\
-``I don't know'' & \ffBMin{} to \ffBMax{} & \ffFOnePass{} of \ffKept{} & \outcome{\ffFOneOutcome} \\
-a fuller abstention & \ffFullMin{} to \ffFullMax{} & \ffFTwoPass{} of \ffKept{} & \outcome{\ffFTwoOutcome} \\
-the right reply & \ffCtrlMin{} to \ffCtrlMax{} & \ffFThreePass{} of \ffKept{} & \outcome{\ffFThreeOutcome} \\
-``I don't know'' (MT-Bench) & \ffMtMin{} to \ffMtMax{} & \ffFFourPass{} of \ffMtUsable{} & \outcome{\ffFFourOutcome} \\
-\bottomrule
-\end{tabular}\par\endgroup
-\vspace{1mm}
-\fignote{Registered after the earlier results were seen. A test holds if at least five judges pass (four for the fuller abstention, three for MT-Bench). Questions the judge knows.}
-\end{frame}
-
-% === 6. What it means for win rate ===
-\begin{frame}{Win rate pays for guessing at every accuracy}
-\begin{minipage}[t]{0.29\textwidth}\vspace{0pt}
-\figlines{\linewidth}\par
-\fignote{Answering wins in the grey area.}
-\end{minipage}\hfill
-\begin{minipage}[t]{0.68\textwidth}\vspace{0pt}\raggedright\fontsize{14}{16.5}\selectfont
-{\fontsize{16}{18}\selectfont\bfseries \sym{W}(\sym{p}) = \sym{b} + \sym{p}\,(\sym{a} \textminus{} \sym{b})}\par
-\vspace{0.3mm}
-\begin{tabular}{@{}l@{\hspace{3mm}}>{\raggedright\arraybackslash}p{80mm}@{}}
-\sym{W}(\sym{p}) & win rate of always answering \\
-\sym{p} & share of its answers that are right \\
-\sym{a}, \sym{b} & rates at which a right and a wrong answer beat ``I don't know'' \\
-\end{tabular}\par
-\vspace{0.8mm}
-Two models differ only on the fifth of questions neither knows. One guesses among four options, the other abstains. Under Claude Haiku 5.5 the guesser wins \exampleW{} there and \exampleOverall{} overall with ties elsewhere, about \exampleElo{} Elo points.
-\end{minipage}
-\end{frame}
-
-% === 7. The judges know ===
+% === 5. The judges know ===
 \begin{frame}{The judges can tell that the answer is wrong}
 \vspace{1.5mm}
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{33mm}>{\raggedright\arraybackslash}p{102mm}@{}}
@@ -137,45 +99,45 @@ Two models differ only on the fifth of questions neither knows. One guesses amon
 \end{exhibit}
 \end{frame}
 
-% === 8. Changing the judge ===
-\begin{frame}{No instruction repairs more than \fixMaxSingle{} of \fixJudges{} judges}
-\begin{minipage}[b]{0.66\textwidth}
-\includegraphics[width=\linewidth]{fig2_map.pdf}
-\end{minipage}\hfill
-\begin{minipage}[b]{0.315\textwidth}\raggedright
-\fignote{Percent of duels in which a wrong answer beats the abstention, on questions the judge knows. Boxed cells meet the registered criterion for a repaired judge. The last three rows come from runs added or extended later. Grey text marks cells that were not run or not usable.}
-\vspace{1.5mm}
-\end{minipage}\par
+% === 6. Registered replications ===
+\begin{frame}{It replicates in two more registered question sets}
+\widefig{138mm}{fig2_replicate.pdf}\par
 \vspace{0.5mm}
-A written rationale leaves the preference for \cotAboveHalf{} of \cotJudges{} judges, the MT-Bench prompt (added later) for \mtAbove{} of \mtJudges{}.\par
-\vspace{0.5mm}
-Reasoning mode, extended later, cuts it to \reasonedBHaiku{} and \reasonedBLuna{} in the calls that reasoned and leaves \reasonedBMistral{} for a third judge.
+{\fontsize{12}{14.5}\selectfont Fresh questions reproduced both rates for \lead{\cfAllPass{} of \cfKept{}} judges. On free-form questions \lead{\ffAboveHalf{} of \ffKept{}} stayed above one half, \ffBelowNames{} the exception at \ffBelowB{}.\par}
 \end{frame}
 
-% === 9. Outside the duel ===
-\begin{frame}{The judge's pick keeps almost no abstentions}
-\grey{One response per question is kept for training. Share of \natPool{} questions where the kept response is an abstention, registered}\par
-\vspace{3mm}
-\begin{tabular}{@{}p{38mm}p{38mm}l@{}}
-\hero{\selAbstainJ{}} & \herodark{\selAbstainR{}} & \herodark{\selAbstainK{}} \\
-judge's pick & random pick & oracle that uses the key \\
-\end{tabular}\par
-\vspace{6mm}
-\flag{Failed}\hspace{2mm}\textbf{Registered test on fine-tuned models.} No model abstained on any test question under any rule.\par
-\vspace{3.5mm}
-An exploratory follow-up showed only that abstention reaches a trained model if it survives in the training set.
+% === 7. What it does to a leaderboard ===
+\begin{frame}{Guessing buys Elo points under every judge}
+\vspace{1mm}
+\widefig{148mm}{fig3_guess.pdf}\par
+\vspace{2.5mm}
+{\fontsize{12}{14.5}\selectfont Computed from the measured rates. Guessing on the fifth of questions a model does not know gains it \lead{\guessEloMin{} to \guessEloMax{} Elo points} over abstaining.\par}
+\vspace{2mm}
+\fignote{\sym{W}(0.25) = \sym{b} + 0.25\,(\sym{a} \textminus{} \sym{b}), with \sym{a} and \sym{b} measured on all questions of the registered study.}
 \end{frame}
 
-% === 10. Limits and what to do ===
-\begin{frame}{Report \sym{b}, the rate at which a wrong answer beats an abstention, next to any win rate}
+% === 8. What fixes it ===
+\begin{frame}{Verify-then-compare brings all six below one half}
+\widefig{140mm}{fig4_fixes.pdf}\par
+\vspace{1mm}
+{\fontsize{12}{14.5}\selectfont \lead{Verify-then-compare} brings all \vtcBelow{} below one half, at a cost in right answers. Instructions manage at most \instrBelowMax{}. Explanations help on free-form questions.\par}
+\end{frame}
+
+% === 9. Larger judges and reward models. Filled later; kept here so the numbering stays ===
+\begin{frame}{Larger judges and reward models}
+\slot{results pending}
+\end{frame}
+
+% === 10. Scope and what to do ===
+\begin{frame}{Report the bluff rate next to any win rate}
 \begin{tabular}{@{}>{\bfseries}p{28mm}>{\raggedright\arraybackslash}p{107mm}@{}}
-Limits & The scope is a bare verdict on short factual questions. \\[1mm]
- & Open-ended tasks without a key were not tested. \\[1mm]
- & We have no human raters. \\[1.5mm]
-What to do & Measure \sym{b} for the judge and the instruction in use, on about 100 questions with a key. \\[1mm]
- & Or check each answer first. That took \sym{b} below one half on fresh questions, by the registered test for \cfCFourPass{} of \cfKept{} judges, and cost right answers. \\
+Scope & A bare verdict on short factual questions. The default judge of AlpacaEval 2.0 also reads a single token. \\[1mm]
+ & No human raters. \\[1mm]
+ & A prompt that asks for an explanation and allows a tie shrinks the effect. \\[2mm]
+What to do & Measure the bluff rate of the judge and the instruction in use, on about 100 questions with a key, and report it next to any win rate. \\[1mm]
+ & Or use verify-then-compare and report how many right answers it costs. \\
 \end{tabular}\par
-\vspace{1.5mm}
+\vspace{2.5mm}
 \url{https://github.com/123yaroslav/win-rate-pays-for-guessing}
 \end{frame}
 

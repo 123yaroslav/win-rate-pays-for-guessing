@@ -206,6 +206,7 @@ def study1() -> None:
             name = {"H1": "hOne", "H1F": "hOneF", "S1g": "sOneG", "S1g2": "sOneGApart"}[lab]
             put(f"{name}Pass", str(sum(t["holm_pass"][j] for j in six)))
             put(f"{name}Judges", str(len(six)))
+            put(f"{name}PassWord", WORDS[sum(t["holm_pass"][j] for j in six)])
     ts = s.get("two_step_check")
     if ts:
         put("twoStepMae", f"{ts['mae']:.2f}")
@@ -932,6 +933,9 @@ def form_abstract() -> None:
     for k in sorted(macros, key=len, reverse=True):
         txt = txt.replace("\\" + k + "{}", macros[k]).replace("\\" + k, macros[k])
     txt = txt.replace("\\%", "%").replace("``", '"').replace("\'\'", '"').replace("{,}", ",")
+    txt = re.sub(r"\\(?:emph|textit|textbf)\{([^{}]*)\}", r"\1", txt)   # plain text for the form
+    txt = re.sub(r"\$([^$]*)\$", r"\1", txt).replace("\\,", " ")
+    assert "\\" not in txt and "{" not in txt, txt
     txt = re.sub(r"\s+", " ", txt)
     (OUT / "abstract_for_form.txt").write_text(txt + "\n")
     readme = ROOT / "README.md"   # the summary in the README is the same text
@@ -943,6 +947,115 @@ def form_abstract() -> None:
     put("abstractWords", str(len(txt.split())))
 
 
+def large() -> None:
+    """Amendment 4, part A: two larger judges (results/large/summary.json from src/large_judges.py)."""
+    f = ROOT / "results/large/summary.json"
+    if not f.exists():
+        return
+    s = json.loads(f.read_text())
+    names = {"adaption/qwen3.5-397b": "Qwen 3.5 397B", "adaption/glm-5.2": "GLM 5.2"}
+    c, fr, t = s["confirm"], s["free"], s["tests"]
+    put("lgNames", " and ".join(names[j] for j in names if j in c))
+    for key, src, fld in (("lgB", c, "b"), ("lgCtrl", c, "control"), ("lgFfB", fr, "b_short"),
+                          ("lgFfCtrl", fr, "control"), ("lgFfFull", fr, "b_full")):
+        xs = [src[j][fld]["rate"] for j in names if j in src and fld in src[j]]
+        if xs:
+            rng_put(key, xs)
+    for j, k in names.items():
+        if j in c:
+            put("lgB" + k.split()[0].replace(".", ""), pct(c[j]["b"]["rate"]))
+        if j in fr and "b_short" in fr[j]:
+            put("lgFfB" + k.split()[0].replace(".", ""), pct(fr[j]["b_short"]["rate"]))
+    rng_put("lgAcc", [c[j]["own_accuracy"] for j in names if j in c])
+    rule = [c[j]["rule"]["b"] for j in names if j in c and "rule" in c[j]]
+    if rule:
+        rng_put("lgRuleB", rule)
+        rng_put("lgRuleA", [c[j]["rule"]["a"] for j in names if j in c and "rule" in c[j]])
+    for lab in ("One", "Two", "Three"):
+        k = {"One": "L1", "Two": "L2", "Three": "L3"}[lab]
+        put(f"lgL{lab}Outcome", "holds" if t[k + "_holds"] else "fails")
+        put(f"lgL{lab}Pass", WORDS[t[k + "_pass"]])
+    put("lgFfAbove", WORDS[sum(fr[j]["b_short"]["rate"] > 0.5 for j in names if j in fr and "b_short" in fr[j])])
+
+
+def reward_models() -> None:
+    """Amendment 4, part B: three reward models (results/reward_models/summary.json from src/rm_analyze.py)."""
+    f = ROOT / "results/reward_models/summary.json"
+    if not f.exists():
+        return
+    s = json.loads(f.read_text())
+    short = {"Skywork/Skywork-Reward-V2-Llama-3.1-8B": "Skywork V2 Llama 8B",
+             "Skywork/Skywork-Reward-V2-Qwen3-8B": "Skywork V2 Qwen3 8B",
+             "allenai/Llama-3.1-Tulu-3-8B-RM": "Tulu 3 8B RM"}
+    ms = s["models"]
+    for st, key in (("mcq", "rmMc"), ("free", "rmFf")):
+        for fld, k2 in (("b", "B"), ("b_separated", "BSep"), ("control", "Ctrl"), ("separated", "Sep"), ("a", "A"),
+                        ("b_full", "Full")):
+            xs = [ms[m][st][fld]["rate"] if isinstance(ms[m][st][fld], dict) else ms[m][st][fld] for m in ms]
+            rng_put(key + k2, xs)
+        put(key + "Above", WORDS[sum(ms[m][st]["b_separated"]["rate"] > 0.5 for m in ms)])
+    t = s["tests"]
+    for k, lab in (("R1", "rmROne"), ("R2", "rmRTwo")):
+        put(lab + "Outcome", "holds" if t[k]["holds"] else "fails")
+        put(lab + "Pass", WORDS[t[k]["passes"]])
+    put("rmCount", WORDS[len(ms)])
+    sens = ROOT / "results/reward_models/sensitivity_tulu_bos.jsonl"   # unregistered check, start token added
+    if sens.exists():
+        from collections import defaultdict
+        d: dict = defaultdict(dict)
+        for ln in sens.read_text().splitlines():
+            r = json.loads(ln)
+            d[(r["set"], r["item"])][r["resp"]] = r["score"]
+        for st, key in (("mcq", "Mc"), ("free", "Ff")):
+            sep = [v for (s_, _), v in d.items() if s_ == st and v["CC"] > v["CW"]]
+            put("rmBos" + key, pct(sum((v["CW"] > v["IDK"]) + 0.5 * (v["CW"] == v["IDK"]) for v in sep) / len(sep)))
+        tulu = ms.get("allenai/Llama-3.1-Tulu-3-8B-RM")
+        if tulu:
+            put("rmTuluMc", pct(tulu["mcq"]["b_separated"]["rate"]))
+            put("rmTuluFf", pct(tulu["free"]["b_separated"]["rate"]))
+    rows = []
+    for m in ms:
+        cells = [short.get(m, m)]
+        for st in ("mcq", "free"):
+            r = ms[m][st]
+            for fld in ("b", "b_separated", "control"):
+                c = r[fld]
+                cells.append(f"{100 * c['rate']:.0f} ({100 * c['lo']:.0f}--{100 * c['hi']:.0f})")
+        rows.append(" & ".join(cells) + " \\\\")
+    (OUT / "tab_rm.tex").write_text("\n".join(rows) + "\n")
+
+
+def figure_numbers() -> None:
+    """Numbers shown in figures 3 and 4, computed by the same functions that draw them."""
+    import sys
+    sys.path.insert(0, str(ROOT / "src"))
+    from fig_a import fixes_rows, guess_stats  # noqa: E402
+
+    def load(rel: str):
+        f = ROOT / rel
+        return json.loads(f.read_text()) if f.exists() else None
+
+    s1 = load("results/study1/summary.json")
+    g = guess_stats(s1)
+    judges = g[2:]
+    put("guessWMin", pct(min(w for _, w, _ in judges)))
+    put("guessWMax", pct(max(w for _, w, _ in judges)))
+    put("guessEloMin", f"{min(e for _, _, e in judges):.0f}")
+    put("guessEloMax", f"{max(e for _, _, e in judges):.0f}")
+    put("guessEloRule", f"{abs(g[0][2]):.0f}")
+    put("guessEloAcc", f"{g[1][2]:.0f}")
+    confirm = load("results/confirm2/confirm.json")
+    s4 = load("results/study4/summary.json")
+    if not (confirm and s4):
+        return
+    rows = fixes_rows(s4, load("results/study4/reasoning.json"), load("results/study4/mtbench.json"),
+                      load("results/explore_idk2/summary.json"), confirm)
+    instr = [r for r in rows if r["group"] == "Instruction" and r["label"] != "Default instruction"]
+    put("instrBelowMax", WORDS[max(sum(v < 0.5 for v in r["b"] if v is not None) for r in instr)])
+    vtc = rows[-1]
+    put("vtcBelow", WORDS[sum(v < 0.5 for v in vtc["b"])])
+
+
 def main() -> None:
     study1()
     study3()
@@ -951,6 +1064,9 @@ def main() -> None:
     reruns()
     confirm2()
     freeform()
+    figure_numbers()
+    large()
+    reward_models()
     appendix()
     form_abstract()
     lines = [f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in sorted(macros.items())]

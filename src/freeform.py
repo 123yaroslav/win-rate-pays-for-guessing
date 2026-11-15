@@ -199,14 +199,16 @@ async def run(judges: list[str], variant: str, out: str, or_budget: float) -> No
     await cl.http.aclose()
 
 
-def analyze() -> None:
+def analyze(run_dirs: list[str] | None = None, judges: list[str] | None = None,
+            outdir: str = "results/freeform") -> dict:
+    """Defaults reproduce Amendment 3. Amendment 4 calls this with its own runs, judges and output folder."""
     from analyze_duels import boot, mean, parse_letter
     items = {json.loads(ln)["id"]: json.loads(ln) for ln in ITEMS.read_text().splitlines() if ln.strip()}
     own, flags = {}, {}
     duel: dict = {}
     unparsed: dict = {}
     ties: dict = {}
-    for r in RUNS:
+    for r in (run_dirs or RUNS):
         p = ROOT / r / "calls.jsonl"
         if not p.exists():
             continue
@@ -252,7 +254,7 @@ def analyze() -> None:
                 "share_le_half": mean([x <= 0.5 for x in draws]),
                 "unparsed": unparsed.get((j, v, pair), 0) / (2 * len(items)), "ties": ties.get((j, v, pair), 0)}
 
-    for j in JUDGES:
+    for j in (judges or JUDGES):
         know = {i for i in items if own.get((j, i))}
         if not any(k[0] == j for k in duel):
             continue
@@ -312,11 +314,12 @@ def analyze() -> None:
                      f"{yn(r.get('f2_pass'))} | {yn(r['f3_pass'])} |")
     lines += ["", f"Judges kept {tests['judges_kept']}. F1 holds for {tests['F1']}, F2 for {tests['F2']}, F3 for "
                   f"{tests['F3']}, F4 for {tests['F4']} of {tests['F4_usable']} judges with usable replies."]
-    od = ROOT / "results/freeform"
+    od = ROOT / outdir
     od.mkdir(parents=True, exist_ok=True)
     (od / "summary.json").write_text(json.dumps(out, indent=1))
     (od / "summary.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
+    return out
 
 
 if __name__ == "__main__":

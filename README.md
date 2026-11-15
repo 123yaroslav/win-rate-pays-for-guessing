@@ -1,6 +1,6 @@
 # Win Rate Pays for Guessing
 
-**LLM Judges Prefer a Wrong Answer to an Honest "I Don't Know"**
+**Bare-Verdict LLM Judges Prefer a Wrong Answer to "I Don't Know"**
 
 Yaroslav Rogoza. Entry for the Apart Research AI x Epistemics Research Sprint, November 13 to 15, 2026.
 
@@ -8,35 +8,45 @@ Yaroslav Rogoza. Entry for the Apart Research AI x Epistemics Research Sprint, N
 |---|---|
 | Report | [`paper_A/main.pdf`](paper_A/main.pdf) |
 | Slides | [`slides/slides.pdf`](slides/slides.pdf) |
-| Pre-registration | [`prereg/A_prereg.md`](prereg/A_prereg.md), commit `e0fe746`, amendment `244435b` |
+| Pre-registration | [`prereg/A_prereg.md`](prereg/A_prereg.md), plan `e0fe746` and four amendments |
 | Every judge call | `results/study*/calls.jsonl` |
 
 ## Summary
 
 <!-- abstract:start -->
-Models are often compared by win rate, the share of pairwise comparisons an LLM judge awards to one side. We ask what win rate pays a model that does not know the answer. In pre-registered duels on 300 multiple-choice questions with keys, six judges giving a bare verdict preferred an assertive wrong answer to an honest "I don't know" in 61% to 94% of comparisons, on questions they answered correctly. In a control added later, the wrong answer won 2% to 15% against the right answer in the same words. The judges can tell the answer is wrong, yet win rate under them pays for guessing at any accuracy. A registered confirmation on 150 fresh questions reproduced both rates for six of six judges. On 100 free-form questions with two-sentence replies the wrong reply won 32% to 97%, and the registered test passed for five of six judges. Under a published judge prompt that asks for an explanation it won most duels for only two of six. No registered change of instructions repaired more than two of six judges on multiple choice, and a reasoning mode repaired one of three. Checking each answer first cut the wrong answer's wins below one half for six of six judges, at a cost in right answers. A judge that selected training data kept almost no abstentions, but a registered test on fine-tuned models failed. We propose reporting, next to any win rate, how often a wrong answer beats an abstention.
+Models are ranked and training data chosen by win rate, the share of pairwise comparisons an LLM judge awards to one side. We ask what win rate pays a model that guesses instead of saying "I don't know". Accuracy grading, blamed for hallucination, scores the two alike. We measure the bluff rate, the share of comparisons in which a confident wrong answer beats "I don't know". In pre-registered duels, six judges that answer with one token, as the default judge of AlpacaEval 2.0 does, had bluff rates of 61% to 94% on questions they answered correctly. The same wrong answer won only 2% to 15% against the right answer. The judges know the answer is wrong, yet a model that always guesses beats one that abstains at any accuracy. By our formula, guessing on a fifth of the questions would earn 29 to 65 Elo points. A registered run reproduced both rates on fresh questions for all six judges, and on free-form questions the bluff rate stayed above one half for five. Under a published prompt that asks for an explanation and allows a tie, only two judges kept it on free-form questions. Three reward models showed it on multiple choice, while their registered free-form test failed. Letting the judge first check each answer alone brought the bluff rate below one half for all six, significantly for five, at a cost in right answers. We propose reporting the bluff rate next to any win rate.
 <!-- abstract:end -->
 
-![An assertive wrong answer beats the abstention and loses to the same right answer](paper_A/figs/fig1_core.png)
+## The result in four figures
 
-Panels a to c: on questions a judge answers correctly itself, the wrong answer beats "I don't know" in most duels and loses to the right answer in the same words. The three panels are the registered study, the registered confirmation on fresh questions and the registered check on free-form questions. Panel d: the win rate of a policy that always answers against a policy that abstains, as a function of its accuracy.
+![Six judges prefer a wrong answer to "I don't know", yet reject it against the right answer](paper_A/figs/fig1_bluff.png)
 
-![Most changes to the judge leave the preference in place](paper_A/figs/fig2_map.png)
+**The bluff rate.** Squares give the share of duels that a confident wrong answer wins against "I don't know", on questions the judge answers correctly itself. Circles give the share it wins against the right answer stated in the same words. A penalty grader (+1 right, -1 wrong, 0 for an abstention) would score 0%, an accuracy grader 50%.
 
-Percent of duels in which an assertive wrong answer beats the abstention, on questions the judge knows, under each change to the judge.
+![The contrast replicates](paper_A/figs/fig2_replicate.png)
+
+**It replicates.** The same contrast in the registered study, in a registered confirmation on 150 fresh questions and in a registered check on 100 free-form questions with two-sentence replies.
+
+![Guessing buys leaderboard points](paper_A/figs/fig3_guess.png)
+
+**What it costs.** Computed win rate of a model that guesses among four options against a model that says "I don't know", and the Elo gap when two models differ only on a fifth of the questions.
+
+![What lowers the bluff rate](paper_A/figs/fig4_fixes.png)
+
+**What fixes it.** Checking each answer before the comparison (verify-then-compare) brings every judge below one half, at a cost in right answers. Instructions do so for at most three judges.
 
 ## How the measurement works
 
-An LLM judge compares two responses to a multiple-choice question with a known key. The responses are fixed sentences, so only the named option and the wording differ. Two rates describe a judge.
+An LLM judge compares two responses to a question with a known key and returns only its choice. The responses are fixed sentences, so only the named option and the wording differ. Two rates describe a judge.
 
-- `a` is the rate at which an assertive right answer beats "I don't know".
-- `b` is the rate at which an assertive wrong answer beats "I don't know".
+- `b`, the bluff rate, is the rate at which a confident wrong answer beats "I don't know".
+- `a` is the same rate for a confident right answer.
 
-A policy that always answers and is right with probability `p` wins `b + p (a - b)` of its comparisons against a policy that abstains. If `b` is above one half, answering wins at any accuracy.
+A model that always answers and is right with probability `p` wins `b + p (a - b)` of its comparisons against a model that abstains. If `b` is above one half, answering wins at any accuracy, even for a model that is always wrong.
 
-## Measure b for your own judge
+## Measure the bluff rate of your own judge
 
-The report recommends publishing `b` next to any win rate. This measures it for any judge on OpenRouter with the 150 fresh questions of the confirmation, about 750 calls.
+The report recommends publishing the bluff rate `b` next to any win rate. This measures it for any judge on OpenRouter with the 150 fresh questions of the confirmation, about 750 calls.
 
 ```
 python src/duels.py --items data/items/medqa_fresh.jsonl data/items/law_fresh.jsonl data/items/geo_fresh.jsonl \
