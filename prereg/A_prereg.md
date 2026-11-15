@@ -98,3 +98,25 @@ The duel responses are templates, so Study 1 measures the judge and not real mod
 ## Deviations
 
 Any departure from this plan is listed in the report in a section named Deviations from the pre-registration.
+
+## Amendment 2, 2026-11-15. Confirmation on fresh questions
+
+Written after all results of Studies 1, 3, 4 and 5 and of the analyses added to them were seen, and before any of the questions below was sent to a judge. The commit that adds this section is the timestamp. The analysis script `src/confirm2.py` is in the same commit.
+
+Why. Two results that carry the reading of Study 1 were not registered. The first is the control that pairs the assertive wrong answer with the assertive right answer in the same words (pair CW-CC). The second is the verify-then-compare rule, which was composed from logged verdicts. Both are tested here on questions that no earlier run has used, together with a replication of H1.
+
+Items. 150 fresh questions. MedQA test rows 1200 to 1249, MMLU professional_law test rows 200 to 251 and MMLU high_school_geography test rows 150 to 197, which are the last rows of that split. Files `data/items/medqa_fresh.jsonl`, `law_fresh.jsonl` and `geo_fresh.jsonl`, built by `src/items.py` with the same seed rule for the planted wrong option. No row overlaps with any earlier item file.
+
+Runs. The six registered judges of Study 1 with the default instruction, reasoning off, both orders. Pairs CW-IDK, CC-IDK and CW-CC. Each judge also answers every item itself, and gives the pointwise verdict of Amendment 1 on the responses CW and CC. Outputs go to `results/confirm2_openrouter` and `results/confirm2_adaption`.
+
+Statistics. Item bootstrap with 10,000 resamples, as in Study 1. "Known" questions are those the judge answers correctly itself. A judge with more than 10% of replies without a letter in the pair CW-IDK is dropped from the counts and reported.
+
+Predictions.
+
+- C1, replication of H1. On known questions b is above 0.5. Test per judge by the bootstrap share at or below 0.5, Holm over the judges at 0.05. C1 holds if it passes for at least five judges.
+- C2, equal-wording control. On known questions the assertive wrong answer beats the assertive right answer in fewer than 25% of duels, and the upper end of the 95% interval is below 0.25. C2 holds if this is true for at least five judges.
+- C3, gap. On known questions b minus the rate of C2 is at least 0.30 and the 95% interval of the difference excludes zero. C3 holds if this is true for at least five judges.
+- C4, verify-then-compare. Rule: a response that the judge calls incorrect in the pointwise check loses to the abstention, otherwise the duel verdict stands. Over all questions with a parsed reply to both checks and both duels, b with the rule is below 0.5, with a bootstrap share at or above 0.5 under 0.05. C4 holds if this is true for at least five judges. The cost of the rule is reported as a with the rule. We expect a with the rule at or above 0.80 for at least four judges. For a judge whose a with the rule is below 0.6 the report says that the rule is not usable with that judge.
+
+What the report will say. If C1, C2 and C3 hold, the report says that the preference and its control are confirmed on fresh questions. If any of them fails, the abstract says so. C4 is reported with its outcome and its cost either way.
+
