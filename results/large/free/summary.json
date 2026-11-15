@@ -1,0 +1,110 @@
+{
+ "n_items": 100,
+ "generator": "openrouter/meta-llama/llama-4-maverick",
+ "judges": {
+  "adaption/qwen3.5-397b": {
+   "knows": 0.79,
+   "b_short": {
+    "rate": 0.6075949367088608,
+    "lo": 0.5126582278481012,
+    "hi": 0.7025316455696202,
+    "n": 79,
+    "share_le_half": 0.0189,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "a_short": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 79,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "b_full": {
+    "rate": 0.4430379746835443,
+    "lo": 0.34810126582278483,
+    "hi": 0.5379746835443038,
+    "n": 79,
+    "share_le_half": 0.896,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "control": {
+    "rate": 0.012658227848101266,
+    "lo": 0.0,
+    "hi": 0.03164556962025317,
+    "n": 79,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "wrong_flagged": 0.91,
+   "right_accepted": 0.86,
+   "dropped": false,
+   "f3_pass": true,
+   "mt_usable": false,
+   "f1_pass": true,
+   "f2_pass": false
+  },
+  "adaption/glm-5.2": {
+   "knows": 0.82,
+   "b_short": {
+    "rate": 0.3597560975609756,
+    "lo": 0.27439024390243905,
+    "hi": 0.45121951219512196,
+    "n": 82,
+    "share_le_half": 0.9992,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "a_short": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 82,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "b_full": {
+    "rate": 0.1951219512195122,
+    "lo": 0.12804878048780488,
+    "hi": 0.27439024390243905,
+    "n": 82,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "control": {
+    "rate": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n": 82,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "wrong_flagged": 0.98,
+   "right_accepted": 0.82,
+   "dropped": false,
+   "f3_pass": true,
+   "mt_usable": false,
+   "f1_pass": false,
+   "f2_pass": false
+  }
+ },
+ "tests": {
+  "judges_kept": 2,
+  "F1": 1,
+  "F2": 0,
+  "F3": 2,
+  "F4_usable": 0,
+  "F4": 0,
+  "F1_holds": false,
+  "F2_holds": false,
+  "F3_holds": false,
+  "F4_holds": false
+ }
+}

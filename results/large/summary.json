@@ -1,0 +1,214 @@
+{
+ "confirm": {
+  "adaption/qwen3.5-397b": {
+   "own_accuracy": 0.8733333333333333,
+   "unparsed_primary": 0.0,
+   "unparsed_control": 0.0033333333333333335,
+   "dropped": false,
+   "b": {
+    "rate": 0.8015267175572519,
+    "lo": 0.7442748091603053,
+    "hi": 0.8549618320610687,
+    "n": 131,
+    "share_le_half": 0.0
+   },
+   "a": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 131
+   },
+   "control": {
+    "rate": 0.030534351145038167,
+    "lo": 0.007633587786259542,
+    "hi": 0.05725190839694656,
+    "n": 131
+   },
+   "c2_pass": true,
+   "gap": {
+    "value": 0.7709923664122137,
+    "lo": 0.7099236641221374,
+    "hi": 0.8282442748091603,
+    "n": 131
+   },
+   "c3_pass": true,
+   "rule": {
+    "n": 150,
+    "a_before": 1.0,
+    "b_before": 0.82,
+    "a": 0.9466666666666667,
+    "a_lo": 0.9066666666666666,
+    "a_hi": 0.98,
+    "b": 0.1,
+    "b_lo": 0.05333333333333334,
+    "b_hi": 0.15333333333333332,
+    "share_ge_half": 0.0,
+    "p_star": 0.47244094488188976,
+    "p_star_lo": 0.43548387096774194,
+    "p_star_hi": 0.5078125,
+    "wrong_flagged": 0.9,
+    "right_accepted": 0.9466666666666667
+   },
+   "c4_b_pass": true,
+   "c4_a_pass": true,
+   "c1_pass": true
+  },
+  "adaption/glm-5.2": {
+   "own_accuracy": 0.8666666666666667,
+   "unparsed_primary": 0.0,
+   "unparsed_control": 0.0033333333333333335,
+   "dropped": false,
+   "b": {
+    "rate": 0.6423076923076924,
+    "lo": 0.5769230769230769,
+    "hi": 0.7076923076923077,
+    "n": 130,
+    "share_le_half": 0.0
+   },
+   "a": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 130
+   },
+   "control": {
+    "rate": 0.08076923076923077,
+    "lo": 0.04230769230769231,
+    "hi": 0.12307692307692308,
+    "n": 130
+   },
+   "c2_pass": true,
+   "gap": {
+    "value": 0.5615384615384615,
+    "lo": 0.49615384615384617,
+    "hi": 0.6269230769230769,
+    "n": 130
+   },
+   "c3_pass": true,
+   "rule": {
+    "n": 150,
+    "a_before": 0.9933333333333333,
+    "b_before": 0.68,
+    "a": 0.74,
+    "a_lo": 0.6666666666666666,
+    "a_hi": 0.8066666666666666,
+    "b": 0.02666666666666667,
+    "b_lo": 0.006666666666666667,
+    "b_hi": 0.05333333333333334,
+    "share_ge_half": 0.0,
+    "p_star": 0.6635514018691588,
+    "p_star_lo": 0.6068376068376068,
+    "p_star_hi": 0.736842105263158,
+    "wrong_flagged": 0.9733333333333334,
+    "right_accepted": 0.74
+   },
+   "c4_b_pass": true,
+   "c4_a_pass": false,
+   "c1_pass": true
+  }
+ },
+ "free": {
+  "adaption/qwen3.5-397b": {
+   "knows": 0.79,
+   "b_short": {
+    "rate": 0.6075949367088608,
+    "lo": 0.5126582278481012,
+    "hi": 0.7025316455696202,
+    "n": 79,
+    "share_le_half": 0.0189,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "a_short": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 79,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "b_full": {
+    "rate": 0.4430379746835443,
+    "lo": 0.34810126582278483,
+    "hi": 0.5379746835443038,
+    "n": 79,
+    "share_le_half": 0.896,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "control": {
+    "rate": 0.012658227848101266,
+    "lo": 0.0,
+    "hi": 0.03164556962025317,
+    "n": 79,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "wrong_flagged": 0.91,
+   "right_accepted": 0.86,
+   "dropped": false,
+   "f3_pass": true,
+   "mt_usable": false,
+   "f1_pass": true,
+   "f2_pass": false
+  },
+  "adaption/glm-5.2": {
+   "knows": 0.82,
+   "b_short": {
+    "rate": 0.3597560975609756,
+    "lo": 0.27439024390243905,
+    "hi": 0.45121951219512196,
+    "n": 82,
+    "share_le_half": 0.9992,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "a_short": {
+    "rate": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n": 82,
+    "share_le_half": 0.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "b_full": {
+    "rate": 0.1951219512195122,
+    "lo": 0.12804878048780488,
+    "hi": 0.27439024390243905,
+    "n": 82,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "control": {
+    "rate": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n": 82,
+    "share_le_half": 1.0,
+    "unparsed": 0.0,
+    "ties": 0
+   },
+   "wrong_flagged": 0.98,
+   "right_accepted": 0.82,
+   "dropped": false,
+   "f3_pass": true,
+   "mt_usable": false,
+   "f1_pass": false,
+   "f2_pass": false
+  }
+ },
+ "tests": {
+  "L1_pass": 2,
+  "L1_judges": 2,
+  "L2_pass": 2,
+  "L3_pass": 1,
+  "L3_judges": 2,
+  "L1_holds": true,
+  "L2_holds": true,
+  "L3_holds": true
+ }
+}
