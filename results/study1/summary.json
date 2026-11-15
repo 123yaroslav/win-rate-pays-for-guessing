@@ -5,9 +5,17 @@
    "n_knows_items": 300,
    "variants": {
     "default": {
-     "picks_first_position": 0.4891666666666667,
+     "picks_first_position": 0.4889975550122249,
      "groups": {
       "all": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.995,
         "lo": 0.9883333333333333,
@@ -18,7 +26,7 @@
        },
        "CW-CC": {
         "rate": 0.19333333333333333,
-        "lo": 0.15833333333333333,
+        "lo": 0.16,
         "hi": 0.22833333333333333,
         "n": 300,
         "p_boot_le_half": 1.0,
@@ -26,17 +34,41 @@
        },
        "CW-HC": {
         "rate": 0.73,
-        "lo": 0.69,
+        "lo": 0.6916666666666667,
         "hi": 0.77,
         "n": 300,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 7,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.9483333333333334,
         "lo": 0.93,
-        "hi": 0.965,
+        "hi": 0.9666666666666667,
         "n": 300,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 0.9285714285714286,
+        "lo": 0.7857142857142857,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -45,13 +77,25 @@
         "b": 0.9483333333333334,
         "v_eff": 0.046666666666666634,
         "p_star": -9.607142857142865,
-        "p_star_lo": -16.470588235294123,
+        "p_star_lo": -16.352941176470598,
         "p_star_hi": -6.425000000000002,
         "n": 300,
-        "boot_defined": 0.9981
+        "boot_defined": 0.9985,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.8571428571428571,
+        "n_pred": 7
        }
       },
       "judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9959677419354839,
         "lo": 0.9899193548387096,
@@ -71,16 +115,40 @@
        "CW-HC": {
         "rate": 0.6975806451612904,
         "lo": 0.6532258064516129,
-        "hi": 0.7399193548387096,
+        "hi": 0.7419354838709677,
         "n": 248,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.9375,
         "lo": 0.9153225806451613,
-        "hi": 0.9576612903225806,
+        "hi": 0.9596774193548387,
         "n": 248,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -89,13 +157,25 @@
         "b": 0.9375,
         "v_eff": 0.058467741935483875,
         "p_star": -7.482758620689655,
-        "p_star_lo": -12.666666666666679,
+        "p_star_lo": -12.611111111111121,
         "p_star_hi": -5.02439024390244,
         "n": 248,
-        "boot_defined": 0.9999
+        "boot_defined": 0.9997,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.75,
+        "n_pred": 4
        }
       },
       "judge does not know": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9903846153846154,
         "lo": 0.9711538461538461,
@@ -109,14 +189,22 @@
         "lo": 0.3269230769230769,
         "hi": 0.5192307692307693,
         "n": 52,
-        "p_boot_le_half": 0.9553,
-        "p_boot_ge_half": 0.068
+        "p_boot_le_half": 0.9522,
+        "p_boot_ge_half": 0.07
        },
        "CW-HC": {
         "rate": 0.8846153846153846,
         "lo": 0.8076923076923077,
-        "hi": 0.9423076923076923,
+        "hi": 0.9519230769230769,
         "n": 52,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -128,6 +216,22 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 0.8333333333333334,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0346,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.9903846153846154,
         "b": 1.0,
@@ -136,10 +240,22 @@
         "p_star_lo": NaN,
         "p_star_hi": NaN,
         "n": 52,
-        "boot_defined": 0.0
+        "boot_defined": 0.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 1.0,
+        "n_pred": 3
        }
       },
       "judge tells the two answers apart": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9971751412429378,
         "lo": 0.9915254237288136,
@@ -150,7 +266,7 @@
        },
        "CW-CC": {
         "rate": 0.1016949152542373,
-        "lo": 0.07062146892655367,
+        "lo": 0.06779661016949153,
         "hi": 0.1384180790960452,
         "n": 177,
         "p_boot_le_half": 1.0,
@@ -164,6 +280,14 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.9209039548022598,
         "lo": 0.8898305084745762,
@@ -172,18 +296,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.9971751412429378,
         "b": 0.9209039548022598,
         "v_eff": 0.07627118644067798,
         "p_star": -5.518518518518516,
-        "p_star_lo": -9.3529411764706,
-        "p_star_hi": -3.657894736842105,
+        "p_star_lo": -9.411764705882364,
+        "p_star_hi": -3.702702702702704,
         "n": 177,
-        "boot_defined": 1.0
+        "boot_defined": 0.9999,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.6666666666666666,
+        "n_pred": 3
        }
       },
       "judge flags the wrong answer as incorrect": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9948453608247423,
         "lo": 0.9871134020618557,
@@ -202,9 +354,17 @@
        },
        "CW-HC": {
         "rate": 0.6701030927835051,
-        "lo": 0.6211340206185567,
+        "lo": 0.6185567010309279,
         "hi": 0.7190721649484536,
         "n": 194,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -216,18 +376,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.9948453608247423,
         "b": 0.9278350515463918,
         "v_eff": 0.0670103092783505,
         "p_star": -6.384615384615387,
-        "p_star_lo": -11.06250000000001,
-        "p_star_hi": -4.1891891891891895,
+        "p_star_lo": -11.400000000000007,
+        "p_star_hi": -4.162162162162163,
         "n": 194,
-        "boot_defined": 1.0
+        "boot_defined": 0.9998,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.8,
+        "n_pred": 5
        }
       },
       "judge knows and flags the wrong answer": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9970414201183432,
         "lo": 0.9911242603550295,
@@ -239,7 +427,7 @@
        "CW-CC": {
         "rate": 0.09763313609467456,
         "lo": 0.0650887573964497,
-        "hi": 0.13313609467455623,
+        "hi": 0.1301775147928994,
         "n": 169,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -252,11 +440,35 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.9171597633136095,
-        "lo": 0.8846153846153846,
+        "lo": 0.8875739644970414,
         "hi": 0.9467455621301775,
         "n": 169,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -268,10 +480,22 @@
         "p_star_lo": -8.882352941176464,
         "p_star_hi": -3.447368421052631,
         "n": 169,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.6666666666666666,
+        "n_pred": 3
        }
       },
       "domain geo": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.99,
         "lo": 0.975,
@@ -296,11 +520,35 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.885,
         "lo": 0.84,
         "hi": 0.93,
         "n": 100,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -312,10 +560,22 @@
         "p_star_lo": -7.250000000000008,
         "p_star_hi": -2.1935483870967736,
         "n": 100,
-        "boot_defined": 0.9997
+        "boot_defined": 0.9999,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.75,
+        "n_pred": 2
        }
       },
       "domain law": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.995,
         "lo": 0.985,
@@ -340,11 +600,35 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.985,
         "lo": 0.965,
         "hi": 1.0,
         "n": 100,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -354,12 +638,24 @@
         "v_eff": 0.010000000000000009,
         "p_star": NaN,
         "p_star_lo": -23.99999999999998,
-        "p_star_hi": -12.999999999999988,
+        "p_star_hi": -11.49999999999999,
         "n": 100,
-        "boot_defined": 0.214
+        "boot_defined": 0.2188,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 1.0,
+        "n_pred": 2
        }
       },
       "domain medqa": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -384,11 +680,35 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.975,
         "lo": 0.95,
         "hi": 0.995,
         "n": 100,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 0.8333333333333334,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0383,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -400,10 +720,22 @@
         "p_star_lo": -23.99999999999998,
         "p_star_hi": -8.999999999999991,
         "n": 100,
-        "boot_defined": 0.742
+        "boot_defined": 0.7417,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.8333333333333334,
+        "n_pred": 3
        }
       },
       "domain geo, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9945652173913043,
         "lo": 0.9836956521739131,
@@ -428,11 +760,35 @@
         "p_boot_le_half": 0.0001,
         "p_boot_ge_half": 1.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.875,
-        "lo": 0.8260869565217391,
+        "lo": 0.8206521739130435,
         "hi": 0.9239130434782609,
         "n": 92,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -441,13 +797,25 @@
         "b": 0.875,
         "v_eff": 0.11956521739130432,
         "p_star": -3.136363636363637,
-        "p_star_lo": -6.000000000000002,
+        "p_star_lo": -5.923076923076924,
         "p_star_hi": -1.875,
         "n": 92,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.5,
+        "n_pred": 1
        }
       },
       "domain law, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9935064935064936,
         "lo": 0.9805194805194806,
@@ -472,11 +840,35 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.9805194805194806,
         "lo": 0.9545454545454546,
         "hi": 1.0,
         "n": 77,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -486,12 +878,24 @@
         "v_eff": 0.012987012987012991,
         "p_star": NaN,
         "p_star_lo": -18.249999999999993,
-        "p_star_hi": -8.624999999999996,
+        "p_star_hi": -9.714285714285724,
         "n": 77,
-        "boot_defined": 0.2195
+        "boot_defined": 0.22,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 1.0,
+        "n_pred": 1
        }
       },
       "domain medqa, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -511,8 +915,16 @@
        "CW-HC": {
         "rate": 0.7531645569620253,
         "lo": 0.6835443037974683,
-        "hi": 0.8164556962025317,
+        "hi": 0.8227848101265823,
         "n": 79,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
@@ -524,6 +936,22 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 1.0,
         "b": 0.9683544303797469,
@@ -532,7 +960,11 @@
         "p_star_lo": -18.749999999999982,
         "p_star_hi": -6.8999999999999995,
         "n": 79,
-        "boot_defined": 0.7369
+        "boot_defined": 0.7444,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.75,
+        "n_pred": 2
        }
       }
      },
@@ -547,14 +979,14 @@
       "HW-IDK": 0
      },
      "parsed_items": {
-      "CC-HC": 0,
+      "CC-HC": 7,
       "CC-IDK": 300,
       "CW-CC": 300,
       "CW-HC": 300,
-      "CW-HW": 0,
+      "CW-HW": 7,
       "CW-IDK": 300,
-      "HC-IDK": 0,
-      "HW-IDK": 0
+      "HC-IDK": 7,
+      "HW-IDK": 6
      }
     }
    }
@@ -564,9 +996,17 @@
    "n_knows_items": 300,
    "variants": {
     "default": {
-     "picks_first_position": 0.5506356861025866,
+     "picks_first_position": 0.552405498281787,
      "groups": {
       "all": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9882154882154882,
         "lo": 0.9764309764309764,
@@ -591,6 +1031,14 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0042,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6579861111111112,
         "lo": 0.6128472222222222,
@@ -599,18 +1047,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5833333333333334,
+        "lo": 0.5,
+        "hi": 0.75,
+        "n": 6,
+        "p_boot_le_half": 0.3328,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.9878472222222222,
         "b": 0.6579861111111112,
         "v_eff": 0.32986111111111105,
         "p_star": -0.47894736842105284,
-        "p_star_lo": -0.7204968944099376,
-        "p_star_hi": -0.30232558139534876,
+        "p_star_lo": -0.7185628742514973,
+        "p_star_hi": -0.3013698630136988,
         "n": 288,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.875,
+        "pred_CW_HC": 0.765625,
+        "obs_CW_HC": 0.25,
+        "n_pred": 4
        }
       },
       "judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -635,12 +1111,36 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6068376068376068,
-        "lo": 0.5555555555555556,
+        "lo": 0.5576923076923077,
         "hi": 0.6581196581196581,
         "n": 234,
         "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 6,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.6,
+        "lo": 0.5,
+        "hi": 0.8,
+        "n": 5,
+        "p_boot_le_half": 0.3302,
         "p_boot_ge_half": 1.0
        },
        "derived": {
@@ -649,12 +1149,24 @@
         "v_eff": 0.3931623931623932,
         "p_star": -0.2717391304347825,
         "p_star_lo": -0.46249999999999997,
-        "p_star_hi": -0.12500000000000006,
+        "p_star_hi": -0.11961722488038286,
         "n": 234,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 0.8333333333333334,
+        "obs_CW_HC": 0.3333333333333333,
+        "n_pred": 3
        }
       },
       "judge does not know": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9351851851851852,
         "lo": 0.8703703703703703,
@@ -668,16 +1180,24 @@
         "lo": 0.3018867924528302,
         "hi": 0.5377358490566038,
         "n": 53,
-        "p_boot_le_half": 0.9305,
-        "p_boot_ge_half": 0.0933
+        "p_boot_le_half": 0.9287,
+        "p_boot_ge_half": 0.0951
        },
        "CW-HC": {
         "rate": 0.6851851851851852,
-        "lo": 0.5833333333333334,
+        "lo": 0.5740740740740741,
         "hi": 0.7870370370370371,
         "n": 54,
-        "p_boot_le_half": 0.0006,
+        "p_boot_le_half": 0.0004,
         "p_boot_ge_half": 0.9997
+       },
+       "CW-HW": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.8796296296296297,
@@ -685,6 +1205,22 @@
         "hi": 0.9444444444444444,
         "n": 54,
         "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0,
         "p_boot_ge_half": 1.0
        },
        "derived": {
@@ -695,10 +1231,22 @@
         "p_star_lo": -14.999999999999993,
         "p_star_hi": -2.6923076923076925,
         "n": 54,
-        "boot_defined": 0.8484
+        "boot_defined": 0.8514,
+        "tone": 0.5,
+        "pred_CW_HC": 0.5,
+        "obs_CW_HC": 0.0,
+        "n_pred": 1
        }
       },
       "judge tells the two answers apart": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -723,12 +1271,36 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6116279069767442,
         "lo": 0.5581395348837209,
-        "hi": 0.6651162790697674,
+        "hi": 0.6627906976744186,
         "n": 215,
-        "p_boot_le_half": 0.0001,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 3,
+        "p_boot_le_half": 1.0,
         "p_boot_ge_half": 1.0
        },
        "derived": {
@@ -736,13 +1308,25 @@
         "b": 0.6116279069767442,
         "v_eff": 0.3883720930232558,
         "p_star": -0.2874251497005988,
-        "p_star_lo": -0.48275862068965497,
+        "p_star_lo": -0.4930555555555556,
         "p_star_hi": -0.13157894736842105,
         "n": 215,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 0.75,
+        "obs_CW_HC": 0.0,
+        "n_pred": 2
        }
       },
       "judge flags the wrong answer as incorrect": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9885496183206107,
         "lo": 0.9751908396946565,
@@ -761,18 +1345,42 @@
        },
        "CW-HC": {
         "rate": 0.19615384615384615,
-        "lo": 0.15576923076923077,
+        "lo": 0.15384615384615385,
         "hi": 0.23846153846153847,
         "n": 260,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 0.8333333333333334,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0387,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6338582677165354,
         "lo": 0.5866141732283464,
-        "hi": 0.6811023622047244,
+        "hi": 0.6830708661417323,
         "n": 254,
         "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 4,
+        "p_boot_le_half": 1.0,
         "p_boot_ge_half": 1.0
        },
        "derived": {
@@ -780,13 +1388,25 @@
         "b": 0.6338582677165354,
         "v_eff": 0.35433070866141736,
         "p_star": -0.3777777777777777,
-        "p_star_lo": -0.5897435897435898,
+        "p_star_lo": -0.5974025974025974,
         "p_star_hi": -0.2125603864734298,
         "n": 254,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.8333333333333334,
+        "pred_CW_HC": 0.6944444444444445,
+        "obs_CW_HC": 0.0,
+        "n_pred": 3
        }
       },
       "judge knows and flags the wrong answer": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -811,13 +1431,37 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.5957943925233645,
         "lo": 0.5420560747663551,
         "hi": 0.6495327102803738,
         "n": 214,
-        "p_boot_le_half": 0.0002,
-        "p_boot_ge_half": 0.9999
+        "p_boot_le_half": 0.0004,
+        "p_boot_ge_half": 0.9997
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 3,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
        },
        "derived": {
         "a": 1.0,
@@ -827,10 +1471,22 @@
         "p_star_lo": -0.42666666666666675,
         "p_star_hi": -0.09183673469387743,
         "n": 214,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 0.75,
+        "obs_CW_HC": 0.0,
+        "n_pred": 2
        }
       },
       "domain geo": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.98989898989899,
         "lo": 0.9747474747474747,
@@ -841,7 +1497,7 @@
        },
        "CW-CC": {
         "rate": 0.045454545454545456,
-        "lo": 0.015151515151515152,
+        "lo": 0.010101010101010102,
         "hi": 0.08585858585858586,
         "n": 99,
         "p_boot_le_half": 1.0,
@@ -855,26 +1511,62 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.4336734693877551,
         "lo": 0.35714285714285715,
         "hi": 0.5102040816326531,
         "n": 98,
-        "p_boot_le_half": 0.9617,
-        "p_boot_ge_half": 0.0514
+        "p_boot_le_half": 0.9647,
+        "p_boot_ge_half": 0.0464
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
        },
        "derived": {
         "a": 0.9897959183673469,
         "b": 0.4336734693877551,
         "v_eff": 0.5561224489795918,
         "p_star": 0.1192660550458716,
-        "p_star_lo": -0.021505376344086044,
+        "p_star_lo": -0.02105263157894739,
         "p_star_hi": 0.224,
         "n": 98,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 0.75,
+        "obs_CW_HC": 0.0,
+        "n_pred": 2
        }
       },
       "domain law": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9848484848484849,
         "lo": 0.9595959595959596,
@@ -886,18 +1578,26 @@
        "CW-CC": {
         "rate": 0.14795918367346939,
         "lo": 0.08673469387755102,
-        "hi": 0.2193877551020408,
+        "hi": 0.21428571428571427,
         "n": 98,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HC": {
         "rate": 0.31958762886597936,
-        "lo": 0.23711340206185566,
+        "lo": 0.2422680412371134,
         "hi": 0.4020618556701031,
         "n": 97,
-        "p_boot_le_half": 0.9999,
-        "p_boot_ge_half": 0.0001
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 0.0
+       },
+       "CW-HW": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.859375,
@@ -907,18 +1607,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.984375,
         "b": 0.859375,
         "v_eff": 0.125,
         "p_star": -2.875,
-        "p_star_lo": -5.85714285714286,
-        "p_star_hi": -1.6388888888888886,
+        "p_star_lo": -5.714285714285708,
+        "p_star_hi": -1.628571428571429,
         "n": 96,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.5,
+        "pred_CW_HC": 0.5,
+        "obs_CW_HC": 0.0,
+        "n_pred": 1
        }
       },
       "domain medqa": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.98989898989899,
         "lo": 0.9696969696969697,
@@ -943,6 +1671,14 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6861702127659575,
         "lo": 0.6063829787234043,
@@ -951,18 +1687,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2509,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.9893617021276596,
         "b": 0.6861702127659575,
         "v_eff": 0.30319148936170215,
         "p_star": -0.6140350877192983,
-        "p_star_lo": -1.1428571428571435,
+        "p_star_lo": -1.1860465116279073,
         "p_star_hi": -0.2777777777777779,
         "n": 94,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 1.0,
+        "n_pred": 1
        }
       },
       "domain geo, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -982,18 +1746,42 @@
        "CW-HC": {
         "rate": 0.08241758241758242,
         "lo": 0.038461538461538464,
-        "hi": 0.13736263736263737,
+        "hi": 0.13186813186813187,
         "n": 91,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.4111111111111111,
         "lo": 0.3333333333333333,
         "hi": 0.4888888888888889,
         "n": 90,
-        "p_boot_le_half": 0.9906,
-        "p_boot_ge_half": 0.0151
+        "p_boot_le_half": 0.9882,
+        "p_boot_ge_half": 0.0157
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
        },
        "derived": {
         "a": 1.0,
@@ -1003,10 +1791,22 @@
         "p_star_lo": 0.021739130434782643,
         "p_star_hi": 0.25,
         "n": 90,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 0.75,
+        "obs_CW_HC": 0.0,
+        "n_pred": 2
        }
       },
       "domain law, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -1039,18 +1839,42 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 1.0,
         "b": 0.8235294117647058,
         "v_eff": 0.17647058823529416,
         "p_star": -1.8333333333333328,
-        "p_star_lo": -3.533333333333331,
+        "p_star_lo": -3.8571428571428585,
         "p_star_hi": -1.0,
         "n": 68,
         "boot_defined": 1.0
        }
       },
       "domain medqa, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 1.0,
         "lo": 1.0,
@@ -1075,6 +1899,14 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6447368421052632,
         "lo": 0.5526315789473685,
@@ -1083,15 +1915,35 @@
         "p_boot_le_half": 0.0015,
         "p_boot_ge_half": 0.9989
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2531,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 1.0,
         "b": 0.6447368421052632,
         "v_eff": 0.35526315789473684,
         "p_star": -0.40740740740740744,
         "p_star_lo": -0.8536585365853658,
-        "p_star_hi": -0.11764705882352955,
+        "p_star_hi": -0.10144927536231878,
         "n": 76,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 1.0,
+        "n_pred": 1
        }
       }
      },
@@ -1100,20 +1952,20 @@
       "CC-IDK": 12,
       "CW-CC": 19,
       "CW-HC": 35,
-      "CW-HW": 0,
+      "CW-HW": 7,
       "CW-IDK": 53,
       "HC-IDK": 0,
       "HW-IDK": 0
      },
      "parsed_items": {
-      "CC-HC": 0,
+      "CC-HC": 7,
       "CC-IDK": 297,
       "CW-CC": 296,
       "CW-HC": 295,
-      "CW-HW": 0,
+      "CW-HW": 4,
       "CW-IDK": 288,
-      "HC-IDK": 0,
-      "HW-IDK": 0
+      "HC-IDK": 7,
+      "HW-IDK": 6
      }
     }
    }
@@ -1123,9 +1975,17 @@
    "n_knows_items": 300,
    "variants": {
     "default": {
-     "picks_first_position": 0.27934371055952884,
+     "picks_first_position": 0.27972027972027974,
      "groups": {
       "all": {
+       "CC-HC": {
+        "rate": 0.7857142857142857,
+        "lo": 0.5714285714285714,
+        "hi": 0.9285714285714286,
+        "n": 7,
+        "p_boot_le_half": 0.0011,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.8783333333333333,
         "lo": 0.8533333333333334,
@@ -1137,7 +1997,7 @@
        "CW-CC": {
         "rate": 0.18166666666666667,
         "lo": 0.15166666666666667,
-        "hi": 0.21333333333333335,
+        "hi": 0.21166666666666667,
         "n": 300,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -1145,35 +2005,71 @@
        "CW-HC": {
         "rate": 0.43812709030100333,
         "lo": 0.40301003344481606,
-        "hi": 0.47157190635451507,
+        "hi": 0.47324414715719065,
         "n": 299,
-        "p_boot_le_half": 0.9999,
+        "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0001
+       },
+       "CW-HW": {
+        "rate": 0.7142857142857143,
+        "lo": 0.5714285714285714,
+        "hi": 0.9285714285714286,
+        "n": 7,
+        "p_boot_le_half": 0.0195,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.655,
-        "lo": 0.6266666666666667,
+        "lo": 0.625,
         "hi": 0.6833333333333333,
         "n": 300,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 0.8571428571428571,
+        "lo": 0.6428571428571429,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.6666666666666666,
+        "lo": 0.3333333333333333,
+        "hi": 0.9166666666666666,
+        "n": 6,
+        "p_boot_le_half": 0.1989,
+        "p_boot_ge_half": 0.913
        },
        "derived": {
         "a": 0.8783333333333333,
         "b": 0.655,
         "v_eff": 0.22333333333333327,
         "p_star": -0.694029850746269,
-        "p_star_lo": -0.9672131147540981,
-        "p_star_hi": -0.49342105263157904,
+        "p_star_lo": -0.971428571428572,
+        "p_star_hi": -0.496732026143791,
         "n": 300,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.7142857142857143,
+        "pred_CW_HC": 0.663265306122449,
+        "obs_CW_HC": 0.42857142857142855,
+        "n_pred": 7
        }
       },
       "judge knows": {
+       "CC-HC": {
+        "rate": 0.8,
+        "lo": 0.6,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0095,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9008620689655172,
         "lo": 0.875,
-        "hi": 0.9267241379310345,
+        "hi": 0.9245689655172413,
         "n": 232,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -1194,6 +2090,14 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 0.7,
+        "lo": 0.5,
+        "hi": 0.9,
+        "n": 5,
+        "p_boot_le_half": 0.082,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6293103448275862,
         "lo": 0.5969827586206896,
@@ -1202,18 +2106,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0003,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.7,
+        "lo": 0.3,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.1995,
+        "p_boot_ge_half": 0.9062
+       },
        "derived": {
         "a": 0.9008620689655172,
         "b": 0.6293103448275862,
         "v_eff": 0.27155172413793105,
         "p_star": -0.4761904761904761,
-        "p_star_lo": -0.6846846846846849,
-        "p_star_hi": -0.32167832167832167,
+        "p_star_lo": -0.6869565217391301,
+        "p_star_hi": -0.3214285714285713,
         "n": 232,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.7,
+        "pred_CW_HC": 0.5599999999999999,
+        "obs_CW_HC": 0.4,
+        "n_pred": 5
        }
       },
       "judge does not know": {
+       "CC-HC": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.24,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.8014705882352942,
         "lo": 0.7426470588235294,
@@ -1225,18 +2157,26 @@
        "CW-CC": {
         "rate": 0.36764705882352944,
         "lo": 0.29411764705882354,
-        "hi": 0.4485294117647059,
+        "hi": 0.4411764705882353,
         "n": 68,
-        "p_boot_le_half": 0.9997,
-        "p_boot_ge_half": 0.0007
+        "p_boot_le_half": 0.9995,
+        "p_boot_ge_half": 0.0012
        },
        "CW-HC": {
         "rate": 0.6323529411764706,
         "lo": 0.5661764705882353,
         "hi": 0.6985294117647058,
         "n": 68,
-        "p_boot_le_half": 0.0001,
-        "p_boot_ge_half": 0.9999
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "CW-HW": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2461,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.7426470588235294,
@@ -1246,18 +2186,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2524,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.8014705882352942,
         "b": 0.7426470588235294,
         "v_eff": 0.05882352941176472,
         "p_star": -4.124999999999999,
         "p_star_lo": -11.99999999999998,
-        "p_star_hi": -1.2857142857142854,
+        "p_star_hi": -1.315789473684211,
         "n": 68,
-        "boot_defined": 0.8269
+        "boot_defined": 0.8289,
+        "tone": 0.75,
+        "pred_CW_HC": 0.9375,
+        "obs_CW_HC": 0.5,
+        "n_pred": 2
        }
       },
       "judge tells the two answers apart": {
+       "CC-HC": {
+        "rate": 0.875,
+        "lo": 0.625,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0045,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9213836477987422,
         "lo": 0.8930817610062893,
@@ -1276,32 +2244,68 @@
        },
        "CW-HC": {
         "rate": 0.3291139240506329,
-        "lo": 0.2911392405063291,
-        "hi": 0.3670886075949367,
+        "lo": 0.2879746835443038,
+        "hi": 0.370253164556962,
         "n": 158,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 0.625,
+        "lo": 0.5,
+        "hi": 0.875,
+        "n": 4,
+        "p_boot_le_half": 0.3152,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6069182389937107,
-        "lo": 0.5691823899371069,
+        "lo": 0.5660377358490566,
         "hi": 0.6477987421383647,
         "n": 159,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 4,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.6666666666666666,
+        "lo": 0.0,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.2572,
+        "p_boot_ge_half": 0.7428
        },
        "derived": {
         "a": 0.9213836477987422,
         "b": 0.6069182389937107,
         "v_eff": 0.3144654088050315,
         "p_star": -0.33999999999999986,
-        "p_star_lo": -0.541176470588235,
-        "p_star_hi": -0.18803418803418798,
+        "p_star_lo": -0.540229885057471,
+        "p_star_hi": -0.18965517241379304,
         "n": 159,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.625,
+        "pred_CW_HC": 0.46875,
+        "obs_CW_HC": 0.5,
+        "n_pred": 4
        }
       },
       "judge flags the wrong answer as incorrect": {
+       "CC-HC": {
+        "rate": 0.7857142857142857,
+        "lo": 0.5714285714285714,
+        "hi": 0.9285714285714286,
+        "n": 7,
+        "p_boot_le_half": 0.002,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.8779264214046822,
         "lo": 0.8528428093645485,
@@ -1313,39 +2317,75 @@
        "CW-CC": {
         "rate": 0.1806020066889632,
         "lo": 0.1505016722408027,
-        "hi": 0.21070234113712374,
+        "hi": 0.21237458193979933,
         "n": 299,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HC": {
         "rate": 0.436241610738255,
-        "lo": 0.40268456375838924,
-        "hi": 0.4714765100671141,
+        "lo": 0.401006711409396,
+        "hi": 0.4697986577181208,
         "n": 298,
         "p_boot_le_half": 0.9999,
-        "p_boot_ge_half": 0.0001
+        "p_boot_ge_half": 0.0003
+       },
+       "CW-HW": {
+        "rate": 0.7142857142857143,
+        "lo": 0.5714285714285714,
+        "hi": 0.9285714285714286,
+        "n": 7,
+        "p_boot_le_half": 0.0187,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.6538461538461539,
-        "lo": 0.6237458193979933,
+        "lo": 0.6254180602006689,
         "hi": 0.6822742474916388,
         "n": 299,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 0.8571428571428571,
+        "lo": 0.7142857142857143,
+        "hi": 1.0,
+        "n": 7,
+        "p_boot_le_half": 0.0001,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.6666666666666666,
+        "lo": 0.3333333333333333,
+        "hi": 0.9166666666666666,
+        "n": 6,
+        "p_boot_le_half": 0.1972,
+        "p_boot_ge_half": 0.9149
        },
        "derived": {
         "a": 0.8779264214046822,
         "b": 0.6538461538461539,
         "v_eff": 0.2240802675585284,
         "p_star": -0.6865671641791047,
-        "p_star_lo": -0.9557522123893806,
-        "p_star_hi": -0.49019607843137275,
+        "p_star_lo": -0.9553571428571429,
+        "p_star_hi": -0.4875000000000002,
         "n": 299,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.7142857142857143,
+        "pred_CW_HC": 0.663265306122449,
+        "obs_CW_HC": 0.42857142857142855,
+        "n_pred": 7
        }
       },
       "judge knows and flags the wrong answer": {
+       "CC-HC": {
+        "rate": 0.8,
+        "lo": 0.6,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0103,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9008620689655172,
         "lo": 0.875,
@@ -1370,6 +2410,14 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 0.7,
+        "lo": 0.5,
+        "hi": 0.9,
+        "n": 5,
+        "p_boot_le_half": 0.0744,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6293103448275862,
         "lo": 0.5991379310344828,
@@ -1378,18 +2426,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 0.9,
+        "lo": 0.7,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.0005,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.7,
+        "lo": 0.3,
+        "hi": 1.0,
+        "n": 5,
+        "p_boot_le_half": 0.1989,
+        "p_boot_ge_half": 0.9033
+       },
        "derived": {
         "a": 0.9008620689655172,
         "b": 0.6293103448275862,
         "v_eff": 0.27155172413793105,
         "p_star": -0.4761904761904761,
-        "p_star_lo": -0.673076923076923,
-        "p_star_hi": -0.3223684210526317,
+        "p_star_lo": -0.6792452830188679,
+        "p_star_hi": -0.32167832167832167,
         "n": 232,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.7,
+        "pred_CW_HC": 0.5599999999999999,
+        "obs_CW_HC": 0.4,
+        "n_pred": 5
        }
       },
       "domain geo": {
+       "CC-HC": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2505,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.965,
         "lo": 0.94,
@@ -1400,7 +2476,7 @@
        },
        "CW-CC": {
         "rate": 0.1,
-        "lo": 0.06,
+        "lo": 0.055,
         "hi": 0.15,
         "n": 100,
         "p_boot_le_half": 1.0,
@@ -1409,18 +2485,42 @@
        "CW-HC": {
         "rate": 0.365,
         "lo": 0.305,
-        "hi": 0.43,
+        "hi": 0.425,
         "n": 100,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2402,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.675,
         "lo": 0.625,
-        "hi": 0.73,
+        "hi": 0.725,
         "n": 100,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.7461,
+        "p_boot_ge_half": 0.7522
        },
        "derived": {
         "a": 0.965,
@@ -1428,15 +2528,27 @@
         "v_eff": 0.2899999999999999,
         "p_star": -0.6034482758620693,
         "p_star_lo": -0.9999999999999994,
-        "p_star_hi": -0.34782608695652173,
+        "p_star_hi": -0.35211267605633806,
         "n": 100,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.75,
+        "pred_CW_HC": 0.5625,
+        "obs_CW_HC": 0.5,
+        "n_pred": 2
        }
       },
       "domain law": {
+       "CC-HC": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2477,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.83,
-        "lo": 0.785,
+        "lo": 0.78,
         "hi": 0.875,
         "n": 100,
         "p_boot_le_half": 0.0,
@@ -1445,18 +2557,26 @@
        "CW-CC": {
         "rate": 0.245,
         "lo": 0.195,
-        "hi": 0.295,
+        "hi": 0.3,
         "n": 100,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HC": {
         "rate": 0.47474747474747475,
-        "lo": 0.41414141414141414,
-        "hi": 0.5404040404040404,
+        "lo": 0.4090909090909091,
+        "hi": 0.5353535353535354,
         "n": 99,
-        "p_boot_le_half": 0.8076,
-        "p_boot_ge_half": 0.2405
+        "p_boot_le_half": 0.8081,
+        "p_boot_ge_half": 0.2384
+       },
+       "CW-HW": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.66,
@@ -1466,18 +2586,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.83,
         "b": 0.66,
         "v_eff": 0.16999999999999993,
         "p_star": -0.9411764705882358,
-        "p_star_lo": -1.8333333333333333,
+        "p_star_lo": -1.8695652173913042,
         "p_star_hi": -0.5,
         "n": 100,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.5,
+        "pred_CW_HC": 0.375,
+        "obs_CW_HC": 0.25,
+        "n_pred": 2
        }
       },
       "domain medqa": {
+       "CC-HC": {
+        "rate": 0.8333333333333334,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.041,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.84,
         "lo": 0.795,
@@ -1499,15 +2647,39 @@
         "lo": 0.425,
         "hi": 0.525,
         "n": 100,
-        "p_boot_le_half": 0.8636,
-        "p_boot_ge_half": 0.1834
+        "p_boot_le_half": 0.8563,
+        "p_boot_ge_half": 0.1923
+       },
+       "CW-HW": {
+        "rate": 0.8333333333333334,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.0357,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.63,
-        "lo": 0.585,
+        "lo": 0.58,
         "hi": 0.68,
         "n": 100,
         "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 0.6666666666666666,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 3,
+        "p_boot_le_half": 0.2869,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0,
         "p_boot_ge_half": 1.0
        },
        "derived": {
@@ -1515,13 +2687,25 @@
         "b": 0.63,
         "v_eff": 0.20999999999999996,
         "p_star": -0.6190476190476192,
-        "p_star_lo": -1.1562500000000009,
-        "p_star_hi": -0.32075471698113195,
+        "p_star_lo": -1.173913043478261,
+        "p_star_hi": -0.3157894736842104,
         "n": 100,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.8333333333333334,
+        "pred_CW_HC": 0.9722222222222221,
+        "obs_CW_HC": 0.5,
+        "n_pred": 3
        }
       },
       "domain geo, judge knows": {
+       "CC-HC": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2412,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.9728260869565217,
         "lo": 0.9456521739130435,
@@ -1546,6 +2730,14 @@
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
+       "CW-HW": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2493,
+        "p_boot_ge_half": 1.0
+       },
        "CW-IDK": {
         "rate": 0.6521739130434783,
         "lo": 0.5978260869565217,
@@ -1554,18 +2746,46 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.751,
+        "p_boot_ge_half": 0.7476
+       },
        "derived": {
         "a": 0.9728260869565217,
         "b": 0.6521739130434783,
         "v_eff": 0.32065217391304346,
         "p_star": -0.47457627118644075,
-        "p_star_lo": -0.7959183673469391,
+        "p_star_lo": -0.791666666666667,
         "p_star_hi": -0.26388888888888895,
         "n": 92,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.75,
+        "pred_CW_HC": 0.5625,
+        "obs_CW_HC": 0.5,
+        "n_pred": 2
        }
       },
       "domain law, judge knows": {
+       "CC-HC": {
+        "rate": 0.75,
+        "lo": 0.5,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.2552,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.852112676056338,
         "lo": 0.795774647887324,
@@ -1577,7 +2797,7 @@
        "CW-CC": {
         "rate": 0.19014084507042253,
         "lo": 0.13380281690140844,
-        "hi": 0.24647887323943662,
+        "hi": 0.2535211267605634,
         "n": 71,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -1585,10 +2805,18 @@
        "CW-HC": {
         "rate": 0.4142857142857143,
         "lo": 0.34285714285714286,
-        "hi": 0.4857142857142857,
+        "hi": 0.4928571428571429,
         "n": 70,
-        "p_boot_le_half": 0.9907,
-        "p_boot_ge_half": 0.0153
+        "p_boot_le_half": 0.9888,
+        "p_boot_ge_half": 0.0177
+       },
+       "CW-HW": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 2,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.6338028169014085,
@@ -1598,21 +2826,49 @@
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
+       "HC-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 2,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "derived": {
         "a": 0.852112676056338,
         "b": 0.6338028169014085,
         "v_eff": 0.2183098591549295,
         "p_star": -0.612903225806452,
         "p_star_lo": -1.2857142857142854,
-        "p_star_hi": -0.27027027027027034,
+        "p_star_hi": -0.26829268292682934,
         "n": 71,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 0.5,
+        "pred_CW_HC": 0.375,
+        "obs_CW_HC": 0.25,
+        "n_pred": 2
        }
       },
       "domain medqa, judge knows": {
+       "CC-HC": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
+       },
        "CC-IDK": {
         "rate": 0.855072463768116,
-        "lo": 0.8043478260869565,
+        "lo": 0.7971014492753623,
         "hi": 0.9057971014492754,
         "n": 69,
         "p_boot_le_half": 0.0,
@@ -1632,14 +2888,38 @@
         "hi": 0.4782608695652174,
         "n": 69,
         "p_boot_le_half": 0.9973,
-        "p_boot_ge_half": 0.0053
+        "p_boot_ge_half": 0.0057
+       },
+       "CW-HW": {
+        "rate": 1.0,
+        "lo": 1.0,
+        "hi": 1.0,
+        "n": 1,
+        "p_boot_le_half": 0.0,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.5942028985507246,
         "lo": 0.5434782608695652,
         "hi": 0.644927536231884,
         "n": 69,
-        "p_boot_le_half": 0.0002,
+        "p_boot_le_half": 0.0001,
+        "p_boot_ge_half": 1.0
+       },
+       "HC-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 1.0
+       },
+       "HW-IDK": {
+        "rate": 0.5,
+        "lo": 0.5,
+        "hi": 0.5,
+        "n": 1,
+        "p_boot_le_half": 1.0,
         "p_boot_ge_half": 1.0
        },
        "derived": {
@@ -1648,9 +2928,13 @@
         "v_eff": 0.26086956521739135,
         "p_star": -0.36111111111111094,
         "p_star_lo": -0.6923076923076926,
-        "p_star_hi": -0.14999999999999986,
+        "p_star_hi": -0.14893617021276598,
         "n": 69,
-        "boot_defined": 1.0
+        "boot_defined": 1.0,
+        "tone": 1.0,
+        "pred_CW_HC": 1.0,
+        "obs_CW_HC": 0.5,
+        "n_pred": 1
        }
       }
      },
@@ -1665,14 +2949,14 @@
       "HW-IDK": 0
      },
      "parsed_items": {
-      "CC-HC": 0,
+      "CC-HC": 7,
       "CC-IDK": 300,
       "CW-CC": 300,
       "CW-HC": 299,
-      "CW-HW": 0,
+      "CW-HW": 7,
       "CW-IDK": 300,
-      "HC-IDK": 0,
-      "HW-IDK": 0
+      "HC-IDK": 7,
+      "HW-IDK": 6
      }
     }
    }
@@ -1712,22 +2996,22 @@
        "CW-HC": {
         "rate": 0.3610169491525424,
         "lo": 0.3169491525423729,
-        "hi": 0.4067796610169492,
+        "hi": 0.40508474576271186,
         "n": 295,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HW": {
         "rate": 0.5913793103448276,
-        "lo": 0.553448275862069,
-        "hi": 0.6293103448275862,
+        "lo": 0.5517241379310345,
+        "hi": 0.6310344827586207,
         "n": 290,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.8439597315436241,
-        "lo": 0.8154362416107382,
+        "lo": 0.8137583892617449,
         "hi": 0.87248322147651,
         "n": 298,
         "p_boot_le_half": 0.0,
@@ -1743,7 +3027,7 @@
        },
        "HW-IDK": {
         "rate": 0.9333333333333333,
-        "lo": 0.9116666666666666,
+        "lo": 0.9133333333333333,
         "hi": 0.9533333333333334,
         "n": 300,
         "p_boot_le_half": 0.0,
@@ -1754,8 +3038,8 @@
         "b": 0.8439597315436241,
         "v_eff": 0.13758389261744974,
         "p_star": -2.4999999999999982,
-        "p_star_lo": -3.4603174603174587,
-        "p_star_hi": -1.873786407766991,
+        "p_star_lo": -3.4531250000000018,
+        "p_star_hi": -1.8613861386138613,
         "n": 298,
         "boot_defined": 1.0,
         "tone": 0.5894736842105263,
@@ -1784,14 +3068,14 @@
        "CW-CC": {
         "rate": 0.14345991561181434,
         "lo": 0.10970464135021098,
-        "hi": 0.17721518987341772,
+        "hi": 0.17932489451476794,
         "n": 237,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HC": {
         "rate": 0.32264957264957267,
-        "lo": 0.27350427350427353,
+        "lo": 0.27136752136752135,
         "hi": 0.37393162393162394,
         "n": 234,
         "p_boot_le_half": 1.0,
@@ -1824,7 +3108,7 @@
        "HW-IDK": {
         "rate": 0.9309623430962343,
         "lo": 0.9058577405857741,
-        "hi": 0.9539748953974896,
+        "hi": 0.9518828451882845,
         "n": 239,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -1834,8 +3118,8 @@
         "b": 0.8270042194092827,
         "v_eff": 0.16455696202531644,
         "p_star": -1.9871794871794872,
-        "p_star_lo": -2.7580645161290334,
-        "p_star_hi": -1.4787234042553188,
+        "p_star_lo": -2.754098360655738,
+        "p_star_hi": -1.4574468085106382,
         "n": 237,
         "boot_defined": 1.0,
         "tone": 0.5915178571428571,
@@ -1850,13 +3134,13 @@
         "lo": 0.5737704918032787,
         "hi": 0.7213114754098361,
         "n": 61,
-        "p_boot_le_half": 0.0003,
+        "p_boot_le_half": 0.0001,
         "p_boot_ge_half": 1.0
        },
        "CC-IDK": {
         "rate": 0.9426229508196722,
         "lo": 0.9016393442622951,
-        "hi": 0.9836065573770492,
+        "hi": 0.9754098360655737,
         "n": 61,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -1866,29 +3150,29 @@
         "lo": 0.30327868852459017,
         "hi": 0.48360655737704916,
         "n": 61,
-        "p_boot_le_half": 0.9908,
-        "p_boot_ge_half": 0.013
+        "p_boot_le_half": 0.9942,
+        "p_boot_ge_half": 0.0108
        },
        "CW-HC": {
         "rate": 0.5081967213114754,
         "lo": 0.4180327868852459,
         "hi": 0.5983606557377049,
         "n": 61,
-        "p_boot_le_half": 0.4771,
-        "p_boot_ge_half": 0.5964
+        "p_boot_le_half": 0.4662,
+        "p_boot_ge_half": 0.605
        },
        "CW-HW": {
         "rate": 0.5819672131147541,
         "lo": 0.5081967213114754,
         "hi": 0.6557377049180327,
         "n": 61,
-        "p_boot_le_half": 0.0231,
-        "p_boot_ge_half": 0.9859
+        "p_boot_le_half": 0.0207,
+        "p_boot_ge_half": 0.9873
        },
        "CW-IDK": {
         "rate": 0.9098360655737705,
         "lo": 0.860655737704918,
-        "hi": 0.9508196721311475,
+        "hi": 0.9590163934426229,
         "n": 61,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -1915,9 +3199,9 @@
         "v_eff": 0.032786885245901676,
         "p_star": -12.499999999999986,
         "p_star_lo": -17.66666666666673,
-        "p_star_hi": -3.615384615384615,
+        "p_star_hi": -3.7499999999999996,
         "n": 61,
-        "boot_defined": 0.6573,
+        "boot_defined": 0.6552,
         "tone": 0.5819672131147541,
         "pred_CW_HC": 0.5628863208814834,
         "obs_CW_HC": 0.5081967213114754,
@@ -1928,7 +3212,7 @@
        "CC-HC": {
         "rate": 0.9006622516556292,
         "lo": 0.8675496688741722,
-        "hi": 0.9337748344370861,
+        "hi": 0.9304635761589404,
         "n": 151,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -1962,8 +3246,8 @@
         "lo": 0.5,
         "hi": 0.6180555555555556,
         "n": 144,
-        "p_boot_le_half": 0.0274,
-        "p_boot_ge_half": 0.9784
+        "p_boot_le_half": 0.0264,
+        "p_boot_ge_half": 0.9789
        },
        "CW-IDK": {
         "rate": 0.7986577181208053,
@@ -1994,8 +3278,8 @@
         "b": 0.7986577181208053,
         "v_eff": 0.19798657718120805,
         "p_star": -1.5084745762711862,
-        "p_star_lo": -2.1956521739130435,
-        "p_star_hi": -1.0416666666666667,
+        "p_star_lo": -2.1739130434782608,
+        "p_star_hi": -1.0555555555555556,
         "n": 149,
         "boot_defined": 1.0,
         "tone": 0.5571428571428572,
@@ -2040,10 +3324,10 @@
        "CW-HW": {
         "rate": 0.5842293906810035,
         "lo": 0.5448028673835126,
-        "hi": 0.6236559139784946,
+        "hi": 0.6254480286738351,
         "n": 279,
-        "p_boot_le_half": 0.0,
-        "p_boot_ge_half": 1.0
+        "p_boot_le_half": 0.0001,
+        "p_boot_ge_half": 0.9999
        },
        "CW-IDK": {
         "rate": 0.8397212543554007,
@@ -2063,7 +3347,7 @@
        },
        "HW-IDK": {
         "rate": 0.9307958477508651,
-        "lo": 0.9100346020761245,
+        "lo": 0.9083044982698962,
         "hi": 0.9515570934256056,
         "n": 289,
         "p_boot_le_half": 0.0,
@@ -2087,7 +3371,7 @@
       "judge knows and flags the wrong answer": {
        "CC-HC": {
         "rate": 0.8571428571428571,
-        "lo": 0.8268398268398268,
+        "lo": 0.8246753246753247,
         "hi": 0.8874458874458875,
         "n": 231,
         "p_boot_le_half": 0.0,
@@ -2112,17 +3396,17 @@
        "CW-HC": {
         "rate": 0.30616740088105726,
         "lo": 0.2577092511013216,
-        "hi": 0.3590308370044053,
+        "hi": 0.3568281938325991,
         "n": 227,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HW": {
         "rate": 0.5878378378378378,
-        "lo": 0.5427927927927928,
-        "hi": 0.6328828828828829,
+        "lo": 0.5405405405405406,
+        "hi": 0.6351351351351351,
         "n": 222,
-        "p_boot_le_half": 0.0002,
+        "p_boot_le_half": 0.0001,
         "p_boot_ge_half": 0.9999
        },
        "CW-IDK": {
@@ -2154,7 +3438,7 @@
         "b": 0.8239130434782609,
         "v_eff": 0.16739130434782612,
         "p_star": -1.9350649350649347,
-        "p_star_lo": -2.6833333333333327,
+        "p_star_lo": -2.6999999999999993,
         "p_star_hi": -1.4148936170212763,
         "n": 230,
         "boot_defined": 1.0,
@@ -2194,16 +3478,16 @@
         "lo": 0.29081632653061223,
         "hi": 0.4489795918367347,
         "n": 98,
-        "p_boot_le_half": 0.9993,
-        "p_boot_ge_half": 0.001
+        "p_boot_le_half": 0.9992,
+        "p_boot_ge_half": 0.0011
        },
        "CW-HW": {
         "rate": 0.6391752577319587,
         "lo": 0.5670103092783505,
         "hi": 0.7061855670103093,
         "n": 97,
-        "p_boot_le_half": 0.0,
-        "p_boot_ge_half": 1.0
+        "p_boot_le_half": 0.0002,
+        "p_boot_ge_half": 0.9999
        },
        "CW-IDK": {
         "rate": 0.8282828282828283,
@@ -2224,7 +3508,7 @@
        "HW-IDK": {
         "rate": 0.94,
         "lo": 0.905,
-        "hi": 0.975,
+        "hi": 0.97,
         "n": 100,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -2234,7 +3518,7 @@
         "b": 0.8282828282828283,
         "v_eff": 0.1717171717171717,
         "p_star": -1.911764705882353,
-        "p_star_lo": -3.125,
+        "p_star_lo": -2.959999999999999,
         "p_star_hi": -1.2500000000000002,
         "n": 99,
         "boot_defined": 1.0,
@@ -2256,7 +3540,7 @@
        "CC-IDK": {
         "rate": 0.965,
         "lo": 0.94,
-        "hi": 0.99,
+        "hi": 0.985,
         "n": 100,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -2264,7 +3548,7 @@
        "CW-CC": {
         "rate": 0.28,
         "lo": 0.215,
-        "hi": 0.35,
+        "hi": 0.345,
         "n": 100,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -2274,8 +3558,8 @@
         "lo": 0.2777777777777778,
         "hi": 0.4393939393939394,
         "n": 99,
-        "p_boot_le_half": 0.9996,
-        "p_boot_ge_half": 0.0007
+        "p_boot_le_half": 0.9999,
+        "p_boot_ge_half": 0.0001
        },
        "CW-HW": {
         "rate": 0.696969696969697,
@@ -2303,7 +3587,7 @@
        },
        "HW-IDK": {
         "rate": 0.9,
-        "lo": 0.855,
+        "lo": 0.86,
         "hi": 0.94,
         "n": 100,
         "p_boot_le_half": 0.0,
@@ -2314,10 +3598,10 @@
         "b": 0.85,
         "v_eff": 0.11499999999999999,
         "p_star": -3.0434782608695654,
-        "p_star_lo": -6.000000000000005,
-        "p_star_hi": -1.812500000000001,
+        "p_star_lo": -6.076923076923082,
+        "p_star_hi": -1.7941176470588245,
         "n": 100,
-        "boot_defined": 0.9999,
+        "boot_defined": 1.0,
         "tone": 0.6938775510204082,
         "pred_CW_HC": 0.6124531445231154,
         "obs_CW_HC": 0.3622448979591837,
@@ -2352,7 +3636,7 @@
        "CW-HC": {
         "rate": 0.35714285714285715,
         "lo": 0.2857142857142857,
-        "hi": 0.42857142857142855,
+        "hi": 0.4336734693877551,
         "n": 98,
         "p_boot_le_half": 0.9999,
         "p_boot_ge_half": 0.0002
@@ -2362,8 +3646,8 @@
         "lo": 0.3670212765957447,
         "hi": 0.4946808510638298,
         "n": 94,
-        "p_boot_le_half": 0.9829,
-        "p_boot_ge_half": 0.0244
+        "p_boot_le_half": 0.9844,
+        "p_boot_ge_half": 0.0232
        },
        "CW-IDK": {
         "rate": 0.8535353535353535,
@@ -2394,10 +3678,10 @@
         "b": 0.8535353535353535,
         "v_eff": 0.1262626262626263,
         "p_star": -2.799999999999999,
-        "p_star_lo": -5.785714285714285,
-        "p_star_hi": -1.6216216216216206,
+        "p_star_lo": -5.714285714285723,
+        "p_star_hi": -1.594594594594595,
         "n": 99,
-        "boot_defined": 0.9999,
+        "boot_defined": 1.0,
         "tone": 0.42934782608695654,
         "pred_CW_HC": 0.37801275992438566,
         "obs_CW_HC": 0.3532608695652174,
@@ -2431,23 +3715,23 @@
        },
        "CW-HC": {
         "rate": 0.3409090909090909,
-        "lo": 0.2556818181818182,
+        "lo": 0.26136363636363635,
         "hi": 0.42613636363636365,
         "n": 88,
-        "p_boot_le_half": 0.9999,
-        "p_boot_ge_half": 0.0003
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 0.0
        },
        "CW-HW": {
         "rate": 0.6379310344827587,
         "lo": 0.5632183908045977,
         "hi": 0.7068965517241379,
         "n": 87,
-        "p_boot_le_half": 0.0006,
-        "p_boot_ge_half": 0.9997
+        "p_boot_le_half": 0.0001,
+        "p_boot_ge_half": 1.0
        },
        "CW-IDK": {
         "rate": 0.8202247191011236,
-        "lo": 0.7640449438202247,
+        "lo": 0.7696629213483146,
         "hi": 0.8707865168539326,
         "n": 89,
         "p_boot_le_half": 0.0,
@@ -2475,7 +3759,7 @@
         "v_eff": 0.1797752808988764,
         "p_star": -1.78125,
         "p_star_lo": -2.8695652173913047,
-        "p_star_hi": -1.170731707317073,
+        "p_star_hi": -1.1190476190476188,
         "n": 89,
         "boot_defined": 1.0,
         "tone": 0.6352941176470588,
@@ -2504,22 +3788,22 @@
        "CW-CC": {
         "rate": 0.208955223880597,
         "lo": 0.13432835820895522,
-        "hi": 0.291044776119403,
+        "hi": 0.2835820895522388,
         "n": 67,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HC": {
         "rate": 0.3106060606060606,
-        "lo": 0.2196969696969697,
+        "lo": 0.21212121212121213,
         "hi": 0.4090909090909091,
         "n": 66,
-        "p_boot_le_half": 0.9998,
-        "p_boot_ge_half": 0.0004
+        "p_boot_le_half": 1.0,
+        "p_boot_ge_half": 0.0001
        },
        "CW-HW": {
         "rate": 0.696969696969697,
-        "lo": 0.6287878787878788,
+        "lo": 0.6212121212121212,
         "hi": 0.7727272727272727,
         "n": 66,
         "p_boot_le_half": 0.0,
@@ -2554,8 +3838,8 @@
         "b": 0.8283582089552238,
         "v_eff": 0.14925373134328368,
         "p_star": -2.1999999999999984,
-        "p_star_lo": -4.500000000000004,
-        "p_star_hi": -1.2413793103448278,
+        "p_star_lo": -4.454545454545453,
+        "p_star_hi": -1.2068965517241375,
         "n": 67,
         "boot_defined": 1.0,
         "tone": 0.6923076923076923,
@@ -2599,11 +3883,11 @@
        },
        "CW-HW": {
         "rate": 0.45394736842105265,
-        "lo": 0.3815789473684211,
+        "lo": 0.375,
         "hi": 0.5328947368421053,
         "n": 76,
-        "p_boot_le_half": 0.8936,
-        "p_boot_ge_half": 0.1386
+        "p_boot_le_half": 0.8993,
+        "p_boot_ge_half": 0.1299
        },
        "CW-IDK": {
         "rate": 0.8333333333333334,
@@ -2635,7 +3919,7 @@
         "v_eff": 0.16049382716049376,
         "p_star": -2.076923076923078,
         "p_star_lo": -4.0,
-        "p_star_hi": -1.1944444444444444,
+        "p_star_hi": -1.189189189189189,
         "n": 81,
         "boot_defined": 1.0,
         "tone": 0.4527027027027027,
@@ -2695,7 +3979,7 @@
        "CW-CC": {
         "rate": 0.18666666666666668,
         "lo": 0.15,
-        "hi": 0.225,
+        "hi": 0.22333333333333333,
         "n": 300,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -2705,8 +3989,8 @@
         "lo": 0.44816053511705684,
         "hi": 0.5451505016722408,
         "n": 299,
-        "p_boot_le_half": 0.563,
-        "p_boot_ge_half": 0.4622
+        "p_boot_le_half": 0.5734,
+        "p_boot_ge_half": 0.4525
        },
        "CW-HW": {
         "rate": 0.9732441471571907,
@@ -2735,7 +4019,7 @@
        "HW-IDK": {
         "rate": 0.8288135593220339,
         "lo": 0.8,
-        "hi": 0.8559322033898306,
+        "hi": 0.8576271186440678,
         "n": 295,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -2746,7 +4030,7 @@
         "v_eff": 0.06711409395973156,
         "p_star": -6.424999999999998,
         "p_star_lo": -9.571428571428585,
-        "p_star_hi": -4.6226415094339615,
+        "p_star_hi": -4.711538461538463,
         "n": 298,
         "boot_defined": 1.0,
         "tone": 0.9731543624161074,
@@ -2785,8 +4069,8 @@
         "lo": 0.3684210526315789,
         "hi": 0.48026315789473684,
         "n": 228,
-        "p_boot_le_half": 0.9966,
-        "p_boot_ge_half": 0.0043
+        "p_boot_le_half": 0.9972,
+        "p_boot_ge_half": 0.0039
        },
        "CW-HW": {
         "rate": 0.9692982456140351,
@@ -2798,7 +4082,7 @@
        },
        "CW-IDK": {
         "rate": 0.920704845814978,
-        "lo": 0.8964757709251101,
+        "lo": 0.8942731277533039,
         "hi": 0.9449339207048458,
         "n": 227,
         "p_boot_le_half": 0.0,
@@ -2814,7 +4098,7 @@
        },
        "HW-IDK": {
         "rate": 0.8125,
-        "lo": 0.7767857142857143,
+        "lo": 0.7790178571428571,
         "hi": 0.8459821428571429,
         "n": 224,
         "p_boot_le_half": 0.0,
@@ -2857,8 +4141,8 @@
         "lo": 0.3732394366197183,
         "hi": 0.5704225352112676,
         "n": 71,
-        "p_boot_le_half": 0.7392,
-        "p_boot_ge_half": 0.3109
+        "p_boot_le_half": 0.7427,
+        "p_boot_ge_half": 0.306
        },
        "CW-HC": {
         "rate": 0.7323943661971831,
@@ -2908,7 +4192,7 @@
         "p_star_lo": -22.6666666666667,
         "p_star_hi": -6.099999999999998,
         "n": 71,
-        "boot_defined": 0.8941,
+        "boot_defined": 0.882,
         "tone": 0.9859154929577465,
         "pred_CW_HC": 0.9512001586986709,
         "obs_CW_HC": 0.7323943661971831,
@@ -2943,7 +4227,7 @@
        "CW-HC": {
         "rate": 0.3333333333333333,
         "lo": 0.2786885245901639,
-        "hi": 0.3907103825136612,
+        "hi": 0.3879781420765027,
         "n": 183,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -3014,7 +4298,7 @@
        },
        "CW-CC": {
         "rate": 0.1339712918660287,
-        "lo": 0.09808612440191387,
+        "lo": 0.09569377990430622,
         "hi": 0.17464114832535885,
         "n": 209,
         "p_boot_le_half": 1.0,
@@ -3025,8 +4309,8 @@
         "lo": 0.33413461538461536,
         "hi": 0.4423076923076923,
         "n": 208,
-        "p_boot_le_half": 1.0,
-        "p_boot_ge_half": 0.0
+        "p_boot_le_half": 0.9999,
+        "p_boot_ge_half": 0.0001
        },
        "CW-HW": {
         "rate": 0.9639423076923077,
@@ -3055,7 +4339,7 @@
        "HW-IDK": {
         "rate": 0.7888349514563107,
         "lo": 0.7524271844660194,
-        "hi": 0.8228155339805825,
+        "hi": 0.8252427184466019,
         "n": 206,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -3066,7 +4350,7 @@
         "v_eff": 0.09661835748792269,
         "p_star": -4.175000000000001,
         "p_star_lo": -6.137931034482761,
-        "p_star_hi": -3.058823529411765,
+        "p_star_hi": -2.980769230769231,
         "n": 207,
         "boot_defined": 1.0,
         "tone": 0.9637681159420289,
@@ -3102,7 +4386,7 @@
        },
        "CW-HC": {
         "rate": 0.34210526315789475,
-        "lo": 0.28362573099415206,
+        "lo": 0.28654970760233917,
         "hi": 0.40058479532163743,
         "n": 171,
         "p_boot_le_half": 1.0,
@@ -3135,7 +4419,7 @@
        "HW-IDK": {
         "rate": 0.7810650887573964,
         "lo": 0.7396449704142012,
-        "hi": 0.8224852071005917,
+        "hi": 0.8195266272189349,
         "n": 169,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -3145,7 +4429,7 @@
         "b": 0.8970588235294118,
         "v_eff": 0.1029411764705882,
         "p_star": -3.8571428571428585,
-        "p_star_lo": -5.800000000000003,
+        "p_star_lo": -6.083333333333337,
         "p_star_hi": -2.6956521739130443,
         "n": 170,
         "boot_defined": 1.0,
@@ -3183,10 +4467,10 @@
        "CW-HC": {
         "rate": 0.4696969696969697,
         "lo": 0.3838383838383838,
-        "hi": 0.5505050505050505,
+        "hi": 0.5555555555555556,
         "n": 99,
-        "p_boot_le_half": 0.7768,
-        "p_boot_ge_half": 0.2626
+        "p_boot_le_half": 0.7772,
+        "p_boot_ge_half": 0.2586
        },
        "CW-HW": {
         "rate": 0.9545454545454546,
@@ -3265,8 +4549,8 @@
         "lo": 0.45,
         "hi": 0.625,
         "n": 100,
-        "p_boot_le_half": 0.201,
-        "p_boot_ge_half": 0.829
+        "p_boot_le_half": 0.2037,
+        "p_boot_ge_half": 0.8273
        },
        "CW-HW": {
         "rate": 0.985,
@@ -3279,7 +4563,7 @@
        "CW-IDK": {
         "rate": 0.965,
         "lo": 0.94,
-        "hi": 0.985,
+        "hi": 0.99,
         "n": 100,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -3306,9 +4590,9 @@
         "v_eff": 0.030000000000000027,
         "p_star": -15.499999999999986,
         "p_star_lo": -23.99999999999998,
-        "p_star_hi": -7.250000000000008,
+        "p_star_hi": -7.333333333333326,
         "n": 100,
-        "boot_defined": 0.823,
+        "boot_defined": 0.8213,
         "tone": 0.985,
         "pred_CW_HC": 0.9554499999999999,
         "obs_CW_HC": 0.54,
@@ -3342,11 +4626,11 @@
        },
        "CW-HC": {
         "rate": 0.48,
-        "lo": 0.395,
-        "hi": 0.565,
+        "lo": 0.4,
+        "hi": 0.56,
         "n": 100,
-        "p_boot_le_half": 0.6963,
-        "p_boot_ge_half": 0.3422
+        "p_boot_le_half": 0.7034,
+        "p_boot_ge_half": 0.3386
        },
        "CW-HW": {
         "rate": 0.98,
@@ -3388,7 +4672,7 @@
         "p_star_lo": -15.500000000000014,
         "p_star_hi": -4.210526315789476,
         "n": 99,
-        "boot_defined": 0.9982,
+        "boot_defined": 0.9984,
         "tone": 0.9797979797979798,
         "pred_CW_HC": 0.9204162840526477,
         "obs_CW_HC": 0.48484848484848486,
@@ -3423,10 +4707,10 @@
        "CW-HC": {
         "rate": 0.42696629213483145,
         "lo": 0.34269662921348315,
-        "hi": 0.5112359550561798,
+        "hi": 0.5168539325842697,
         "n": 89,
-        "p_boot_le_half": 0.958,
-        "p_boot_ge_half": 0.0546
+        "p_boot_le_half": 0.9529,
+        "p_boot_ge_half": 0.0609
        },
        "CW-HW": {
         "rate": 0.949438202247191,
@@ -3466,7 +4750,7 @@
         "v_eff": 0.1179775280898876,
         "p_star": -3.23809523809524,
         "p_star_lo": -5.84615384615385,
-        "p_star_hi": -2.0689655172413803,
+        "p_star_hi": -1.9666666666666672,
         "n": 89,
         "boot_defined": 1.0,
         "tone": 0.949438202247191,
@@ -3502,11 +4786,11 @@
        },
        "CW-HC": {
         "rate": 0.4444444444444444,
-        "lo": 0.3412698412698413,
+        "lo": 0.3333333333333333,
         "hi": 0.5555555555555556,
         "n": 63,
-        "p_boot_le_half": 0.8619,
-        "p_boot_ge_half": 0.1743
+        "p_boot_le_half": 0.8543,
+        "p_boot_ge_half": 0.181
        },
        "CW-HW": {
         "rate": 0.9920634920634921,
@@ -3548,7 +4832,7 @@
         "p_star_lo": -19.999999999999975,
         "p_star_hi": -5.888888888888881,
         "n": 63,
-        "boot_defined": 0.731,
+        "boot_defined": 0.7303,
         "tone": 0.9920634920634921,
         "pred_CW_HC": 0.9605694129503654,
         "obs_CW_HC": 0.4444444444444444,
@@ -3585,7 +4869,7 @@
         "lo": 0.3092105263157895,
         "hi": 0.4934210526315789,
         "n": 76,
-        "p_boot_le_half": 0.9823,
+        "p_boot_le_half": 0.9822,
         "p_boot_ge_half": 0.0243
        },
        "CW-HW": {
@@ -3628,7 +4912,7 @@
         "p_star_lo": -14.000000000000004,
         "p_star_hi": -3.687499999999999,
         "n": 75,
-        "boot_defined": 0.9978,
+        "boot_defined": 0.9981,
         "tone": 0.9733333333333334,
         "pred_CW_HC": 0.9084444444444445,
         "obs_CW_HC": 0.4066666666666667,
@@ -3694,14 +4978,14 @@
        "CW-HC": {
         "rate": 0.22166666666666668,
         "lo": 0.18333333333333332,
-        "hi": 0.26166666666666666,
+        "hi": 0.26,
         "n": 300,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
        },
        "CW-HW": {
         "rate": 0.6783333333333333,
-        "lo": 0.6433333333333333,
+        "lo": 0.6416666666666667,
         "hi": 0.715,
         "n": 300,
         "p_boot_le_half": 0.0,
@@ -3736,7 +5020,7 @@
         "b": 0.855,
         "v_eff": 0.1433333333333333,
         "p_star": -2.476744186046512,
-        "p_star_lo": -3.4477611940298503,
+        "p_star_lo": -3.3970588235294135,
         "p_star_hi": -1.8476190476190484,
         "n": 300,
         "boot_defined": 1.0,
@@ -3774,7 +5058,7 @@
        "CW-HC": {
         "rate": 0.14624505928853754,
         "lo": 0.11264822134387352,
-        "hi": 0.18181818181818182,
+        "hi": 0.17984189723320157,
         "n": 253,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -3789,7 +5073,7 @@
        },
        "CW-IDK": {
         "rate": 0.8379446640316206,
-        "lo": 0.8003952569169961,
+        "lo": 0.8023715415019763,
         "hi": 0.8715415019762845,
         "n": 253,
         "p_boot_le_half": 0.0,
@@ -3848,16 +5132,16 @@
         "lo": 0.35106382978723405,
         "hi": 0.5957446808510638,
         "n": 47,
-        "p_boot_le_half": 0.7178,
-        "p_boot_ge_half": 0.3409
+        "p_boot_le_half": 0.7235,
+        "p_boot_ge_half": 0.3386
        },
        "CW-HC": {
         "rate": 0.6276595744680851,
         "lo": 0.5106382978723404,
         "hi": 0.7446808510638298,
         "n": 47,
-        "p_boot_le_half": 0.0204,
-        "p_boot_ge_half": 0.9876
+        "p_boot_le_half": 0.021,
+        "p_boot_ge_half": 0.9865
        },
        "CW-HW": {
         "rate": 0.7553191489361702,
@@ -3869,7 +5153,7 @@
        },
        "CW-IDK": {
         "rate": 0.9468085106382979,
-        "lo": 0.8936170212765957,
+        "lo": 0.8829787234042553,
         "hi": 0.9893617021276596,
         "n": 47,
         "p_boot_le_half": 0.0,
@@ -3899,7 +5183,7 @@
         "p_star_lo": -22.499999999999964,
         "p_star_hi": -3.5999999999999988,
         "n": 47,
-        "boot_defined": 0.8147,
+        "boot_defined": 0.8196,
         "tone": 0.7553191489361702,
         "pred_CW_HC": 0.7231779085559077,
         "obs_CW_HC": 0.6276595744680851,
@@ -3909,7 +5193,7 @@
       "judge tells the two answers apart": {
        "CC-HC": {
         "rate": 0.9522821576763485,
-        "lo": 0.9336099585062241,
+        "lo": 0.9315352697095436,
         "hi": 0.970954356846473,
         "n": 241,
         "p_boot_le_half": 0.0,
@@ -3950,7 +5234,7 @@
        "CW-IDK": {
         "rate": 0.8215767634854771,
         "lo": 0.7842323651452282,
-        "hi": 0.8589211618257261,
+        "hi": 0.8568464730290456,
         "n": 241,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -4022,7 +5306,7 @@
        "CW-HW": {
         "rate": 0.6591760299625468,
         "lo": 0.6198501872659176,
-        "hi": 0.6985018726591761,
+        "hi": 0.6966292134831461,
         "n": 267,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -4101,7 +5385,7 @@
        },
        "CW-HW": {
         "rate": 0.6548117154811716,
-        "lo": 0.6150627615062761,
+        "lo": 0.6129707112970711,
         "hi": 0.694560669456067,
         "n": 239,
         "p_boot_le_half": 0.0,
@@ -4217,7 +5501,7 @@
         "v_eff": 0.16500000000000004,
         "p_star": -2.03030303030303,
         "p_star_lo": -3.545454545454546,
-        "p_star_hi": -1.2222222222222225,
+        "p_star_hi": -1.173913043478261,
         "n": 100,
         "boot_defined": 1.0,
         "tone": 0.72,
@@ -4230,7 +5514,7 @@
        "CC-HC": {
         "rate": 0.86,
         "lo": 0.815,
-        "hi": 0.9,
+        "hi": 0.905,
         "n": 100,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -4253,7 +5537,7 @@
        },
        "CW-HC": {
         "rate": 0.325,
-        "lo": 0.255,
+        "lo": 0.25,
         "hi": 0.4,
         "n": 100,
         "p_boot_le_half": 1.0,
@@ -4342,7 +5626,7 @@
        "CW-HW": {
         "rate": 0.65,
         "lo": 0.585,
-        "hi": 0.72,
+        "hi": 0.715,
         "n": 100,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -4377,7 +5661,7 @@
         "v_eff": 0.15500000000000003,
         "p_star": -2.1935483870967736,
         "p_star_lo": -3.950000000000001,
-        "p_star_hi": -1.3023255813953492,
+        "p_star_hi": -1.3255813953488376,
         "n": 100,
         "boot_defined": 1.0,
         "tone": 0.65,
@@ -4510,7 +5794,7 @@
        "CW-IDK": {
         "rate": 0.8766233766233766,
         "lo": 0.8246753246753247,
-        "hi": 0.9285714285714286,
+        "hi": 0.922077922077922,
         "n": 77,
         "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
@@ -4574,7 +5858,7 @@
        "CW-HC": {
         "rate": 0.09411764705882353,
         "lo": 0.047058823529411764,
-        "hi": 0.14705882352941177,
+        "hi": 0.1411764705882353,
         "n": 85,
         "p_boot_le_half": 1.0,
         "p_boot_ge_half": 0.0
@@ -4584,8 +5868,8 @@
         "lo": 0.5588235294117647,
         "hi": 0.7,
         "n": 85,
-        "p_boot_le_half": 0.0001,
-        "p_boot_ge_half": 1.0
+        "p_boot_le_half": 0.0002,
+        "p_boot_ge_half": 0.9999
        },
        "CW-IDK": {
         "rate": 0.8235294117647058,
@@ -4687,7 +5971,7 @@
         "lo": 0.625,
         "hi": 0.8166666666666667,
         "n": 60,
-        "p_boot_le_half": 0.0001,
+        "p_boot_le_half": 0.0,
         "p_boot_ge_half": 1.0
        },
        "derived": {
@@ -4696,7 +5980,7 @@
         "v_eff": 0.275,
         "p_star": -0.818181818181818,
         "p_star_lo": -1.727272727272727,
-        "p_star_hi": -0.3333333333333333,
+        "p_star_hi": -0.36363636363636354,
         "n": 60,
         "boot_defined": 1.0
        }
@@ -4731,8 +6015,8 @@
         "lo": 0.57,
         "hi": 0.78,
         "n": 50,
-        "p_boot_le_half": 0.0007,
-        "p_boot_ge_half": 0.9996
+        "p_boot_le_half": 0.0013,
+        "p_boot_ge_half": 0.9995
        },
        "derived": {
         "a": 1.0,
@@ -4757,18 +6041,18 @@
        "CW-CC": {
         "rate": 0.4,
         "lo": 0.15,
-        "hi": 0.65,
+        "hi": 0.7,
         "n": 10,
-        "p_boot_le_half": 0.8171,
-        "p_boot_ge_half": 0.2905
+        "p_boot_le_half": 0.8127,
+        "p_boot_ge_half": 0.2922
        },
        "CW-HC": {
         "rate": 0.5,
         "lo": 0.25,
-        "hi": 0.75,
+        "hi": 0.8,
         "n": 10,
-        "p_boot_le_half": 0.5669,
-        "p_boot_ge_half": 0.5757
+        "p_boot_le_half": 0.5626,
+        "p_boot_ge_half": 0.5759
        },
        "CW-IDK": {
         "rate": 0.95,
@@ -4786,7 +6070,7 @@
         "p_star_lo": -8.999999999999991,
         "p_star_hi": -2.333333333333333,
         "n": 10,
-        "boot_defined": 0.6512
+        "boot_defined": 0.6593
        }
       },
       "judge tells the two answers apart": {
@@ -4819,8 +6103,8 @@
         "lo": 0.5425531914893617,
         "hi": 0.7553191489361702,
         "n": 47,
-        "p_boot_le_half": 0.0065,
-        "p_boot_ge_half": 0.9966
+        "p_boot_le_half": 0.0047,
+        "p_boot_ge_half": 0.997
        },
        "derived": {
         "a": 1.0,
@@ -4863,8 +6147,8 @@
         "lo": 0.5925925925925926,
         "hi": 0.7962962962962963,
         "n": 54,
-        "p_boot_le_half": 0.0003,
-        "p_boot_ge_half": 0.9998
+        "p_boot_le_half": 0.0001,
+        "p_boot_ge_half": 0.9999
        },
        "derived": {
         "a": 1.0,
@@ -4907,8 +6191,8 @@
         "lo": 0.5520833333333334,
         "hi": 0.7708333333333334,
         "n": 48,
-        "p_boot_le_half": 0.0025,
-        "p_boot_ge_half": 0.9988
+        "p_boot_le_half": 0.002,
+        "p_boot_ge_half": 0.9985
        },
        "derived": {
         "a": 1.0,
@@ -4951,8 +6235,8 @@
         "lo": 0.45,
         "hi": 0.825,
         "n": 20,
-        "p_boot_le_half": 0.0763,
-        "p_boot_ge_half": 0.9534
+        "p_boot_le_half": 0.0742,
+        "p_boot_ge_half": 0.9551
        },
        "derived": {
         "a": 1.0,
@@ -4960,7 +6244,7 @@
         "v_eff": 0.35,
         "p_star": -0.42857142857142866,
         "p_star_lo": -1.8571428571428563,
-        "p_star_hi": 0.04761904761904766,
+        "p_star_hi": 0.09090909090909088,
         "n": 20,
         "boot_defined": 1.0
        }
@@ -5006,7 +6290,7 @@
         "p_star_lo": -18.999999999999982,
         "p_star_hi": -1.0,
         "n": 20,
-        "boot_defined": 0.9899
+        "boot_defined": 0.9885
        }
       },
       "domain medqa": {
@@ -5039,8 +6323,8 @@
         "lo": 0.5,
         "hi": 0.8,
         "n": 20,
-        "p_boot_le_half": 0.0435,
-        "p_boot_ge_half": 0.9774
+        "p_boot_le_half": 0.046,
+        "p_boot_ge_half": 0.9763
        },
        "derived": {
         "a": 1.0,
@@ -5083,8 +6367,8 @@
         "lo": 0.4166666666666667,
         "hi": 0.8055555555555556,
         "n": 18,
-        "p_boot_le_half": 0.1729,
-        "p_boot_ge_half": 0.886
+        "p_boot_le_half": 0.1637,
+        "p_boot_ge_half": 0.8934
        },
        "derived": {
         "a": 1.0,
@@ -5138,7 +6422,7 @@
         "p_star_lo": -14.000000000000004,
         "p_star_hi": -0.6666666666666664,
         "n": 15,
-        "boot_defined": 0.9614
+        "boot_defined": 0.9647
        }
       },
       "domain medqa, judge knows": {
@@ -5169,10 +6453,10 @@
        "CW-IDK": {
         "rate": 0.5882352941176471,
         "lo": 0.4117647058823529,
-        "hi": 0.7352941176470589,
+        "hi": 0.7647058823529411,
         "n": 17,
-        "p_boot_le_half": 0.1866,
-        "p_boot_ge_half": 0.8916
+        "p_boot_le_half": 0.1962,
+        "p_boot_ge_half": 0.8839
        },
        "derived": {
         "a": 1.0,
@@ -5222,7 +6506,7 @@
     "openrouter/anthropic/claude-haiku-5.5": 0.0,
     "openrouter/mistralai/mistral-small-2603": 0.0,
     "openrouter/openai/gpt-5.6-luna": 0.0,
-    "openrouter/openai/gpt-5.6-terra": 0.0007
+    "openrouter/openai/gpt-5.6-terra": 0.0013
    },
    "holm_pass": {
     "adaption/deepseek-v4-flash": true,
@@ -5246,7 +6530,7 @@
     "openrouter/anthropic/claude-haiku-5.5": 0.0,
     "openrouter/mistralai/mistral-small-2603": 0.0,
     "openrouter/openai/gpt-5.6-luna": 0.0,
-    "openrouter/openai/gpt-5.6-terra": 0.0001
+    "openrouter/openai/gpt-5.6-terra": 0.0
    },
    "holm_pass": {
     "adaption/deepseek-v4-flash": true,
@@ -5270,7 +6554,7 @@
     "openrouter/anthropic/claude-haiku-5.5": 0.0,
     "openrouter/mistralai/mistral-small-2603": 0.0,
     "openrouter/openai/gpt-5.6-luna": 0.0,
-    "openrouter/openai/gpt-5.6-terra": 0.0003
+    "openrouter/openai/gpt-5.6-terra": 0.0001
    },
    "holm_pass": {
     "adaption/deepseek-v4-flash": true,
@@ -5289,20 +6573,20 @@
    "alpha": 0.05,
    "p": {
     "adaption/deepseek-v4-flash": 0.0,
-    "adaption/gemma-4-31b-it": 0.0001,
+    "adaption/gemma-4-31b-it": 0.0,
     "adaption/qwen3.8-27b": 0.0,
     "openrouter/anthropic/claude-haiku-5.5": 0.0,
     "openrouter/mistralai/mistral-small-2603": 0.0,
     "openrouter/openai/gpt-5.6-luna": 0.0,
-    "openrouter/openai/gpt-5.6-terra": 0.0065
+    "openrouter/openai/gpt-5.6-terra": 0.0047
    },
    "holm_pass": {
     "adaption/deepseek-v4-flash": true,
+    "adaption/gemma-4-31b-it": true,
     "adaption/qwen3.8-27b": true,
     "openrouter/anthropic/claude-haiku-5.5": true,
     "openrouter/mistralai/mistral-small-2603": true,
     "openrouter/openai/gpt-5.6-luna": true,
-    "adaption/gemma-4-31b-it": true,
     "openrouter/openai/gpt-5.6-terra": true
    },
    "n_pass": 7,
@@ -5367,8 +6651,8 @@
    "a_check": 0.9084745762711864,
    "b_check": 0.34067796610169493,
    "p_star_check": 0.2805970149253731,
-   "lo": 0.20394736842105265,
-   "hi": 0.34426229508196726,
+   "lo": 0.20447284345047928,
+   "hi": 0.34277620396600567,
    "n": 295
   },
   "adaption/gemma-4-31b-it": {
@@ -5377,8 +6661,8 @@
    "a_check": 0.8237410071942446,
    "b_check": 0.08633093525179857,
    "p_star_check": 0.5609756097560976,
-   "lo": 0.5267857142857143,
-   "hi": 0.5999999999999999,
+   "lo": 0.5265700483091788,
+   "hi": 0.6,
    "n": 278
   },
   "adaption/qwen3.8-27b": {
@@ -5387,8 +6671,8 @@
    "a_check": 0.48833333333333334,
    "b_check": 0.0033333333333333335,
    "p_star_check": 1.0240549828178693,
-   "lo": 0.9221183800623055,
-   "hi": 1.1574803149606299,
+   "lo": 0.9202453987730062,
+   "hi": 1.1517509727626458,
    "n": 300
   },
   "openrouter/anthropic/claude-haiku-5.5": {
@@ -5397,8 +6681,8 @@
    "a_check": 0.5168350168350169,
    "b_check": 0.03198653198653199,
    "p_star_check": 0.9652777777777777,
-   "lo": 0.8641975308641976,
-   "hi": 1.0923694779116466,
+   "lo": 0.861963190184049,
+   "hi": 1.0946502057613168,
    "n": 297
   },
   "openrouter/mistralai/mistral-small-2603": {
@@ -5407,8 +6691,8 @@
    "a_check": 0.8657718120805369,
    "b_check": 0.3036912751677852,
    "p_star_check": 0.3492537313432836,
-   "lo": 0.28173374613003094,
-   "hi": 0.40789473684210525,
+   "lo": 0.2815533980582524,
+   "hi": 0.40957446808510645,
    "n": 298
   },
   "openrouter/openai/gpt-5.6-luna": {
@@ -5417,7 +6701,7 @@
    "a_check": 0.8666666666666667,
    "b_check": 0.11,
    "p_star_check": 0.5154185022026432,
-   "lo": 0.48648648648648646,
+   "lo": 0.4866071428571429,
    "hi": 0.545045045045045,
    "n": 300
   },
@@ -5427,13 +6711,67 @@
    "a_check": 0.85,
    "b_check": 0.1,
    "p_star_check": 0.5333333333333333,
-   "lo": 0.46153846153846156,
+   "lo": 0.46341463414634143,
    "hi": 0.6136363636363636,
    "n": 60
   }
  },
  "two_step_check": {
   "cells": [
+   [
+    "adaption/deepseek-v4-flash",
+    "geo",
+    1.0,
+    0.75
+   ],
+   [
+    "adaption/deepseek-v4-flash",
+    "law",
+    1.0,
+    1.0
+   ],
+   [
+    "adaption/deepseek-v4-flash",
+    "medqa",
+    1.0,
+    0.8333333333333334
+   ],
+   [
+    "adaption/gemma-4-31b-it",
+    "geo",
+    0.75,
+    0.0
+   ],
+   [
+    "adaption/gemma-4-31b-it",
+    "law",
+    0.5,
+    0.0
+   ],
+   [
+    "adaption/gemma-4-31b-it",
+    "medqa",
+    1.0,
+    1.0
+   ],
+   [
+    "adaption/qwen3.8-27b",
+    "geo",
+    0.5625,
+    0.5
+   ],
+   [
+    "adaption/qwen3.8-27b",
+    "law",
+    0.375,
+    0.25
+   ],
+   [
+    "adaption/qwen3.8-27b",
+    "medqa",
+    0.9722222222222221,
+    0.5
+   ],
    [
     "openrouter/anthropic/claude-haiku-5.5",
     "geo",
@@ -5489,7 +6827,7 @@
     0.19
    ]
   ],
-  "mae": 0.30326123705274427,
-  "spearman": 0.6333333333333333
+  "mae": 0.2808744456868659,
+  "spearman": 0.7709141878792487
  }
 }

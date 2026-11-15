@@ -37,3 +37,15 @@ items 150 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adap
 [04:52:32] fresh 6250 done 6250 failed 0 429s 93 spend adaption 0.089 openrouter 0.000 rate 39/min
 [04:58:34] fresh 6500 done 6500 failed 0 429s 93 spend adaption 0.093 openrouter 0.000 rate 39/min
 [05:04:37] fresh 6750 done 6750 failed 0 429s 93 spend adaption 0.097 openrouter 0.000 rate 39/min
+[05:10:39] fresh 7000 done 7000 failed 0 429s 93 spend adaption 0.101 openrouter 0.000 rate 39/min
+[05:16:42] fresh 7250 done 7250 failed 0 429s 93 spend adaption 0.104 openrouter 0.000 rate 39/min
+[05:22:44] fresh 7500 done 7500 failed 0 429s 93 spend adaption 0.107 openrouter 0.000 rate 39/min
+finished: fresh 7650 failed 0 429s 93 spend adaption 0.108 openrouter 0.000
+items 90 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adaption/qwen3.8-27b'] pairs 2 variants ['cot'] cached 7650
+[05:32:24] fresh 250 done 520 failed 0 429s 0 spend adaption 0.026 openrouter 0.000 rate 41/min
+[05:38:26] fresh 500 done 770 failed 0 429s 0 spend adaption 0.051 openrouter 0.000 rate 41/min
+[05:44:31] fresh 750 done 1020 failed 0 429s 0 spend adaption 0.077 openrouter 0.000 rate 41/min
+[05:50:33] fresh 1000 done 1270 failed 0 429s 0 spend adaption 0.102 openrouter 0.000 rate 41/min
+finished: fresh 1080 failed 0 429s 0 spend adaption 0.110 openrouter 0.000
+items 300 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adaption/qwen3.8-27b'] pairs 7 variants ['default'] cached 9892
+[05:58:33] fresh 250 done 6549 failed 0 429s 0 spend adaption 0.003 openrouter 0.000 rate 41/min
