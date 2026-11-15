@@ -161,6 +161,14 @@ def study1() -> None:
         c = cell(s, j, "judge tells the two answers apart", "CW-IDK")
         if c:
             bf.append(c["rate"])
+    hw_above = [x for x in hw if x > 0.5]
+    put("hwIdkAbove", ["no", "one", "two", "three", "four", "five", "six"][len(hw_above)])
+    if hw_above:
+        put("hwIdkAboveMin", pct(min(hw_above)))
+        put("hwIdkAboveMax", pct(max(hw_above)))
+    hw_below = [x for x in hw if x <= 0.5]
+    if hw_below:
+        put("hwIdkBelow", pct(min(hw_below)))
     put("tellsApartMajority", ["No", "One", "Two", "Three", "Four", "Five", "Six"][sum(x > 0.5 for x in ta)] if ta else "--")
     put("domainCells", str(len(dom)))
     put("domainCellsAbove", str(sum(x > 0.5 for x in dom)))

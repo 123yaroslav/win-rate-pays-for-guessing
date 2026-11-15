@@ -56,3 +56,24 @@ items 300 judges ['adaption/deepseek-v4-flash', 'adaption/gemma-4-31b-it', 'adap
 [06:31:28] fresh 1500 done 7799 failed 0 429s 0 spend adaption 0.021 openrouter 0.000 rate 38/min
 [06:37:31] fresh 1750 done 8049 failed 0 429s 0 spend adaption 0.024 openrouter 0.000 rate 39/min
 [06:43:33] fresh 2000 done 8299 failed 0 429s 0 spend adaption 0.028 openrouter 0.000 rate 39/min
+[06:49:36] fresh 2250 done 8549 failed 0 429s 0 spend adaption 0.031 openrouter 0.000 rate 39/min
+[06:55:38] fresh 2500 done 8799 failed 0 429s 0 spend adaption 0.035 openrouter 0.000 rate 40/min
+[07:01:41] fresh 2750 done 9049 failed 0 429s 0 spend adaption 0.038 openrouter 0.000 rate 40/min
+[07:07:43] fresh 3000 done 9299 failed 0 429s 0 spend adaption 0.041 openrouter 0.000 rate 40/min
+[07:13:46] fresh 3250 done 9549 failed 0 429s 0 spend adaption 0.045 openrouter 0.000 rate 40/min
+[07:19:49] fresh 3500 done 9799 failed 0 429s 0 spend adaption 0.048 openrouter 0.000 rate 40/min
+[07:25:51] fresh 3750 done 10049 failed 0 429s 0 spend adaption 0.052 openrouter 0.000 rate 40/min
+[07:31:53] fresh 4000 done 10299 failed 0 429s 0 spend adaption 0.056 openrouter 0.000 rate 40/min
+[07:37:56] fresh 4250 done 10549 failed 0 429s 0 spend adaption 0.059 openrouter 0.000 rate 40/min
+[07:43:59] fresh 4500 done 10799 failed 0 429s 0 spend adaption 0.062 openrouter 0.000 rate 40/min
+[07:50:01] fresh 4750 done 11049 failed 0 429s 0 spend adaption 0.066 openrouter 0.000 rate 40/min
+[07:59:00] fresh 5000 done 11299 failed 0 429s 0 spend adaption 0.070 openrouter 0.000 rate 40/min
+[08:09:44] fresh 5250 done 11549 failed 0 429s 0 spend adaption 0.074 openrouter 0.000 rate 38/min
+[08:17:15] fresh 5500 done 11799 failed 0 429s 126 spend adaption 0.077 openrouter 0.000 rate 38/min
+[08:23:18] fresh 5750 done 12049 failed 0 429s 126 spend adaption 0.081 openrouter 0.000 rate 38/min
+[08:29:20] fresh 6000 done 12299 failed 0 429s 126 spend adaption 0.084 openrouter 0.000 rate 38/min
+[08:35:24] fresh 6250 done 12549 failed 0 429s 126 spend adaption 0.088 openrouter 0.000 rate 38/min
+[08:41:27] fresh 6500 done 12799 failed 0 429s 126 spend adaption 0.091 openrouter 0.000 rate 38/min
+[08:47:29] fresh 6750 done 13049 failed 0 429s 126 spend adaption 0.095 openrouter 0.000 rate 39/min
+[08:53:32] fresh 7000 done 13299 failed 0 429s 126 spend adaption 0.096 openrouter 0.000 rate 39/min
+finished: fresh 7200 failed 1 429s 126 spend adaption 0.099 openrouter 0.000
