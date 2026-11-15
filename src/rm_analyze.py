@@ -7,6 +7,10 @@ separated questions, the bootstrap share at or below 0.5 as the p-value, Holm ov
 0.05, and hold if at least two of the three models pass.
 
     python src/rm_analyze.py     # results/reward_models/scores.jsonl -> summary.json, summary.md
+
+An exploratory check that was not registered is reported apart from the tests: the Tulu template renders
+no BOS token, so Tulu was scored a second time with the BOS token prepended
+(results/reward_models/sensitivity_tulu_bos.jsonl).
 """
 from __future__ import annotations
 
@@ -24,6 +28,7 @@ MODELS = ["Skywork/Skywork-Reward-V2-Llama-3.1-8B", "Skywork/Skywork-Reward-V2-Q
           "allenai/Llama-3.1-Tulu-3-8B-RM"]
 SETS = {"mcq": "150 fresh multiple-choice questions", "free": "100 free-form questions"}
 TESTS = {"mcq": "R1", "free": "R2"}
+EXPLORATORY = RES / "sensitivity_tulu_bos.jsonl"
 ALPHA = 0.05
 PAIRS = {"a": ("CC", "IDK"), "b": ("CW", "IDK"), "control": ("CW", "CC"), "b_full": ("CW", "IDK2"),
          "a_full": ("CC", "IDK2")}
@@ -44,11 +49,15 @@ def holm(ps: dict[str, float], alpha: float) -> dict[str, bool]:
 
 def main() -> None:
     sc: dict = {}
-    for ln in (RES / "scores.jsonl").read_text().splitlines():
+    lines_in = (RES / "scores.jsonl").read_text().splitlines()
+    if EXPLORATORY.exists():
+        lines_in += EXPLORATORY.read_text().splitlines()
+    for ln in lines_in:
         if ln.strip():
             d = json.loads(ln)
             sc.setdefault(d["model"], {}).setdefault(d["set"], {}).setdefault(d["item"], {})[d["resp"]] = d["score"]
-    models = [m for m in MODELS if m in sc] + [m for m in sc if m not in MODELS]
+    models = [m for m in MODELS if m in sc]
+    extra = [m for m in sc if m not in MODELS]   # exploratory, never in the tests
     rng = random.Random(20261118)
     out: dict = {"models": {}, "bootstrap": B, "seed": 20261118}
 
@@ -57,7 +66,7 @@ def main() -> None:
         return {"rate": mean([vals[i] for i in ids]), "lo": lo, "hi": hi, "n": len(ids),
                 "share_le_half": mean([x <= 0.5 for x in draws])}
 
-    for m in models:
+    for m in models + extra:
         out["models"][m] = {}
         for s in SETS:
             items = sc[m].get(s, {})
@@ -94,6 +103,7 @@ def main() -> None:
         tests[label] = {"set": s, "passes": sum(ok.values()), "of": len(ps), "holds": sum(ok.values()) >= 2,
                         "p": ps}
     out["tests"] = tests
+    out["exploratory"] = extra
     (RES / "summary.json").write_text(json.dumps(out, indent=1))
 
     def f(c: dict) -> str:
@@ -108,27 +118,41 @@ def main() -> None:
                   "| separated share | b on separated (n) | bootstrap share at or below 0.5 | "
                   f"{TESTS[s]} after Holm | mean score CW minus IDK |",
                   "|---|---|---|---|---|---|---|---|---|---|---|"]
-        for m in models:
+        for m in models + extra:
             r = out["models"][m].get(s)
             if not r:
                 continue
             d = r["mean_cw_minus_idk_all"]
+            verdict = ("pass" if r["test_pass"] else "fail") if "test_pass" in r else "not tested"
             lines.append(f"| {m.split('/')[-1]} | {f(r['a'])} | {f(r['b'])} | {f(r['control'])} | {f(r['b_full'])} | "
                          f"{f(r['a_full'])} | {f(r['separated'])} | {f(r['b_separated'])} ({r['b_separated']['n']}) | "
-                         f"{r['b_separated']['share_le_half']:.4f} | {'pass' if r['test_pass'] else 'fail'} | "
+                         f"{r['b_separated']['share_le_half']:.4f} | {verdict} | "
                          f"{d['mean']:+.2f} ({d['lo']:+.2f} to {d['hi']:+.2f}) |")
         t = tests[TESTS[s]]
         lines += ["", f"{TESTS[s]}: passes for {t['passes']} of {t['of']} models, "
-                      f"{'holds' if t['holds'] else 'does not hold'} (needs at least two).", ""]
+                      f"{'holds' if t['holds'] else 'does not hold'} (needs at least two)."]
+        if extra:
+            lines += ["", "Rows marked +bos are an exploratory check that was not registered and is not part of the "
+                          "test. The Tulu chat template renders no BOS token, and that row prepends it."]
+        lines += [""]
     lines += ["## Score scales", "", "| model | set | min | max | mean CC | mean CW | mean IDK | mean IDK2 | ties in b |",
               "|---|---|---|---|---|---|---|---|---|"]
-    for m in models:
+    for m in models + extra:
         for s in SETS:
             r = out["models"][m].get(s)
             if r:
                 g = r["score_range"]
                 lines.append(f"| {m.split('/')[-1]} | {s} | {g['min']:.2f} | {g['max']:.2f} | {g['mean_CC']:.2f} | "
                              f"{g['mean_CW']:.2f} | {g['mean_IDK']:.2f} | {g['mean_IDK2']:.2f} | {r['b']['ties']} |")
+    meta = [json.loads(ln) for f in ("scores.meta.jsonl", "sensitivity_tulu_bos.meta.jsonl") if (RES / f).exists()
+            for ln in (RES / f).read_text().splitlines() if ln.strip()]
+    out["revisions"] = {d["model"]: d.get("revision") for d in meta}
+    (RES / "summary.json").write_text(json.dumps(out, indent=1))
+    lines += ["", "## Model revisions and setup", "",
+              "| model | hub commit | tokens per input | transformers | torch |", "|---|---|---|---|---|"]
+    for d in meta:
+        lines.append(f"| {d['model']} | {d.get('revision')} | {d.get('tokens_min')} to {d.get('tokens_max')} | "
+                     f"{d.get('transformers')} | {d.get('torch')} |")
     (RES / "summary.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 
