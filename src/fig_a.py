@@ -176,7 +176,9 @@ def fig_map(s4: dict, reasoning: dict | None, idk2: dict | None, out: Path) -> N
         vals = []
         for j in judges:
             c = cell(mb, j, "judge knows", "CW-IDK", "mtbench")
-            vals.append(None if not c else c["rate"])
+            vr = mb["judges"].get(j, {}).get("variants", {}).get("mtbench", {})
+            cut = vr.get("unparsed", {}).get("CW-IDK", 0) / (2 * mb["n_items"]) if vr else 0
+            vals.append(None if not c else ("cut" if cut > 0.5 else c["rate"]))
         grid.append(vals)
         marks.append([False] * len(judges))
         labels.append("Published judge prompt (MT-Bench)")

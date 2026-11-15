@@ -383,8 +383,14 @@ def study4() -> None:
             vr = mb["judges"].get(j, {}).get("variants", {}).get("mtbench")
             if not vr or "CW-IDK" not in vr["groups"]["judge knows"]:
                 continue
-            ran += 1
             a_, b_ = vr["groups"]["judge knows"]["CC-IDK"], vr["groups"]["judge knows"]["CW-IDK"]
+            cut = vr["unparsed"]["CW-IDK"] / (2 * mb["n_items"])
+            if cut > 0.5:   # replies cut before the verdict
+                rows_m.append(f"{NAMES[j]} & {b_['n']} & n/e & n/e & {vr['ties']['CW-IDK']} & {vr['unparsed']['CW-IDK']} \\\\")
+                put("mtCutJudge", NAMES[j])
+                put("mtCutShare", pct(cut))
+                continue
+            ran += 1
             put(f"mtB{KEY[j]}", pct(b_["rate"]))
             if b_["rate"] > 0.5:
                 above.append(b_["rate"])
@@ -618,9 +624,18 @@ def study5() -> None:
         b2 = [cell(s, j, "judge knows", "CW-IDK2") for j in SIX]
         b2 = [c["rate"] for c in b2 if c]
         if b2:
+            words = ["no", "one", "two", "three", "four", "five", "six"]
             put("idkTwoMin", pct(min(b2)))
             put("idkTwoMax", pct(max(b2)))
-            put("idkTwoJudges", str(len(b2)))
+            put("idkTwoJudges", words[len(b2)])
+            ab = [x for x in b2 if x > 0.5]
+            put("idkTwoAbove", words[len(ab)])
+            if ab:
+                put("idkTwoAboveMin", pct(min(ab)))
+                put("idkTwoAboveMax", pct(max(ab)))
+            be = [x for x in b2 if x <= 0.5]
+            if be:
+                put("idkTwoBelow", pct(min(be)))
 
 
 def tex(s: str) -> str:

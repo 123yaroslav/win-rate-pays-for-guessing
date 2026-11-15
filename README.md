@@ -22,6 +22,7 @@ An LLM judge compares two responses to a multiple-choice question with a known k
 | Build item lists | `src/items.py` | `data/items/` |
 | Run duels, the judge's own answers and the detection check | `src/duels.py` | `results/study1_*/calls.jsonl`, `results/study4_*/calls.jsonl` |
 | Registered tests and tables | `src/analyze_duels.py` | `results/study1/summary.md`, `results/study4/summary.md` |
+| Sensitivity of the main rate to the reply parser | `src/strict_parse_check.py` | `results/study1/strict_parse.json` |
 | Selection loop: pool, selection, duels on the model's own outputs, training records | `src/loop_*.py` | `results/study5/` |
 | Evaluation of fine-tuned models on a GPU | `src/gpu_eval.py`, `src/gpu_train_lora.py`, `docs/gpu_eval_runbook.md` | `results/study5/eval_*` |
 | Audit of the data pipeline | `src/adapt_audit2.py`, `src/adapt_analyze.py` | `results/study3/`, `results/study3c/` |
