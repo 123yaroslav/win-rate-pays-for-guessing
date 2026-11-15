@@ -141,3 +141,38 @@ Predictions.
 
 What the report will say. If F1 and F3 hold, the report says that the preference holds on free-form questions with replies of natural length. If F1 fails, the abstract says that the preference was not found outside multiple-choice templates. F2 and F4 are reported with their outcomes either way.
 
+
+## Amendment 4, 2026-11-15. Larger judges and reward models
+
+Written at 22:40 (+05) after all earlier results were seen and before either new judge saw a question of these sets and before any reward model was loaded. The commit that adds this section is the timestamp.
+
+Why. The six registered judges are small or mid-size models. Leaderboards and data pipelines also use the largest available judges, and preference training uses reward models that score one response at a time. Part A asks whether two of the largest open models available to us behave like the registered judges. Part B asks whether reward models give a wrong answer a higher score than an abstention.
+
+### Part A. Two larger judges
+
+Judges. Qwen 3.5 397B (`adaption/qwen3.5-397b`) and GLM 5.2 (`adaption/glm-5.2`) on the Adaption inference API, temperature 0, reasoning effort none. A one-call test of each on the example duel of the report was made before this commit to check that the models answer with a letter. No other call was made.
+
+Runs. Exactly the default-instruction runs of Amendment 2 (150 fresh multiple-choice questions, pairs CW-IDK, CC-IDK and CW-CC, own answers, pointwise check on CW and CC) to `results/confirm2_large`, and of Amendment 3 (100 free-form questions, pairs CW-IDK, CC-IDK, CW-IDK2 and CW-CC, own answers, pointwise check) to `results/freeform_large`. The MT-Bench prompt is not run. Statistics and the drop rule are those of Amendments 2 and 3.
+
+Predictions.
+
+- L1. On fresh multiple-choice questions the judge knows, b is above 0.5, by the bootstrap share at or below 0.5, Holm over the two judges at 0.05. L1 holds if it passes for both judges.
+- L2. On the same questions the wrong answer beats the right answer in the same words in fewer than 25% of duels with the upper end of the 95% interval below 0.25. L2 holds if this is true for both judges.
+- L3. On free-form questions the judge knows, the wrong reply beats the short abstention in more than half of the duels, by the same test. L3 holds if it passes for at least one judge.
+
+What the report will say. The outcomes of L1 to L3 are reported in the body either way. These judges are reported next to the six registered judges and never pooled with them.
+
+### Part B. Reward models
+
+Models, in this order. `Skywork/Skywork-Reward-V2-Llama-3.1-8B`, `Skywork/Skywork-Reward-V2-Qwen3-8B`, `allenai/Llama-3.1-Tulu-3-8B-RM`. A model that cannot be downloaded or loaded is replaced by the next model of this list that can: `internlm/internlm2-7b-reward`, `Skywork/Skywork-Reward-Llama-3.1-8B-v0.2`, `Ray2333/GRM-Llama3.2-3B-rewardmodel-ft`. The report names any replacement.
+
+Scoring. Each response is scored alone, as a two-turn chat with the model's own chat template. The user turn is the question as the judges saw it in the duels (with the four options for multiple-choice questions). The assistant turn is the response. Weights in bfloat16, one forward pass per response, no sampling. The responses are CC, CW, IDK and IDK2 of the same item files, `data/items/*_fresh.jsonl` (150 questions) and `data/items/trivia_free.jsonl` (100 questions). A model prefers response X to response Y on a question if X gets the higher score, and an exact tie counts as half. The scoring script is added in a later commit before the first reward model is loaded, and raw scores go to `results/reward_models/scores.jsonl`.
+
+Statistics. Per model and item set, the rate at which CW beats IDK (the reward model's b), CC beats IDK (its a), CW beats CC (the control) and CW beats IDK2. A reward model cannot answer, so "knows" is replaced by "separates". The model separates a question if it scores CC above CW. Item bootstrap with 10,000 resamples.
+
+Predictions.
+
+- R1. On fresh multiple-choice questions the model separates, CW beats IDK on more than half of the questions, by the bootstrap share at or below 0.5, Holm over the three models at 0.05. R1 holds if it passes for at least two of the three models.
+- R2. The same on free-form questions. R2 holds if it passes for at least two of the three models.
+
+What the report will say. R1 and R2 are reported in the body with their outcomes either way. If both fail, the report says that the reward models tested did not share the preference.
